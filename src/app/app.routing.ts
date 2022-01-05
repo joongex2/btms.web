@@ -75,6 +75,21 @@ export const appRoutes: Route[] = [
         },
         children   : [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
+
+            {path: 'dashboards', children: [
+                {path: 'dashboard1', loadChildren: () => import('app/modules/dashboards/dashboard1/dashboard1.module').then(m => m.Dashboard1Module)},
+                {path: 'dashboard2', loadChildren: () => import('app/modules/dashboards/dashboard2/dashboard2.module').then(m => m.Dashboard2Module)},
+                {path: 'dashboard3', loadChildren: () => import('app/modules/dashboards/dashboard3/dashboard3.module').then(m => m.Dashboard3Module)}
+            ]},
+            {path: 'target-info', children: [
+                {path: 'my-target', loadChildren: () => import('app/modules/target-info/my-target/my-target.module').then(m => m.MyTargetModule)},
+                {path: 'old-target', loadChildren: () => import('app/modules/target-info/old-target/old-target.module').then(m => m.OldTargetModule)},
+                {path: 'new-target', loadChildren: () => import('app/modules/target-info/new-target/new-target.module').then(m => m.NewTargetModule)}
+            ]},
+
+            // 404 & Catch all
+            {path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/error/error-404/error-404.module').then(m => m.Error404Module)},
+            {path: '**', redirectTo: '404-not-found'}
         ]
     }
 ];
