@@ -1,0 +1,145 @@
+<div class="flex flex-col max-w-240 md:min-w-160 max-h-screen -m-6">
+
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium">เป้าหมายย่อย</div>
+        <button
+            mat-icon-button
+            (click)="saveAndClose()"
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <!-- Compose form -->
+    <form
+        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
+        [formGroup]="composeForm">
+
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>ลำดับที่</mat-label>
+            <input
+                matInput>
+            <div
+                class="copy-fields-toggles"
+                matSuffix>
+            </div>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>ประเภทการวัดผล</mat-label>
+            <mat-select>
+                <mat-option value="standard-1">Standard 1</mat-option>
+                <mat-option value="standard-2">Standard 3</mat-option>
+                <mat-option value="standard-3">Standard 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-textarea flex-auto">
+            <mat-label>หัวข้อเป้าหมาย</mat-label>
+            <textarea matInput [rows]="3" matTextareaAutosize></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>ดัชนี</mat-label>
+            <input
+                matInput>
+            <div
+                class="copy-fields-toggles"
+                matSuffix>
+            </div>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>ค่าเป้าหมาย</mat-label>
+            <mat-select>
+                <mat-option value="standard-1">Standard 1</mat-option>
+                <mat-option value="standard-2">Standard 3</mat-option>
+                <mat-option value="standard-3">Standard 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <input
+                matInput>
+            <div
+                class="copy-fields-toggles"
+                matSuffix>
+            </div>
+        </mat-form-field>
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>หน่วย</mat-label>
+            <input matInput>
+            <div class="copy-fields-toggles" matSuffix>
+            </div>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>ค่าปัจจุบัน</mat-label>
+            <input
+                matInput>
+            <div
+                class="copy-fields-toggles"
+                matSuffix>
+            </div>
+            <mat-label>ข้อมูลอ้างอิง</mat-label>
+            <input
+                matInput>
+            <div
+                class="copy-fields-toggles"
+                matSuffix>
+            </div>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>กำหนดเริ่ม</mat-label>
+            <mat-select>
+                <mat-option value="standard-1">Standard 1</mat-option>
+                <mat-option value="standard-2">Standard 3</mat-option>
+                <mat-option value="standard-3">Standard 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-select>
+                <mat-option value="standard-1">Standard 1</mat-option>
+                <mat-option value="standard-2">Standard 3</mat-option>
+                <mat-option value="standard-3">Standard 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>กำหนดเสร็จ</mat-label>
+            <mat-select>
+                <mat-option value="standard-1">Standard 1</mat-option>
+                <mat-option value="standard-2">Standard 3</mat-option>
+                <mat-option value="standard-3">Standard 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-select>
+                <mat-option value="standard-1">Standard 1</mat-option>
+                <mat-option value="standard-2">Standard 3</mat-option>
+                <mat-option value="standard-3">Standard 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
+            <div class="flex items-center mt-4 sm:mt-0">
+                <button
+                    class="ml-auto sm:mr-3"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="send()">
+                    ตกลง
+                </button>
+                <button
+                    class="order-first sm:order-last"
+                    mat-stroked-button
+                    (click)="discard()">
+                    ยกเลิก
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -10,14 +10,14 @@ import { InitialDataResolver } from 'app/app.resolvers';
 export const appRoutes: Route[] = [
 
     // Redirect empty path to '/example'
-    {path: '', pathMatch : 'full', redirectTo: 'example'},
+    {path: '', pathMatch : 'full', redirectTo: 'dashboards/dashboard1'},
 
     // Redirect signed in user to the '/example'
     //
     // After the user signs in, the sign in page will redirect the user to the 'signed-in-redirect'
     // path. Below is another redirection for that path to redirect the user to the desired
     // location. This is a small convenience to keep all main routes together here on this file.
-    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'example'},
+    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'dashboards/dashboard1'},
 
     // Auth routes for guests
     {
@@ -83,8 +83,9 @@ export const appRoutes: Route[] = [
             ]},
             {path: 'target-info', children: [
                 {path: 'my-target', loadChildren: () => import('app/modules/target-info/my-target/my-target.module').then(m => m.MyTargetModule)},
+                {path: 'my-target/:runningNo', loadChildren: () => import('app/modules/target-info/target-detail/target-detail.module').then(m => m.TargetDetailModule)},
                 {path: 'old-target', loadChildren: () => import('app/modules/target-info/old-target/old-target.module').then(m => m.OldTargetModule)},
-                {path: 'new-target', loadChildren: () => import('app/modules/target-info/new-target/new-target.module').then(m => m.NewTargetModule)}
+                {path: 'new-target', loadChildren: () => import('app/modules/target-info/new-target/new-target.module').then(m => m.NewTargetModule)}                
             ]},
 
             // 404 & Catch all

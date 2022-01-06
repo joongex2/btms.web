@@ -1,0 +1,11 @@
+<app-target-table [dataSource]="subTargets"
+               [displayedColumns]="displayedColumns"
+               [referenceId]="'Sub Target ID'"
+               [title]="'เป้าหมายย่อย'"
+               [iconKeyReference]="'has_methods'"
+               [renderTemplate]="'method'"
+               [runningNo]="runningNo"
+               [targetId]="targetId"
+               (refreshTable)="refreshMainTable()"
+               >
+</app-target-table>

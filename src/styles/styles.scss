@@ -2,8 +2,176 @@
 /*  @ Import/write your custom styles here.
 /*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
 /* ----------------------------------------------------------------------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "./table.scss";
 
 * {
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Prompt', sans-serif;
+}
+
+// target column width set
+.mat-column-expandIcon {
+    flex-basis: 10%;
+}
+
+.mat-column-Target-ID {
+    flex-basis: 10%;
+}
+
+.mat-column-Name {
+    flex-basis: 50%;
+}
+
+.mat-column-Standard {
+    flex-basis: 15%;
+}
+
+.mat-column-Relative-Target {
+    flex-basis: 10%;
+}
+
+.mat-column-deleteIcon {
+    flex-basis: 5%;
+}
+
+// sub target column width set
+.mat-column-Sub-Target-ID {
+    flex-basis: 5%;
+}
+
+.mat-column-Sub-Target-Name {
+    flex-basis: 15%;
+}
+
+.mat-column-Index {
+    flex-basis: 10%;
+}
+
+.mat-column-Value {
+    flex-basis: 10%;
+}
+
+.mat-column-Unit {
+    flex-basis: 10%;
+}
+
+.mat-column-Current-Value {
+    flex-basis: 10%;
+}
+
+.mat-column-Start-Month {
+    flex-basis: 7.5%;
+}
+
+.mat-column-Start-Year {
+    flex-basis: 7.5%;
+}
+
+.mat-column-Finish-Month {
+    flex-basis: 7.5%;
+}
+
+.mat-column-Finish-Year {
+    flex-basis: 7.5%;
+}
+
+// method column width set
+.mat-column-Method-ID {
+    flex-basis: 7.5%;
+}
+.mat-column-Method-Name {
+    flex-basis: 22.5%;
+}
+
+.mat-column-Jan {
+    flex-basis: 5%;
+}
+
+.mat-column-Feb {
+    flex-basis: 5%;
+}
+
+.mat-column-Mar {
+    flex-basis: 5%;
+}
+
+.mat-column-Apr {
+    flex-basis: 5%;
+}
+
+.mat-column-May {
+    flex-basis: 5%;
+}
+
+.mat-column-Jun {
+    flex-basis: 5%;
+}
+
+.mat-column-Jul {
+    flex-basis: 5%;
+}
+
+.mat-column-Aug {
+    flex-basis: 5%;
+}
+
+.mat-column-Sep {
+    flex-basis: 5%;
+}
+
+.mat-column-Oct {
+    flex-basis: 5%;
+}
+
+.mat-column-Nov {
+    flex-basis: 5%;
+}
+
+.mat-column-Dec {
+    flex-basis: 5%;
+}
+
+.mat-column-Owner {
+    flex-basis: 10%;
+}
+
+// my-target column 
+.my-target-table .mat-column-Running-No- {
+    flex-basis: 20%;
+}
+
+.mat-column-Revision-No- {
+    flex-basis: 10%;
+}
+
+.mat-column-Modify-No- {
+    flex-basis: 10%;
+}
+
+.mat-column-Running-No- {
+    flex-basis: 10%;
+}
+
+.mat-column-Create-Date {
+    flex-basis: 10%;
+}
+
+.mat-column-Issued-Date {
+    flex-basis: 10%;
+}
+
+.mat-column-Year {
+    flex-basis: 7.5%;
+}
+
+.mat-column-Status {
+    flex-basis: 7.5%;
+}
+
+.mat-column-Creator {
+    flex-basis: 10%;
+}
+
+.mat-column-Detail {
+    flex-basis: 5%;
 }

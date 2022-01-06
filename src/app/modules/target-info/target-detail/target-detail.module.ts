@@ -13,22 +13,18 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'app/shared/shared.module';
-import { TargetManagementComponent } from '../pages/target-management/target-management.component';
 import { TargetManagementModule } from '../pages/target-management/target-management.module';
-import { MethodTableComponent } from '../tables/method-table/method-table.component';
-import { SubTargetTableComponent } from '../tables/sub-target-table/sub-target-table.component';
-import { TargetTableComponent } from '../tables/target-table/target-table.component';
-import { NewTargetComponent } from './new-target.component';
-import { newTragetRoutes } from './new-target.routing';
+import { TargetDetailComponent } from './target-detail.component';
+import { targetDetailRoute } from './target-detail.routing';
 
 
 
 @NgModule({
   declarations: [
-    NewTargetComponent
+    TargetDetailComponent
   ],
   imports: [
-    RouterModule.forChild(newTragetRoutes),
+    RouterModule.forChild(targetDetailRoute),
     MatCheckboxModule,
     MatButtonModule,
     MatIconModule,
@@ -45,4 +41,4 @@ import { newTragetRoutes } from './new-target.routing';
     TargetManagementModule
   ]
 })
-export class NewTargetModule { }
+export class TargetDetailModule { }
