@@ -125,20 +125,13 @@
 
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
-            <div class="flex items-center mt-4 sm:mt-0">
-                <button
-                    class="ml-auto sm:mr-3"
-                    mat-flat-button
-                    [color]="'primary'"
-                    (click)="send()">
-                    ตกลง
-                </button>
-                <button
-                    class="order-first sm:order-last"
-                    mat-stroked-button
-                    (click)="discard()">
-                    ยกเลิก
-                </button>
+            <div class="flex-none flex items-center cursor-pointer"
+                [mat-dialog-close]="undefined">
+                <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>ตกลง</span>
+            </div>
+            <div class="flex-none ml-2 flex items-center cursor-pointer"
+                (click)="saveAndClose()">
+                <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>ยกเลิก</span>
             </div>
         </div>
     </form>

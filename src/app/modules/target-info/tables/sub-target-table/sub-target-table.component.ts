@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SubTarget } from './../../target.types';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { genMockSubTargetRecord } from '../mock-table-data';
+import { TargetTableComponent } from '../target-table/target-table.component';
+import { SubTargetRecord } from './../../target.types';
 
 @Component({
   selector: 'app-sub-target-table',
@@ -9,32 +11,48 @@ import { SubTarget } from './../../target.types';
 export class SubTargetTableComponent implements OnInit {
   @Input() runningNo: string;
   @Input() targetId: string;
-  @Input() subTargets: SubTarget[];
-
+  @Input() subTargets: SubTargetRecord[];
   @Output() refreshTable: EventEmitter<number> = new EventEmitter<number>();
+  @ViewChild('subTargetTable') subTargetTable: TargetTableComponent;
 
   displayedColumns: string[] = [
-    'expandIcon', 
-    'Sub Target ID',
-    'Sub Target Name',
-    'Index',
-    'Value',
-    'Unit',
-    'Current Value',
-    'Start Month',
-    'Start Year',
-    'Finish Month',
-    'Finish Year',
+    'expandIcon',
+    'subTargetId',
+    'subTargetName',
+    'index',
+    'value',
+    'unit',
+    'currentValue',
+    'startMonth',
+    'startYear',
+    'finishMonth',
+    'finishYear',
+    'editIcon',
     'deleteIcon'
   ];
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   refreshMainTable(): void {
     this.refreshTable.next(1);
+  }
+
+  addSubTarget(): void {
+    const mockSubTarget = genMockSubTargetRecord();
+    this.subTargets.push(mockSubTarget);
+    this.subTargetTable.table.renderRows();
+  }
+
+  editSubTarget(index: number): void {
+    this.subTargets[index].data.startMonth = 'sfaarandom';
+    this.subTargetTable.table.renderRows();
+  }
+
+  deleteSubTarget(index: number): void {
+    this.subTargets.splice(index, 1);
+    this.subTargetTable.table.renderRows();
   }
 
 }

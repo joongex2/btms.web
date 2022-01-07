@@ -20,7 +20,7 @@
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
                             <span class="ml-1 text-secondary">{{runningNo}}</span>
-                        </div> 
+                        </div>
                     </ng-container>
                     <ng-template #newTargetLabelBc>
                         <div class="flex items-center ml-1 whitespace-nowrap">
@@ -41,7 +41,8 @@
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    <ng-container *ngIf="runningNoData;else newTargetLabel">ข้อมูลเป้าหมายของฉัน {{runningNo}}</ng-container>
+                    <ng-container *ngIf="runningNoData;else newTargetLabel">ข้อมูลเป้าหมายของฉัน {{runningNo}}
+                    </ng-container>
                     <ng-template #newTargetLabel>สร้างเป้าหมายใหม่</ng-template>
                 </h2>
             </div>
@@ -68,10 +69,15 @@
                 <div class="flex-auto min-w-64">
                     <div class="flex flex-row justify-end">
                         <div class="flex-none">
-                            <a href="/target-info/my-target" class="flex items-center"><mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>&nbsp;<span>Back</span></a>
+                            <a href="/target-info/my-target" class="flex items-center">
+                                <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
+                                &nbsp;<span>Back</span>
+                            </a>
                         </div>
                         <div class="flex-none ml-2">
-                            <a href="#" class="flex items-center"><mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span></a>
+                            <a href="#" class="flex items-center">
+                                <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -80,7 +86,8 @@
                         <ng-container *ngIf="runningNoData;else targetTypeSelect">
                             <div class="flex-1">
                                 <div class="font-medium">Target Type</div>
-                                <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData['Target Type']}}</div>
+                                <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.targetType :
+                                    '-'}}</div>
                             </div>
                         </ng-container>
                         <ng-template #targetTypeSelect>
@@ -95,7 +102,8 @@
                         </ng-template>
                         <div class="flex-1">
                             <div class="font-medium">Running No.</div>
-                            <div [ngClass]="{'md:mb-0': runningNoData, 'md:mb-9': !runningNoData }" class="mb-5 mt-5 leading-none">{{runningNoData ? runningNoData['Running No.'] : ''}}</div>
+                            <div [ngClass]="{'md:mb-0': runningNoData, 'md:mb-9': !runningNoData }"
+                                class="mb-5 mt-5 leading-none">{{runningNoData ? runningNoData.runningNo : '-'}}</div>
                         </div>
                     </div>
                 </div>
@@ -103,11 +111,13 @@
                     <div class="flex flex-col md:flex-row md:space-x-4">
                         <div class="flex-1">
                             <div class="font-medium">Site</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData['Site'] : 'สำนักงานนอร์ธปาร์ค'}}</div>
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.site :
+                                'สำนักงานนอร์ธปาร์ค'}}</div>
                         </div>
                         <div class="flex-1">
                             <div class="font-medium">Status</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData['Status'] : 'New'}}</div>
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.status : 'New'}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -115,11 +125,13 @@
                     <div class="flex flex-col md:flex-row md:space-x-4">
                         <div class="flex-1">
                             <div class="font-medium">Division</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData['Division'] : 'ฝ่ายเทคโนโลยีสารสนเทศ (ITCSD)'}}</div>
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.division :
+                                'ฝ่ายเทคโนโลยีสารสนเทศ (ITCSD)'}}</div>
                         </div>
                         <div class="flex-1">
                             <div class="font-medium">Revision No.</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData['Revision No.'] : 'NONE'}}</div>
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.revisionNo :
+                                'NONE'}}</div>
                         </div>
                     </div>
                 </div>
@@ -127,11 +139,13 @@
                     <div class="flex flex-col md:flex-row md:space-x-4">
                         <div class="flex-1">
                             <div class="font-medium">Department</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData['Department'] : '-'}}</div>
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.department :
+                                '-'}}</div>
                         </div>
                         <div class="flex-1">
                             <div class="font-medium">Modify No.</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData['Modify No.'] : '-'}}</div>
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.modifyNo : '-'}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -140,7 +154,8 @@
                         <ng-container *ngIf="runningNoData;else targetTypeSelect">
                             <div class="flex-1">
                                 <div class="font-medium">Year</div>
-                                <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData['Year'] : '-'}}</div>
+                                <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.year : '-'}}
+                                </div>
                             </div>
                         </ng-container>
                         <ng-template #targetTypeSelect>
@@ -154,8 +169,10 @@
                             </mat-form-field>
                         </ng-template>
                         <div class="flex-1">
-                            <div class="font-medium">Date Create</div>
-                            <div [ngClass]="{'md:mb-0': runningNoData, 'md:mb-9': !runningNoData }" class="mb-5 mt-5 leading-none">{{runningNoData ? runningNoData['Create Date'] : '22/06/2013'}}
+                            <div class="font-medium">Create Date</div>
+                            <div [ngClass]="{'md:mb-0': runningNoData, 'md:mb-9': !runningNoData }"
+                                class="mb-5 mt-5 leading-none">{{runningNoData ? runningNoData.createDate :
+                                '22/06/2013'}}
                             </div>
                         </div>
                     </div>
@@ -164,27 +181,32 @@
                     <div class="flex flex-col md:flex-row md:space-x-4">
                         <div class="flex-1">
                             <div class="font-medium">Creator</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData['Creator'] : 'Thanawan Sankum'}}</div>
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.creator :
+                                'Thanawan Sankum'}}</div>
                         </div>
                         <div class="flex-1">
-                            <div class="font-medium">Date Due</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData['Date Due'] : ''}}</div>
+                            <div class="font-medium">Issued Date</div>
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.issuedDate :
+                                '-'}}</div>
                         </div>
                     </div>
                 </div>
             </div>
         </form>
 
-        <div class="row mb-2">
-            <div class="col-12" style="text-align: right; color: #007bff">
-                <a (click)="addTarget()" style="cursor: pointer;" title="เพิ่มเป้าหมายหลัก"><mat-icon svgIcon="heroicons_outline:plus"></mat-icon></a>
-            </div>
-        </div>
         <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
             <div class="overflow-x-auto">
-                <app-target-table [dataSource]="targets" [displayedColumns]="displayedColumns" [referenceId]="'Target ID'"
-                    [iconKeyReference]="'has_sub_targets'" [renderTemplate]="'subTarget'" [runningNo]="runningNo"
-                    [title]="'เป้าหมายหลัก'" (deleteTarget)="deleteTarget($event)">
+                <app-target-table [dataSource]="targets" 
+                    [displayedColumns]="displayedColumns"
+                    [referenceId]="'targetId'"
+                    [renderTemplate]="'subTarget'"
+                    [runningNo]="runningNo" 
+                    [title]="'เป้าหมายหลัก'" 
+                    (addTarget)="addTarget()"
+                    (editTarget)="editTarget($event)"
+                    (deleteTarget)="deleteTarget($event)"
+                    #targetTable
+                >
                 </app-target-table>
             </div>
         </div>

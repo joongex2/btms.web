@@ -1,8 +1,12 @@
 <app-target-table [dataSource]="methods"
                [displayedColumns]="displayedColumns"
-               [referenceId]="'Method ID'"
+               [referenceId]="'methodId'"
                [title]="'วิธีการดำเนินงาน/แผนการดำเนินงาน'"
                [runningNo]="runningNo"
                [targetId]="targetId"
+               (addMethod)="addMethod()"
+               (editMethod)="editMethod($event)"
+               (deleteMethod)="deleteMethod($event)"
+               #methodTable
                >
 </app-target-table>

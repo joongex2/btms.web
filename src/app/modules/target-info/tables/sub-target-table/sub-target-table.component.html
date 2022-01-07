@@ -1,11 +1,14 @@
 <app-target-table [dataSource]="subTargets"
                [displayedColumns]="displayedColumns"
-               [referenceId]="'Sub Target ID'"
+               [referenceId]="'subTargetId'"
                [title]="'เป้าหมายย่อย'"
-               [iconKeyReference]="'has_methods'"
                [renderTemplate]="'method'"
                [runningNo]="runningNo"
                [targetId]="targetId"
                (refreshTable)="refreshMainTable()"
+               (addSubTarget)="addSubTarget()"
+               (editSubTarget)="editSubTarget($event)"
+               (deleteSubTarget)="deleteSubTarget($event)"
+               #subTargetTable
                >
 </app-target-table>

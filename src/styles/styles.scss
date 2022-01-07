@@ -10,168 +10,172 @@
 }
 
 // target column width set
-.mat-column-expandIcon {
+.mat-column-expandIcon { // common
+    flex-basis: 5%;
+}
+
+.mat-column-targetId {
     flex-basis: 10%;
 }
 
-.mat-column-Target-ID {
-    flex-basis: 10%;
-}
-
-.mat-column-Name {
+.mat-column-name {
     flex-basis: 50%;
 }
 
-.mat-column-Standard {
+.mat-column-standard {
     flex-basis: 15%;
 }
 
-.mat-column-Relative-Target {
+.mat-column-relativeTarget {
     flex-basis: 10%;
 }
 
-.mat-column-deleteIcon {
-    flex-basis: 5%;
+.mat-column-editIcon { // common
+    flex-basis: 2.5%;
+}
+
+.mat-column-deleteIcon { // common
+    flex-basis: 2.5%;
 }
 
 // sub target column width set
-.mat-column-Sub-Target-ID {
+.mat-column-subTargetId {
     flex-basis: 5%;
 }
 
-.mat-column-Sub-Target-Name {
+.mat-column-subTargetName {
     flex-basis: 15%;
 }
 
-.mat-column-Index {
+.mat-column-index {
     flex-basis: 10%;
 }
 
-.mat-column-Value {
+.mat-column-value {
     flex-basis: 10%;
 }
 
-.mat-column-Unit {
+.mat-column-unit {
     flex-basis: 10%;
 }
 
-.mat-column-Current-Value {
+.mat-column-currentValue {
     flex-basis: 10%;
 }
 
-.mat-column-Start-Month {
+.mat-column-startMonth {
     flex-basis: 7.5%;
 }
 
-.mat-column-Start-Year {
+.mat-column-startYear {
     flex-basis: 7.5%;
 }
 
-.mat-column-Finish-Month {
+.mat-column-finishMonth {
     flex-basis: 7.5%;
 }
 
-.mat-column-Finish-Year {
+.mat-column-finishYear {
     flex-basis: 7.5%;
 }
 
 // method column width set
-.mat-column-Method-ID {
+.mat-column-methodId {
     flex-basis: 7.5%;
 }
-.mat-column-Method-Name {
+.mat-column-methodName {
     flex-basis: 22.5%;
 }
 
-.mat-column-Jan {
+.mat-column-jan {
     flex-basis: 5%;
 }
 
-.mat-column-Feb {
+.mat-column-feb {
     flex-basis: 5%;
 }
 
-.mat-column-Mar {
+.mat-column-mar {
     flex-basis: 5%;
 }
 
-.mat-column-Apr {
+.mat-column-apr {
     flex-basis: 5%;
 }
 
-.mat-column-May {
+.mat-column-may {
     flex-basis: 5%;
 }
 
-.mat-column-Jun {
+.mat-column-jun {
     flex-basis: 5%;
 }
 
-.mat-column-Jul {
+.mat-column-jul {
     flex-basis: 5%;
 }
 
-.mat-column-Aug {
+.mat-column-aug {
     flex-basis: 5%;
 }
 
-.mat-column-Sep {
+.mat-column-sep {
     flex-basis: 5%;
 }
 
-.mat-column-Oct {
+.mat-column-oct {
     flex-basis: 5%;
 }
 
-.mat-column-Nov {
+.mat-column-nov {
     flex-basis: 5%;
 }
 
-.mat-column-Dec {
+.mat-column-dec {
     flex-basis: 5%;
 }
 
-.mat-column-Owner {
-    flex-basis: 10%;
+.mat-column-owner {
+    flex-basis: 5%;
 }
 
 // my-target column 
-.my-target-table .mat-column-Running-No- {
+.my-target-table .mat-column-runningNo {
     flex-basis: 20%;
 }
 
-.mat-column-Revision-No- {
+.mat-column-revisionNo {
     flex-basis: 10%;
 }
 
-.mat-column-Modify-No- {
+.mat-column-modifyNo {
     flex-basis: 10%;
 }
 
-.mat-column-Running-No- {
+.mat-column-runningNo {
     flex-basis: 10%;
 }
 
-.mat-column-Create-Date {
+.mat-column-createDate {
     flex-basis: 10%;
 }
 
-.mat-column-Issued-Date {
+.mat-column-issuedDate {
     flex-basis: 10%;
 }
 
-.mat-column-Year {
+.mat-column-year {
     flex-basis: 7.5%;
 }
 
-.mat-column-Status {
+.mat-column-status {
     flex-basis: 7.5%;
 }
 
-.mat-column-Creator {
+.mat-column-creator {
     flex-basis: 10%;
 }
 
-.mat-column-Detail {
+.mat-column-detail {
     flex-basis: 5%;
 }

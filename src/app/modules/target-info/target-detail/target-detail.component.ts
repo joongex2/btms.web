@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TargetService } from '../target.service';
-import { RunningNoData, Target } from '../target.types';
+import { RunningNoData, TargetRecord } from '../target.types';
 
 @Component({
   selector: 'app-target-detail',
@@ -10,7 +10,7 @@ import { RunningNoData, Target } from '../target.types';
 export class TargetDetailComponent implements OnInit {
   runningNo: string;
   runningNoData: RunningNoData;
-  targets: Target[];
+  targets: TargetRecord[];
   haveRunningNo: boolean;
 
   constructor(
@@ -28,7 +28,7 @@ export class TargetDetailComponent implements OnInit {
         this.router.navigate(['404-not-found']);
         return;
       }
-      if (this._targetService.getRunningNo(this.runningNo).kids.has_targets) {
+      if (this._targetService.getRunningNo(this.runningNo).kids.hasTargets) {
         this.targets = this._targetService.getTargets(this.runningNo);
       }
     });
