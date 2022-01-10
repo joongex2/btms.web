@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TargetService } from '../target.service';
-import { RunningNoData, TargetRecord } from '../target.types';
+import { RunningNo, TargetRecord } from '../target.types';
 
 @Component({
   selector: 'app-target-detail',
   templateUrl: './target-detail.component.html',
 })
 export class TargetDetailComponent implements OnInit {
-  runningNo: string;
-  runningNoData: RunningNoData;
+  runningNoParam: string;
+  runningNo: RunningNo;
   targets: TargetRecord[];
   haveRunningNo: boolean;
 
@@ -21,16 +21,13 @@ export class TargetDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.runningNo = params.get('runningNo');
-      this.runningNoData = this._targetService.getRunningNoData(this.runningNo);
-      console.log(this.runningNoData);
-      if (!this.runningNoData) {
+      this.runningNoParam = params.get('runningNo');
+      this.runningNo = this._targetService.getRunningNo(this.runningNoParam);
+      if (!this.runningNo) {
         this.router.navigate(['404-not-found']);
         return;
       }
-      if (this._targetService.getRunningNo(this.runningNo).kids.hasTargets) {
-        this.targets = this._targetService.getTargets(this.runningNo);
-      }
+      this.targets = this._targetService.getTargets(this.runningNoParam);
     });
   }
 

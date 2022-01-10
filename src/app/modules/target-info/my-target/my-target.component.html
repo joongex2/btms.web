@@ -60,18 +60,18 @@
                             <div class="flex flex-col md:flex-row md:space-x-4">
                                 <mat-form-field class="flex-auto">
                                     <mat-label>Site</mat-label>
-                                    <mat-select>
-                                        <mat-option value="site-1">Site 1</mat-option>
-                                        <mat-option value="site-2">Site 2</mat-option>
-                                        <mat-option value="site-3">Site 3</mat-option>
+                                    <mat-select [(ngModel)]="selectedSite" name="site">
+                                        <mat-option *ngFor="let site of sites" [value]="site.value">
+                                            {{site.title}}
+                                        </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field class="flex-auto">
                                     <mat-label>Status</mat-label>
-                                    <mat-select>
-                                        <mat-option value="status-1">Status 1</mat-option>
-                                        <mat-option value="status-2">Status 2</mat-option>
-                                        <mat-option value="status-3">Status 3</mat-option>
+                                    <mat-select [(ngModel)]="selectedStatus" name="status">
+                                        <mat-option *ngFor="let status of statuses" [value]="status.value">
+                                            {{status.title}}
+                                        </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -80,15 +80,15 @@
                             <div class="flex flex-col md:flex-row md:space-x-4">
                                 <mat-form-field class="flex-auto">
                                     <mat-label>Division</mat-label>
-                                    <mat-select>
-                                        <mat-option value="division-1">Division 1</mat-option>
-                                        <mat-option value="division-2">Division 2</mat-option>
-                                        <mat-option value="division-3">Division 3</mat-option>
+                                    <mat-select [(ngModel)]="selectedDivision" name="division">
+                                        <mat-option *ngFor="let division of divisions" [value]="division.value">
+                                            {{division.title}}
+                                        </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field class="flex-auto">
                                     <mat-label>Running No.</mat-label>
-                                    <input matInput>
+                                    <input [(ngModel)]="runningNo" name="runningNo" matInput>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -96,15 +96,15 @@
                             <div class="flex flex-col md:flex-row md:space-x-4">
                                 <mat-form-field class="flex-auto">
                                     <mat-label>Department</mat-label>
-                                    <mat-select>
-                                        <mat-option value="department-1">Department 1</mat-option>
-                                        <mat-option value="department-2">Department 2</mat-option>
-                                        <mat-option value="department-3">Department 3</mat-option>
+                                    <mat-select [(ngModel)]="selectedDepartment" name="department">
+                                        <mat-option *ngFor="let department of departments" [value]="department.value">
+                                            {{department.title}}
+                                        </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field class="flex-auto">
                                     <mat-label>Year</mat-label>
-                                    <input matInput>
+                                    <input [(ngModel)]="year" name="year" matInput>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -112,10 +112,10 @@
                             <div class="flex flex-col md:flex-row md:space-x-4">
                                 <mat-form-field class="flex-auto">
                                     <mat-label>Target Type</mat-label>
-                                    <mat-select>
-                                        <mat-option value="target-type-1">Target Type 1</mat-option>
-                                        <mat-option value="target-type-2">Target Type 2</mat-option>
-                                        <mat-option value="target-type-3">Target Type 3</mat-option>
+                                    <mat-select [(ngModel)]="selectedTargetType" name="targetType">
+                                        <mat-option *ngFor="let targetType of targetTypes" [value]="targetType.value">
+                                            {{targetType.title}}
+                                        </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -125,12 +125,12 @@
                     <div
                         class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
                         <div class="flex-none">
-                            <a href="#" class="flex items-center">
+                            <a href="#" onClick="return false;" class="flex items-center">
                                 <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Search</span>
                             </a>
                         </div>
                         <div class="flex-none ml-2">
-                            <a href="#" class="flex items-center">
+                            <a href="#" onClick="return false;" class="flex items-center">
                                 <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Clear</span>
                             </a>
                         </div>

@@ -10,7 +10,7 @@
                     <div>
                         <a class="whitespace-nowrap text-primary-500">ข้อมูลเป้าหมาย</a>
                     </div>
-                    <ng-container *ngIf="runningNoData;else newTargetLabelBc">
+                    <ng-container *ngIf="runningNo;else newTargetLabelBc">
                         <div class="flex items-center ml-1 whitespace-nowrap">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
@@ -19,7 +19,7 @@
                         <div class="flex items-center ml-1 whitespace-nowrap">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
-                            <span class="ml-1 text-secondary">{{runningNo}}</span>
+                            <span class="ml-1 text-secondary">{{runningNo.runningNo}}</span>
                         </div>
                     </ng-container>
                     <ng-template #newTargetLabelBc>
@@ -41,7 +41,7 @@
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    <ng-container *ngIf="runningNoData;else newTargetLabel">ข้อมูลเป้าหมายของฉัน {{runningNo}}
+                    <ng-container *ngIf="runningNo;else newTargetLabel">ข้อมูลเป้าหมายของฉัน {{runningNo.runningNo}}
                     </ng-container>
                     <ng-template #newTargetLabel>สร้างเป้าหมายใหม่</ng-template>
                 </h2>
@@ -75,7 +75,7 @@
                             </a>
                         </div>
                         <div class="flex-none ml-2">
-                            <a href="#" class="flex items-center">
+                            <a href="#" onClick="return false;" class="flex items-center">
                                 <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span>
                             </a>
                         </div>
@@ -83,27 +83,27 @@
                 </div>
                 <div class="flex-auto min-w-64">
                     <div class="flex flex-col md:flex-row md:space-x-4">
-                        <ng-container *ngIf="runningNoData;else targetTypeSelect">
+                        <ng-container *ngIf="runningNo;else targetTypeSelect">
                             <div class="flex-1">
                                 <div class="font-medium">Target Type</div>
-                                <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.targetType :
+                                <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.targetType :
                                     '-'}}</div>
                             </div>
                         </ng-container>
                         <ng-template #targetTypeSelect>
                             <mat-form-field class="flex-1 mb-1 md:mb-0">
                                 <mat-label>ประเภทเป้าหมาย</mat-label>
-                                <mat-select>
-                                    <mat-option value="target-type-1">Target Type 1</mat-option>
-                                    <mat-option value="target-type-2">Target Type 2</mat-option>
-                                    <mat-option value="target-type-3">Target Type 3</mat-option>
+                                <mat-select [(ngModel)]="selectedTargetType" name="targetType">
+                                    <mat-option *ngFor="let targetType of targetTypes" [value]="targetType.value">
+                                        {{targetType.title}}
+                                    </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </ng-template>
                         <div class="flex-1">
                             <div class="font-medium">Running No.</div>
-                            <div [ngClass]="{'md:mb-0': runningNoData, 'md:mb-9': !runningNoData }"
-                                class="mb-5 mt-5 leading-none">{{runningNoData ? runningNoData.runningNo : '-'}}</div>
+                            <div [ngClass]="{'md:mb-0': runningNo, 'md:mb-9': !runningNo }"
+                                class="mb-5 mt-5 leading-none">{{runningNo ? runningNo.runningNo : '-'}}</div>
                         </div>
                     </div>
                 </div>
@@ -111,12 +111,12 @@
                     <div class="flex flex-col md:flex-row md:space-x-4">
                         <div class="flex-1">
                             <div class="font-medium">Site</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.site :
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.site :
                                 'สำนักงานนอร์ธปาร์ค'}}</div>
                         </div>
                         <div class="flex-1">
                             <div class="font-medium">Status</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.status : 'New'}}
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.status : 'New'}}
                             </div>
                         </div>
                     </div>
@@ -125,12 +125,12 @@
                     <div class="flex flex-col md:flex-row md:space-x-4">
                         <div class="flex-1">
                             <div class="font-medium">Division</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.division :
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.division :
                                 'ฝ่ายเทคโนโลยีสารสนเทศ (ITCSD)'}}</div>
                         </div>
                         <div class="flex-1">
                             <div class="font-medium">Revision No.</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.revisionNo :
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.revisionNo :
                                 'NONE'}}</div>
                         </div>
                     </div>
@@ -139,39 +139,39 @@
                     <div class="flex flex-col md:flex-row md:space-x-4">
                         <div class="flex-1">
                             <div class="font-medium">Department</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.department :
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.department :
                                 '-'}}</div>
                         </div>
                         <div class="flex-1">
                             <div class="font-medium">Modify No.</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.modifyNo : '-'}}
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.modifyNo : '-'}}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="flex-auto min-w-64">
                     <div class="flex flex-col md:flex-row md:space-x-4">
-                        <ng-container *ngIf="runningNoData;else targetTypeSelect">
+                        <ng-container *ngIf="runningNo;else yearSelect">
                             <div class="flex-1">
                                 <div class="font-medium">Year</div>
-                                <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.year : '-'}}
+                                <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.year : '-'}}
                                 </div>
                             </div>
                         </ng-container>
-                        <ng-template #targetTypeSelect>
+                        <ng-template #yearSelect>
                             <mat-form-field class="flex-1 mb-1 md:mb-0">
                                 <mat-label>Year</mat-label>
-                                <mat-select>
-                                    <mat-option value="year-1">Year 1</mat-option>
-                                    <mat-option value="year-2">Year 2</mat-option>
-                                    <mat-option value="year-3">Year 3</mat-option>
+                                <mat-select [(ngModel)]="selectedYear" name="targetType">
+                                    <mat-option *ngFor="let year of years" [value]="year.value">
+                                        {{year.title}}
+                                    </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </ng-template>
                         <div class="flex-1">
                             <div class="font-medium">Create Date</div>
-                            <div [ngClass]="{'md:mb-0': runningNoData, 'md:mb-9': !runningNoData }"
-                                class="mb-5 mt-5 leading-none">{{runningNoData ? runningNoData.createDate :
+                            <div [ngClass]="{'md:mb-0': runningNo, 'md:mb-9': !runningNo }"
+                                class="mb-5 mt-5 leading-none">{{runningNo ? runningNo.createDate :
                                 '22/06/2013'}}
                             </div>
                         </div>
@@ -181,12 +181,12 @@
                     <div class="flex flex-col md:flex-row md:space-x-4">
                         <div class="flex-1">
                             <div class="font-medium">Creator</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.creator :
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.creator :
                                 'Thanawan Sankum'}}</div>
                         </div>
                         <div class="flex-1">
                             <div class="font-medium">Issued Date</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNoData ? runningNoData.issuedDate :
+                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.issuedDate :
                                 '-'}}</div>
                         </div>
                     </div>
@@ -199,8 +199,8 @@
                 <app-target-table [dataSource]="targets" 
                     [displayedColumns]="displayedColumns"
                     [referenceId]="'targetId'"
-                    [renderTemplate]="'subTarget'"
-                    [runningNo]="runningNo" 
+                    [renderTemplate]="'target'"
+                    [runningNo]="runningNo?.runningNo" 
                     [title]="'เป้าหมายหลัก'" 
                     (addTarget)="addTarget()"
                     (editTarget)="editTarget($event)"

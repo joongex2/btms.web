@@ -7,13 +7,13 @@
 >
     <p class="table-title flex flex-row justify-between">
         <span>{{ title }}</span>
-        <span *ngIf="renderTemplate === 'subTarget'" class="flex items-center" (click)="addTarget.next(true);">
+        <span *ngIf="renderTemplate === 'target'" class="flex items-center" (click)="addTarget.next(true);">
             <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มเป้าหมายหลัก
         </span>
-        <span *ngIf="renderTemplate === 'mainMethod'" class="flex items-center" (click)="addSubTarget.next(true);">            
+        <span *ngIf="renderTemplate === 'subTarget'" class="flex items-center" (click)="addSubTarget.next(true);">            
             <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มเป้าหมายย่อย
         </span>
-        <span *ngIf="renderTemplate === 'planAndMethod'" class="flex items-center" (click)="addMainMethod.next(true);">
+        <span *ngIf="renderTemplate === 'mainMethod'" class="flex items-center" (click)="addMainMethod.next(true);">
             <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มวิธีการดำเนินงาน
         </span>
         <span *ngIf="renderTemplate === 'plan'" class="flex items-center" (click)="addPlan.next(true);">
@@ -36,15 +36,15 @@
                         (click)="toggleExpandableSymbol(element.data[referenceId])">play_arrow</mat-icon>
                     
                     <!-- editIcon -->
-                    <mat-icon *ngIf="renderTemplate === 'subTarget' && key === 'editIcon'" (click)="editTarget.next(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขหมายหลัก"></mat-icon>
-                    <mat-icon *ngIf="renderTemplate === 'mainMethod' && key === 'editIcon'" (click)="editSubTarget.next(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขเป้าหมายย่อย"></mat-icon>
+                    <mat-icon *ngIf="renderTemplate === 'target' && key === 'editIcon'" (click)="editTarget.next(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขหมายหลัก"></mat-icon>
+                    <mat-icon *ngIf="renderTemplate === 'subTarget' && key === 'editIcon'" (click)="editSubTarget.next(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขเป้าหมายย่อย"></mat-icon>
                     <mat-icon *ngIf="renderTemplate === 'plan' && key === 'editIcon'" (click)="editPlan.next(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขแผนงาน"></mat-icon>
                     <mat-icon *ngIf="renderTemplate === 'method' && key === 'editIcon'" (click)="editMethod.next(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขรายละเอียด"></mat-icon>
 
                     <!-- deleteIcon -->
-                    <mat-icon *ngIf="renderTemplate === 'subTarget' && key === 'deleteIcon'" (click)="deleteTarget.next(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบเป้าหมายหลัก"></mat-icon>
-                    <mat-icon *ngIf="renderTemplate === 'mainMethod' && key === 'deleteIcon'" (click)="deleteSubTarget.next(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบเป้าหมายย่อย"></mat-icon>
-                    <mat-icon *ngIf="renderTemplate === 'planAndMethod' && key === 'deleteIcon'" (click)="deleteMainMethod.next(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบวิธีการดำเนินงาน"></mat-icon>
+                    <mat-icon *ngIf="renderTemplate === 'target' && key === 'deleteIcon'" (click)="deleteTarget.next(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบเป้าหมายหลัก"></mat-icon>
+                    <mat-icon *ngIf="renderTemplate === 'subTarget' && key === 'deleteIcon'" (click)="deleteSubTarget.next(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบเป้าหมายย่อย"></mat-icon>
+                    <mat-icon *ngIf="renderTemplate === 'mainMethod' && key === 'deleteIcon'" (click)="deleteMainMethod.next(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบวิธีการดำเนินงาน"></mat-icon>
                     <mat-icon *ngIf="renderTemplate === 'plan' && key === 'deleteIcon'" (click)="deletePlan.next(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบแผนงาน"></mat-icon>
                     <mat-icon *ngIf="renderTemplate === 'method' && key === 'deleteIcon'" (click)="deleteMethod.next(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบรายละเอียด"></mat-icon>
                 </ng-container>
@@ -61,207 +61,23 @@
         <ng-container matColumnDef="expandedDetail">
             <mat-cell *matCellDef="let element"
                 [@expandableRow]="element.data[referenceId] === expandedId ? 'expanded' : 'collapsed'">
-
                 <div *ngIf="element.data[referenceId] === expandedId" class="w-full" [ngSwitch]="renderTemplate">
-
-                    <app-sub-target-table *ngSwitchCase="'subTarget'" [runningNo]="runningNo" [targetId]="element.data['targetId']" [subTargets]="element.kids.records"
-                        (refreshTable)="refreshMasterTable()"
-                    >
+                    <app-sub-target-table *ngSwitchCase="'target'" 
+                        [runningNo]="runningNo" 
+                        [targetId]="element.data['targetId']" 
+                        [subTargets]="element.kids.records">
                     </app-sub-target-table>
-
-                    <app-main-method-table *ngSwitchCase="'mainMethod'" [mainMethods]="element.kids.records"></app-main-method-table>
+                    <app-main-method-table *ngSwitchCase="'subTarget'" 
+                        [mainMethods]="element.kids.records">
+                    </app-main-method-table>
                 </div>
-
             </mat-cell>
         </ng-container>
 
-        <!-- -->
-        <mat-header-row [ngClass]="{ 'hide-header' : renderTemplate === 'planAndMethod' }" *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-header-row [ngClass]="{ 'hide-header' : renderTemplate === 'mainMethod' }" *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
         <mat-row class="expandable-row" *matRowDef="let row; columns: ['expandedDetail'];">
         </mat-row>
-
     </mat-table>
 </div>
-
-<!-- <ng-template #subTargetModal let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">เป้าหมายย่อย</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <form>
-            <div class="row mb-2">
-                <div class="col-md-3">ลำดับที่</div>
-                <div class="col-md-6">1</div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-md-3">ประเภทการวัดผล</div>
-                <div class="col-md-9">
-                    <ng-select [items]="type" bindLabel="name" bindValue="value"
-                        [(ngModel)]="selectedType" placeholder="กรุณาเลือก" name="type">
-                    </ng-select>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-md-3">หัวข้อเป้าหมาย</div>
-                <div class="col-md-9">
-                    <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-md-3">ดัชนี</div>
-                <div class="col-md-9">
-                    <input class="form-control" id="index">
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-md-3">ค่าเป้าหมาย</div>
-                <div class="col-md-2">
-                    <ng-select [items]="targetValues" bindLabel="name" bindValue="value" [(ngModel)]="selectedTargetValue"
-                        placeholder="กรุณาเลือก" name="targetValue">
-                    </ng-select>
-                </div>
-                <div class="col-md-3">
-                    <input class="form-control required"/>
-                </div>
-                <div class="col-md-1">หน่วย</div>
-                <div class="col-md-3">
-                    <input class="form-control">
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-md-3">ค่าปัจจุบัน</div>
-                <div class="col-md-4">
-                    <input class="form-control required">
-                </div>
-                <div class="col-md-2">ข้อมูลอ้างอิง</div>
-                <div class="col-md-3">
-                    <input class="form-control">
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-md-3">กำหนดเริ่ม</div>
-                <div class="col-md-4">
-                    <ng-select class="required" [items]="start1" bindLabel="name" bindValue="value" [(ngModel)]="selectedStart1"
-                        placeholder="กรุณาเลือก" name="start1">
-                    </ng-select>
-                </div>
-                <div class="col-md-4">
-                    <ng-select class="required" [items]="start2" bindLabel="name" bindValue="value" [(ngModel)]="selectedStart2"
-                        placeholder="กรุณาเลือก" name="start2">
-                    </ng-select>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-md-3">กำหนดเสร็จ</div>
-                <div class="col-md-4">
-                    <ng-select class="required" [items]="finish1" bindLabel="name" bindValue="value" [(ngModel)]="selectedFinish1"
-                        placeholder="กรุณาเลือก" name="finish1">
-                    </ng-select>
-                </div>
-                <div class="col-md-4">
-                    <ng-select class="required" [items]="finish2" bindLabel="name" bindValue="value" [(ngModel)]="selectedFinish2"
-                        placeholder="กรุณาเลือก" name="finish2">
-                    </ng-select>
-                </div>
-            </div>
-
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">ตกลง</button>
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">ยกเลิก</button>
-    </div>
-</ng-template>
-
-<ng-template #methodModal let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">วิธีการดำเนินงาน/แผนการดำเนินงาน</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <form>
-            <div class="row mb-2">
-                <div class="col-md-3">ลำดับที่</div>
-                <div class="col-md-6">1</div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-md-3">วิธีการดำเนินงาน/แผนการดำเนินงาน</div>
-                <div class="col-md-9">
-                    <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-md-3"></div>
-                <div class="col-md-9">
-                    <div class="row">
-                        <div class="col-md-1 form-check">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">ม.ค.</label>
-                        </div>
-                        <div class="col-md-1 form-check">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">ก.พ.</label>
-                        </div>
-                        <div class="col-md-1 form-check">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">มี.ค.</label>
-                        </div>
-                        <div class="col-md-1 form-check">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">เม.ย.</label>
-                        </div>
-                        <div class="col-md-1 form-check">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">พ.ค.</label>
-                        </div>
-                        <div class="col-md-1 form-check">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">มิ.ย.</label>
-                        </div>
-                        <div class="col-md-1 form-check">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">ก.ค.</label>
-                        </div>
-                        <div class="col-md-1 form-check">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">ส.ค.</label>
-                        </div>
-                        <div class="col-md-1 form-check">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">ก.ย.</label>
-                        </div>
-                        <div class="col-md-1 form-check">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">ต.ค.</label>
-                        </div>
-                        <div class="col-md-1 form-check">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">พ.ย.</label>
-                        </div>
-                        <div class="col-md-1 form-check">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">ธ.ค.</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-md-3">ผู้รับผิดชอบ<br>(ตำแหน่งงาน)</div>
-                <div class="col-md-9">
-                    <input class="form-control" id="index">
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">ตกลง</button>
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">ยกเลิก</button>
-    </div>
-</ng-template> -->

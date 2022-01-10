@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalMode } from '../../modals/modal.type';
 import { SubTargetModalComponent } from '../../modals/sub-target-modal/sub-target-modal.component';
@@ -14,7 +14,6 @@ export class SubTargetTableComponent implements OnInit {
   @Input() runningNo: string;
   @Input() targetId: string;
   @Input() subTargets: SubTargetRecord[];
-  @Output() refreshTable: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('subTargetTable') subTargetTable: TargetTableComponent;
 
   displayedColumns: string[] = [
@@ -36,10 +35,6 @@ export class SubTargetTableComponent implements OnInit {
   constructor(private _matDialog: MatDialog) { }
 
   ngOnInit(): void { }
-
-  refreshMainTable(): void {
-    this.refreshTable.next(1);
-  }
 
   addSubTarget(): void {
     // const mockSubTarget = genMockSubTargetRecord();

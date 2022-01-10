@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RunningNoData, TargetRecord } from '../target.types';
+import { RunningNo, TargetRecord } from '../target.types';
 
 @Component({
   selector: 'new-target',
@@ -7,7 +7,7 @@ import { RunningNoData, TargetRecord } from '../target.types';
 })
 export class NewTargetComponent implements OnInit {
   @Input() runningNo: string;
-  @Input() runningNoData: RunningNoData;
+  @Input() runningNoData: RunningNo;
 
   targets: TargetRecord[];
 

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { MainMethod, Method, RunningNo, RunningNoData, SubTarget, SubTargetRecord, TargetRecord } from './target.types';
+import { MainMethod, Method, RunningNoRecord, RunningNo, SubTarget, SubTargetRecord, TargetRecord } from './target.types';
 
 @Injectable({
     providedIn: 'root'
 })
 export class TargetService {
-    runningNos: RunningNo[] = [
+    runningNos: RunningNoRecord[] = [
         {
             data: {
                 "site": "บริษัท เบทาโกร จำกัด มหาชน (โรงงานปากช่อง)",
@@ -22,76 +22,74 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": {
-                    "records": [
-                        {
-                            "data": {
-                                "targetId": "1",
-                                "name": "รายงานการกระทำที่เป็นอันตรายและสภาพการที่เป็นอันตรายที่ได้รับขึ้นทะเบียน (unsafe act)",
-                                "standard": "ISO 14001/ISO 45001",
-                                "relativeTarget": "4"
-                            },
-                            "kids": {
-                                "records": [
-                                    {
-                                        "data": {
-                                            "subTargetId": "1",
-                                            "subTargetName": "รายงานการกระทำที่เป็นอันตรายและสภาพการที่เป็นอันตรายที่ได้รับขึ้นทะเบียน (unsafe act)",
-                                            "index": "ฉบับ/เดือน",
-                                            "value": ">=1",
-                                            "unit": "เรื่อง/เดือน",
-                                            "currentValue": "1",
-                                            "startMonth": "ม.ค.",
-                                            "startYear": "2021",
-                                            "finishMonth": "ธ.ค.",
-                                            "finishYear": "2021"
-                                        },
-                                        "kids": {
-                                            "records": [
-                                                {
-                                                    data: {
-                                                        mainMethodId: "mainMethodNo.1"
-                                                    },
-                                                    kids: {
-                                                        planRecords: [],
-                                                        methodRecords: [
-                                                            {
-                                                                "data": {
-                                                                    ['methodId']: "1",
-                                                                    ["methodName"]: `1.ศึกษารายงานการกระทำที่เป็นอันตราย / สภาพที่เป็นอันตราย 
-                                                                    2. ประชุมชี้แจงพนักงานในแผนก 
-                                                                    3. พนักงานในแผนกดำเนินการค้นหาและบันทึกรายงานการกระทำที่เป็นอันตราย
-                                                                    4. ตรวจสอบและประเมินจำนวนของบันทึกรายงานการกระทำที่เป็นอันตราย / สภาพที่เป็นอันตราย ในแต่ละเดือน
-                                                                        `,
-                                                                    "jan": "1.000",
-                                                                    "feb": "1.000",
-                                                                    "mar": "1.000",
-                                                                    "apr": "1.000",
-                                                                    "may": "1.000",
-                                                                    "jun": "1.000",
-                                                                    "jul": "1.000",
-                                                                    "aug": "1.000",
-                                                                    "sep": "1.000",
-                                                                    "oct": "1.000",
-                                                                    "nov": "1.000",
-                                                                    "dec": "1.000",
-                                                                    "owner": "Department manager Maintenance Process Machine 1 PC"
-                                                                },
-                                                                "kids": {
+                "records": [
+                    {
+                        "data": {
+                            "targetId": "1",
+                            "name": "รายงานการกระทำที่เป็นอันตรายและสภาพการที่เป็นอันตรายที่ได้รับขึ้นทะเบียน (unsafe act)",
+                            "standard": "ISO 14001/ISO 45001",
+                            "relativeTarget": "4"
+                        },
+                        "kids": {
+                            "records": [
+                                {
+                                    "data": {
+                                        "subTargetId": "1",
+                                        "subTargetName": "รายงานการกระทำที่เป็นอันตรายและสภาพการที่เป็นอันตรายที่ได้รับขึ้นทะเบียน (unsafe act)",
+                                        "index": "ฉบับ/เดือน",
+                                        "value": ">=1",
+                                        "unit": "เรื่อง/เดือน",
+                                        "currentValue": "1",
+                                        "startMonth": "ม.ค.",
+                                        "startYear": "2021",
+                                        "finishMonth": "ธ.ค.",
+                                        "finishYear": "2021"
+                                    },
+                                    "kids": {
+                                        "records": [
+                                            {
+                                                data: {
+                                                    mainMethodId: "mainMethodNo.1"
+                                                },
+                                                kids: {
+                                                    planRecords: [],
+                                                    methodRecords: [
+                                                        {
+                                                            "data": {
+                                                                ['methodId']: "1",
+                                                                ["methodName"]: `1.ศึกษารายงานการกระทำที่เป็นอันตราย / สภาพที่เป็นอันตราย 
+                                                                2. ประชุมชี้แจงพนักงานในแผนก 
+                                                                3. พนักงานในแผนกดำเนินการค้นหาและบันทึกรายงานการกระทำที่เป็นอันตราย
+                                                                4. ตรวจสอบและประเมินจำนวนของบันทึกรายงานการกระทำที่เป็นอันตราย / สภาพที่เป็นอันตราย ในแต่ละเดือน
+                                                                    `,
+                                                                "jan": "1.000",
+                                                                "feb": "1.000",
+                                                                "mar": "1.000",
+                                                                "apr": "1.000",
+                                                                "may": "1.000",
+                                                                "jun": "1.000",
+                                                                "jul": "1.000",
+                                                                "aug": "1.000",
+                                                                "sep": "1.000",
+                                                                "oct": "1.000",
+                                                                "nov": "1.000",
+                                                                "dec": "1.000",
+                                                                "owner": "Department manager Maintenance Process Machine 1 PC"
+                                                            },
+                                                            "kids": {
 
-                                                                }
                                                             }
-                                                        ]
-                                                    }
+                                                        }
+                                                    ]
                                                 }
-                                            ]
-                                        }
+                                            }
+                                        ]
                                     }
-                                ]
-                            }
+                                }
+                            ]
                         }
-                    ]
-                }
+                    }
+                ]
             }
         },
         {
@@ -110,21 +108,19 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": {
-                    "records": [
-                        {
-                            "data": {
-                                "targetId": "1",
-                                "name": "รายงานการกระทำที่เป็นอันตรายและสภาพการที่เป็นอันตรายที่ได้รับขึ้นทะเบียน (unsafe act)",
-                                "standard": "ISO 14001/ISO 45001",
-                                "relativeTarget": "4"
-                            },
-                            "kids": {
-                                records: []
-                            }
+                "records": [
+                    {
+                        "data": {
+                            "targetId": "1",
+                            "name": "รายงานการกระทำที่เป็นอันตรายและสภาพการที่เป็นอันตรายที่ได้รับขึ้นทะเบียน (unsafe act)",
+                            "standard": "ISO 14001/ISO 45001",
+                            "relativeTarget": "4"
+                        },
+                        "kids": {
+                            records: []
                         }
-                    ]
-                }
+                    }
+                ]
             }
         },
         {
@@ -143,7 +139,7 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": undefined
+                "records": []
             }
         },
         {
@@ -162,7 +158,7 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": undefined
+                "records": []
             }
         },
         {
@@ -181,7 +177,7 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": undefined
+                "records": []
             }
         },
         {
@@ -200,7 +196,7 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": undefined
+                "records": []
             }
         },
         {
@@ -219,7 +215,7 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": undefined
+                "records": []
             }
         },
         {
@@ -238,7 +234,7 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": undefined
+                "records": []
             }
         },
         {
@@ -257,7 +253,7 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": undefined
+                "records": []
             }
         },
         {
@@ -276,7 +272,7 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": undefined
+                "records": []
             }
         },
         {
@@ -295,7 +291,7 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": undefined
+                "records": []
             }
         },
         {
@@ -314,7 +310,7 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": undefined
+                "records": []
             }
         },
         {
@@ -333,7 +329,7 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": undefined
+                "records": []
             }
         },
         {
@@ -352,25 +348,25 @@ export class TargetService {
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
-                "hasTargets": undefined
+                "records": []
             }
         }
     ];
 
     constructor() { }
 
-    getRunningNos(): RunningNo[] {
+    getRunningNoRecords(): RunningNoRecord[] {
         return this.runningNos;
     }
 
-    getRunningNo(runningNo: string): RunningNo {
+    getRunningNoRecord(runningNo: string): RunningNoRecord {
         return this.runningNos.find((_runningNo) => _runningNo.data["runningNo"] === runningNo);
     }
 
-    getRunningNoData(runningNo: string): RunningNoData {
-        const runningNoData = this.runningNos.find((_runningNo) => _runningNo.data["runningNo"] === runningNo);
-        if (runningNoData) {
-            return runningNoData.data;
+    getRunningNo(runningNo: string): RunningNo {
+        const runningNoRecord = this.getRunningNoRecord(runningNo);
+        if (runningNoRecord) {
+            return runningNoRecord.data;
         } else {
             return undefined;
         }
@@ -378,19 +374,19 @@ export class TargetService {
 
     getTargets(runningNo: string): TargetRecord[] {
         const runningNoData = this.runningNos.find((_runningNo) => _runningNo.data["runningNo"] === runningNo);
-        return runningNoData.kids.hasTargets.records;
+        return runningNoData.kids.records;
     }
 
     addSubTarget(runningNo: string, targetId: string, subTarget: SubTarget): TargetRecord {
-        const _runningNo = this.getRunningNo(runningNo);
-        const target = _runningNo.kids.hasTargets.records.find((target) => target.data["targetId"] === targetId);
+        const _runningNo = this.getRunningNoRecord(runningNo);
+        const target = _runningNo.kids.records.find((target) => target.data["targetId"] === targetId);
         target.kids.records.push({ data: subTarget, kids: { records: [] } });
         return target;
     }
 
     addMainMethod(runningNo: string, targetId: string, subTargetId: string, mainMethod: MainMethod): SubTargetRecord {
-        const _runningNo = this.getRunningNo(runningNo);
-        const target = _runningNo.kids.hasTargets.records.find((target) => target.data["targetId"] === targetId);
+        const _runningNo = this.getRunningNoRecord(runningNo);
+        const target = _runningNo.kids.records.find((target) => target.data["targetId"] === targetId);
         const subTarget = target.kids.records.find((subTarget) => subTarget.data["subTargetId"] === subTargetId);
         subTarget.kids.records.push({ data: mainMethod, kids: { planRecords: [], methodRecords: [] } });
         return subTarget;

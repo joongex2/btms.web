@@ -20,7 +20,6 @@ export class TargetTableComponent implements OnInit {
   @Input() runningNo: string;
   @Input() targetId: string;
 
-  @Output() refreshTable: EventEmitter<number> = new EventEmitter<number>();
   @Output() addTarget: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() addSubTarget: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() addMainMethod: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -120,67 +119,6 @@ export class TargetTableComponent implements OnInit {
   toggleExpandableSymbol(id: string): void {
     this.expandedId = this.expandedId === id ? '' : id;
   }
-
-  // addSubTarget(targetId: string, subTargetModal: any) {
-  // console.log(`runningNo: ${this.runningNo}, target ID: ${targetId}`);
-  // const mockSubTarget: SubTarget = {
-  //   "Sub Target ID": "2",
-  //   "Sub Target Name": "2",
-  //   "Index": "2",
-  //   "Value": "2",
-  //   "Unit": "2",
-  //   "Current Value": "2",
-  //   "Start Month": "2",
-  //   "Start Year": "2",
-  //   "Finish Month": "2",
-  //   "Finish Year": "2"
-  // }
-  // this.modalService.open(subTargetModal, { size: 'lg' });
-  // this.targetService.addSubTarget(this.runningNo, targetId, mockSubTarget);
-  // this.refreshMasterTable();
-
-  // Open the dialog
-  //   const dialogRef = this._matDialog.open(AddSubTargetModalComponent,
-  //      {
-  //       scrollStrategy: new NoopScrollStrategy()
-  //      });
-
-  //   dialogRef.afterClosed()
-  //   .subscribe((result) => {
-  //       console.log('Compose dialog was closed!');
-  //   });
-  // }
-
-  // addMethod(subTargetId: string, methodModal: any) {
-  // console.log(`runningNo: ${this.runningNo}, target ID: ${this.targetId}, sub target ID: ${subTargetId}`);
-  // const mockMethod: Method = {
-  //   "Method ID": "2",
-  //   "Method Name": "2",
-  //   "Jan": "2",
-  //   "Feb": "2",
-  //   "Mar": "2",
-  //   "Apr": "2",
-  //   "May": "2",
-  //   "Jun": "2",
-  //   "Jul": "2",
-  //   "Aug": "2",
-  //   "Sep": "2",
-  //   "Oct": "2",
-  //   "Nov": "2",
-  //   "Dec": "2",
-  //   "Owner": "2",
-  // }
-  // this.modalService.open(methodModal, { size: 'lg' });
-  // this.targetService.addMethod(this.runningNo, this.targetId, subTargetId, mockMethod);
-  // this.refreshTable.next(1);
-  // Open the dialog
-  //   const dialogRef = this._matDialog.open(AddMethodModalComponent);
-
-  //   dialogRef.afterClosed()
-  //   .subscribe((result) => {
-  //       console.log('Compose dialog was closed!');
-  //   });
-  // }
 
   refreshMasterTable() {
     console.log('refreshMasterTable');

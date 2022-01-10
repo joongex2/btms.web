@@ -1,13 +1,11 @@
-export interface RunningNo {
-    data: RunningNoData;
+export interface RunningNoRecord {
+    data: RunningNo;
     kids: {
-        hasTargets?: {
-            records: TargetRecord[];
-        }
+        records: TargetRecord[];
     }
 }
 
-export interface RunningNoData {
+export interface RunningNo {
     site: string;
     division: string;
     department: string;

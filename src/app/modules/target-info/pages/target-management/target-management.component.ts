@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalMode } from '../../modals/modal.type';
 import { TargetModalComponent } from '../../modals/target-modal/target-modal.component';
 import { TargetTableComponent } from '../../tables/target-table/target-table.component';
-import { RunningNoData, Target, TargetRecord } from '../../target.types';
+import { RunningNo, Target, TargetRecord } from '../../target.types';
 
 @Component({
   selector: 'target-management',
@@ -11,10 +11,24 @@ import { RunningNoData, Target, TargetRecord } from '../../target.types';
 })
 export class TargetManagementComponent implements OnInit {
   @Input() targets: TargetRecord[];
-  @Input() runningNo: string;
-  @Input() runningNoData: RunningNoData;
-  @Input() haveRunningNo: boolean = false;
+  @Input() runningNo: RunningNo;
   @ViewChild('targetTable') targetTable: TargetTableComponent;
+
+  // bind value
+  selectedTargetType: string;
+  selectedYear: string;
+
+  // select option
+  targetTypes = [
+    { title: 'Target Type 1', value: 'target-type-1' },
+    { title: 'Target Type 2', value: 'target-type-2' },
+    { title: 'Target Type 3', value: 'target-type-3' }
+  ];
+  years = [
+    { title: '2019', value: '2019' },
+    { title: '2020', value: '2020' },
+    { title: '2021', value: '2021' }
+  ];
 
   displayedColumns: string[] = [
     'expandIcon',
@@ -28,7 +42,11 @@ export class TargetManagementComponent implements OnInit {
 
   constructor(private _matDialog: MatDialog) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    // default value
+    this.selectedTargetType = 'target-type-1';
+    this.selectedYear = '2021';
+  }
 
   addTarget(): void {
     // const mockTarget = genMockTargetRecord();
