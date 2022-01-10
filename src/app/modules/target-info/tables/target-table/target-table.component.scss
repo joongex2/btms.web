@@ -25,6 +25,10 @@ div.target-table {
     font-size: 1rem;
 }
 
+::ng-deep .hide-header {
+    display: none;
+}
+
 ng-select.required:after, form-control.required:after {
     color: #d00;
     content: "*";

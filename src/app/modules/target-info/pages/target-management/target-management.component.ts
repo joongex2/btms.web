@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { genMockTargetRecord } from '../../tables/mock-table-data';
+import { ModalMode } from '../../modals/modal.type';
+import { TargetModalComponent } from '../../modals/target-modal/target-modal.component';
 import { TargetTableComponent } from '../../tables/target-table/target-table.component';
-import { RunningNoData, TargetRecord } from '../../target.types';
+import { RunningNoData, Target, TargetRecord } from '../../target.types';
 
 @Component({
   selector: 'target-management',
@@ -30,22 +31,42 @@ export class TargetManagementComponent implements OnInit {
   ngOnInit(): void { }
 
   addTarget(): void {
-    const mockTarget = genMockTargetRecord();
-    this.targets.push(mockTarget);
-    this.targetTable.table.renderRows();
+    // const mockTarget = genMockTargetRecord();
+    // this.targets.push(mockTarget);
+    // this.targetTable.table.renderRows();
 
     // Open the dialog
-    // const dialogRef = this._matDialog.open(AddTargetModalComponent);
-
-    // dialogRef.afterClosed()
-    // .subscribe((result) => {
-    //     console.log('Compose dialog was closed!');
-    // });
+    const dialogRef = this._matDialog.open(TargetModalComponent, {
+      data: {
+        mode: ModalMode.ADD,
+        data: undefined
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe((target: Target) => {
+        if (!target) return; // cancel
+        this.targets.push({ data: target, kids: { records: [] } });
+        this.targetTable.table.renderRows();
+      });
   }
 
   editTarget(index: number): void {
-    this.targets[index].data.name = 'edit22';
-    this.targetTable.table.renderRows();
+    // this.targets[index].data.name = 'edit22';
+    // this.targetTable.table.renderRows();
+
+    // Open the dialog
+    const dialogRef = this._matDialog.open(TargetModalComponent, {
+      data: {
+        mode: ModalMode.EDIT,
+        data: this.targets[index].data
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe((target: Target) => {
+        if (!target) return; // cancel
+        this.targets[index].data = target;
+        this.targetTable.table.renderRows();
+      });
   }
 
   deleteTarget(index: number): void {

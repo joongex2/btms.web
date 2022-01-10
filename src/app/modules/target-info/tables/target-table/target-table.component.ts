@@ -23,12 +23,19 @@ export class TargetTableComponent implements OnInit {
   @Output() refreshTable: EventEmitter<number> = new EventEmitter<number>();
   @Output() addTarget: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() addSubTarget: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() addMainMethod: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() addPlan: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() addMethod: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   @Output() editTarget: EventEmitter<number> = new EventEmitter<number>();
   @Output() editSubTarget: EventEmitter<number> = new EventEmitter<number>();
+  @Output() editPlan: EventEmitter<number> = new EventEmitter<number>();
   @Output() editMethod: EventEmitter<number> = new EventEmitter<number>();
+
   @Output() deleteTarget: EventEmitter<number> = new EventEmitter<number>();
   @Output() deleteSubTarget: EventEmitter<number> = new EventEmitter<number>();
+  @Output() deleteMainMethod: EventEmitter<number> = new EventEmitter<number>();
+  @Output() deletePlan: EventEmitter<number> = new EventEmitter<number>();
   @Output() deleteMethod: EventEmitter<number> = new EventEmitter<number>();
 
   @ViewChild(MatTable) table: MatTable<any>;
@@ -83,6 +90,10 @@ export class TargetTableComponent implements OnInit {
     'startYear': 'กำหนดเริ่ม (ปี)',
     'finishMonth': 'กำหนดเสร็จ (เดือน)',
     'finishYear': 'กำหนดเสร็จ (ปี)',
+    'planName': 'Plan',
+    'planActual': 'Actual',
+    'planResource': 'ทรัพยากรที่ต้องการ',
+    'planOwner': 'ผู้รับผิดชอบ',
     'methodId': 'ลำดับที่',
     'methodName': 'วิธีการ/แผนงาน',
     'jan': 'ม.ค.',

@@ -1,0 +1,13 @@
+<app-target-table [dataSource]="plans"
+               [displayedColumns]="displayedColumns"
+               [referenceId]="'planName'"
+               [title]="'แผนงาน'"
+               [renderTemplate]="'plan'"
+               [runningNo]="runningNo"
+               [targetId]="targetId"
+               (addPlan)="addPlan()"
+               (editPlan)="editPlan($event)"
+               (deletePlan)="deletePlan($event)"
+               #planTable
+               >
+</app-target-table>

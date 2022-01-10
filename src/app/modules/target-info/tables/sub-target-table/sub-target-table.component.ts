@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { genMockSubTargetRecord } from '../mock-table-data';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalMode } from '../../modals/modal.type';
+import { SubTargetModalComponent } from '../../modals/sub-target-modal/sub-target-modal.component';
 import { TargetTableComponent } from '../target-table/target-table.component';
-import { SubTargetRecord } from './../../target.types';
+import { SubTarget, SubTargetRecord } from './../../target.types';
 
 @Component({
   selector: 'app-sub-target-table',
@@ -31,7 +33,7 @@ export class SubTargetTableComponent implements OnInit {
     'deleteIcon'
   ];
 
-  constructor() { }
+  constructor(private _matDialog: MatDialog) { }
 
   ngOnInit(): void { }
 
@@ -40,14 +42,42 @@ export class SubTargetTableComponent implements OnInit {
   }
 
   addSubTarget(): void {
-    const mockSubTarget = genMockSubTargetRecord();
-    this.subTargets.push(mockSubTarget);
-    this.subTargetTable.table.renderRows();
+    // const mockSubTarget = genMockSubTargetRecord();
+    // this.subTargets.push(mockSubTarget);
+    // this.subTargetTable.table.renderRows();
+
+    // Open the dialog
+    const dialogRef = this._matDialog.open(SubTargetModalComponent, {
+      data: {
+        mode: ModalMode.ADD,
+        data: undefined
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe((subTarget: SubTarget) => {
+        if (!subTarget) return; // cancel
+        this.subTargets.push({ data: subTarget, kids: { records: [] } });
+        this.subTargetTable.table.renderRows();
+      });
   }
 
   editSubTarget(index: number): void {
-    this.subTargets[index].data.startMonth = 'sfaarandom';
-    this.subTargetTable.table.renderRows();
+    // this.subTargets[index].data.startMonth = 'sfaarandom';
+    // this.subTargetTable.table.renderRows();
+
+    // Open the dialog
+    const dialogRef = this._matDialog.open(SubTargetModalComponent, {
+      data: {
+        mode: ModalMode.EDIT,
+        data: this.subTargets[index].data
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe((subTarget: SubTarget) => {
+        if (!subTarget) return; // cancel
+        this.subTargets[index].data = subTarget;
+        this.subTargetTable.table.renderRows();
+      });
   }
 
   deleteSubTarget(index: number): void {

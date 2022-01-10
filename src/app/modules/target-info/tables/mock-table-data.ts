@@ -1,4 +1,4 @@
-import { MethodRecord, SubTargetRecord, TargetRecord } from "../target.types";
+import { MainMethodRecord, MethodRecord, PlanRecord, SubTargetRecord, TargetRecord } from "../target.types";
 
 export const genMockTargetRecord: () => TargetRecord = () => {
     const randomValue = genRandomNumber();
@@ -36,6 +36,19 @@ export const genMockSubTargetRecord: () => SubTargetRecord = () => {
     };
 }
 
+export const genMockMainMethodRecord: () => MainMethodRecord = () => {
+    const randomValue = genRandomNumber();
+    return {
+        data: {
+            mainMethodId: randomValue
+        },
+        kids: {
+            planRecords: [],
+            methodRecords: []
+        }
+    }
+}
+
 export const genMockMethodRecord: () => MethodRecord = () => {
     const randomValue = genRandomNumber();
     return {
@@ -55,6 +68,19 @@ export const genMockMethodRecord: () => MethodRecord = () => {
             nov: randomValue,
             dec: randomValue,
             owner: '1'
+        },
+        kids: undefined
+    }
+};
+
+export const genMockPlanRecord: () => PlanRecord = () => {
+    const randomValue = genRandomNumber();
+    return {
+        data: {
+            planName: randomValue,
+            planActual: randomValue,
+            planResource: randomValue,
+            planOwner: randomValue,
         },
         kids: undefined
     }

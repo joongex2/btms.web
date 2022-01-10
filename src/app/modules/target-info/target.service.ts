@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Method, RunningNo, RunningNoData, SubTarget, SubTargetRecord, TargetRecord } from './target.types';
+import { MainMethod, Method, RunningNo, RunningNoData, SubTarget, SubTargetRecord, TargetRecord } from './target.types';
 
 @Injectable({
     providedIn: 'root'
@@ -49,29 +49,39 @@ export class TargetService {
                                         "kids": {
                                             "records": [
                                                 {
-                                                    "data": {
-                                                        ['methodId']: "1",
-                                                        ["methodName"]: `1.ศึกษารายงานการกระทำที่เป็นอันตราย / สภาพที่เป็นอันตราย 
-                                                    2. ประชุมชี้แจงพนักงานในแผนก 
-                                                    3. พนักงานในแผนกดำเนินการค้นหาและบันทึกรายงานการกระทำที่เป็นอันตราย
-                                                    4. ตรวจสอบและประเมินจำนวนของบันทึกรายงานการกระทำที่เป็นอันตราย / สภาพที่เป็นอันตราย ในแต่ละเดือน
-                                                        `,
-                                                        "jan": "1.000",
-                                                        "feb": "1.000",
-                                                        "mar": "1.000",
-                                                        "apr": "1.000",
-                                                        "may": "1.000",
-                                                        "jun": "1.000",
-                                                        "jul": "1.000",
-                                                        "aug": "1.000",
-                                                        "sep": "1.000",
-                                                        "oct": "1.000",
-                                                        "nov": "1.000",
-                                                        "dec": "1.000",
-                                                        "owner": "Department manager Maintenance Process Machine 1 PC"
+                                                    data: {
+                                                        mainMethodId: "mainMethodNo.1"
                                                     },
-                                                    "kids": {
+                                                    kids: {
+                                                        planRecords: [],
+                                                        methodRecords: [
+                                                            {
+                                                                "data": {
+                                                                    ['methodId']: "1",
+                                                                    ["methodName"]: `1.ศึกษารายงานการกระทำที่เป็นอันตราย / สภาพที่เป็นอันตราย 
+                                                                    2. ประชุมชี้แจงพนักงานในแผนก 
+                                                                    3. พนักงานในแผนกดำเนินการค้นหาและบันทึกรายงานการกระทำที่เป็นอันตราย
+                                                                    4. ตรวจสอบและประเมินจำนวนของบันทึกรายงานการกระทำที่เป็นอันตราย / สภาพที่เป็นอันตราย ในแต่ละเดือน
+                                                                        `,
+                                                                    "jan": "1.000",
+                                                                    "feb": "1.000",
+                                                                    "mar": "1.000",
+                                                                    "apr": "1.000",
+                                                                    "may": "1.000",
+                                                                    "jun": "1.000",
+                                                                    "jul": "1.000",
+                                                                    "aug": "1.000",
+                                                                    "sep": "1.000",
+                                                                    "oct": "1.000",
+                                                                    "nov": "1.000",
+                                                                    "dec": "1.000",
+                                                                    "owner": "Department manager Maintenance Process Machine 1 PC"
+                                                                },
+                                                                "kids": {
 
+                                                                }
+                                                            }
+                                                        ]
                                                     }
                                                 }
                                             ]
@@ -378,11 +388,11 @@ export class TargetService {
         return target;
     }
 
-    addMethod(runningNo: string, targetId: string, subTargetId: string, method: Method): SubTargetRecord {
+    addMainMethod(runningNo: string, targetId: string, subTargetId: string, mainMethod: MainMethod): SubTargetRecord {
         const _runningNo = this.getRunningNo(runningNo);
         const target = _runningNo.kids.hasTargets.records.find((target) => target.data["targetId"] === targetId);
         const subTarget = target.kids.records.find((subTarget) => subTarget.data["subTargetId"] === subTargetId);
-        subTarget.kids.records.push({ data: method, kids: undefined });
+        subTarget.kids.records.push({ data: mainMethod, kids: { planRecords: [], methodRecords: [] } });
         return subTarget;
     }
 }

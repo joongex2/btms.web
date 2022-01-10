@@ -179,3 +179,31 @@
 .mat-column-detail {
     flex-basis: 5%;
 }
+
+// main method columns
+.mat-column-mainMethodId {
+    flex-basis: 10%;
+}
+
+.mat-column-mainMethodDetail {
+    flex-basis: 87.5%;
+}
+
+// main plan columns
+.mat-column-planName {
+    flex-basis: 19%;
+}
+.mat-column-planActual {
+    flex-basis: 38%;
+}
+.mat-column-planResource {
+    flex-basis: 19%;
+}
+.mat-column-planOwner {
+    flex-basis: 19%;
+}
+
+// fix selected value in option panel color conflict
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: #1e293b !important;
+}

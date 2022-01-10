@@ -1,0 +1,102 @@
+<div class="flex flex-col w-80v md:w-160 max-h-80v -m-6">
+
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium">
+            <span *ngIf="!isEdit">เพิ่มรายละเอียด</span>
+            <span *ngIf="isEdit">แก้ไขรายละเอียด</span>
+        </div>
+        <button mat-icon-button (click)="close()" [tabIndex]="-1">
+            <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <!-- Compose form -->
+    <form
+        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
+        [formGroup]="methodForm">
+
+        <!-- To -->
+        <mat-form-field>
+            <mat-label>ลำดับที่</mat-label>
+            <input matInput [formControlName]="'methodId'">
+            <div class="copy-fields-toggles" matSuffix></div>
+        </mat-form-field>
+
+        <!-- Subject -->
+        <mat-form-field class="fuse-mat-textarea flex-auto">
+            <mat-label>วิธีการดำเนินงาน/แผนการดำเนินงาน</mat-label>
+            <textarea matInput [formControlName]="'methodName'" [rows]="5" matTextareaAutosize></textarea>
+        </mat-form-field>
+
+        <div class="flex flex-0 flex-col sm:flex-row sm:items-center sm:space-x-4 sm:justify-between">
+            <mat-form-field class="flex-auto gt-xs:pr-3">
+                <mat-label>ปี</mat-label>
+                <mat-select [formControlName]="'year'">
+                    <mat-option [value]="'2021'">2021</mat-option>
+                    <!-- <mat-option *ngFor="let year of years" [value]="year.value">{{year.title}}</mat-option> -->
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="flex-auto gt-xs:pr-3">
+                <mat-label>เดือน</mat-label>
+                <mat-select [formControlName]="'month'">
+                    <mat-option *ngFor="let month of months" [value]="month.value">{{month.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-icon-button (click)="addTag()">
+                <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+            </button>
+        </div>
+
+        <fuse-alert
+            class="mb-4"
+            *ngIf="showAlert"
+            [appearance]="'outline'"
+            [showIcon]="false"
+            [type]="alert.type"
+            [@shake]="alert.type === 'error'">
+            {{alert.message}}
+        </fuse-alert>
+
+        <div *ngIf="yearMonthTags.length > 0" class="flex flex-row flex-wrap gap-5 mb-4 items-center">
+            <div *ngFor="let yearMonthTag of yearMonthTags; let i = index" class="tag-box">
+                <span>{{yearMonthTag.year}}/{{yearMonthTag.month}}</span>
+                <button mat-icon-button matSuffix (click)="deleteTag(i)">
+                    <mat-icon class="icon-size-5 ml-1" [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                </button>                
+            </div>
+        </div>
+        <!-- <section class="example-section mb-2">
+            <mat-checkbox class="example-margin">ม.ค.</mat-checkbox>
+            <mat-checkbox class="example-margin">ก.พ.</mat-checkbox>
+            <mat-checkbox class="example-margin">มี.ค.</mat-checkbox>
+            <mat-checkbox class="example-margin">เม.ย.</mat-checkbox>
+            <mat-checkbox class="example-margin">พ.ค.</mat-checkbox>
+            <mat-checkbox class="example-margin">มิ.ย.</mat-checkbox>
+            <mat-checkbox class="example-margin">ก.ค.</mat-checkbox>
+            <mat-checkbox class="example-margin">ส.ค.</mat-checkbox>
+            <mat-checkbox class="example-margin">ก.ย.</mat-checkbox>
+            <mat-checkbox class="example-margin">ต.ค.</mat-checkbox>
+            <mat-checkbox class="example-margin">พ.ย.</mat-checkbox>
+            <mat-checkbox class="example-margin">ธ.ค.</mat-checkbox>
+        </section> -->
+
+        <mat-form-field>
+            <mat-label>ผู้รับผิดชอบ (ตำแหน่งงาน)</mat-label>
+            <input matInput [formControlName]="'owner'">
+            <div class="copy-fields-toggles" matSuffix></div>
+        </mat-form-field>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
+            <div class="flex-none flex items-center cursor-pointer"
+                (click)="saveAndClose()">
+                <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>ตกลง</span>
+            </div>
+            <div class="flex-none sm:ml-2 flex items-center cursor-pointer"
+                (click)="close()">
+                <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>ยกเลิก</span>
+            </div>
+        </div>
+    </form>
+</div>
