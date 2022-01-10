@@ -161,7 +161,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'super-admin-menu.group',
                 title: 'Group',
                 type : 'basic',
-                link : '/super-admin-menu/group'
+                link : '/super-admin/user-group'
             },
             {
                 id   : 'super-admin-menu.roles',

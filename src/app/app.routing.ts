@@ -87,6 +87,9 @@ export const appRoutes: Route[] = [
                 {path: 'old-target', loadChildren: () => import('app/modules/target-info/old-target/old-target.module').then(m => m.OldTargetModule)},
                 {path: 'new-target', loadChildren: () => import('app/modules/target-info/new-target/new-target.module').then(m => m.NewTargetModule)}                
             ]},
+            {path: 'super-admin', children: [
+                {path: 'user-group', loadChildren: () => import('app/modules/super-admin/user-group/user-group.module').then(m => m.UserGroupModule)}
+            ]},
 
             // 404 & Catch all
             {path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/error/error-404/error-404.module').then(m => m.Error404Module)},

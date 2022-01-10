@@ -19,7 +19,7 @@ import { MethodTableComponent } from '../tables/method-table/method-table.compon
 import { SubTargetTableComponent } from '../tables/sub-target-table/sub-target-table.component';
 import { TargetTableComponent } from '../tables/target-table/target-table.component';
 import { NewTargetComponent } from './new-target.component';
-import { newTragetRoutes } from './new-target.routing';
+import { newTargetRoutes } from './new-target.routing';
 
 
 
@@ -28,7 +28,7 @@ import { newTragetRoutes } from './new-target.routing';
     NewTargetComponent
   ],
   imports: [
-    RouterModule.forChild(newTragetRoutes),
+    RouterModule.forChild(newTargetRoutes),
     MatCheckboxModule,
     MatButtonModule,
     MatIconModule,
