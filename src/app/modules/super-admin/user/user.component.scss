@@ -1,0 +1,85 @@
+.example-action-buttons {
+    padding-bottom: 20px;
+  }
+  
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+    // margin-left: 8px;
+}
+
+.example-table-container {
+    height: 400px;
+    overflow: auto;
+}
+
+::ng-deep .mat-sort-header-arrow {
+    color: white !important;
+}
+
+:host {
+    mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
+        padding-left: 12px;
+    }
+
+    .mat-column-detailIcon {
+        flex-basis: 5%;
+    }
+
+    .mat-column-userLogin {
+        flex-basis: 18%;
+    }
+
+    .mat-column-userName {
+        flex-basis: 18%;
+    }
+
+    .mat-column-email {
+        flex-basis: 27%;
+    }
+
+    .mat-column-group {
+        flex-basis: 9%;
+    }
+
+    .mat-column-status {
+        flex-basis: 10%;
+    }
+
+    .mat-column-editIcon {
+        flex-basis: 2.5%;
+    }
+
+    .mat-column-deleteIcon {
+        flex-basis: 2.5%;
+    }
+
+    .sub-row {        
+        p {
+            font-weight: bold;
+            // background: white;
+            border-bottom: 1px solid white;
+            padding: 10px;
+            background-color: rgb(97, 138, 2);
+            color: white;
+        }
+    }
+
+    @media only screen and (max-width: 768px) {
+        .mat-table {
+            overflow-x: scroll;
+        }
+        .mat-row,
+        .mat-header-row {
+            min-width: 800px;
+        }
+    }
+}

@@ -12,14 +12,14 @@
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
-                        <span class="ml-1 text-secondary">User Group Master Management</span>
+                        <span class="ml-1 text-secondary">User Master Management</span>
                     </div>
                 </div>
             </div>
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    User Group Master Management
+                    User Master Management
                 </h2>
             </div>
         </div>
@@ -50,16 +50,24 @@
                 <form>
                     <div class="flex flex-col">
                         <mat-form-field class="flex-auto">
-                            <mat-label>Group Code</mat-label>
-                            <input [(ngModel)]="groupCode" name="groupCode" matInput>
+                            <mat-label>User Login</mat-label>
+                            <input [(ngModel)]="userLogin" name="userLogin" matInput>
                         </mat-form-field>
                         <mat-form-field class="flex-auto">
-                            <mat-label>Group Description</mat-label>
-                            <input [(ngModel)]="groupDescription" name="groupDescription" matInput>
+                            <mat-label>User Name</mat-label>
+                            <input [(ngModel)]="userName" name="userName" matInput>
                         </mat-form-field>
                         <mat-form-field class="flex-auto">
-                            <mat-label>Sequence</mat-label>
-                            <input [(ngModel)]="sequence" name="sequence" matInput>
+                            <mat-label>Email</mat-label>
+                            <input [(ngModel)]="email" name="email" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="flex-auto">
+                            <mat-label>Group</mat-label>
+                            <mat-select [(ngModel)]="selectedGroup" name="group">
+                                <mat-option *ngFor="let group of groups" [value]="group.value">
+                                    {{group.title}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                         <mat-form-field class="flex-auto">
                             <mat-label>Status</mat-label>
@@ -91,12 +99,12 @@
         <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
             <div class="overflow-x-auto example-table-container" [class.sub-row]="'title'">
                 <p class="table-title flex flex-row justify-between cursor-pointer">
-                    <span>กรุ๊ปยูเซอร์</span>
-                    <span class="flex items-center" (click)="addUserGroup()">
+                    <span>ยูเซอร์</span>
+                    <span class="flex items-center" (click)="addUser()">
                         <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มกรุ๊ปยูเซอร์
                     </span>
                 </p>
-                <mat-table #userGroupTable [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
+                <mat-table #userTable [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
                     matSort>
                     <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>{{ key === 'detail' ? '' :
@@ -107,8 +115,8 @@
                                 <a *ngIf="key === 'detailIcon'" [routerLink]="'/super-admin/user-group/'+element.groupCode">
                                     <mat-icon svgIcon="heroicons_solid:menu"></mat-icon>
                                 </a>
-                                <mat-icon *ngIf="key === 'editIcon'" (click)="editUserGroup(i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขกลุ่มยูเซอร์"></mat-icon>
-                                <mat-icon *ngIf="key === 'deleteIcon'" (click)="deleteUserGroup(i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบกลุ่มยูเซอร์"></mat-icon>
+                                <mat-icon *ngIf="key === 'editIcon'" (click)="editUser(i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขยูเซอร์"></mat-icon>
+                                <mat-icon *ngIf="key === 'deleteIcon'" (click)="deleteUser(i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบยูเซอร์"></mat-icon>
                             </ng-container>
                         </mat-cell>
                     </ng-container>

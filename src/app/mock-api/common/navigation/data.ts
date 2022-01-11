@@ -152,40 +152,46 @@ export const defaultNavigation: FuseNavigationItem[] = [
             }
         ],
     }, {
-        id      : 'super-admin-menu',
+        id      : 'super-admin',
         title   : 'Super Admin Menu',
         type    : 'collapsable',
         icon    : 'heroicons_outline:user',
         children: [
             {
-                id   : 'super-admin-menu.group',
+                id   : 'super-admin.group',
                 title: 'Group',
                 type : 'basic',
                 link : '/super-admin/user-group'
             },
             {
-                id   : 'super-admin-menu.roles',
+                id   : 'super-admin.user',
+                title: 'User',
+                type : 'basic',
+                link : '/super-admin/user'
+            },
+            {
+                id   : 'super-admin.roles',
                 title: 'Roles',
                 type : 'basic',
-                link : '/super-admin-menu/roles'
+                link : '/super-admin/roles'
             },
             {
-                id   : 'super-admin-menu.menu',
+                id   : 'super-admin.menu',
                 title: 'Menu',
                 type : 'basic',
-                link : '/super-admin-menu/menu'
+                link : '/super-admin/menu'
             },
             {
-                id   : 'super-admin-menu.group-menu',
+                id   : 'super-admin.group-menu',
                 title: 'Group Menu',
                 type : 'basic',
-                link : '/super-admin-menu/group-menu'
+                link : '/super-admin/group-menu'
             },
             {
-                id   : 'super-admin-menu.document-permission',
+                id   : 'super-admin.document-permission',
                 title: 'Document Permission',
                 type : 'basic',
-                link : '/super-admin-menu/document-permission'
+                link : '/super-admin/document-permission'
             }
         ],
     }

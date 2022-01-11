@@ -5,7 +5,7 @@
         'method-table': title === 'วิธีการดำเนินงาน/แผนการดำเนินงาน'}"
     [class.sub-row]="title"
 >
-    <p class="table-title flex flex-row justify-between">
+    <p class="table-title flex flex-row justify-between cursor-pointer">
         <span>{{ title }}</span>
         <span *ngIf="renderTemplate === 'target'" class="flex items-center" (click)="addTarget.next(true);">
             <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มเป้าหมายหลัก
