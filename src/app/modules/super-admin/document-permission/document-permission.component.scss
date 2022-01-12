@@ -1,0 +1,94 @@
+.example-action-buttons {
+    padding-bottom: 20px;
+  }
+  
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+    // margin-left: 8px;
+}
+
+.example-table-container {
+    height: 400px;
+    overflow: auto;
+}
+
+::ng-deep .mat-sort-header-arrow {
+    color: white !important;
+}
+
+:host {
+    mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
+        padding-left: 12px;
+    }
+
+    .mat-column-roleCode {
+        flex-basis: 15%;
+    }
+
+    .mat-column-roleDescription {
+        flex-basis: 30%;
+    }
+
+    .mat-column-documentPermissions {
+        flex-basis: 50%;
+    }
+
+    .mat-column-editIcon {
+        flex-basis: 2.5%;
+    }
+
+    .mat-column-deleteIcon {
+        flex-basis: 2.5%;
+    }
+
+    .sub-row {        
+        p {
+            font-weight: bold;
+            // background: white;
+            border-bottom: 1px solid white;
+            padding: 10px;
+            background-color: rgb(97, 138, 2);
+            color: white;
+        }
+    }
+
+    @media only screen and (max-width: 768px) {
+        .mat-table {
+            overflow-x: scroll;
+        }
+        .mat-row,
+        .mat-header-row {
+            min-width: 800px;
+        }
+    }
+
+    
+    .tag-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-height: 24px;
+        border-radius: 150px;
+        padding: 0 16px;
+        // border-width: 1px;
+        // --tw-border-opacity: 1 !important;
+        // border-color: rgb(203 213 225 / var(--tw-border-opacity))!important;
+        // --tw-bg-opacity: 1 !important;
+        // background-color: rgb(255 255 255 / var(--tw-bg-opacity))!important;
+        // --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05) !important;
+        // --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color) !important;
+        // box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)!important;
+        color: white;
+        background-color: #84bd00!important;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    }
+}

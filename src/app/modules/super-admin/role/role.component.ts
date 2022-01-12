@@ -46,7 +46,7 @@ export class RoleComponent implements OnInit {
     'roleCode': 'Role ID',
     'roleDescription': 'Role Description',
     'sequence': 'Sequence',
-    'status': 'status'
+    'status': 'Status'
   };
 
   constructor(

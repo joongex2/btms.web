@@ -12,14 +12,14 @@
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
-                        <span class="ml-1 text-secondary">User Master Management</span>
+                        <span class="ml-1 text-secondary">Document Permission</span>
                     </div>
                 </div>
             </div>
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    User Master Management
+                    Document Permission
                 </h2>
             </div>
         </div>
@@ -50,30 +50,18 @@
                 <form>
                     <div class="flex flex-col">
                         <mat-form-field class="flex-auto">
-                            <mat-label>User Login</mat-label>
-                            <input [(ngModel)]="userLogin" name="userLogin" matInput>
+                            <mat-label>Role Code</mat-label>
+                            <input [(ngModel)]="roleCode" name="roleCode" matInput>
                         </mat-form-field>
                         <mat-form-field class="flex-auto">
-                            <mat-label>User Name</mat-label>
-                            <input [(ngModel)]="userName" name="userName" matInput>
+                            <mat-label>Role Description</mat-label>
+                            <input [(ngModel)]="roleDescription" name="roleDescription" matInput>
                         </mat-form-field>
                         <mat-form-field class="flex-auto">
-                            <mat-label>Email</mat-label>
-                            <input [(ngModel)]="email" name="email" matInput>
-                        </mat-form-field>
-                        <mat-form-field class="flex-auto">
-                            <mat-label>Group</mat-label>
-                            <mat-select [(ngModel)]="selectedGroup" name="group">
-                                <mat-option *ngFor="let group of groups" [value]="group.value">
-                                    {{group.title}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field class="flex-auto">
-                            <mat-label>Status</mat-label>
-                            <mat-select [(ngModel)]="selectedStatus" name="status">
-                                <mat-option *ngFor="let status of statuses" [value]="status.value">
-                                    {{status.title}}
+                            <mat-label>Document Permission</mat-label>
+                            <mat-select [(ngModel)]="selectedDocumentPermission" name="status">
+                                <mat-option *ngFor="let documentPermission of documentPermissions" [value]="documentPermission.value">
+                                    {{documentPermission.title}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -99,24 +87,31 @@
         <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
             <div class="overflow-x-auto example-table-container" [class.sub-row]="'title'">
                 <p class="table-title flex flex-row justify-between cursor-pointer">
-                    <span>ยูเซอร์</span>
-                    <span class="flex items-center" (click)="addUser()">
-                        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มยูเซอร์
+                    <span>สิทธ์การเข้าถึงเอกสาร</span>
+                    <span class="flex items-center" (click)="addDocumentPermission()">
+                        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มสิทธ์การเข้าถึงเอกสาร
                     </span>
                 </p>
-                <mat-table #userTable [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
+                <mat-table #documentPermissionTable [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
                     matSort>
                     <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>{{ key === 'detail' ? '' :
                             keyToColumnName[key] }}</mat-header-cell>
                         <mat-cell *matCellDef="let element; let i = index">
-                            <span *ngIf="!key.includes('Icon')">{{ element[key] }}</span>
+                            <span *ngIf="!key.includes('Icon') && !key.includes('documentPermissions')">{{ element[key] }}</span>
+                            <ng-container *ngIf="key.includes('documentPermissions')">
+                                <div *ngIf="element['documentPermissions']" class="flex flex-row flex-wrap gap-1 my-1 px-1">
+                                    <div class="tag-box" *ngFor="let documentPermission of element['documentPermissions']">
+                                        {{documentPermission}}
+                                    </div>
+                                </div>
+                            </ng-container>
                             <ng-container *ngIf="key.includes('Icon')">
                                 <a *ngIf="key === 'detailIcon'" [routerLink]="'/super-admin/user-group/'+element.groupCode">
                                     <mat-icon svgIcon="heroicons_solid:menu"></mat-icon>
                                 </a>
-                                <mat-icon *ngIf="key === 'editIcon'" (click)="editUser(i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขยูเซอร์"></mat-icon>
-                                <mat-icon *ngIf="key === 'deleteIcon'" (click)="deleteUser(i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบยูเซอร์"></mat-icon>
+                                <mat-icon *ngIf="key === 'editIcon'" (click)="editDocumentPermission(element)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขสิทธ์การเข้าถึงเอกสาร"></mat-icon>
+                                <mat-icon *ngIf="key === 'deleteIcon'" (click)="deleteDocumentPermission(element)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบสิทธ์การเข้าถึงเอกสาร"></mat-icon>
                             </ng-container>
                         </mat-cell>
                     </ng-container>

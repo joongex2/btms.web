@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { GroupStatus, Role, RoleStatus, User, UserGroup, UserStatus } from "./super-admin.types";
+import { DocumentPermission, GroupStatus, Role, RoleCode, RoleStatus, User, UserGroup, UserStatus } from "./super-admin.types";
 
 @Injectable({
     providedIn: 'root'
@@ -280,6 +280,46 @@ export class SuperAdminService {
         }
     ];
 
+    roleDocumentPermMap = {
+        [RoleCode.D00]: [
+            DocumentPermission.SOLVE_CLOSED,
+            DocumentPermission.SOLVE_CLOSED_NEW
+        ],
+        [RoleCode.D01]: [
+            DocumentPermission.DOCUMENT_CANCEL,
+            DocumentPermission.DOCUMENT_DRAFT,
+            DocumentPermission.DOCUMENT_ISSUED,
+            DocumentPermission.DOCUMENT_MODIFY,
+            DocumentPermission.DOCUMENT_REVISE
+        ],
+        [RoleCode.D02]: [
+            DocumentPermission.DOCUMENT_WAIT_FOR_VERIFY
+        ],
+        [RoleCode.D03]: [
+            DocumentPermission.DOCUMENT_WAIT_FOR_APPROVE
+        ],
+        [RoleCode.D04]: [
+            DocumentPermission.DOCUMENT_WAIT_FOR_ISSUE
+        ],
+        [RoleCode.T01]: [
+            DocumentPermission.SOLVE_CLOSED,
+            DocumentPermission.SOLVE_CLOSED_NEW,
+            DocumentPermission.SOLVE_DRAFT
+        ],
+        [RoleCode.T02]: [
+            DocumentPermission.SOLVE_CLOSED,
+            DocumentPermission.SOLVE_CLOSED_NEW
+        ],
+        [RoleCode.T03]: [
+            DocumentPermission.SOLVE_CLOSED,
+            DocumentPermission.SOLVE_CLOSED_NEW
+        ],
+        [RoleCode.T04]: [
+            DocumentPermission.SOLVE_CLOSED,
+            DocumentPermission.SOLVE_CLOSED_NEW
+        ]
+    };
+ 
     constructor() { }
 
     getGroups(): UserGroup[] {
@@ -292,5 +332,13 @@ export class SuperAdminService {
 
     getRoles(): Role[] {
         return this.roles;
+    }
+
+    getRole(roleCode: string): Role {
+        return this.roles.find((role) => role.roleCode === roleCode);
+    }
+
+    getRoleDocumentPermMap(roleCode: string): DocumentPermission[] {
+        return this.roleDocumentPermMap[roleCode];
     }
 }
