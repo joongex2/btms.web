@@ -49,7 +49,7 @@ export class TargetService {
                                         "records": [
                                             {
                                                 data: {
-                                                    mainMethodId: "mainMethodNo.1"
+                                                    mainMethodId: "1"
                                                 },
                                                 kids: {
                                                     planRecords: [],

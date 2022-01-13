@@ -319,6 +319,20 @@ export class SuperAdminService {
             DocumentPermission.SOLVE_CLOSED_NEW
         ]
     };
+
+    DocumentPermissionTypes = [
+        DocumentPermission.DOCUMENT_CANCEL,
+        DocumentPermission.DOCUMENT_DRAFT,
+        DocumentPermission.DOCUMENT_ISSUED,
+        DocumentPermission.DOCUMENT_MODIFY,
+        DocumentPermission.DOCUMENT_REVISE,
+        DocumentPermission.DOCUMENT_WAIT_FOR_VERIFY,
+        DocumentPermission.DOCUMENT_WAIT_FOR_APPROVE,
+        DocumentPermission.DOCUMENT_WAIT_FOR_ISSUE,
+        DocumentPermission.SOLVE_CLOSED,
+        DocumentPermission.SOLVE_CLOSED_NEW,
+        DocumentPermission.SOLVE_DRAFT
+    ]
  
     constructor() { }
 
@@ -339,6 +353,7 @@ export class SuperAdminService {
     }
 
     getRoleDocumentPermMap(roleCode: string): DocumentPermission[] {
-        return this.roleDocumentPermMap[roleCode];
+        // return this.roleDocumentPermMap[roleCode];
+        return this.DocumentPermissionTypes;
     }
 }
