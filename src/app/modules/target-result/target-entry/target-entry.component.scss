@@ -49,14 +49,17 @@ tr.example-detail-row {
     display: none;
 }
 
-.mat-column-detail {
+.mat-column-detail,
+.mat-column-detail-spanned {
     width: 28%;
 }
 
-.mat-column-owner {
+.mat-column-owner,
+.mat-column-owner-spanned {
     width: 6%;
 }
 
+.mat-column-blank-1,
 .mat-column-blank-2 {
     width: 6%;
 }
@@ -163,6 +166,20 @@ mat-checkbox {
 
 .notice-col-1 {
     margin-bottom: 6px;
+}
+
+/* to ensure word is fit in column width */
+:host * {
+    /* Warning: Needed for oldIE support, but words are broken up letter-by-letter */
+    -ms-word-break: break-all;
+    word-break: break-all;
+    /* Non standard for webkit */
+    word-break: break-word;
+
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
 
 @media only screen and (min-width: 900px) {

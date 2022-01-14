@@ -86,17 +86,17 @@ export interface MethodRecord {
 export interface Method {
     methodId: string;
     methodName: string;
-    jan: string;
-    feb: string;
-    mar: string;
-    apr: string;
-    may: string;
-    jun: string;
-    jul: string;
-    aug: string;
-    sep: string;
-    oct: string;
-    nov: string;
-    dec: string;
+    jan?: string;
+    feb?: string;
+    mar?: string;
+    apr?: string;
+    may?: string;
+    jun?: string;
+    jul?: string;
+    aug?: string;
+    sep?: string;
+    oct?: string;
+    nov?: string;
+    dec?: string;
     owner: string;
 }

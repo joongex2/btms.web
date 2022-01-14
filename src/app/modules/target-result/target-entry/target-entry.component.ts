@@ -39,7 +39,7 @@ export class TargetEntryComponent implements OnInit {
     'nov',
     'dec',
   ];
-  dataColumns2 = ['detail', 'owner'];
+  dataColumns2 = ['detail'];
   dataColumns3 = ['detail', 'left'];
   dataColumns4 = [
     'blank-22',
@@ -58,8 +58,8 @@ export class TargetEntryComponent implements OnInit {
   ];
 
   dataSource: TargetRecord[];
-  expandedElement: Target | null;
-  expandedElement2: SubTarget | null;
+  expandedTargets: Target[] = [];
+  expandedSubtargets: SubTarget[] = [];
 
   constructor(private _targetService: TargetService) { }
 
@@ -68,6 +68,27 @@ export class TargetEntryComponent implements OnInit {
     this.runningNo = this._targetService.getRunningNo(demoRunningCode);
     this.targets = this._targetService.getTargets(demoRunningCode);
     this.dataSource = this.targets;
+  }
+
+  checkExpanded(element, expandedElements): boolean {
+    let flag = false;
+    expandedElements.forEach(e => {
+      if (e === element) {
+        flag = true;
+      }
+    });
+    console.log(flag);
+    return flag;
+  }
+
+  pushPopElement(element, expandedElements) {
+    const index = expandedElements.indexOf(element);
+    if (index === -1) {
+      expandedElements.push(element);
+    } else {
+      expandedElements.splice(index, 1);
+    }
+    console.log(expandedElements);
   }
 
 }

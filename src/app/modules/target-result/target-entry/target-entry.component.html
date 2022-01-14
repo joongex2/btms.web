@@ -215,7 +215,8 @@
                         <ng-container matColumnDef="detail">
                             <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"></th>
                             <td mat-cell *matCellDef="let element" class="text-left"
-                                style="border-right:none; padding-left: 5px !important;">{{element.data.targetId}}</td>
+                                style="padding-left: 5px !important;"
+                                [attr.colspan]="15">{{element.data.targetId}}. {{element.data.name}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="owner-spanned">
@@ -223,7 +224,6 @@
                         </ng-container>
                         <ng-container matColumnDef="owner">
                             <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"></th>
-                            <td mat-cell *matCellDef="let element" [attr.colspan]="14" style="border-left:none"></td>
                         </ng-container>
 
                         <ng-container matColumnDef="blank-1">
@@ -277,36 +277,35 @@
                         <ng-container matColumnDef="expandedDetail">
                             <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.colspan]="15" style="border-top: none">
                                 <div class="example-element-detail"
-                                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                                    [@detailExpand]="checkExpanded(element, expandedTargets) ? 'expanded' : 'collapsed'">
                                     <table mat-table [dataSource]="dataSource[i].kids.records" class="mat-elevation-z8 sub-target-entry"
                                         multiTemplateDataRows>
                                         <ng-container matColumnDef="detail">
                                             <th mat-header-cell *matHeaderCellDef></th>
                                             <td mat-cell *matCellDef="let element" class="border-none text-left"
-                                                style="padding-left: 10px !important;">{{element.data.subTargetId}}</td>
+                                                style="padding-left: 10px !important;" [attr.colspan]="2">{{element.data.subTargetId}}. {{element.data.subTargetName}}</td>
                                         </ng-container>
                                         <ng-container matColumnDef="left">
                                             <th mat-header-cell *matHeaderCellDef></th>
-                                            <td mat-cell *matCellDef="let element" class="border-none"></td>
                                         </ng-container>
                                         <ng-container matColumnDef="expandedDetail">
                                             <td mat-cell *matCellDef="let element; let j = dataIndex" [attr.colspan]="2"
                                                 class="border-none">
                                                 <div class="example-element-detail"
-                                                    [@detailExpand]="element == expandedElement2 ? 'expanded': 'collapsed'">
+                                                    [@detailExpand]="checkExpanded(element, expandedSubtargets) ? 'expanded' : 'collapsed'">
                                                     <table mat-table [dataSource]="dataSource[i].kids.records[j].kids.records"
                                                         class="mat-elevation-z8 plan-entry" multiTemplateDataRows>
                                                         <ng-container matColumnDef="detail">
                                                             <th mat-header-cell *matHeaderCellDef>รายละเอียด</th>
                                                             <td mat-cell *matCellDef="let element" [attr.rowspan]="2"
                                                                 class="text-left bg-slate-100"
-                                                                style="padding-left: 15px !important; border-top: none;">1. PDCA
+                                                                style="padding-left: 15px !important; border-top: none;">{{element.kids.methodRecords[0].data.methodName}}
                                                             </td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="owner">
                                                             <th mat-header-cell *matHeaderCellDef>ผู้รับผิดชอบ</th>
                                                             <td mat-cell *matCellDef="let element" [attr.rowspan]="2"
-                                                                class="bg-slate-100">เจ้าหน้าจัดซื้อ</td>
+                                                                class="bg-slate-100">{{element.kids.methodRecords[0].data.owner}}</td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="blank-2">
                                                             <th mat-header-cell *matHeaderCellDef></th>
@@ -377,55 +376,133 @@
                                                             <td mat-cell *matCellDef="let element">ทำได้จริง</td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="jan2">
-                                                            <td mat-cell *matCellDef="let element" class="text-month">
+                                                            <td mat-cell *matCellDef="let element" class="text-month"
+                                                                [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.jan === '1.000' }">
+                                                                <ng-container *ngIf="element.kids.methodRecords[0].data.jan === '1.000';else blank">
+                                                                    <mat-checkbox [color]="'primary'"></mat-checkbox>
+                                                                    A
+                                                                </ng-container>
+                                                                <ng-template #blank></ng-template>
                                                             </td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="feb2">
-                                                            <td mat-cell *matCellDef="let element" class="text-month">
+                                                            <td mat-cell *matCellDef="let element" class="text-month"
+                                                                [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.feb === '1.000' }"
+                                                                >
+                                                                <ng-container *ngIf="element.kids.methodRecords[0].data.feb === '1.000';else blank">
+                                                                    <mat-checkbox [color]="'primary'"></mat-checkbox>
+                                                                    A
+                                                                </ng-container>
+                                                                <ng-template #blank></ng-template>
                                                             </td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="mar2">
-                                                            <td mat-cell *matCellDef="let element" class="text-month">
+                                                            <td mat-cell *matCellDef="let element" class="text-month"
+                                                                [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.mar === '1.000' }"
+                                                                >
+                                                                <ng-container *ngIf="element.kids.methodRecords[0].data.mar === '1.000';else blank">
+                                                                    <mat-checkbox [color]="'primary'"></mat-checkbox>
+                                                                    A
+                                                                </ng-container>
+                                                                <ng-template #blank></ng-template>
                                                             </td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="apr2">
-                                                            <td mat-cell *matCellDef="let element" class="text-month">
+                                                            <td mat-cell *matCellDef="let element" class="text-month"
+                                                                [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.apr === '1.000' }"
+                                                                >
+                                                                <ng-container *ngIf="element.kids.methodRecords[0].data.apr === '1.000';else blank">
+                                                                    <mat-checkbox [color]="'primary'"></mat-checkbox>
+                                                                    A
+                                                                </ng-container>
+                                                                <ng-template #blank></ng-template>
                                                             </td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="may2">
-                                                            <td mat-cell *matCellDef="let element" class="text-month">
+                                                            <td mat-cell *matCellDef="let element" class="text-month"
+                                                            [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.may === '1.000' }"
+                                                                >
+                                                                <ng-container *ngIf="element.kids.methodRecords[0].data.may === '1.000';else blank">
+                                                                    <mat-checkbox [color]="'primary'"></mat-checkbox>
+                                                                    A
+                                                                </ng-container>
+                                                                <ng-template #blank></ng-template>
                                                             </td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="jun2">
-                                                            <td mat-cell *matCellDef="let element" class="text-month bg-dark-green">
-                                                                <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                A
+                                                            <td mat-cell *matCellDef="let element" class="text-month" 
+                                                                [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.jun === '1.000' }">
+                                                                <ng-container *ngIf="element.kids.methodRecords[0].data.jun === '1.000';else blank">
+                                                                    <mat-checkbox [color]="'primary'"></mat-checkbox>
+                                                                    A
+                                                                </ng-container>
+                                                                <ng-template #blank></ng-template>
                                                             </td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="jul2">
-                                                            <td mat-cell *matCellDef="let element" class="text-month bg-dark-green">
-                                                                <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                U
+                                                            <td mat-cell *matCellDef="let element" class="text-month"
+                                                                [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.jul === '1.000' }"
+                                                                >
+                                                                <ng-container *ngIf="element.kids.methodRecords[0].data.jul === '1.000';else blank">
+                                                                    <mat-checkbox [color]="'primary'"></mat-checkbox>
+                                                                    A
+                                                                </ng-container>
+                                                                <ng-template #blank></ng-template>
                                                             </td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="aug2">
-                                                            <td mat-cell *matCellDef="let element" class="text-month">
+                                                            <td mat-cell *matCellDef="let element" class="text-month"
+                                                            [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.aug === '1.000' }"
+                                                                >
+                                                                <ng-container *ngIf="element.kids.methodRecords[0].data.aug === '1.000';else blank">
+                                                                    <mat-checkbox [color]="'primary'"></mat-checkbox>
+                                                                    A
+                                                                </ng-container>
+                                                                <ng-template #blank></ng-template>
                                                             </td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="sep2">
-                                                            <td mat-cell *matCellDef="let element" class="text-month">
+                                                            <td mat-cell *matCellDef="let element" class="text-month"
+                                                            [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.sep === '1.000' }"
+                                                                >
+                                                                <ng-container *ngIf="element.kids.methodRecords[0].data.sep === '1.000';else blank">
+                                                                    <mat-checkbox [color]="'primary'"></mat-checkbox>
+                                                                    A
+                                                                </ng-container>
+                                                                <ng-template #blank></ng-template>
                                                             </td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="oct2">
-                                                            <td mat-cell *matCellDef="let element" class="text-month">
+                                                            <td mat-cell *matCellDef="let element" class="text-month"
+                                                            [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.oct === '1.000' }"
+                                                                >
+                                                                <ng-container *ngIf="element.kids.methodRecords[0].data.oct === '1.000';else blank">
+                                                                    <mat-checkbox [color]="'primary'"></mat-checkbox>
+                                                                    A
+                                                                </ng-container>
+                                                                <ng-template #blank></ng-template>
                                                             </td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="nov2">
-                                                            <td mat-cell *matCellDef="let element" class="text-month">
+                                                            <td mat-cell *matCellDef="let element" class="text-month"
+                                                                [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.nov === '1.000' }"
+                                                                >
+                                                                <ng-container *ngIf="element.kids.methodRecords[0].data.nov === '1.000';else blank">
+                                                                    <mat-checkbox [color]="'primary'"></mat-checkbox>
+                                                                    A
+                                                                </ng-container>
+                                                                <ng-template #blank></ng-template>
                                                             </td>
                                                         </ng-container>
                                                         <ng-container matColumnDef="dec2">
-                                                            <td mat-cell *matCellDef="let element" class="text-month">
+                                                            <td mat-cell *matCellDef="let element" class="text-month"
+                                                            [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.dec === '1.000' }"
+                                                                >
+                                                                <ng-container *ngIf="element.kids.methodRecords[0].data.dec === '1.000';else blank">
+                                                                    <mat-checkbox [color]="'primary'"></mat-checkbox>
+                                                                    A
+                                                                </ng-container>
+                                                                <ng-template #blank></ng-template>
                                                             </td>
                                                         </ng-container>
                                                         <tr mat-header-row *matHeaderRowDef="dataColumns" class="hide-header"></tr>
@@ -439,8 +516,8 @@
                                         </ng-container>
 
                                         <tr mat-header-row *matHeaderRowDef="dataColumns3" class="hide-header"></tr>
-                                        <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: dataColumns3;"
-                                            (click)="expandedElement2 = expandedElement2 === element ? null: element"></tr>
+                                        <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: ['detail'];"
+                                            (click)="pushPopElement(element, expandedSubtargets)"></tr>
                                         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
                                     </table>
                                 </div>
@@ -450,7 +527,7 @@
                         <tr mat-header-row *matHeaderRowDef="['detail-spanned', 'owner-spanned', 'blank-1', 'year']"></tr>
                         <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
                         <tr mat-row class="example-element-row" *matRowDef="let element;let row; columns: dataColumns2;"
-                            (click)="expandedElement = expandedElement === element ? null : element"></tr>
+                            (click)="pushPopElement(element, expandedTargets)"></tr>
                         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
                     </table>
                 </div>
