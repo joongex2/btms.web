@@ -63,136 +63,146 @@
     <!-- Main -->
     <div class="flex-auto p-6 sm:p-10">
 
-        <!-- CONTENT GOES HERE -->
-        <form class="flex flex-col px-8 pt-10 bg-card shadow rounded overflow-hidden">
-            <div class="flex flex-col gt-xs:flex-row gt-xs:items-start">
-                <div class="flex-auto min-w-64">
-                    <div class="flex flex-row justify-end">
-                        <div class="flex-none">
-                            <a href="/target-info/my-target" class="flex items-center">
-                                <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
-                                &nbsp;<span>Back</span>
-                            </a>
-                        </div>
-                        <div class="flex-none ml-2">
-                            <a href="#" onClick="return false;" class="flex items-center">
-                                <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-auto min-w-64">
-                    <div class="flex flex-col md:flex-row md:space-x-4">
-                        <ng-container *ngIf="runningNo;else targetTypeSelect">
-                            <div class="flex-1">
-                                <div class="font-medium">Target Type</div>
-                                <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.targetType :
-                                    '-'}}</div>
-                            </div>
-                        </ng-container>
-                        <ng-template #targetTypeSelect>
-                            <mat-form-field class="flex-1 mb-1 md:mb-0">
-                                <mat-label>ประเภทเป้าหมาย</mat-label>
-                                <mat-select [(ngModel)]="selectedTargetType" name="targetType">
-                                    <mat-option *ngFor="let targetType of targetTypes" [value]="targetType.value">
-                                        {{targetType.title}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </ng-template>
-                        <div class="flex-1">
-                            <div class="font-medium">Running No.</div>
-                            <div [ngClass]="{'md:mb-0': runningNo, 'md:mb-9': !runningNo }"
-                                class="mb-5 mt-5 leading-none">{{runningNo ? runningNo.runningNo : '-'}}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-auto min-w-64">
-                    <div class="flex flex-col md:flex-row md:space-x-4">
-                        <div class="flex-1">
-                            <div class="font-medium">Site</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.site :
-                                'สำนักงานนอร์ธปาร์ค'}}</div>
-                        </div>
-                        <div class="flex-1">
-                            <div class="font-medium">Status</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.status : 'New'}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-auto min-w-64">
-                    <div class="flex flex-col md:flex-row md:space-x-4">
-                        <div class="flex-1">
-                            <div class="font-medium">Division</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.division :
-                                'ฝ่ายเทคโนโลยีสารสนเทศ (ITCSD)'}}</div>
-                        </div>
-                        <div class="flex-1">
-                            <div class="font-medium">Revision No.</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.revisionNo :
-                                'NONE'}}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-auto min-w-64">
-                    <div class="flex flex-col md:flex-row md:space-x-4">
-                        <div class="flex-1">
-                            <div class="font-medium">Department</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.department :
-                                '-'}}</div>
-                        </div>
-                        <div class="flex-1">
-                            <div class="font-medium">Modify No.</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.modifyNo : '-'}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-auto min-w-64">
-                    <div class="flex flex-col md:flex-row md:space-x-4">
-                        <ng-container *ngIf="runningNo;else yearSelect">
-                            <div class="flex-1">
-                                <div class="font-medium">Year</div>
-                                <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.year : '-'}}
+        <mat-accordion class="example-headers-align" multi>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <!-- CONTENT GOES HERE -->
+                <!-- <form class="flex flex-col px-8 pt-10 bg-card shadow rounded overflow-hidden"> -->
+                <form>
+                    <div class="flex flex-col gt-xs:flex-row gt-xs:items-start" style="color: rgb(30, 41, 59)">
+                        <div class="flex-auto min-w-64">
+                            <div class="flex flex-row justify-end">
+                                <div class="flex-none">
+                                    <a href="/target-info/my-target" class="flex items-center">
+                                        <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
+                                        &nbsp;<span>Back</span>
+                                    </a>
+                                </div>
+                                <div class="flex-none ml-2">
+                                    <a href="#" onClick="return false;" class="flex items-center">
+                                        <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span>
+                                    </a>
                                 </div>
                             </div>
-                        </ng-container>
-                        <ng-template #yearSelect>
-                            <mat-form-field class="flex-1 mb-1 md:mb-0">
-                                <mat-label>Year</mat-label>
-                                <mat-select [(ngModel)]="selectedYear" name="targetType">
-                                    <mat-option *ngFor="let year of years" [value]="year.value">
-                                        {{year.title}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </ng-template>
-                        <div class="flex-1">
-                            <div class="font-medium">Create Date</div>
-                            <div [ngClass]="{'md:mb-0': runningNo, 'md:mb-9': !runningNo }"
-                                class="mb-5 mt-5 leading-none">{{runningNo ? runningNo.createDate :
-                                '22/06/2013'}}
+                        </div>
+                        <div class="flex-auto min-w-64">
+                            <div class="flex flex-col md:flex-row md:space-x-4">
+                                <ng-container *ngIf="runningNo;else targetTypeSelect">
+                                    <div class="flex-1">
+                                        <div class="font-medium">Target Type</div>
+                                        <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.targetType :
+                                            '-'}}</div>
+                                    </div>
+                                </ng-container>
+                                <ng-template #targetTypeSelect>
+                                    <mat-form-field class="flex-1 mb-1 md:mb-0">
+                                        <mat-label>ประเภทเป้าหมาย</mat-label>
+                                        <mat-select [(ngModel)]="selectedTargetType" name="targetType">
+                                            <mat-option *ngFor="let targetType of targetTypes" [value]="targetType.value">
+                                                {{targetType.title}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </ng-template>
+                                <div class="flex-1">
+                                    <div class="font-medium">Running No.</div>
+                                    <div [ngClass]="{'md:mb-0': runningNo, 'md:mb-9': !runningNo }"
+                                        class="mb-5 mt-5 leading-none">{{runningNo ? runningNo.runningNo : '-'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-auto min-w-64">
+                            <div class="flex flex-col md:flex-row md:space-x-4">
+                                <div class="flex-1">
+                                    <div class="font-medium">Site</div>
+                                    <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.site :
+                                        'สำนักงานนอร์ธปาร์ค'}}</div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium">Status</div>
+                                    <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.status : 'New'}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-auto min-w-64">
+                            <div class="flex flex-col md:flex-row md:space-x-4">
+                                <div class="flex-1">
+                                    <div class="font-medium">Division</div>
+                                    <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.division :
+                                        'ฝ่ายเทคโนโลยีสารสนเทศ (ITCSD)'}}</div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium">Revision No.</div>
+                                    <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.revisionNo :
+                                        'NONE'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-auto min-w-64">
+                            <div class="flex flex-col md:flex-row md:space-x-4">
+                                <div class="flex-1">
+                                    <div class="font-medium">Department</div>
+                                    <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.department :
+                                        '-'}}</div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium">Modify No.</div>
+                                    <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.modifyNo : '-'}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-auto min-w-64">
+                            <div class="flex flex-col md:flex-row md:space-x-4">
+                                <ng-container *ngIf="runningNo;else yearSelect">
+                                    <div class="flex-1">
+                                        <div class="font-medium">Year</div>
+                                        <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.year : '-'}}
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <ng-template #yearSelect>
+                                    <mat-form-field class="flex-1 mb-1 md:mb-0">
+                                        <mat-label>Year</mat-label>
+                                        <mat-select [(ngModel)]="selectedYear" name="targetType">
+                                            <mat-option *ngFor="let year of years" [value]="year.value">
+                                                {{year.title}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </ng-template>
+                                <div class="flex-1">
+                                    <div class="font-medium">Create Date</div>
+                                    <div [ngClass]="{'md:mb-0': runningNo, 'md:mb-9': !runningNo }"
+                                        class="mb-5 mt-5 leading-none">{{runningNo ? runningNo.createDate :
+                                        '22/06/2013'}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-auto min-w-64">
+                            <div class="flex flex-col md:flex-row md:space-x-4">
+                                <div class="flex-1">
+                                    <div class="font-medium">Creator</div>
+                                    <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.creator :
+                                        'Thanawan Sankum'}}</div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium">Issued Date</div>
+                                    <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.issuedDate :
+                                        '-'}}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="flex-auto min-w-64">
-                    <div class="flex flex-col md:flex-row md:space-x-4">
-                        <div class="flex-1">
-                            <div class="font-medium">Creator</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.creator :
-                                'Thanawan Sankum'}}</div>
-                        </div>
-                        <div class="flex-1">
-                            <div class="font-medium">Issued Date</div>
-                            <div class="mb-5 mt-5 md:mb-9 leading-none">{{runningNo ? runningNo.issuedDate :
-                                '-'}}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+                </form>
+            </mat-expansion-panel>
+        </mat-accordion>
 
         <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
             <div class="overflow-x-auto">

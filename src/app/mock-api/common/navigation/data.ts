@@ -59,10 +59,10 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon    : 'heroicons_outline:presentation-chart-bar',
         children: [
             {
-                id   : 'target-result.save-result',
+                id   : 'target-result.target-entry',
                 title: 'บันทึกผลการดำเนินงาน',
                 type : 'basic',
-                link : '/target-result/save-result'
+                link : '/target-result/target-entry'
             },
             {
                 id   : 'target-result.cause-edit-target',

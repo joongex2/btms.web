@@ -34,8 +34,14 @@ export class DocumentPermissionModalComponent implements OnInit {
       this.roleCodes.push({ title: `${role.roleCode}: ${role.roleDescription}`, value: role.roleCode });
     };
 
-    // prepare document permission check box 
-    let documentPermissionForms = this.createDocumentPermissionForms(roleCode, documentPermissions);
+    // prepare document permission check box
+    let documentPermissionForms;
+    if (this.isEdit) {
+      documentPermissionForms = this.createDocumentPermissionForms(roleCode, documentPermissions);
+    } else {
+      documentPermissionForms = this._formBuilder.array([]); // initial with no roleCode
+    }
+
     this.documentPermissionForm = this._formBuilder.group({
       roleCode: [roleCode, [Validators.required]],
       documentPermissions: documentPermissionForms

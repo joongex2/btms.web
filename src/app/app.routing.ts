@@ -87,6 +87,9 @@ export const appRoutes: Route[] = [
                 {path: 'old-target', loadChildren: () => import('app/modules/target-info/old-target/old-target.module').then(m => m.OldTargetModule)},
                 {path: 'new-target', loadChildren: () => import('app/modules/target-info/new-target/new-target.module').then(m => m.NewTargetModule)}                
             ]},
+            {path: 'target-result', children: [
+                {path: 'target-entry', loadChildren: () => import('app/modules/target-result/target-entry/target-entry.module').then(m=>m.TargetEntryModule)}
+            ]},
             {path: 'super-admin', children: [
                 {path: 'user-group', loadChildren: () => import('app/modules/super-admin/user-group/user-group.module').then(m => m.UserGroupModule)},
                 {path: 'user', loadChildren: () => import('app/modules/super-admin/user/user.module').then(m => m.UserModule)},
