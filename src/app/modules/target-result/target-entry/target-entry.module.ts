@@ -9,14 +9,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 import { FuseAlertModule } from '@fuse/components/alert';
+import { IntegerOnlyModule } from 'app/shared/directives/integer-only.module';
 import { SharedModule } from 'app/shared/shared.module';
+import { LastCommentModalComponent } from '../modal/last-comment-modal/last-comment-modal.component';
+import { TargetEntryModalComponent } from '../modal/target-entry-modal/target-entry-modal.component';
 import { TargetEntryComponent } from './target-entry.component';
 import { targetEntryRoutes } from './target-entry.routing';
 
@@ -24,7 +29,9 @@ import { targetEntryRoutes } from './target-entry.routing';
 
 @NgModule({
   declarations: [
-    TargetEntryComponent
+    TargetEntryComponent,
+    LastCommentModalComponent,
+    TargetEntryModalComponent
   ],
   imports: [
     RouterModule.forChild(targetEntryRoutes),
@@ -43,8 +50,11 @@ import { targetEntryRoutes } from './target-entry.routing';
     MatAutocompleteModule,
     MatDialogModule,
     MatExpansionModule,
+    MatPaginatorModule,
+    MatSortModule,
     FuseAlertModule,
-    SharedModule
+    SharedModule,
+    IntegerOnlyModule
   ]
 })
 export class TargetEntryModule { }

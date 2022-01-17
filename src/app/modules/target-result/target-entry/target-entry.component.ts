@@ -1,7 +1,10 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TargetService } from 'app/modules/target-info/target.service';
 import { RunningNo, SubTarget, Target, TargetRecord } from 'app/modules/target-info/target.types';
+import { LastCommentModalComponent } from '../modal/last-comment-modal/last-comment-modal.component';
+import { TargetEntryModalComponent } from '../modal/target-entry-modal/target-entry-modal.component';
 
 @Component({
   selector: 'app-target-entry',
@@ -61,7 +64,10 @@ export class TargetEntryComponent implements OnInit {
   expandedTargets: Target[] = [];
   expandedSubtargets: SubTarget[] = [];
 
-  constructor(private _targetService: TargetService) { }
+  constructor(
+    private _targetService: TargetService,
+    private _matDialog: MatDialog  
+  ) { }
 
   ngOnInit(): void {
     const demoRunningCode = 'OBJ-ENPC-64-02'; // TODO: change later
@@ -77,7 +83,6 @@ export class TargetEntryComponent implements OnInit {
         flag = true;
       }
     });
-    console.log(flag);
     return flag;
   }
 
@@ -88,7 +93,30 @@ export class TargetEntryComponent implements OnInit {
     } else {
       expandedElements.splice(index, 1);
     }
-    console.log(expandedElements);
+  }
+
+  openLastComment() {
+    const dialogRef = this._matDialog.open(LastCommentModalComponent);
+    dialogRef.afterClosed()
+      .subscribe((result: any) => {
+
+      });
+  }
+
+  openTargetEntryModal(i, j, k, month) {
+    const dialogRef = this._matDialog.open(TargetEntryModalComponent, {
+      data: {
+        targets: this.targets,
+        targetIndex: i,
+        subTargetIndex: j,
+        planIndex: k,
+        month
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe((result: any) => {
+
+      });
   }
 
 }

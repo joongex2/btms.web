@@ -121,7 +121,6 @@ export class TargetTableComponent implements OnInit {
   }
 
   refreshMasterTable() {
-    console.log('refreshMasterTable');
     this.dataSource = [...this.targetService.getTargets(this.runningNo)];
     this.cdr.detectChanges();
   }
