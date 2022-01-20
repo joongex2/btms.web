@@ -1,0 +1,25 @@
+:host ::ng-deep {
+    .mat-column-planName {
+        flex-basis: 19%!important;
+    }
+
+    .mat-column-planActual {
+        flex-basis: 38% !important;
+    }
+
+    .mat-column-planResource {
+        flex-basis: 19% !important;
+    }
+
+    .mat-column-planOwner {
+        flex-basis: 19% !important;
+    }
+
+    .mat-column-editIcon {
+        flex-basis: 2.5% !important;
+    }
+    
+    .mat-column-deleteIcon {
+        flex-basis: 2.5% !important;
+    }
+}

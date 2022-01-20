@@ -8,6 +8,7 @@ import { RunningNo, Target, TargetRecord } from '../../target.types';
 @Component({
   selector: 'target-management',
   templateUrl: './target-management.component.html',
+  styleUrls: ['./target-management.component.scss']
 })
 export class TargetManagementComponent implements OnInit {
   @Input() targets: TargetRecord[];

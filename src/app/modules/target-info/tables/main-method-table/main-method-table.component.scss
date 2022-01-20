@@ -1,0 +1,32 @@
+:host ::ng-deep {
+    /* color */
+    .sub-row p {
+        background-color: rgb(15, 55, 97) !important;
+        color: white;
+    }
+
+    .mat-header-row {
+        background-color: rgb(23, 78, 136) !important;
+    }
+
+    .mat-row {
+        background-color: rgb(187, 211, 236) !important;
+    }
+
+    .mat-header-cell {
+        color: white !important
+    }
+
+    /* column width */
+    .mat-column-mainMethodId {
+        flex-basis: 10% !important;
+    }
+    
+    .mat-column-mainMethodDetail {
+        flex-basis: 87.5% !important;
+    }
+
+    .mat-column-deleteIcon {
+        flex-basis: 2.5% !important;
+    }
+}

@@ -20,7 +20,10 @@ import { RouterModule } from '@angular/router';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { IntegerOnlyModule } from 'app/shared/directives/integer-only.module';
 import { SharedModule } from 'app/shared/shared.module';
+import { CauseModalComponent } from '../modal/cause-modal/cause-modal.component';
+import { FixModalComponent } from '../modal/fix-modal/fix-modal.component';
 import { LastCommentModalComponent } from '../modal/last-comment-modal/last-comment-modal.component';
+import { ProtectModalComponent } from '../modal/protect-modal/protect-modal.component';
 import { TargetEntryModalComponent } from '../modal/target-entry-modal/target-entry-modal.component';
 import { TargetEntryComponent } from './target-entry.component';
 import { targetEntryRoutes } from './target-entry.routing';
@@ -31,7 +34,10 @@ import { targetEntryRoutes } from './target-entry.routing';
   declarations: [
     TargetEntryComponent,
     LastCommentModalComponent,
-    TargetEntryModalComponent
+    TargetEntryModalComponent,
+    CauseModalComponent,
+    FixModalComponent,
+    ProtectModalComponent
   ],
   imports: [
     RouterModule.forChild(targetEntryRoutes),

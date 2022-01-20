@@ -100,3 +100,46 @@ export interface Method {
     dec?: string;
     owner: string;
 }
+
+export interface CauseRecord {
+    data: Cause;
+    kids: {
+        fixRecords: FixRecord[];
+        protectRecords: ProtectRecord[];
+    }
+}
+
+export interface Cause {
+    causeNo: string;
+    causeDetail: string;
+    causeNote: string;
+    causeStatus: string;
+}
+
+export interface FixRecord {
+    data: Fix;
+    kids?: FixRecord;
+}
+
+export interface Fix {
+    fixNo: string;
+    fixDetail: string;
+    fixOwner: string;
+    fixDueDate: string;
+    fixFollow: string;
+    fixStartDate: string;
+}
+
+export interface ProtectRecord {
+    data: Protect;
+    kids?: ProtectRecord;
+}
+
+export interface Protect {
+    protectNo: string;
+    protectDetail: string;
+    protectOwner: string;
+    protectDueDate: string;
+    protectFollow: string;
+    protectStartDate: string;
+}

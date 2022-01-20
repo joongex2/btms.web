@@ -1,3 +1,14 @@
+.sub-row {        
+    p {
+        font-weight: bold;
+        // background: white;
+        border-bottom: 1px solid white;
+        padding: 10px;
+        background-color: rgb(97, 138, 2);
+        color: white;
+    }
+}
+
 .example-action-buttons {
     padding-bottom: 20px;
   }
@@ -17,69 +28,87 @@
 }
 
 .example-table-container {
-    height: 400px;
+    max-height: 374px;
     overflow: auto;
 }
 
-::ng-deep .mat-sort-header-arrow {
+:host ::ng-deep .mat-expansion-panel-body {
+    padding: 0 24px !important;
+}
+
+:host ::ng-deep .mat-sort-header-arrow {
     color: white !important;
 }
 
-:host {
-    mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
-        padding-left: 12px;
-    }
+:host ::ng-deep .mat-form-field-wrapper {
+    margin-bottom: 0 !important;
+}
 
-    .mat-column-detailIcon {
-        flex-basis: 5%;
-    }
+mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
+    padding-left: 12px;
+}
 
-    .mat-column-userLogin {
-        flex-basis: 18%;
-    }
+/* color */
+.mat-header-row {
+    background-color: rgb(132, 189, 0) !important; // important because replace by sticky
+}
 
-    .mat-column-userName {
-        flex-basis: 18%;
-    }
+.mat-row:nth-child(even) {
+    background-color: rgb(206, 230, 150);
+}
 
-    .mat-column-email {
-        flex-basis: 27%;
-    }
+.mat-row:nth-child(odd) {
+    background-color: rgb(229, 240, 203);
+}
 
-    .mat-column-group {
-        flex-basis: 9%;
-    }
+.mat-header-row,
+.mat-row {
+    border-bottom-color: white;
+}
 
-    .mat-column-status {
-        flex-basis: 10%;
-    }
+.mat-header-cell {
+    color: white !important
+}
 
-    .mat-column-editIcon {
-        flex-basis: 2.5%;
-    }
+/* column width */
+.mat-column-detailIcon {
+    flex-basis: 5%;
+}
 
-    .mat-column-deleteIcon {
-        flex-basis: 2.5%;
-    }
+.mat-column-userLogin {
+    flex-basis: 18%;
+}
 
-    .sub-row {        
-        p {
-            font-weight: bold;
-            // background: white;
-            border-bottom: 1px solid white;
-            padding: 10px;
-            background-color: rgb(97, 138, 2);
-            color: white;
-        }
-    }
+.mat-column-userName {
+    flex-basis: 18%;
+}
 
-    @media only screen and (max-width: 768px) {
-        .mat-table {
-            overflow-x: scroll;
-        }
-        .mat-row,
-        .mat-header-row {
-            min-width: 800px;
-        }
+.mat-column-email {
+    flex-basis: 27%;
+}
+
+.mat-column-group {
+    flex-basis: 9%;
+}
+
+.mat-column-status {
+    flex-basis: 10%;
+}
+
+.mat-column-editIcon {
+    flex-basis: 2.5%;
+}
+
+.mat-column-deleteIcon {
+    flex-basis: 2.5%;
+}
+
+@media only screen and (max-width: 768px) {
+    .mat-table {
+        overflow-x: scroll;
+    }
+    .mat-row,
+    .mat-header-row {
+        min-width: 800px;
     }
 }

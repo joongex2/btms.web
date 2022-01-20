@@ -1,0 +1,26 @@
+$base-color: rgb(137, 129, 61);
+$base-dark-color: #4e4a18;
+
+.bg-primary {
+    background-color: $base-color !important;
+}
+
+.text-on-primary {
+    color: $base-dark-color !important;
+}
+
+:host ::ng-deep .mat-input-element {
+    caret-color: $base-color !important;
+}
+
+:host ::ng-deep .mat-form-field.mat-form-field-appearance-fill.mat-focused:not(.mat-form-field-invalid) .mat-form-field-wrapper .mat-form-field-flex {
+    border-color: $base-color !important;
+}
+
+:host ::ng-deep .mat-form-field {
+    &.mat-focused {
+      &.mat-primary .mat-select-arrow {
+        color: $base-color !important;
+      }
+    }
+}

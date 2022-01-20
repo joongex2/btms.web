@@ -1,7 +1,7 @@
-<div class="flex flex-col flex-auto min-w-0">
+<div class="absolute inset-0 overflow-hidden flex flex-col flex-auto min-w-0">
     <!-- Header -->
     <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-4 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
             <div>
@@ -37,82 +37,92 @@
     </div>
 
     <!-- Main -->
-    <div class="flex-auto p-6 sm:p-10">
-        <mat-accordion class="example-headers-align" multi>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <!-- CONTENT GOES HERE -->
-                <!-- <form class="flex flex-col px-8 pt-10 bg-card shadow rounded overflow-hidden"> -->
-                <form>
-                    <div class="flex flex-col">
-                        <mat-form-field class="flex-auto">
-                            <mat-label>Role Code</mat-label>
-                            <input [(ngModel)]="roleCode" name="roleCode" matInput>
-                        </mat-form-field>
-                        <mat-form-field class="flex-auto">
-                            <mat-label>Role Description</mat-label>
-                            <input [(ngModel)]="roleDescription" name="roleDescription" matInput>
-                        </mat-form-field>
-                        <mat-form-field class="flex-auto">
-                            <mat-label>Status</mat-label>
-                            <mat-select [(ngModel)]="selectedStatus" name="status">
-                                <mat-option *ngFor="let status of statuses" [value]="status.value">
-                                    {{status.title}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-
-                    <div
-                        class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                        <div class="flex-none" (click)="search()">
-                            <a href="#" onClick="return false;" class="flex items-center">
-                                <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Search</span>
-                            </a>
+    <div class="flex-auto p-6 overflow-y-auto">
+        <div class="flex-auto">
+            <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <!-- CONTENT GOES HERE -->
+                    <form>
+                        <div class="grid gap-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
+                            <div class="col-span-6 sm:col-span-3 font-medium">Role Code</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="roleCode" name="roleCode" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 sm:col-start-1 font-medium">Role Description</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="roleDescription" name="roleDescription" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 sm:col-start-1 font-medium">Status</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedStatus" name="status">
+                                        <mat-option *ngFor="let status of statuses" [value]="status.value">
+                                            {{status.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
                         </div>
-                        <div class="flex-none ml-2" (click)="clear()">
-                            <a href="#" onClick="return false;" class="flex items-center">
-                                <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Clear</span>
-                            </a>
-                        </div>
-                    </div>
-                </form>
-            </mat-expansion-panel>
-        </mat-accordion>
-
-        <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
-            <div class="overflow-x-auto example-table-container" [class.sub-row]="'title'">
-                <p class="table-title flex flex-row justify-between cursor-pointer">
-                    <span>หน้าที่</span>
-                    <span class="flex items-center" (click)="addRole()">
-                        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มหน้าที่
-                    </span>
-                </p>
-                <mat-table #roleTable [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
-                    matSort>
-                    <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>{{ key === 'detail' ? '' :
-                            keyToColumnName[key] }}</mat-header-cell>
-                        <mat-cell *matCellDef="let element; let i = index">
-                            <span *ngIf="!key.includes('Icon')">{{ element[key] }}</span>
-                            <ng-container *ngIf="key.includes('Icon')">
-                                <a *ngIf="key === 'detailIcon'" [routerLink]="'/super-admin/user-group/'+element.groupCode">
-                                    <mat-icon svgIcon="heroicons_solid:menu"></mat-icon>
+    
+                        <div
+                            class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                            <div class="flex-none" (click)="search()">
+                                <a href="#" onClick="return false;" class="flex items-center">
+                                    <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Search</span>
                                 </a>
-                                <mat-icon *ngIf="key === 'editIcon'" (click)="editRole(i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขหน้าที่"></mat-icon>
-                                <mat-icon *ngIf="key === 'deleteIcon'" (click)="deleteRole(i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบหน้าที่"></mat-icon>
-                            </ng-container>
-                        </mat-cell>
-                    </ng-container>
-                    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                </mat-table>
-                <mat-paginator [pageSize]="10" showFirstLastButtons aria-label="Select page of periodic elements">
-                </mat-paginator>
+                            </div>
+                            <div class="flex-none ml-2" (click)="clear()">
+                                <a href="#" onClick="return false;" class="flex items-center">
+                                    <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Clear</span>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </mat-expansion-panel>
+            </mat-accordion>
+    
+            <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
+                <div class="overflow-x-auto example-table-container" [class.sub-row]="'title'">
+                    <p class="table-title flex flex-row justify-between cursor-pointer">
+                        <span>หน้าที่</span>
+                        <span class="flex items-center" (click)="addRole()">
+                            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มหน้าที่
+                        </span>
+                    </p>
+                    <mat-table #roleTable [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
+                        matSort>
+                        <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{ key === 'detail' ? '' :
+                                keyToColumnName[key] }}</mat-header-cell>
+                            <mat-cell *matCellDef="let element; let i = index">
+                                <span *ngIf="!key.includes('Icon')">{{ element[key] }}</span>
+                                <ng-container *ngIf="key.includes('Icon')">
+                                    <a *ngIf="key === 'detailIcon'" [routerLink]="'/super-admin/user-group/'+element.groupCode">
+                                        <mat-icon svgIcon="heroicons_solid:menu"></mat-icon>
+                                    </a>
+                                    <mat-icon *ngIf="key === 'editIcon'" (click)="editRole(i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขหน้าที่"></mat-icon>
+                                    <mat-icon *ngIf="key === 'deleteIcon'" (click)="deleteRole(i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบหน้าที่"></mat-icon>
+                                </ng-container>
+                            </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div>
             </div>
         </div>
     </div>

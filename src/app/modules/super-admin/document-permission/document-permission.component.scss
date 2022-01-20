@@ -1,3 +1,14 @@
+.sub-row {        
+    p {
+        font-weight: bold;
+        // background: white;
+        border-bottom: 1px solid white;
+        padding: 10px;
+        background-color: rgb(97, 138, 2);
+        color: white;
+    }
+}
+
 .example-action-buttons {
     padding-bottom: 20px;
   }
@@ -17,78 +28,96 @@
 }
 
 .example-table-container {
-    height: 400px;
+    max-height: 374px;
     overflow: auto;
 }
 
-::ng-deep .mat-sort-header-arrow {
+:host ::ng-deep .mat-expansion-panel-body {
+    padding: 0 24px !important;
+}
+
+:host ::ng-deep .mat-sort-header-arrow {
     color: white !important;
 }
 
-:host {
-    mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
-        padding-left: 12px;
-    }
+:host ::ng-deep .mat-form-field-wrapper {
+    margin-bottom: 0 !important;
+}
 
-    .mat-column-roleCode {
-        flex-basis: 15%;
-    }
+mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
+    padding-left: 12px;
+}
 
-    .mat-column-roleDescription {
-        flex-basis: 30%;
-    }
+/* color */
+.mat-header-row {
+    background-color: rgb(132, 189, 0) !important; // important because replace by sticky
+}
 
-    .mat-column-documentPermissions {
-        flex-basis: 50%;
-    }
+.mat-row:nth-child(even) {
+    background-color: rgb(206, 230, 150);
+}
 
-    .mat-column-editIcon {
-        flex-basis: 2.5%;
-    }
+.mat-row:nth-child(odd) {
+    background-color: rgb(229, 240, 203);
+}
 
-    .mat-column-deleteIcon {
-        flex-basis: 2.5%;
-    }
+.mat-header-row,
+.mat-row {
+    border-bottom-color: white;
+}
 
-    .sub-row {        
-        p {
-            font-weight: bold;
-            // background: white;
-            border-bottom: 1px solid white;
-            padding: 10px;
-            background-color: rgb(97, 138, 2);
-            color: white;
-        }
-    }
+.mat-header-cell {
+    color: white !important
+}
 
-    @media only screen and (max-width: 768px) {
-        .mat-table {
-            overflow-x: scroll;
-        }
-        .mat-row,
-        .mat-header-row {
-            min-width: 800px;
-        }
+/* column width */
+.mat-column-roleCode {
+    flex-basis: 15%;
+}
+
+.mat-column-roleDescription {
+    flex-basis: 30%;
+}
+
+.mat-column-documentPermissions {
+    flex-basis: 50%;
+}
+
+.mat-column-editIcon {
+    flex-basis: 2.5%;
+}
+
+.mat-column-deleteIcon {
+    flex-basis: 2.5%;
+}
+
+@media only screen and (max-width: 768px) {
+    .mat-table {
+        overflow-x: scroll;
     }
+    .mat-row,
+    .mat-header-row {
+        min-width: 800px;
+    }
+}
 
     
-    .tag-box {
-        position: relative;
-        display: flex;
-        align-items: center;
-        min-height: 24px;
-        border-radius: 150px;
-        padding: 0 16px;
-        // border-width: 1px;
-        // --tw-border-opacity: 1 !important;
-        // border-color: rgb(203 213 225 / var(--tw-border-opacity))!important;
-        // --tw-bg-opacity: 1 !important;
-        // background-color: rgb(255 255 255 / var(--tw-bg-opacity))!important;
-        // --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05) !important;
-        // --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color) !important;
-        // box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)!important;
-        color: white;
-        background-color: #84bd00!important;
-        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-    }
+.tag-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 24px;
+    border-radius: 150px;
+    padding: 0 16px;
+    // border-width: 1px;
+    // --tw-border-opacity: 1 !important;
+    // border-color: rgb(203 213 225 / var(--tw-border-opacity))!important;
+    // --tw-bg-opacity: 1 !important;
+    // background-color: rgb(255 255 255 / var(--tw-bg-opacity))!important;
+    // --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05) !important;
+    // --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color) !important;
+    // box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)!important;
+    color: white;
+    background-color: #84bd00!important;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }

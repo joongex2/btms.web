@@ -1,7 +1,7 @@
-<div class="flex flex-col flex-auto min-w-0">
+<div class="absolute inset-0 overflow-hidden flex flex-col flex-auto min-w-0">
     <!-- Header -->
     <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-4 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
             <div>
@@ -31,43 +31,37 @@
             </div>
         </div>
         <!-- Actions -->
-        <!-- <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <button mat-stroked-button>
-                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
-                Edit
-            </button>
-            <button class="ml-3" mat-flat-button [color]="'accent'">
-                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
-                View
-            </button>
-        </div> -->
     </div>
 
     <!-- Main -->
-    <div class="flex-auto p-6 sm:p-10">
-        <mat-accordion class="example-headers-align" multi>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <!-- CONTENT GOES HERE -->
-                <!-- <form class="flex flex-col px-8 pt-10 bg-card shadow rounded overflow-hidden"> -->
-                <form>
-                    <div class="flex flex-col gt-xs:flex-row gt-xs:items-start">
-                        <div class="flex-auto min-w-64">
-                            <div class="flex flex-col md:flex-row md:space-x-4">
-                                <mat-form-field class="flex-auto">
-                                    <mat-label>Site</mat-label>
+    <div class="flex flex-col flex-auto p-6 overflow-y-auto">
+        <!-- CONTENT GOES HERE -->
+        <div class="flex-auto">
+            <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <!-- CONTENT GOES HERE -->
+                    <form>
+                        <div class="grid gap-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
+                            <div class="col-span-6 sm:col-span-3 font-medium">Site</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
                                     <mat-select [(ngModel)]="selectedSite" name="site">
                                         <mat-option *ngFor="let site of sites" [value]="site.value">
                                             {{site.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                                <mat-form-field class="flex-auto">
-                                    <mat-label>Status</mat-label>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Status</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
                                     <mat-select [(ngModel)]="selectedStatus" name="status">
                                         <mat-option *ngFor="let status of statuses" [value]="status.value">
                                             {{status.title}}
@@ -75,43 +69,46 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                        </div>
-                        <div class="flex-auto min-w-64">
-                            <div class="flex flex-col md:flex-row md:space-x-4">
-                                <mat-form-field class="flex-auto">
-                                    <mat-label>Division</mat-label>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Division</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
                                     <mat-select [(ngModel)]="selectedDivision" name="division">
                                         <mat-option *ngFor="let division of divisions" [value]="division.value">
                                             {{division.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                                <mat-form-field class="flex-auto">
-                                    <mat-label>Running No.</mat-label>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Running No.</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
                                     <input [(ngModel)]="runningNo" name="runningNo" matInput>
                                 </mat-form-field>
                             </div>
-                        </div>
-                        <div class="flex-auto min-w-64">
-                            <div class="flex flex-col md:flex-row md:space-x-4">
-                                <mat-form-field class="flex-auto">
-                                    <mat-label>Department</mat-label>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Department</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
                                     <mat-select [(ngModel)]="selectedDepartment" name="department">
                                         <mat-option *ngFor="let department of departments" [value]="department.value">
                                             {{department.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                                <mat-form-field class="flex-auto">
-                                    <mat-label>Year</mat-label>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Year</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
                                     <input [(ngModel)]="year" name="year" matInput>
                                 </mat-form-field>
                             </div>
-                        </div>
-                        <div class="flex-auto min-w-64">
-                            <div class="flex flex-col md:flex-row md:space-x-4">
-                                <mat-form-field class="flex-auto">
-                                    <mat-label>Target Type</mat-label>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Target Type</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
                                     <mat-select [(ngModel)]="selectedTargetType" name="targetType">
                                         <mat-option *ngFor="let targetType of targetTypes" [value]="targetType.value">
                                             {{targetType.title}}
@@ -119,50 +116,49 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                        </div>
-                    </div>
-
-                    <div
-                        class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                        <div class="flex-none">
-                            <a href="#" onClick="return false;" class="flex items-center">
-                                <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Search</span>
-                            </a>
-                        </div>
-                        <div class="flex-none ml-2">
-                            <a href="#" onClick="return false;" class="flex items-center">
-                                <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Clear</span>
-                            </a>
-                        </div>
-                    </div>
-                </form>
-            </mat-expansion-panel>
-        </mat-accordion>
-
-        <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
-            <div class="overflow-x-auto example-table-container">
-                <mat-table [dataSource]="dataSource" class="my-target-table mat-elevation-z8"
-                    style="width:100%" matSort>
-                    <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>{{ key === 'detail' ? '' : keyToColumnName[key] }}</mat-header-cell>
-                        <mat-cell *matCellDef="let element; let i = dataIndex">
-                            <span *ngIf="key !== 'detail';else detail">{{ element.data[key] }}</span>
-                            <ng-template #detail>
-                                <a [routerLink]="'/target-info/my-target/'+element.data.runningNo">
-                                    <mat-icon svgIcon="heroicons_solid:menu"></mat-icon>
+                        </div>    
+                        <div
+                            class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                            <div class="flex-none">
+                                <a href="#" onClick="return false;" class="flex items-center">
+                                    <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Search</span>
                                 </a>
-                            </ng-template>
-                        </mat-cell>
-                    </ng-container>
-                    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                </mat-table>
-                <mat-paginator [pageSize]="10"
-                    showFirstLastButtons 
-                    aria-label="Select page of periodic elements">
-                </mat-paginator>
+                            </div>
+                            <div class="flex-none ml-2">
+                                <a href="#" onClick="return false;" class="flex items-center">
+                                    <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Clear</span>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </mat-expansion-panel>
+            </mat-accordion>
+    
+            <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
+                <div class="overflow-x-auto example-table-container">
+                    <mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+                        style="width:100%" matSort>
+                        <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{ key === 'detail' ? '' : keyToColumnName[key] }}</mat-header-cell>
+                            <mat-cell *matCellDef="let element; let i = dataIndex">
+                                <span *ngIf="key !== 'detail';else detail">{{ element.data[key] }}</span>
+                                <ng-template #detail>
+                                    <a [routerLink]="'/target-info/my-target/'+element.data.runningNo">
+                                        <mat-icon svgIcon="heroicons_solid:menu"></mat-icon>
+                                    </a>
+                                </ng-template>
+                            </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+                    <mat-paginator 
+                        [pageSizeOptions]="[5, 10, 20]"
+                        showFirstLastButtons 
+                        aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div>
             </div>
         </div>
     </div>
-
 </div>

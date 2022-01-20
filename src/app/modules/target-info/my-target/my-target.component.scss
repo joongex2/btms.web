@@ -17,10 +17,77 @@
 }
 
 .example-table-container {
-    height: 400px;
-    overflow: auto;
+  max-height: 374px;
+  overflow: auto;
+}
+
+:host ::ng-deep .mat-expansion-panel-body {
+  padding: 0 24px !important;
 }
 
 ::ng-deep .mat-sort-header-arrow {
     color: white !important;
+}
+
+/* color */
+.mat-header-row {
+  background-color: rgb(132, 189, 0) !important; // important because replace by sticky
+}
+
+.mat-row:nth-child(even) {
+  background-color: rgb(206, 230, 150);
+}
+
+.mat-row:nth-child(odd) {
+  background-color: rgb(229, 240, 203);
+}
+
+.mat-header-row,
+.mat-row {
+  border-bottom-color: white;
+}
+
+.mat-header-cell {
+  color: white !important
+}
+
+/* column width */
+.mat-column-runningNo {
+  flex-basis: 20%;
+}
+
+.mat-column-revisionNo {
+  flex-basis: 10%;
+}
+
+.mat-column-modifyNo {
+  flex-basis: 10%;
+}
+
+.mat-column-createDate {
+  flex-basis: 10%;
+}
+
+.mat-column-issuedDate {
+  flex-basis: 10%;
+}
+
+.mat-column-year {
+  flex-basis: 7.5%;
+}
+
+.mat-column-status {
+  flex-basis: 7.5%;
+}
+
+.mat-column-creator {
+  flex-basis: 20%;
+}
+
+.mat-column-detail {
+  flex-basis: 5%;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+  margin-bottom: 0 !important;
 }

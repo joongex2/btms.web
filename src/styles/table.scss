@@ -1,125 +1,17 @@
-
-div.table { margin: 10px; }
-
-.mat-table { 
-  background-color: inherit;
-
-  .mat-header-row { 
-    background-color: #ebeceb; 
-  }
-
-  .mat-header-cell { 
-    color: black;
-    font-weight: bold;
-  }
-
-  .mat-cell { 
-    font-size: 12px; 
-  }
-
+.mat-table {
   .mat-icon { 
     position: relative;
     cursor: pointer;
 
+    /* expanded arrow */
     &.active {
       transform: rotate(90deg);
       margin-left: -8px;
     }
   }
-
 }
 
 .expandable-row {
-  border-bottom: 1px solid rgba(0, 0, 0, .1);
-  background-color: #fafafa;
   min-height: 0;
   overflow: hidden;
-}
-
-.target-table {
-    p {
-      // background-color: rgb(67, 133, 74);
-      background-color: rgb(97, 138, 2);
-      color: white;
-    }
-
-    .mat-header-row {
-      // background-color: rgb(89,176,97);
-      background-color: rgb(132, 189, 0);
-    }
-    
-    .mat-row {
-      // background-color: rgb(196,228,204);
-      background-color: rgb(218, 235, 180);
-    }
-
-    .mat-header-cell {
-      color: white !important;
-    }
-}
-
-.sub-target-table {
-    p {
-      // background-color: rgb(153, 144, 47);
-      background-color: rgb(119, 112, 36);
-      color: white;
-    }
-
-    .mat-header-row {
-        // background-color: rgb(191,181,60);
-        background-color: rgb(137, 129, 61);
-    }
-    
-    .mat-row {
-        // background-color: rgb(246,245,199);
-        background-color: rgb(219, 215, 177);
-    }
-
-    .mat-header-cell {
-      color: white !important;
-    }
-}
-
-.method-table {
-    p {
-      // background-color: rgb(56, 102, 182);
-      background-color: rgb(15, 55, 97);
-      color: white;
-    }
-
-    .mat-header-row {
-       // background-color: rgb(76,137,243);
-        background-color: rgb(23, 78, 136)
-    }
-    
-    .mat-row {
-        // background-color: rgb(211,226,249);
-        background-color: rgb(187, 211, 236);
-    }
-
-    .mat-header-cell {
-      color: white !important
-    }
-}
-
-mat-table.my-target-table {
-  .mat-header-row {
-    // background-color: rgb(89,176,97);
-    background-color: rgb(132, 189, 0);
-  }
-
-  .mat-row:nth-child(even) {
-    // background-color: rgb(148, 199, 161);
-    background-color: rgb(206, 230, 150);
-  }
-  
-  .mat-row:nth-child(odd) {
-    // background-color: rgb(196,228,204);
-    background-color: rgb(229, 240, 203);
-  }
-
-  .mat-header-cell {
-    color: white !important
-  }
-
 }

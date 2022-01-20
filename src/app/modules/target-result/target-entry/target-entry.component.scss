@@ -5,32 +5,34 @@ table {
 th.mat-header-cell,
 td.mat-cell {
     text-align: center;
-    border: 1px solid rgb(100, 116, 139);
+    // border: 1px solid rgb(100, 116, 139);
     padding: 0 !important;
 }
 
-th.mat-header-cell:not(:first-child):not(:last-child) {
-    border-left-color: #ccc;
-    border-right-color: #ccc;
+// th.mat-header-cell:not(:first-child):not(:last-child) {
+//     border-left-color: white;
+//     border-right-color: white;
+// }
+
+// th.mat-header-cell:first-child {
+//     border-right-color: white;
+// }
+
+// th.mat-header-cell:last-child {
+//     border-left-color: white;
+// }
+
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
 }
 
-th.mat-header-cell:first-child {
-    border-right-color: #ccc;
-}
-
-th.mat-header-cell:last-child {
-    border-left-color: #ccc;
-}
-
-th.mat-header-cell {
-    border-bottom-color: #ccc;
-}
-
-td.mat-cell,
-:host ::ng-deep thead > tr:last-child > th.mat-header-cell,
-th.mat-header-cell[rowspan="2"] {
-    border-bottom-color: rgb(100, 116, 139) !important;
-}
+// td.mat-cell,
+// :host ::ng-deep thead > tr:last-child > th.mat-header-cell,
+// th.mat-header-cell[rowspan="2"] {
+//     // border-bottom-color: rgb(100, 116, 139) !important;
+//     border-bottom-color: white !important;
+// }
 
 tr.example-detail-row {
     height: 0;
@@ -41,14 +43,37 @@ tr.example-detail-row {
     display: flex;
 }
 
-.example-element-row td {
-    border-bottom-width: 0;
-}
+// .example-element-row td {
+//     border-bottom-width: 0;
+// }
 
 .hide-header {
     display: none;
 }
 
+/* table color */
+:host ::ng-deep .target-entry > thead > tr {
+    background-color: rgb(132, 189, 0) !important;
+}
+
+:host ::ng-deep .target-entry > tbody > tr {
+    background-color: rgb(218, 235, 180) !important;
+}
+
+:host ::ng-deep .sub-target-entry > tbody > tr {
+    background-color: rgb(219, 215, 177) !important;
+}
+
+:host ::ng-deep .plan-entry > tbody > tr {
+    background-color: rgb(187, 211, 236) !important;
+}
+
+:host ::ng-deep .target-entry > thead > tr > th.mat-header-cell {
+    color: white !important;
+}
+
+
+/* column width */
 .mat-column-detail,
 .mat-column-detail-spanned {
     width: 28%;
@@ -79,11 +104,12 @@ tr.example-detail-row {
     width: 5%;
 }
 
-tr {
-    height: fit-content !important;
-    vertical-align: top !important;
-}
+// tr {
+//     height: fit-content !important;
+//     vertical-align: top !important;
+// }
 
+/* plan entry table */
 .plan-entry {
     tr td:first-child {
         /* styles */
@@ -100,6 +126,7 @@ tr {
     }
 }
 
+/* status box */
 .bg-dark-green {
     background-color: rgb(55, 126, 34);
 }
@@ -216,17 +243,4 @@ mat-checkbox {
 :host ::ng-deep .mat-checkbox .mat-checkbox-layout .mat-checkbox-inner-container {
     margin: 0px;
     background-color: rgb(203, 213, 225);
-}
-
-:host ::ng-deep .target-entry > thead > tr {
-    background-color: rgb(132, 189, 0) !important;
-}
-
-:host ::ng-deep .target-entry > tbody > tr,
-:host ::ng-deep .sub-target-entry > tbody > tr {
-    background-color: rgb(218, 235, 180) !important;
-}
-
-:host ::ng-deep .target-entry > thead > tr > th.mat-header-cell {
-    color: white !important;
 }
