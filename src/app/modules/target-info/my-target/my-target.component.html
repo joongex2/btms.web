@@ -120,12 +120,12 @@
                         <div
                             class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
                             <div class="flex-none">
-                                <a href="#" onClick="return false;" class="flex items-center">
+                                <a href="#" onClick="return false;" (click)="search()" class="flex items-center">
                                     <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Search</span>
                                 </a>
                             </div>
                             <div class="flex-none ml-2">
-                                <a href="#" onClick="return false;" class="flex items-center">
+                                <a href="#" onClick="return false;" (click)="clear()" class="flex items-center">
                                     <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Clear</span>
                                 </a>
                             </div>

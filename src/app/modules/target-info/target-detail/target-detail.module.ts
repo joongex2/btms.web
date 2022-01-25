@@ -16,7 +16,7 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { SharedModule } from 'app/shared/shared.module';
 import { TargetManagementModule } from '../pages/target-management/target-management.module';
 import { TargetDetailComponent } from './target-detail.component';
-import { targetDetailRoute } from './target-detail.routing';
+import { targetDetailRoutes } from './target-detail.routing';
 
 
 
@@ -25,7 +25,7 @@ import { targetDetailRoute } from './target-detail.routing';
     TargetDetailComponent
   ],
   imports: [
-    RouterModule.forChild(targetDetailRoute),
+    RouterModule.forChild(targetDetailRoutes),
     MatCheckboxModule,
     MatButtonModule,
     MatIconModule,

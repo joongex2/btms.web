@@ -1,6 +1,8 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
+import { MainMethod, Method, Plan, SubTarget, Target } from '../../target.types';
+import { SubTargetTableComponent } from '../sub-target-table/sub-target-table.component';
 import { TargetService } from './../../target.service';
 import { expandableTableRowAnimation } from './../table-animation';
 
@@ -14,7 +16,6 @@ export class TargetTableComponent implements OnInit {
   @Input() dataSource: any;
   @Input() displayedColumns: string[];
   @Input() title: string;
-  @Input() referenceId: string;
   @Input() renderTemplate: string;
 
   @Input() runningNo: string;
@@ -38,6 +39,7 @@ export class TargetTableComponent implements OnInit {
   @Output() deleteMethod: EventEmitter<number> = new EventEmitter<number>();
 
   @ViewChild(MatTable) table: MatTable<any>;
+  @ViewChildren(SubTargetTableComponent) subTargetTables: QueryList<SubTargetTableComponent>;
 
   expandedId: string = '';
 
@@ -73,6 +75,9 @@ export class TargetTableComponent implements OnInit {
   selectedStart2: string;
   selectedFinish1: string;
   selectedFinish2: string;
+
+  expandedTargets: Target[] = [];
+  expandedSubtargets: SubTarget[] = [];
 
   keyToColumnName: any = {
     'targetId': 'ลำดับที่',
@@ -123,6 +128,75 @@ export class TargetTableComponent implements OnInit {
   refreshMasterTable() {
     this.dataSource = [...this.targetService.getTargets(this.runningNo)];
     this.cdr.detectChanges();
+  }
+
+  getExpandedElements(): any[] {
+    switch (this.renderTemplate) {
+      case 'target':
+        return this.expandedTargets;
+      case 'subTarget':
+        return this.expandedSubtargets;
+      default: return;
+    }
+  }
+
+  checkExpanded(element): boolean {
+    let expandedElements = this.getExpandedElements();
+    if (!expandedElements) return;
+
+    let flag = false;
+    expandedElements.forEach(e => {
+      if (e === element) {
+        flag = true;
+      }
+    });
+    return flag;
+  }
+
+  pushPopElement(element) {
+    let expandedElements = this.getExpandedElements();
+    if (!expandedElements) return;
+
+    const index = expandedElements.indexOf(element);
+    if (index === -1) {
+      expandedElements.push(element);
+    } else {
+      expandedElements.splice(index, 1);
+    }
+  }
+
+  expandAll(): void {
+    switch (this.renderTemplate) {
+      case ('target'):
+        for (let data of this.dataSource) {
+          if (this.expandedTargets.indexOf(data) === -1) this.expandedTargets.push(data);
+        }
+        for (let subTargetTable of this.subTargetTables) {
+          subTargetTable.expandAll();
+        }
+        break;
+      case ('subTarget'):
+        for (let data of this.dataSource) {
+          this.expandedSubtargets.push(data);
+        }
+        break;
+      default: return;
+    }
+  }
+
+  collapseAll(): void {
+    switch (this.renderTemplate) {
+      case ('target'):
+        this.expandedTargets = [];
+        for (let subTargetTable of this.subTargetTables) {
+          subTargetTable.collapseAll();
+        }
+        break;
+      case ('subTarget'):
+        this.expandedSubtargets = [];
+        break;
+      default: return;
+    }
   }
 
   ngOnInit(): void {

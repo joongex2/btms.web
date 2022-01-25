@@ -1,34 +1,19 @@
-
 <div class="absolute inset-0 overflow-hidden flex flex-col flex-auto min-w-0">
     <!-- Header -->
     <div
-    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-4 border-b bg-card dark:bg-transparent">
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-4 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
             <div>
                 <div class="hidden sm:flex flex-wrap items-center font-medium">
                     <div>
-                        <a class="whitespace-nowrap text-primary-500">ผลการดำเนินการตามเป้าหมาย</a>
+                        <a class="whitespace-nowrap text-primary-500">ผลการดำเนินงานตามเป้าหมาย</a>
                     </div>
-                    <ng-container *ngIf="runningNo;else newTargetLabelBc">
-                        <div class="flex items-center ml-1 whitespace-nowrap">
-                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                            </mat-icon>
-                            <span class="ml-1 text-secondary">บันทึกผลการดำเนินงาน</span>
-                        </div>
-                        <div class="flex items-center ml-1 whitespace-nowrap">
-                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                            </mat-icon>
-                            <span class="ml-1 text-secondary">{{runningNo.runningNo}}</span>
-                        </div>
-                    </ng-container>
-                    <ng-template #newTargetLabelBc>
-                        <div class="flex items-center ml-1 whitespace-nowrap">
-                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                            </mat-icon>
-                            <span class="ml-1 text-secondary">บันทึกผลการดำเนินงาน</span>
-                        </div>
-                    </ng-template>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <span class="ml-1 text-secondary">บันทึกผลการดำเนินงาน</span>
+                    </div>
                 </div>
                 <div class="flex sm:hidden">
                     <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'./..'">
@@ -41,490 +26,139 @@
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    บันทึกผลการดำเนินงาน {{runningNo.runningNo}}
+                    บันทึกผลการดำเนินงาน
                 </h2>
             </div>
         </div>
-        <!-- Action -->
-        <div class="flex flex-col">
-            <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-                <a href="#" onClick="return false;" class="flex items-center">
-                    <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
-                    &nbsp;<span>Back</span>
-                </a>
-                <a href="#" onClick="return false;" class="flex items-center ml-3">
-                    <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
-                </a>
-                <a href="#" onClick="return false;" class="flex items-center ml-3">
-                    <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span>
-                </a>
-            </div>
-            <div class="flex flex-row sm:justify-end mt-2">
-                <span class="text-red-600">Last Comment:&nbsp;&nbsp;</span>
-                <a href="#" onClick="return false;" (click)="openLastComment()" class="underline text-blue-600">More Detail</a>
-            </div>
-        </div>
+        <!-- Actions -->
     </div>
-    <!-- Main -->
-    <div class="flex-auto p-6 overflow-y-auto">
 
+    <!-- Main -->
+    <div class="flex flex-col flex-auto p-6 overflow-y-auto">
+        <!-- CONTENT GOES HERE -->
         <div class="flex-auto">
-            <!-- CONTENT GOES HERE -->
             <mat-accordion class="example-headers-align" multi>
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            <mat-icon [svgIcon]="'heroicons_outline:information-circle'"></mat-icon>
+                            <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <div class="grid gap-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
-                        <div class="col-span-6 sm:col-span-3 font-medium">Target Type</div>
-                        <ng-container *ngIf="runningNo;else targetTypeSelect">
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.targetType :
-                                '-'}}</span></div>
-                        </ng-container>
-                        <ng-template #targetTypeSelect>
+                    <!-- CONTENT GOES HERE -->
+                    <form>
+                        <div class="grid gap-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
+                            <div class="col-span-6 sm:col-span-3 font-medium">Site</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedTargetType" name="targetType">
-                                        <mat-option *ngFor="let targetType of targetTypes" [value]="targetType.value">
-                                            {{targetType.title}}
+                                    <mat-select [(ngModel)]="selectedSite" name="site">
+                                        <mat-option *ngFor="let site of sites" [value]="site.value">
+                                            {{site.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                        </ng-template>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Running No.</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.runningNo : '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Site</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.site :
-                            'สำนักงานนอร์ธปาร์ค'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Status</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.status : 'New'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Division</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.division :
-                            'ฝ่ายเทคโนโลยีสารสนเทศ (ITCSD)'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Revision No.</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.revisionNo :
-                            'NONE'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Department</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.department :
-                            '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Modify No.</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.modifyNo : '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Year</div>
-                        <ng-container *ngIf="runningNo;else yearSelect">
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.year : '-'}}</span></div>
-                        </ng-container>
-                        <ng-template #yearSelect>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Target Status</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedYear" name="targetType">
-                                        <mat-option *ngFor="let year of years" [value]="year.value">
-                                            {{year.title}}
+                                    <mat-select [(ngModel)]="selectedTargetStatus" name="targetStatus">
+                                        <mat-option *ngFor="let targetStatus of targetStatuses" [value]="targetStatus.value">
+                                            {{targetStatus.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                        </ng-template>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Create Date</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.createDate :
-                            '22/06/2013'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Creator</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.creator :
-                            'Thanawan Sankum'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Issued Date</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.issuedDate :
-                            '-'}}</span></div>
-                    </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Division</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedDivision" name="division">
+                                        <mat-option *ngFor="let division of divisions" [value]="division.value">
+                                            {{division.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Running No.</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="runningNo" name="runningNo" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Department</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedDepartment" name="department">
+                                        <mat-option *ngFor="let department of departments" [value]="department.value">
+                                            {{department.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Year</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="year" name="year" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Document Type</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedDocumentType" name="documentType">
+                                        <mat-option *ngFor="let documentType of documentTypes" [value]="documentType.value">
+                                            {{documentType.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>    
+                        <div
+                            class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                            <div class="flex-none">
+                                <a href="#" onClick="return false;" (click)="search()" class="flex items-center">
+                                    <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Search</span>
+                                </a>
+                            </div>
+                            <div class="flex-none ml-2">
+                                <a href="#" onClick="return false;" (click)="clear()" class="flex items-center">
+                                    <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Clear</span>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
                 </mat-expansion-panel>
             </mat-accordion>
-
-            <form class="mt-6 flex flex-col px-8 pt-10 bg-card shadow rounded overflow-hidden">
-                <div class="flex flex-col gt-xs:flex-row gt-xs:items-start">
-                    <div class="gt-xs:max-w-80 gt-xs:pr-12">
-                        <p class="text-lg font-medium mb-6">ผลการดำเนินการตามเป้าหมาย</p>
-                    </div>
-
-                    <!-- Table -->
-                    <div class="flex-auto overflow-x-auto mb-5 md:mb-9 bg-card shadow rounded overflow-hidden">
-                        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 target-entry" style="min-width: 500px;" multiTemplateDataRows>
-                            <ng-container matColumnDef="detail-spanned">
-                                <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">รายละเอียด</th>
-                            </ng-container>
-                            <ng-container matColumnDef="detail">
-                                <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"></th>
-                                <td mat-cell *matCellDef="let element" class="text-left"
-                                    style="padding-left: 5px !important;"
-                                    [attr.colspan]="15">{{element.data.targetId}}. {{element.data.name}}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="owner-spanned">
-                                <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">ผู้รับผิดชอบ</th>
-                            </ng-container>
-                            <ng-container matColumnDef="owner">
-                                <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"></th>
-                            </ng-container>
-
-                            <ng-container matColumnDef="blank-1">
-                                <th mat-header-cell *matHeaderCellDef></th>
-                            </ng-container>
-                            <ng-container matColumnDef="blank-2">
-                                <th mat-header-cell *matHeaderCellDef></th>
-                            </ng-container>
-
-                            <ng-container matColumnDef="year">
-                                <th mat-header-cell *matHeaderCellDef [attr.colspan]="12">ปี 2019</th>
-                            </ng-container>
-
-                            <ng-container matColumnDef="jan">
-                                <th mat-header-cell *matHeaderCellDef>ม.ค.</th>
-                            </ng-container>
-                            <ng-container matColumnDef="feb">
-                                <th mat-header-cell *matHeaderCellDef>ก.พ.</th>
-                            </ng-container>
-                            <ng-container matColumnDef="mar">
-                                <th mat-header-cell *matHeaderCellDef>มี.ค.</th>
-                            </ng-container>
-                            <ng-container matColumnDef="apr">
-                                <th mat-header-cell *matHeaderCellDef>เม.ย.</th>
-                            </ng-container>
-                            <ng-container matColumnDef="may">
-                                <th mat-header-cell *matHeaderCellDef>พ.ค.</th>
-                            </ng-container>
-                            <ng-container matColumnDef="jun">
-                                <th mat-header-cell *matHeaderCellDef>มิ.ย.</th>
-                            </ng-container>
-                            <ng-container matColumnDef="jul">
-                                <th mat-header-cell *matHeaderCellDef>ก.ค.</th>
-                            </ng-container>
-                            <ng-container matColumnDef="aug">
-                                <th mat-header-cell *matHeaderCellDef>ส.ค.</th>
-                            </ng-container>
-                            <ng-container matColumnDef="sep">
-                                <th mat-header-cell *matHeaderCellDef>ก.ย.</th>
-                            </ng-container>
-                            <ng-container matColumnDef="oct">
-                                <th mat-header-cell *matHeaderCellDef>ต.ค.</th>
-                            </ng-container>
-                            <ng-container matColumnDef="nov">
-                                <th mat-header-cell *matHeaderCellDef>พ.ย.</th>
-                            </ng-container>
-                            <ng-container matColumnDef="dec">
-                                <th mat-header-cell *matHeaderCellDef>ธ.ค.</th>
-                            </ng-container>
-
-                            <ng-container matColumnDef="expandedDetail">
-                                <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.colspan]="15" style="border-top: none">
-                                    <div class="example-element-detail"
-                                        [@detailExpand]="checkExpanded(element, expandedTargets) ? 'expanded' : 'collapsed'">
-                                        <table mat-table [dataSource]="dataSource[i].kids.records" class="mat-elevation-z8 sub-target-entry"
-                                            multiTemplateDataRows>
-                                            <ng-container matColumnDef="detail">
-                                                <th mat-header-cell *matHeaderCellDef></th>
-                                                <td mat-cell *matCellDef="let element" class="text-left"
-                                                    style="padding-left: 10px !important;" [attr.colspan]="2">{{element.data.subTargetId}}. {{element.data.subTargetName}}</td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="left">
-                                                <th mat-header-cell *matHeaderCellDef></th>
-                                            </ng-container>
-                                            <ng-container matColumnDef="expandedDetail">
-                                                <td mat-cell *matCellDef="let element; let j = dataIndex" [attr.colspan]="2">
-                                                    <div class="example-element-detail"
-                                                        [@detailExpand]="checkExpanded(element, expandedSubtargets) ? 'expanded' : 'collapsed'">
-                                                        <table mat-table [dataSource]="dataSource[i].kids.records[j].kids.records"
-                                                            class="mat-elevation-z8 plan-entry" multiTemplateDataRows>
-                                                            <ng-container matColumnDef="detail">
-                                                                <td mat-cell *matCellDef="let element" [attr.rowspan]="2"
-                                                                    class="text-left"
-                                                                    style="padding-left: 15px !important; border-top: none;">{{element.kids.methodRecords[0].data.methodName}}
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="owner">
-                                                                <td mat-cell *matCellDef="let element" [attr.rowspan]="2">{{element.kids.methodRecords[0].data.owner}}</td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="blank-2">
-                                                                <td mat-cell *matCellDef="let element" class="bg-slate-300">เป้าหมาย</td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="jan">
-                                                                <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="feb">
-                                                                <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="mar">
-                                                                <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="apr">
-                                                                <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="may">
-                                                                <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="jun">
-                                                                <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="jul">
-                                                                <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="aug">
-                                                                <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="sep">
-                                                                <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="oct">
-                                                                <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="nov">
-                                                                <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="dec">
-                                                                <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
-                                                                </td>
-                                                            </ng-container>
-
-                                                            <ng-container matColumnDef="blank-22">
-                                                                <td mat-cell *matCellDef="let element">ทำได้จริง</td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="jan2">
-                                                                <td mat-cell *matCellDef="let element; let k = dataIndex" class="text-month"
-                                                                    [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.jan === '1.000' }">
-                                                                    <ng-container *ngIf="element.kids.methodRecords[0].data.jan === '1.000';else blank">
-                                                                        <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                        <a href="#" onClick="return false" (click)="openTargetEntryModal(i, j, k, 'jan')">A</a>
-                                                                    </ng-container>
-                                                                    <ng-template #blank></ng-template>
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="feb2">
-                                                                <td mat-cell *matCellDef="let element" class="text-month"
-                                                                    [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.feb === '1.000' }"
-                                                                    >
-                                                                    <ng-container *ngIf="element.kids.methodRecords[0].data.feb === '1.000';else blank">
-                                                                        <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                        A
-                                                                    </ng-container>
-                                                                    <ng-template #blank></ng-template>
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="mar2">
-                                                                <td mat-cell *matCellDef="let element" class="text-month"
-                                                                    [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.mar === '1.000' }"
-                                                                    >
-                                                                    <ng-container *ngIf="element.kids.methodRecords[0].data.mar === '1.000';else blank">
-                                                                        <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                        A
-                                                                    </ng-container>
-                                                                    <ng-template #blank></ng-template>
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="apr2">
-                                                                <td mat-cell *matCellDef="let element" class="text-month"
-                                                                    [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.apr === '1.000' }"
-                                                                    >
-                                                                    <ng-container *ngIf="element.kids.methodRecords[0].data.apr === '1.000';else blank">
-                                                                        <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                        A
-                                                                    </ng-container>
-                                                                    <ng-template #blank></ng-template>
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="may2">
-                                                                <td mat-cell *matCellDef="let element" class="text-month"
-                                                                [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.may === '1.000' }"
-                                                                    >
-                                                                    <ng-container *ngIf="element.kids.methodRecords[0].data.may === '1.000';else blank">
-                                                                        <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                        A
-                                                                    </ng-container>
-                                                                    <ng-template #blank></ng-template>
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="jun2">
-                                                                <td mat-cell *matCellDef="let element" class="text-month" 
-                                                                    [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.jun === '1.000' }">
-                                                                    <ng-container *ngIf="element.kids.methodRecords[0].data.jun === '1.000';else blank">
-                                                                        <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                        A
-                                                                    </ng-container>
-                                                                    <ng-template #blank></ng-template>
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="jul2">
-                                                                <td mat-cell *matCellDef="let element" class="text-month"
-                                                                    [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.jul === '1.000' }"
-                                                                    >
-                                                                    <ng-container *ngIf="element.kids.methodRecords[0].data.jul === '1.000';else blank">
-                                                                        <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                        A
-                                                                    </ng-container>
-                                                                    <ng-template #blank></ng-template>
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="aug2">
-                                                                <td mat-cell *matCellDef="let element" class="text-month"
-                                                                [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.aug === '1.000' }"
-                                                                    >
-                                                                    <ng-container *ngIf="element.kids.methodRecords[0].data.aug === '1.000';else blank">
-                                                                        <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                        A
-                                                                    </ng-container>
-                                                                    <ng-template #blank></ng-template>
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="sep2">
-                                                                <td mat-cell *matCellDef="let element" class="text-month"
-                                                                [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.sep === '1.000' }"
-                                                                    >
-                                                                    <ng-container *ngIf="element.kids.methodRecords[0].data.sep === '1.000';else blank">
-                                                                        <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                        A
-                                                                    </ng-container>
-                                                                    <ng-template #blank></ng-template>
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="oct2">
-                                                                <td mat-cell *matCellDef="let element" class="text-month"
-                                                                [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.oct === '1.000' }"
-                                                                    >
-                                                                    <ng-container *ngIf="element.kids.methodRecords[0].data.oct === '1.000';else blank">
-                                                                        <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                        A
-                                                                    </ng-container>
-                                                                    <ng-template #blank></ng-template>
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="nov2">
-                                                                <td mat-cell *matCellDef="let element" class="text-month"
-                                                                    [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.nov === '1.000' }"
-                                                                    >
-                                                                    <ng-container *ngIf="element.kids.methodRecords[0].data.nov === '1.000';else blank">
-                                                                        <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                        A
-                                                                    </ng-container>
-                                                                    <ng-template #blank></ng-template>
-                                                                </td>
-                                                            </ng-container>
-                                                            <ng-container matColumnDef="dec2">
-                                                                <td mat-cell *matCellDef="let element" class="text-month"
-                                                                [ngClass]="{ 'bg-dark-green': element.kids.methodRecords[0].data.dec === '1.000' }"
-                                                                    >
-                                                                    <ng-container *ngIf="element.kids.methodRecords[0].data.dec === '1.000';else blank">
-                                                                        <mat-checkbox [color]="'primary'"></mat-checkbox>
-                                                                        A
-                                                                    </ng-container>
-                                                                    <ng-template #blank></ng-template>
-                                                                </td>
-                                                            </ng-container>
-                                                            
-                                                            <tr mat-row class="example-element-row"
-                                                                *matRowDef="let element;let row;columns: dataColumns;"></tr>
-                                                            <tr mat-row class="example-element-row"
-                                                                *matRowDef="let element;let row;columns: dataColumns4;"></tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                            </ng-container>
-
-                                            <tr mat-header-row *matHeaderRowDef="dataColumns3" class="hide-header"></tr>
-                                            <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: ['detail'];"
-                                                (click)="pushPopElement(element, expandedSubtargets)"></tr>
-                                            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-                                        </table>
-                                    </div>
-                                </td>
-                            </ng-container>
-
-                            <tr mat-header-row *matHeaderRowDef="['detail-spanned', 'owner-spanned', 'blank-1', 'year']"></tr>
-                            <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
-                            <tr mat-row class="example-element-row" *matRowDef="let element;let row; columns: dataColumns2;"
-                                (click)="pushPopElement(element, expandedTargets)"></tr>
-                            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-                        </table>
-                    </div>
+    
+            <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
+                <div class="overflow-x-auto example-table-container">
+                    <mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+                        style="width:100%" matSort>
+                        <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{ key === 'detail' ? '' : keyToColumnName[key] }}</mat-header-cell>
+                            <mat-cell *matCellDef="let element; let i = dataIndex">
+                                <span *ngIf="key !== 'detail';else detail">{{ element.data[key] }}</span>
+                                <ng-template #detail>
+                                    <a [routerLink]="'/target-result/target-entry/'+element.data.runningNo">
+                                        <mat-icon svgIcon="heroicons_solid:menu"></mat-icon>
+                                    </a>
+                                </ng-template>
+                            </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+                    <mat-paginator 
+                        [pageSizeOptions]="[5, 10, 20]"
+                        showFirstLastButtons 
+                        aria-label="Select page of periodic elements">
+                    </mat-paginator>
                 </div>
-
-                <mat-divider class="mt-4 mb-12"></mat-divider>
-
-                <div class="flex flex-col gt-xs:flex-row gt-xs:items-start mb-5 md:mb-9">
-                    <div class="gt-xs:max-w-80 gt-xs:pr-12">
-                        <p class="text-lg font-medium mb-6">หมายเหตุ:</p>
-                    </div>
-                    <div class="flex-auto min-w-64">
-                        <div class="flex-notice-col mb-2">
-                            <div class="notice-col-1">การแสดงผล</div>
-                            <div class="flex items-center notice-col-2">
-                                <div class="status-box box-grey">P</div>
-                                <span class="ml-0.5">Ready</span>
-                            </div>
-                            <div class="flex items-center notice-col-3">
-                                <div class="status-box box-grey italic">P</div>
-                                <span class="ml-0.5">Visited</span>
-                            </div>
-                            <div class="flex items-center notice-col-4">
-                                <div class="status-box box-green italic">P</div>
-                                <span class="ml-0.5">Accept</span>
-                            </div>
-                            <div class="flex items-center notice-col-5">
-                                <div class="status-box box-red italic">P</div>
-                                <span class="ml-0.5">Reject</span>
-                            </div>
-                        </div>
-                        <div class="flex-notice-col mb-2">
-                            <div class="notice-col-1">สถานะเอกสาร</div>
-                            <div class="flex items-center notice-col-2">
-                                <div class="status-box box-yellow"></div>
-                                <span class="ml-0.5">Reporting</span>
-                            </div>
-                            <div class="flex items-center notice-col-3">
-                                <div class="status-box box-pink"></div>
-                                <span class="ml-0.5">Wait for Verify</span>
-                            </div>
-                            <div class="flex items-center notice-col-4">
-                                <div class="status-box box-blue"></div>
-                                <span class="ml-0.5">Wait for Approve</span>
-                            </div>
-                            <div class="flex items-center notice-col-5">
-                                <div class="status-box box-orange"></div>
-                                <span class="ml-0.5">Wait for Release</span>
-                            </div>
-                            <div class="flex items-center notice-col-6">
-                                <div class="status-box box-green"></div>
-                                <span class="ml-0.5">Released</span>
-                            </div>
-                        </div>
-                        <div class="flex-notice-col">
-                            <div class="notice-col-1">ผลการดำเนินงาน</div>
-                            <div class="flex items-center notice-col-2">
-                                <div class="status-box box-grey">A</div>
-                                <span class="ml-0.5">Achived</span>
-                            </div>
-                            <div class="flex items-center notice-col-3">
-                                <div class="status-box box-grey">U</div>
-                                <span class="ml-0.5">Unarchived</span>
-                            </div>
-                            <div class="flex items-center notice-col-4">
-                                <div class="status-box box-grey">N</div>
-                                <span class="ml-0.5">N/A</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

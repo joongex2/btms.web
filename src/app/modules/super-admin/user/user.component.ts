@@ -106,6 +106,11 @@ export class UserComponent implements OnInit {
 
   clear() {
     this.dataSource.filter = '{}';
+    this.userLogin = undefined;
+    this.userName = undefined;
+    this.email = undefined;
+    this.selectedGroup = undefined;
+    this.selectedStatus = undefined;
   }
 
   addUser(): void {

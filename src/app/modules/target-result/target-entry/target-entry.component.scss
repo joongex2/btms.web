@@ -1,246 +1,77 @@
-table {
-    width: 100%;
-}
-
-th.mat-header-cell,
-td.mat-cell {
-    text-align: center;
-    // border: 1px solid rgb(100, 116, 139);
-    padding: 0 !important;
-}
-
-// th.mat-header-cell:not(:first-child):not(:last-child) {
-//     border-left-color: white;
-//     border-right-color: white;
-// }
-
-// th.mat-header-cell:first-child {
-//     border-right-color: white;
-// }
-
-// th.mat-header-cell:last-child {
-//     border-left-color: white;
-// }
-
-.mat-header-cell,
-.mat-cell {
-    border-bottom-color: white !important;
-}
-
-// td.mat-cell,
-// :host ::ng-deep thead > tr:last-child > th.mat-header-cell,
-// th.mat-header-cell[rowspan="2"] {
-//     // border-bottom-color: rgb(100, 116, 139) !important;
-//     border-bottom-color: white !important;
-// }
-
-tr.example-detail-row {
-    height: 0;
-}
-
-.example-element-detail {
-    overflow: hidden;
-    display: flex;
-}
-
-// .example-element-row td {
-//     border-bottom-width: 0;
-// }
-
-.hide-header {
-    display: none;
-}
-
-/* table color */
-:host ::ng-deep .target-entry > thead > tr {
-    background-color: rgb(132, 189, 0) !important;
-}
-
-:host ::ng-deep .target-entry > tbody > tr {
-    background-color: rgb(218, 235, 180) !important;
-}
-
-:host ::ng-deep .sub-target-entry > tbody > tr {
-    background-color: rgb(219, 215, 177) !important;
-}
-
-:host ::ng-deep .plan-entry > tbody > tr {
-    background-color: rgb(187, 211, 236) !important;
-}
-
-:host ::ng-deep .target-entry > thead > tr > th.mat-header-cell {
-    color: white !important;
-}
-
-
-/* column width */
-.mat-column-detail,
-.mat-column-detail-spanned {
-    width: 28%;
-}
-
-.mat-column-owner,
-.mat-column-owner-spanned {
-    width: 6%;
-}
-
-.mat-column-blank-1,
-.mat-column-blank-2 {
-    width: 6%;
-}
-
-.mat-column-jan,
-.mat-column-feb,
-.mat-column-mar,
-.mat-column-apr,
-.mat-column-may,
-.mat-column-jun,
-.mat-column-jul,
-.mat-column-aug,
-.mat-column-sep,
-.mat-column-oct,
-.mat-column-nov,
-.mat-column-dec {
-    width: 5%;
-}
-
-// tr {
-//     height: fit-content !important;
-//     vertical-align: top !important;
-// }
-
-/* plan entry table */
-.plan-entry {
-    tr td:first-child {
-        /* styles */
-        border-left: none;
-    }
-
-    tr td:last-child {
-        border-right: none;
-    }
-
-    tr td.text-month {
-        color: blue;
-        text-decoration: underline;
-    }
-}
-
-/* status box */
-.bg-dark-green {
-    background-color: rgb(55, 126, 34);
-}
-
-mat-checkbox {
-    display: block;
-    margin-top: 0.125rem;
-}
-
-.status-box {
-    display: inline-block;
-    width: 21px;
-    height: 21px;
-    text-align: center;
-    border: 1px solid;
-}
-
-.box-grey {
-    background-color: rgb(211,211,211);
-}
-
-.box-green {
-    background-color: rgb(166,233,153);
-}
-
-.box-red {
-    background-color: rgb(233,108,102);
-}
-
-.box-yellow {
-    background-color: rgb(255,253,83);
-}
-
-.box-pink {
-    background-color: rgb(246, 195, 202);
-}
-
-.box-blue {
-    background-color: rgb(4, 37, 236);
-}
-
-.box-orange {
-    background-color: rgb(242, 168, 59);
-}
-
-.box-green {
-    background-color: rgb(55, 126, 34);
-}
-
-.flex-notice-col {
-    display: flex;
-    flex-direction: column;
-    row-gap: 2px;
-}
-
-.notice-col-1,
-.notice-col-2,
-.notice-col-3,
-.notice-col-4,
-.notice-col-5,
-.notice-col-6 {
+.example-action-buttons {
+    padding-bottom: 20px;
+  }
+  
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
     flex-basis: 0;
 }
 
-.notice-col-1 {
-    margin-bottom: 6px;
+.example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* to ensure word is fit in column width */
-:host * {
-    /* Warning: Needed for oldIE support, but words are broken up letter-by-letter */
-    -ms-word-break: break-all;
-    word-break: break-all;
-    /* Non standard for webkit */
-    word-break: break-word;
-
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
-    hyphens: auto;
+.example-headers-align .mat-form-field + .mat-form-field {
+    // margin-left: 8px;
 }
 
-@media only screen and (min-width: 900px) {
-    .flex-notice-col {
-        flex-direction: row;
-    }
-
-    .notice-col-1 {
-        flex-basis: 110px;
-        margin-bottom: 0px;
-    }
-    
-    .notice-col-2 {
-        flex-basis: 100px;
-    }
-    
-    .notice-col-3 {
-        flex-basis: 130px;
-    }
-    
-    .notice-col-4 {
-        flex-basis: 150px;
-    }
-    
-    .notice-col-5 {
-        flex-basis: 150px;
-    }
-    
-    .notice-col-6 {
-        flex-basis: 100px;
-    }
+.example-table-container {
+  max-height: 374px;
+  overflow: auto;
 }
 
-:host ::ng-deep .mat-checkbox .mat-checkbox-layout .mat-checkbox-inner-container {
-    margin: 0px;
-    background-color: rgb(203, 213, 225);
+:host ::ng-deep .mat-expansion-panel-body {
+  padding: 0 24px !important;
+}
+
+::ng-deep .mat-sort-header-arrow {
+    color: white !important;
+}
+
+/* color */
+.mat-header-row {
+  background-color: rgb(132, 189, 0) !important; // important because replace by sticky
+}
+
+.mat-row:nth-child(even) {
+  background-color: rgb(206, 230, 150);
+}
+
+.mat-row:nth-child(odd) {
+  background-color: rgb(229, 240, 203);
+}
+
+.mat-header-row,
+.mat-row {
+  border-bottom-color: white;
+}
+
+.mat-header-cell {
+  color: white !important
+}
+
+/* column width */
+.mat-column-runningNo {
+  flex-basis: 40%;
+}
+
+.mat-column-revisionNo {
+  flex-basis: 30%;
+}
+
+.mat-column-issuedDate {
+  flex-basis: 17.5%;
+}
+
+.mat-column-year {
+  flex-basis: 7.5%;
+}
+
+.mat-column-detail {
+  flex-basis: 5%;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+  margin-bottom: 0 !important;
 }

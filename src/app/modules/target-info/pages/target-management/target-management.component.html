@@ -14,7 +14,9 @@
                         <div class="flex items-center ml-1 whitespace-nowrap">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
-                            <span class="ml-1 text-secondary">ข้อมูลเป้าหมายของฉัน</span>
+                            <a href="/target-info/my-target">
+                                <span class="ml-1 text-secondary">ข้อมูลเป้าหมายของฉัน</span>
+                            </a>
                         </div>
                         <div class="flex items-center ml-1 whitespace-nowrap">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
@@ -132,11 +134,29 @@
                 </mat-expansion-panel>
             </mat-accordion>
     
+            <div class="mt-6 flex flex-row flex-auto">
+                <button
+                    class="m-2"
+                    mat-raised-button
+                    (click)="expandAll()"
+                    >
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:chevron-double-down'"></mat-icon>
+                    <span class="ml-2">Expand All</span>
+                </button>
+                <button
+                    class="m-2"
+                    mat-raised-button
+                    (click)="collapseAll()"
+                    >
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:chevron-double-up'"></mat-icon>
+                    <span class="ml-2">Collapse All</span>
+                </button>
+            </div>
+
             <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
                 <div class="overflow-x-auto">
                     <app-target-table [dataSource]="targets" 
                         [displayedColumns]="displayedColumns"
-                        [referenceId]="'targetId'"
                         [renderTemplate]="'target'"
                         [runningNo]="runningNo?.runningNo" 
                         [title]="'เป้าหมายหลัก'" 

@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -14,9 +14,9 @@ import { LastCommentModalComponent } from '../last-comment-modal/last-comment-mo
 import { ProtectModalComponent } from '../protect-modal/protect-modal.component';
 
 @Component({
-  selector: 'app-target-entry-modal',
-  templateUrl: './target-entry-modal.component.html',
-  styleUrls: ['./target-entry-modal.component.scss'],
+  selector: 'app-target-entry-detail-modal',
+  templateUrl: './target-entry-detail-modal.component.html',
+  styleUrls: ['./target-entry-detail-modal.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -28,12 +28,12 @@ import { ProtectModalComponent } from '../protect-modal/protect-modal.component'
     ]),
   ],
 })
-export class TargetEntryModalComponent implements OnInit {
+export class TargetEntryDetailModalComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('uploadFileInput') uploadFileInput: ElementRef;
-  @ViewChild('causeTable') causeTable: MatTable<any>;
-  @ViewChild('fixTable') fixTable: MatTable<any>;
-  @ViewChild('protectTable') protectTable: MatTable<any>;
+  @ViewChild('causeTable') causeTable: MatTable<Cause>;
+  @ViewChildren('fixTable') fixTables: QueryList<MatTable<Fix>>;
+  @ViewChildren('protectTable') protectTables: QueryList<MatTable<Protect>>;
 
   dataColumns = [
     'fileName',
@@ -46,6 +46,7 @@ export class TargetEntryModalComponent implements OnInit {
   showRefDocument: boolean = false;
 
   dataColumns2 = [
+    'expandIcon',
     'causeNo',
     'causeDetail',
     'causeNote',
@@ -202,6 +203,16 @@ export class TargetEntryModalComponent implements OnInit {
     }
   }
 
+  expandAll() {
+    for (let cause of this.causes) {
+      this.expandedCauses.push(cause);
+    }
+  }
+
+  collapseAll() {
+    this.expandedCauses = [];
+  }
+
   addCause(): void {
     // Open the dialog
     const dialogRef = this._matDialog.open(CauseModalComponent, {
@@ -256,7 +267,7 @@ export class TargetEntryModalComponent implements OnInit {
         this.causes[causeIndex].kids.fixRecords.push({
           data: fix
         });
-        this.fixTable.renderRows();
+        this.refreshFixTables()
       });
   };
   editFix(causeIndex: number, index: number): void {
@@ -270,13 +281,18 @@ export class TargetEntryModalComponent implements OnInit {
       .subscribe((fix: Fix) => {
         if (!fix) return; // cancel
         this.causes[causeIndex].kids.fixRecords[index].data = fix;
-        this.fixTable.renderRows();
+        this.refreshFixTables()
       });
   };
   deleteFix(causeIndex: number, index: number): void {
     this.causes[causeIndex].kids.fixRecords.splice(index, 1);
-    this.fixTable.renderRows();
+    this.refreshFixTables()
   };
+  refreshFixTables() {
+    for (let fixTable of this.fixTables) {
+      fixTable.renderRows();
+    }
+  }
 
   addProtect(causeIndex: number): void {
     // Open the dialog
@@ -292,7 +308,7 @@ export class TargetEntryModalComponent implements OnInit {
         this.causes[causeIndex].kids.protectRecords.push({
           data: protect
         });
-        this.protectTable.renderRows();
+        this.refreshProtectTables();
       });
   };
   editProtect(causeIndex: number, index: number): void {
@@ -306,13 +322,18 @@ export class TargetEntryModalComponent implements OnInit {
       .subscribe((protect: Protect) => {
         if (!protect) return; // cancel
         this.causes[causeIndex].kids.protectRecords[index].data = protect;
-        this.protectTable.renderRows();
+        this.refreshProtectTables();
       });
   };
   deleteProtect(causeIndex: number, index: number): void {
     this.causes[causeIndex].kids.protectRecords.splice(index, 1);
-    this.protectTable.renderRows();
+    this.refreshProtectTables();
   };
+  refreshProtectTables() {
+    for (let protectTable of this.protectTables) {
+      protectTable.renderRows();
+    }
+  }
 
   close(): void {
     this.matDialogRef.close();

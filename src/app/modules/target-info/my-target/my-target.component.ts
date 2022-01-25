@@ -14,7 +14,7 @@ export class MyTargetComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   runningNoRecords: RunningNoRecord[];
-  
+
   // bind value
   dataSource: any;
   selectedSite: string;
@@ -90,12 +90,51 @@ export class MyTargetComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.dataSource.filterPredicate = this.customFilterPredicate();
   }
 
   ngAfterViewInit() {
     this.dataSource.sortingDataAccessor = (item, property) => { return item.data[property] };
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+
+  customFilterPredicate() {
+    const myFilterPredicate = function (data: RunningNoRecord, filter: string): boolean {
+      let searchString = JSON.parse(filter);
+      return (!searchString.selectedSite || data.data.site.toString().trim().toLowerCase().indexOf(searchString.selectedSite.toLowerCase()) !== -1)
+        && (!searchString.selectedStatus || data.data.status.toString().trim().toLowerCase().indexOf(searchString.selectedStatus.toLowerCase()) !== -1)
+        && (!searchString.selectedDivision || data.data.division.indexOf(searchString.selectedDivision) !== -1)
+        && (!searchString.runningNo || data.data.runningNo.indexOf(searchString.runningNo) !== -1)
+        && (!searchString.selectedDepartment || data.data.department.indexOf(searchString.selectedDepartment) !== -1)
+        && (!searchString.year || data.data.year.indexOf(searchString.year) !== -1)
+        && (!searchString.selectedTargetType || data.data.targetType.indexOf(searchString.selectedTargetType) !== -1);
+    }
+    return myFilterPredicate;
+  }
+
+  search() {
+    const filterValue: any = {
+      selectedSite: this.selectedSite,
+      selectedStatus: this.selectedStatus,
+      selectedDivision: this.selectedDivision,
+      runningNo: this.runningNo,
+      selectedDepartment: this.selectedDepartment,
+      year: this.year,
+      selectedTargetType: this.selectedTargetType
+    }
+    this.dataSource.filter = JSON.stringify(filterValue);
+  }
+
+  clear() {
+    this.dataSource.filter = '{}';
+    this.selectedSite = undefined;
+    this.selectedStatus = undefined;
+    this.selectedDivision = undefined;
+    this.runningNo = undefined;
+    this.selectedDepartment = undefined;
+    this.year = undefined;
+    this.selectedTargetType = undefined;
   }
 
 }

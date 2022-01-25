@@ -1,122 +1,124 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { TargetService } from 'app/modules/target-info/target.service';
-import { RunningNo, SubTarget, Target, TargetRecord } from 'app/modules/target-info/target.types';
-import { LastCommentModalComponent } from '../modal/last-comment-modal/last-comment-modal.component';
-import { TargetEntryModalComponent } from '../modal/target-entry-modal/target-entry-modal.component';
+import { RunningNoRecord } from 'app/modules/target-info/target.types';
 
 @Component({
   selector: 'app-target-entry',
   templateUrl: './target-entry.component.html',
-  styleUrls: ['./target-entry.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition(
-        'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-    ]),
-  ],
+  styleUrls: ['./target-entry.component.scss']
 })
-export class TargetEntryComponent implements OnInit {
-  runningNo: RunningNo;
-  targets: TargetRecord[];
+export class TargetEntryComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  runningNoRecords: RunningNoRecord[];
 
-  dataColumns = [
-    'detail',
-    'owner',
-    'blank-2',
-    'jan',
-    'feb',
-    'mar',
-    'apr',
-    'may',
-    'jun',
-    'jul',
-    'aug',
-    'sep',
-    'oct',
-    'nov',
-    'dec',
+  // bind value
+  dataSource: any;
+  selectedSite: string;
+  selectedTargetStatus: string;
+  selectedDivision: string;
+  runningNo: string;
+  selectedDepartment: string;
+  year: string;
+  selectedDocumentType: string;
+
+  // select option
+  sites = [
+    { title: 'Site 1', value: 'site-1' },
+    { title: 'Site 2', value: 'site-2' },
+    { title: 'Site 3', value: 'site-3' }
   ];
-  dataColumns2 = ['detail'];
-  dataColumns3 = ['detail', 'left'];
-  dataColumns4 = [
-    'blank-22',
-    'jan2',
-    'feb2',
-    'mar2',
-    'apr2',
-    'may2',
-    'jun2',
-    'jul2',
-    'aug2',
-    'sep2',
-    'oct2',
-    'nov2',
-    'dec2',
+  targetStatuses = [
+    { title: 'Target Status 1', value: 'target-status-1' },
+    { title: 'Target Status 2', value: 'target-status-2' },
+    { title: 'Target Status 3', value: 'target-status-3' }
+  ];
+  divisions = [
+    { title: 'Division 1', value: 'division-1' },
+    { title: 'Division 2', value: 'division-2' },
+    { title: 'Division 3', value: 'division-3' }
+  ];
+  departments = [
+    { title: 'Department 1', value: 'department-1' },
+    { title: 'Department 2', value: 'department-2' },
+    { title: 'Department 3', value: 'department-3' }
+  ];
+  documentTypes = [
+    { title: 'Document Type 1', value: 'document-type-1' },
+    { title: 'Document Type 2', value: 'document-type-2' },
+    { title: 'Document Type 3', value: 'document-type-3' }
   ];
 
-  dataSource: TargetRecord[];
-  expandedTargets: Target[] = [];
-  expandedSubtargets: SubTarget[] = [];
+  // table setting
+  displayedColumns: string[] = [
+    'runningNo',
+    'revisionNo',
+    'issuedDate',
+    'year',
+    'detail'
+  ];
 
-  constructor(
-    private _targetService: TargetService,
-    private _matDialog: MatDialog  
-  ) { }
+  keyToColumnName: any = {
+    'runningNo': 'Running No.',
+    'revisionNo': 'Revision No.',
+    'issuedDate': 'Issued Date',
+    'year': 'Year'
+  };
+
+  constructor(private _targetService: TargetService) {
+    this.runningNoRecords = this._targetService.getRunningNoRecords();
+    this.dataSource = new MatTableDataSource(this.runningNoRecords);
+
+    // default
+    this.selectedSite = 'site-1';
+    this.selectedTargetStatus = 'target-status-1';
+    this.selectedDivision = 'division-1';
+    this.selectedDepartment = 'department-1';
+    this.selectedDocumentType = 'document-type-1';
+  }
 
   ngOnInit(): void {
-    const demoRunningCode = 'OBJ-ENPC-64-02'; // TODO: change later
-    this.runningNo = this._targetService.getRunningNo(demoRunningCode);
-    this.targets = this._targetService.getTargets(demoRunningCode);
-    this.dataSource = this.targets;
+    this.dataSource.filterPredicate = this.customFilterPredicate();
   }
 
-  checkExpanded(element, expandedElements): boolean {
-    let flag = false;
-    expandedElements.forEach(e => {
-      if (e === element) {
-        flag = true;
-      }
-    });
-    return flag;
+  ngAfterViewInit() {
+    this.dataSource.sortingDataAccessor = (item, property) => { return item.data[property] };
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
-  pushPopElement(element, expandedElements) {
-    const index = expandedElements.indexOf(element);
-    if (index === -1) {
-      expandedElements.push(element);
-    } else {
-      expandedElements.splice(index, 1);
+  customFilterPredicate() {
+    const myFilterPredicate = function (data: RunningNoRecord, filter: string): boolean {
+      let searchString = JSON.parse(filter);
+      return (!searchString.selectedSite || data.data.site.toString().trim().toLowerCase().indexOf(searchString.selectedSite.toLowerCase()) !== -1)
+        && (!searchString.selectedDivision || data.data.division.indexOf(searchString.selectedDivision) !== -1)
+        && (!searchString.runningNo || data.data.runningNo.indexOf(searchString.runningNo) !== -1)
+        && (!searchString.selectedDepartment || data.data.department.indexOf(searchString.selectedDepartment) !== -1)
+        && (!searchString.year || data.data.year.indexOf(searchString.year) !== -1)
     }
+    return myFilterPredicate;
   }
 
-  openLastComment() {
-    const dialogRef = this._matDialog.open(LastCommentModalComponent);
-    dialogRef.afterClosed()
-      .subscribe((result: any) => {
-
-      });
+  search() {
+    const filterValue: any = {
+      selectedSite: this.selectedSite,
+      selectedDivision: this.selectedDivision,
+      runningNo: this.runningNo,
+      selectedDepartment: this.selectedDepartment,
+      year: this.year
+    }
+    this.dataSource.filter = JSON.stringify(filterValue);
   }
 
-  openTargetEntryModal(i, j, k, month) {
-    const dialogRef = this._matDialog.open(TargetEntryModalComponent, {
-      data: {
-        targets: this.targets,
-        targetIndex: i,
-        subTargetIndex: j,
-        planIndex: k,
-        month
-      }
-    });
-    dialogRef.afterClosed()
-      .subscribe((result: any) => {
-
-      });
+  clear() {
+    this.dataSource.filter = '{}';
+    this.selectedSite = undefined;
+    this.selectedDivision = undefined;
+    this.runningNo = undefined;
+    this.selectedDepartment = undefined;
+    this.year = undefined;
   }
-
 }

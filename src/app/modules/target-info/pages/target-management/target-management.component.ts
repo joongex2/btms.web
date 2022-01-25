@@ -92,4 +92,12 @@ export class TargetManagementComponent implements OnInit {
     this.targets.splice(index, 1);
     this.targetTable.table.renderRows();
   }
+
+  expandAll() {
+    this.targetTable.expandAll();
+  }
+  
+  collapseAll() {
+    this.targetTable.collapseAll();
+  }
 }

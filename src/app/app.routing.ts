@@ -88,7 +88,8 @@ export const appRoutes: Route[] = [
                 {path: 'new-target', loadChildren: () => import('app/modules/target-info/new-target/new-target.module').then(m => m.NewTargetModule)}                
             ]},
             {path: 'target-result', children: [
-                {path: 'target-entry', loadChildren: () => import('app/modules/target-result/target-entry/target-entry.module').then(m=>m.TargetEntryModule)}
+                {path: 'target-entry', loadChildren: () => import('app/modules/target-result/target-entry/target-entry.module').then(m=>m.TargetEntryModule)},
+                {path: 'target-entry/:runningNo', loadChildren: () => import('app/modules/target-result/target-entry-detail/target-entry-detail.module').then(m=>m.TargetEntryDetailModule)}
             ]},
             {path: 'super-admin', children: [
                 {path: 'user-group', loadChildren: () => import('app/modules/super-admin/user-group/user-group.module').then(m => m.UserGroupModule)},

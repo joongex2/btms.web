@@ -80,4 +80,12 @@ export class SubTargetTableComponent implements OnInit {
     this.subTargetTable.table.renderRows();
   }
 
+  expandAll() {
+    this.subTargetTable.expandAll();
+  }
+
+  collapseAll() {
+    this.subTargetTable.collapseAll();
+  }
+
 }

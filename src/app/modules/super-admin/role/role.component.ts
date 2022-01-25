@@ -89,6 +89,9 @@ export class RoleComponent implements OnInit {
 
   clear() {
     this.dataSource.filter = '{}';
+    this.roleCode = undefined;
+    this.roleDescription = undefined;
+    this.selectedStatus = undefined;
   }
 
   addRole(): void {

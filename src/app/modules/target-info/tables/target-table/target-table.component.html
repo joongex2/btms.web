@@ -32,8 +32,8 @@
                 <span *ngIf="!key.includes('Icon') && !key.includes('mainMethodDetail')">{{ element.data[key] }}</span>
                 <ng-container *ngIf="key.includes('Icon')">
                     <mat-icon *ngIf="key === 'expandIcon'"
-                        [class.active]="element.data[referenceId] === expandedId"
-                        (click)="toggleExpandableSymbol(element.data[referenceId])">play_arrow</mat-icon>
+                        [class.active]="checkExpanded(element)"
+                        (click)="pushPopElement(element)">play_arrow</mat-icon>
                     
                     <!-- editIcon -->
                     <mat-icon *ngIf="renderTemplate === 'target' && key === 'editIcon'" (click)="editTarget.next(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขหมายหลัก"></mat-icon>
@@ -60,12 +60,13 @@
         <!-- EXPANDABLE ROW -->
         <ng-container matColumnDef="expandedDetail">
             <mat-cell *matCellDef="let element"
-                [@expandableRow]="element.data[referenceId] === expandedId ? 'expanded' : 'collapsed'">
-                <div *ngIf="element.data[referenceId] === expandedId" class="w-full" [ngSwitch]="renderTemplate">
+                [@expandableRow]="checkExpanded(element) ? 'expanded' : 'collapsed'">
+                <div class="w-full" [ngSwitch]="renderTemplate">
                     <app-sub-target-table *ngSwitchCase="'target'" 
                         [runningNo]="runningNo" 
                         [targetId]="element.data['targetId']" 
-                        [subTargets]="element.kids.records">
+                        [subTargets]="element.kids.records"
+                    >
                     </app-sub-target-table>
                     <app-main-method-table *ngSwitchCase="'subTarget'" 
                         [mainMethods]="element.kids.records">

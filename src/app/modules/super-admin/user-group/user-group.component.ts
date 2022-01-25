@@ -92,6 +92,10 @@ export class UserGroupComponent implements OnInit {
 
   clear() {
     this.dataSource.filter = '{}';
+    this.groupCode = undefined;
+    this.groupDescription = undefined;
+    this.sequence = undefined;
+    this.selectedStatus = undefined;
   }
 
   addUserGroup(): void {
