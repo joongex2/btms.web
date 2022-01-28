@@ -69,9 +69,9 @@ tr.example-detail-row {
     background-color: rgb(219, 215, 177) !important;
 }
 
-:host ::ng-deep .plan-entry > tbody > tr {
-    background-color: rgb(187, 211, 236) !important;
-}
+// :host ::ng-deep .plan-entry > tbody > tr {
+//     background-color: rgb(187, 211, 236) !important;
+// }
 
 :host ::ng-deep .target-entry > thead > tr > th.mat-header-cell {
     color: white !important;
@@ -85,11 +85,7 @@ tr.example-detail-row {
 }
 
 .mat-column-targetDetailSpanned {
-    width: 28%;
-}
-
-.mat-column-planDetail {
-    width: 28%;
+    width: 18%;
 }
 
 .mat-column-owner,
@@ -100,6 +96,10 @@ tr.example-detail-row {
 .mat-column-blank,
 .mat-column-blankSpanned {
     width: 6%;
+}
+
+.mat-column-year {
+    width: 10%;
 }
 
 .mat-column-jan,
@@ -122,37 +122,7 @@ tr.example-detail-row {
 //     vertical-align: top !important;
 // }
 
-.plan-entry td {
-    vertical-align: top !important;
-}
-
-/* plan entry table */
-.plan-entry {
-    tr td:first-child {
-        /* styles */
-        border-left: none;
-    }
-
-    tr td:last-child {
-        border-right: none;
-    }
-
-    tr td.text-month {
-        color: blue;
-        text-decoration: underline;
-    }
-}
-
 /* status box */
-.bg-dark-green {
-    background-color: rgb(55, 126, 34);
-}
-
-mat-checkbox {
-    display: block;
-    margin-top: 0.125rem;
-}
-
 .status-box {
     display: inline-block;
     width: 21px;
@@ -255,9 +225,4 @@ mat-checkbox {
     .notice-col-6 {
         flex-basis: 100px;
     }
-}
-
-:host ::ng-deep .mat-checkbox .mat-checkbox-layout .mat-checkbox-inner-container {
-    margin: 0px;
-    background-color: rgb(203, 213, 225);
 }

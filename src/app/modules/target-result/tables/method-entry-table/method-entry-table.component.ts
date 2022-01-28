@@ -1,0 +1,54 @@
+import { Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
+import { MethodRecord, ResultRecord } from 'app/modules/target-info/target.types';
+import { TargetEntryDetailModalComponent } from '../../modals/target-entry-detail-modal/target-entry-detail-modal.component';
+
+@Component({
+  selector: 'app-method-entry-table',
+  templateUrl: './method-entry-table.component.html',
+  styleUrls: ['./method-entry-table.component.scss']
+})
+export class MethodEntryTableComponent implements OnInit {
+  @Input() dataSource: MethodRecord[];
+  @Input() runningNo: string;
+  @Input() targetIndex: string;
+  @Input() subTargetIndex: string;
+  @Input() mainMethodIndex: string;
+
+  @ViewChildren('yearSelect') yearSelects: QueryList<MatSelect>;
+
+  methodRow1 = ['methodName', 'owner', 'year', 'blank', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  methodRow2 = ['blank2', 'jan2', 'feb2', 'mar2', 'apr2', 'may2', 'jun2', 'jul2', 'aug2', 'sep2', 'oct2', 'nov2', 'dec2'];
+
+  constructor(
+    private _matDialog: MatDialog
+  ) { }
+
+  ngOnInit(): void {
+  }
+
+  openTargetEntryModal(year: string, month: string) {
+    const dialogRef = this._matDialog.open(TargetEntryDetailModalComponent, {
+      data: {
+        runningNo: this.runningNo,
+        targetIndex: this.targetIndex,
+        subTargetIndex: this.subTargetIndex,
+        mainMethodIndex: this.mainMethodIndex,
+        year,
+        month
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: any) => {
+
+    });
+  }
+
+  getYears(resultRecords: ResultRecord[]) {
+    return resultRecords.map(res => res.year);
+  }
+
+  getResultRecord(resultRecords: ResultRecord[], year: string): ResultRecord {
+    return resultRecords.find((res) => res.year == year);
+  }
+}

@@ -1,0 +1,93 @@
+<table mat-table [dataSource]="dataSource"
+    class="mat-elevation-z8 plan-entry" multiTemplateDataRows>
+    <ng-container matColumnDef="methodName">
+        <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.rowspan]="2*dataSource.length" class="text-left"
+            style="padding-left: 15px !important; border-top: none;" [ngClass]="{'hide':i != 0}">
+            <ng-container *ngFor="let method of dataSource">{{method.data.methodName}} </ng-container>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="owner">
+        <td mat-cell *matCellDef="let element" [attr.rowspan]="2">{{element.data.owner}}</td>
+    </ng-container>
+    <ng-container matColumnDef="year">
+        <td mat-cell *matCellDef="let element" [attr.rowspan]="2">
+            <div class="w-full">
+                <mat-form-field class="w-full">
+                    <mat-select #yearSelect name="yearSelect" id="yearSelect" [value]="element.data.resultRecords[0] ? element.data.resultRecords[0].year: undefined">
+                        <mat-option *ngFor="let year of getYears(element.data.resultRecords)" [value]="year">
+                            {{year}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="blank">
+        <td mat-cell *matCellDef="let element" class="bg-slate-300">เป้าหมาย</td>
+    </ng-container>
+    <ng-container matColumnDef="jan">
+        <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="feb">
+        <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="mar">
+        <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="apr">
+        <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="may">
+        <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="jun">
+        <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="jul">
+        <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="aug">
+        <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="sep">
+        <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="oct">
+        <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="nov">
+        <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="dec">
+        <td mat-cell *matCellDef="let element" class="text-month bg-slate-300">P
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="blank2">
+        <td mat-cell *matCellDef="let element">ทำได้จริง</td>
+    </ng-container>
+    <ng-container *ngFor="let col of ['jan2', 'feb2', 'mar2', 'apr2', 'may2', 'jun2', 'jul2',
+        'aug2', 'sep2', 'oct2', 'nov2', 'dec2']" [matColumnDef]="col">
+        <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-month"
+            [ngClass]="{ 'bg-dark-green': yearSelects && getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value) && getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value)[col.replace('2','')] != undefined }">
+            <ng-container *ngIf="yearSelects && getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value) && getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value)[col.replace('2','')] != undefined; else blank">
+                <mat-checkbox [color]="'primary'"></mat-checkbox>
+                <a href="#" onClick="return false" (click)="openTargetEntryModal(yearSelects.toArray()[i]?.value, col.replace('2',''))">A</a>
+            </ng-container>
+            <ng-template #blank></ng-template>
+        </td>
+    </ng-container>
+    <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: methodRow1"></tr>
+    <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: methodRow2"></tr>
+</table>

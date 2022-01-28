@@ -86,19 +86,29 @@ export interface MethodRecord {
 export interface Method {
     methodId: string;
     methodName: string;
-    jan?: string;
-    feb?: string;
-    mar?: string;
-    apr?: string;
-    may?: string;
-    jun?: string;
-    jul?: string;
-    aug?: string;
-    sep?: string;
-    oct?: string;
-    nov?: string;
-    dec?: string;
+    resultRecords: ResultRecord[];
     owner: string;
+}
+
+export interface ResultRecord {
+    year: string;
+    jan?: ResultDetail;
+    feb?: ResultDetail;
+    mar?: ResultDetail;
+    apr?: ResultDetail;
+    may?: ResultDetail;
+    jun?: ResultDetail;
+    jul?: ResultDetail;
+    aug?: ResultDetail;
+    sep?: ResultDetail;
+    oct?: ResultDetail;
+    nov?: ResultDetail;
+    dec?: ResultDetail;
+}
+
+export interface ResultDetail {
+    status: string;
+    causeRecords?: CauseRecord[];
 }
 
 export interface CauseRecord {

@@ -1,10 +1,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { result } from 'lodash';
 import { MethodModalComponent } from '../../modals/method-modal/method-modal.component';
 import { ModalMode } from '../../modals/modal.type';
 import { genMockMethodRecord } from '../mock-table-data';
 import { TargetTableComponent } from '../target-table/target-table.component';
-import { Method, MethodRecord } from './../../target.types';
+import { Method, MethodRecord, ResultDetail, ResultRecord } from './../../target.types';
 
 @Component({
   selector: 'app-method-table',
@@ -20,6 +21,7 @@ export class MethodTableComponent implements OnInit {
   displayedColumns: string[] = [
     'methodId',
     'methodName',
+    'year',
     'jan',
     'feb',
     'mar',
@@ -85,20 +87,42 @@ export class MethodTableComponent implements OnInit {
   }
 
   genMethodFromModal(methodModalData: any): Method {
-    let method: Method;
-    method = methodModalData.form;
-    if (methodModalData.yearMonthTags.find((tag) => tag.month == 'jan')) method.jan = '1.000';
-    if (methodModalData.yearMonthTags.find((tag) => tag.month == 'feb')) method.feb = '1.000';
-    if (methodModalData.yearMonthTags.find((tag) => tag.month == 'mar')) method.mar = '1.000';
-    if (methodModalData.yearMonthTags.find((tag) => tag.month == 'apr')) method.apr = '1.000';
-    if (methodModalData.yearMonthTags.find((tag) => tag.month == 'may')) method.may = '1.000';
-    if (methodModalData.yearMonthTags.find((tag) => tag.month == 'jun')) method.jun = '1.000';
-    if (methodModalData.yearMonthTags.find((tag) => tag.month == 'jul')) method.jul = '1.000';
-    if (methodModalData.yearMonthTags.find((tag) => tag.month == 'aug')) method.aug = '1.000';
-    if (methodModalData.yearMonthTags.find((tag) => tag.month == 'sep')) method.sep = '1.000';
-    if (methodModalData.yearMonthTags.find((tag) => tag.month == 'oct')) method.oct = '1.000';
-    if (methodModalData.yearMonthTags.find((tag) => tag.month == 'nov')) method.nov = '1.000';
-    if (methodModalData.yearMonthTags.find((tag) => tag.month == 'dec')) method.dec = '1.000';
+    let resultRecords: ResultRecord[] = [];
+    const yearMonthTags = methodModalData.yearMonthTags;
+    for (let tag of yearMonthTags) {
+      let resultRecord: ResultRecord;
+      const findResultRecord = resultRecords.find((rec) => rec.year === tag.year);
+      if (findResultRecord) {
+        resultRecord = findResultRecord;
+      } else {
+        resultRecord = {
+          year: tag.year,
+          jan: undefined,
+          feb: undefined,
+          mar: undefined,
+          apr: undefined,
+          may: undefined,
+          jun: undefined,
+          jul: undefined,
+          aug: undefined,
+          sep: undefined,
+          oct: undefined,
+          nov: undefined,
+          dec: undefined
+        };
+        resultRecords.push(resultRecord);
+      }
+      for (const key of Object.keys(resultRecord)) {
+        if (tag.month === key) {
+          (resultRecord[key] as ResultDetail) = {
+            status: 'initial',
+            causeRecords: []
+          }
+        }
+      }
+    }
+    const method: Method = methodModalData.form;
+    method.resultRecords = resultRecords;
     return method;
   }
 

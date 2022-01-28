@@ -29,7 +29,26 @@
         <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
             <mat-header-cell *matHeaderCellDef>{{ key.includes('Icon') ? '' : keyToColumnName[key] }}</mat-header-cell>
             <mat-cell *matCellDef="let element; let i = dataIndex">
-                <span *ngIf="!key.includes('Icon') && !key.includes('mainMethodDetail')">{{ element.data[key] }}</span>
+                <span *ngIf="!key.includes('Icon') && !key.includes('mainMethodDetail') && !key.includes('year')  && subMethodColumns.indexOf(key) == -1">{{ element.data[key] }}</span>
+                <span *ngIf="subMethodColumns.indexOf(key) != -1" class="w-full">
+                    <ng-container *ngIf="key !== 'year' && yearSelects">
+                        {{getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value) ? 
+                            getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value)[key] ?
+                                getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value)[key].status 
+                                : '-'
+                            : '-'}}
+                    </ng-container>
+                </span>
+                <span *ngIf="key == 'year'" class="w-full p-1">
+                    <mat-form-field class="w-full">
+                        <mat-select #yearSelect name="yearSelect" id="yearSelect" [value]="element.data.resultRecords[0] ? element.data.resultRecords[0].year: undefined">
+                            <mat-option *ngFor="let year of getYears(element.data.resultRecords)" [value]="year">
+                                {{year}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </span>
+                
                 <ng-container *ngIf="key.includes('Icon')">
                     <mat-icon *ngIf="key === 'expandIcon'"
                         [class.active]="checkExpanded(element)"

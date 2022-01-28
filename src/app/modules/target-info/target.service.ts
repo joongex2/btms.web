@@ -74,19 +74,289 @@ export class TargetService {
                                                                 3. พนักงานในแผนกดำเนินการค้นหาและบันทึกรายงานการกระทำที่เป็นอันตราย
                                                                 4. ตรวจสอบและประเมินจำนวนของบันทึกรายงานการกระทำที่เป็นอันตราย / สภาพที่เป็นอันตราย ในแต่ละเดือน
                                                                     `,
-                                                                "jan": "1.000",
-                                                                "feb": "1.000",
-                                                                "mar": "1.000",
-                                                                "apr": "1.000",
-                                                                "may": "1.000",
-                                                                "jun": "1.000",
-                                                                "jul": "1.000",
-                                                                "aug": "1.000",
-                                                                "sep": "1.000",
-                                                                "oct": "1.000",
-                                                                "nov": "1.000",
-                                                                "dec": "1.000",
+                                                                resultRecords: [
+                                                                    {
+                                                                        year: '2019',
+                                                                        "jan": {
+                                                                            status: 'initial',
+                                                                            causeRecords: [
+                                                                                {
+                                                                                    data: {
+                                                                                        causeNo: '1',
+                                                                                        causeDetail: 'ไม่ได้ทำ',
+                                                                                        causeNote: '',
+                                                                                        causeStatus: 'Completed'
+                                                                                    },
+                                                                                    kids: {
+                                                                                        fixRecords: [
+                                                                                            {
+                                                                                                data: {
+                                                                                                    fixNo: '1',
+                                                                                                    fixDetail: 'ไปแก้ไข',
+                                                                                                    fixOwner: 'คุณเจตน์',
+                                                                                                    fixDueDate: '20/06/2019',
+                                                                                                    fixFollow: 'พบมีการดำเนินการแก้ไขไปเมื่อ',
+                                                                                                    fixStartDate: '18/06/2019'
+                                                                                                }
+                                                                                            }
+                                                                                        ],
+                                                                                        protectRecords: [
+                                                                                            {
+                                                                                                data: {
+                                                                                                    protectNo: '1',
+                                                                                                    protectDetail: 'AAAA',
+                                                                                                    protectOwner: 'AA',
+                                                                                                    protectDueDate: '31/12/2019',
+                                                                                                    protectFollow: 'มีการดำเนินงานอย่างต่อเนื่อง',
+                                                                                                    protectStartDate: '20/06/2019'
+                                                                                                }
+                                                                                            }
+                                                                                        ]
+                                                                                    }
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "feb": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "mar": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "apr": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "may": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "jun": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "jul": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "aug": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "sep": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "oct": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "nov": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "dec": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        year: '2020',
+                                                                        "jan": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "may": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "jun": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "jul": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "aug": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "sep": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "oct": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "dec": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        }
+                                                                    }
+                                                                ],
                                                                 "owner": "Department manager Maintenance Process Machine 1 PC"
+                                                            },
+                                                            "kids": {
+
+                                                            }
+                                                        },
+                                                        {
+                                                            "data": {
+                                                                ['methodId']: "2",
+                                                                ["methodName"]: `2. ประชุมชี้แจงพนักงานในแผนก`,
+                                                                resultRecords: [
+                                                                    {
+                                                                        year: '2019',
+                                                                        "feb": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "mar": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "apr": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "may": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "jun": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "jul": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "aug": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "sep": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "oct": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "nov": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "dec": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        year: '2020',
+                                                                        "jan": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "may": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "jun": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "jul": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "aug": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "sep": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "oct": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "dec": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        }
+                                                                    }
+                                                                ],
+                                                                "owner": "Department manager Maintenance Process Machine 1 PC"
+                                                            },
+                                                            "kids": {
+
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                data: {
+                                                    mainMethodId: "2"
+                                                },
+                                                kids: {
+                                                    planRecords: [
+                                                        {
+                                                            data: {
+                                                                planActual: '1.',
+                                                                planName: 'แผนงานที่ 1',
+                                                                planOwner: 'เจ้าหน้าที่ขึ้นไป',
+                                                                planResource: 'planResource1'
+                                                            },
+                                                            kids: {
+
+                                                            }
+                                                        }
+                                                    ],
+                                                    methodRecords: [
+                                                        {
+                                                            "data": {
+                                                                ['methodId']: "1",
+                                                                ["methodName"]: `1. ตรวจสอบปริมาณวัตถุดิบให้เพียงพอต่อการผลิต 2. ประสานงานทางทีมการผลิตในการ
+                                                                    ตรวจสอบการผลิตที่สินค้ามีแนวโน้มที่จะผลิตได้ไม่ครบ 3. ดำเนินการประสานงานผล หรือผู้เกี่ยวข้อง กรณีที่
+                                                                    จะไม่สามารถส่งสินค้าได้ตาม Commit 4. กรณีที่มีการเปลี่ยนแปลง เช่า เปลี่ยนแปลง Commit วางแผนต้อง
+                                                                    แจ้งให้ผู้เกี่ยวข้องทราบ
+                                                                    `,
+                                                                resultRecords: [
+                                                                    {
+                                                                        year: '2020',
+                                                                        "jan": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "may": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "aug": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "sep": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "oct": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "dec": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        }
+                                                                    }
+                                                                ],
+                                                                "owner": "เจ้าหน้าที่ขึ้นไป"
                                                             },
                                                             "kids": {
 
@@ -152,14 +422,43 @@ export class TargetService {
                                                                     จะไม่สามารถส่งสินค้าได้ตาม Commit 4. กรณีที่มีการเปลี่ยนแปลง เช่า เปลี่ยนแปลง Commit วางแผนต้อง
                                                                     แจ้งให้ผู้เกี่ยวข้องทราบ
                                                                     `,
-                                                                "jan": "1.000",
-                                                                "may": "1.000",
-                                                                "jun": "1.000",
-                                                                "jul": "1.000",
-                                                                "aug": "1.000",
-                                                                "sep": "1.000",
-                                                                "oct": "1.000",
-                                                                "dec": "1.000",
+                                                                resultRecords: [
+                                                                    {
+                                                                        year: '2019',
+                                                                        "jan": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "may": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "jun": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "jul": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "aug": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "sep": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "oct": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "dec": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        }
+                                                                    }
+                                                                ],
                                                                 "owner": "เจ้าหน้าที่ขึ้นไป"
                                                             },
                                                             "kids": {
@@ -236,13 +535,39 @@ export class TargetService {
                                                                     การปฎิบัติการป้องกัน ระยะเวลาและ ผุ้รับผิดชอบตามการวิเคราะห์หาสาเหตุที่แท้จริงของประเด็นข้อบกพร่อง 3. ดำเนินการแก้ไขประเด็นข้อบกพร่อง
                                                                     ตามวิธีการปฎิบัติการแก้ไขและวิธีการ ป้องกันภายในระยะเวลาที่กำหนด 4. ติดตามการปิดประเด็นข้อบกพร่องทุกเดือน 5. ทบทวนการติดตามการปิด
                                                                     ประเด็นข้อบกพร่อง เมื่อไม่เป็นไปตามเป้าหมายที่กำหนด`,
-                                                                "jan": "1.000",
-                                                                "feb": "1.000",
-                                                                "mar": "1.000",
-                                                                "apr": "1.000",
-                                                                "may": "1.000",
-                                                                "jun": "1.000",
-                                                                "jul": "1.000",
+                                                                resultRecords: [
+                                                                    {
+                                                                        year: '2019',
+                                                                        "jan": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "feb": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "mar": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "apr": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "may": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "jun": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        },
+                                                                        "jul": {
+                                                                            status: 'initial',
+                                                                            causeRecords: []
+                                                                        }
+                                                                    }
+                                                                ],
                                                                 "owner": "เจ้าหน้าที่ขึ้นไป"
                                                             },
                                                             "kids": {

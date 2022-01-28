@@ -55,18 +55,59 @@ export const genMockMethodRecord: () => MethodRecord = () => {
         data: {
             methodId: randomValue,
             methodName: randomValue,
-            jan: randomValue,
-            feb: randomValue,
-            mar: randomValue,
-            apr: randomValue,
-            may: randomValue,
-            jun: randomValue,
-            jul: randomValue,
-            aug: randomValue,
-            sep: randomValue,
-            oct: randomValue,
-            nov: randomValue,
-            dec: randomValue,
+            resultRecords: [
+                {
+                    year: '',
+                    "jan": {
+                        status: 'initial',
+                        causeRecords: []
+                    },
+                    "feb": {
+                        status: 'initial',
+                        causeRecords: []
+                    },
+                    "mar": {
+                        status: 'initial',
+                        causeRecords: []
+                    },
+                    "apr": {
+                        status: 'initial',
+                        causeRecords: []
+                    },
+                    "may": {
+                        status: 'initial',
+                        causeRecords: []
+                    },
+                    "jun": {
+                        status: 'initial',
+                        causeRecords: []
+                    },
+                    "jul": {
+                        status: 'initial',
+                        causeRecords: []
+                    },
+                    "aug": {
+                        status: 'initial',
+                        causeRecords: []
+                    },
+                    "sep": {
+                        status: 'initial',
+                        causeRecords: []
+                    },
+                    "oct": {
+                        status: 'initial',
+                        causeRecords: []
+                    },
+                    "nov": {
+                        status: 'initial',
+                        causeRecords: []
+                    },
+                    "dec": {
+                        status: 'initial',
+                        causeRecords: []
+                    }
+                }
+            ],
             owner: '1'
         },
         kids: undefined

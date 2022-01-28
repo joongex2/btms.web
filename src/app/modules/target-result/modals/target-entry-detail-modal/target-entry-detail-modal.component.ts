@@ -1,11 +1,11 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ModalMode } from 'app/modules/target-info/modals/modal.type';
 import { TargetService } from 'app/modules/target-info/target.service';
-import { Cause, CauseRecord, Fix, Method, Protect, SubTarget, Target, TargetRecord } from 'app/modules/target-info/target.types';
+import { Cause, CauseRecord, Fix, Method, Protect, ResultDetail, SubTarget, Target, TargetRecord } from 'app/modules/target-info/target.types';
 import { TargetResultService } from '../../target-result.service';
 import { FileUpload } from '../../target-result.types';
 import { CauseModalComponent } from '../cause-modal/cause-modal.component';
@@ -54,6 +54,7 @@ export class TargetEntryDetailModalComponent implements OnInit {
     'editIcon',
     'deleteIcon'
   ];
+
   dataColumns3 = [
     'fixNo',
     'fixDetail',
@@ -64,6 +65,7 @@ export class TargetEntryDetailModalComponent implements OnInit {
     'editIcon',
     'deleteIcon'
   ];
+
   dataColumns4 = [
     'protectNo',
     'protectDetail',
@@ -74,6 +76,7 @@ export class TargetEntryDetailModalComponent implements OnInit {
     'editIcon',
     'deleteIcon'
   ];
+
   causes: CauseRecord[] = [
     {
       data: {
@@ -121,6 +124,7 @@ export class TargetEntryDetailModalComponent implements OnInit {
   target: Target;
   subTarget: SubTarget;
   method: Method;
+  year: string;
   month: string;
 
   // page status
@@ -148,14 +152,17 @@ export class TargetEntryDetailModalComponent implements OnInit {
   }
 
   setData(data: any): void {
-    const targets: TargetRecord[] = data.targets;
+    const runningNo = data.runningNo;
+    const targets = this._targetService.getTargets(runningNo);
     const targetIndex = data.targetIndex;
     const subTargetIndex = data.subTargetIndex;
-    const planIndex = data.planIndex;
+    const mainMethodIndex = data.mainMethodIndex;
     this.target = targets[targetIndex].data;
     this.subTarget = targets[targetIndex].kids.records[subTargetIndex].data;
-    this.method = targets[targetIndex].kids.records[subTargetIndex].kids.records[planIndex].kids.methodRecords[0].data;
+    this.method = targets[targetIndex].kids.records[subTargetIndex].kids.records[mainMethodIndex].kids.methodRecords[0].data;
+    this.year = data.year;
     this.month = data.month;
+    this.causes = (this.method.resultRecords.find(res => res.year == this.year)[this.month] as ResultDetail).causeRecords;
   }
 
   deleteUser(index: number): void {

@@ -19,14 +19,30 @@
 
     /* column width */
     .mat-column-mainMethodId {
-        flex-basis: 10% !important;
+        flex-basis: 5% !important;
     }
     
     .mat-column-mainMethodDetail {
-        flex-basis: 87.5% !important;
+        flex-basis: 92.5% !important;
     }
 
     .mat-column-deleteIcon {
         flex-basis: 2.5% !important;
+    }
+
+    .mat-input-element {
+        caret-color: rgb(23, 78, 136) !important;
+    }
+    
+    .mat-form-field.mat-form-field-appearance-fill.mat-focused:not(.mat-form-field-invalid) .mat-form-field-wrapper .mat-form-field-flex {
+        border-color: rgb(23, 78, 136) !important;
+    }
+    
+    .mat-form-field {
+        &.mat-focused {
+          &.mat-primary .mat-select-arrow {
+            color: rgb(23, 78, 136) !important;
+          }
+        }
     }
 }

@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
 import { MatTable } from '@angular/material/table';
-import { MainMethod, Method, Plan, SubTarget, Target } from '../../target.types';
+import { ResultRecord, SubTarget, Target } from '../../target.types';
 import { SubTargetTableComponent } from '../sub-target-table/sub-target-table.component';
 import { TargetService } from './../../target.service';
 import { expandableTableRowAnimation } from './../table-animation';
@@ -39,6 +40,7 @@ export class TargetTableComponent implements OnInit {
   @Output() deleteMethod: EventEmitter<number> = new EventEmitter<number>();
 
   @ViewChild(MatTable) table: MatTable<any>;
+  @ViewChildren('yearSelect') yearSelects: QueryList<MatSelect>;
   @ViewChildren(SubTargetTableComponent) subTargetTables: QueryList<SubTargetTableComponent>;
 
   expandedId: string = '';
@@ -79,6 +81,22 @@ export class TargetTableComponent implements OnInit {
   expandedTargets: Target[] = [];
   expandedSubtargets: SubTarget[] = [];
 
+  subMethodColumns: any = [
+    'year',
+    'jan',
+    'feb',
+    'mar',
+    'apr',
+    'may',
+    'jun',
+    'jul',
+    'aug',
+    'sep',
+    'oct',
+    'nov',
+    'dec',
+  ]
+
   keyToColumnName: any = {
     'targetId': 'ลำดับที่',
     'name': 'หัวข้อเป้าหมาย',
@@ -100,6 +118,7 @@ export class TargetTableComponent implements OnInit {
     'planOwner': 'ผู้รับผิดชอบ',
     'methodId': 'ลำดับที่',
     'methodName': 'วิธีการ/แผนงาน',
+    'year': 'ปี',
     'jan': 'ม.ค.',
     'feb': 'ก.พ.',
     'mar': 'มี.ค.',
@@ -120,6 +139,10 @@ export class TargetTableComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private _matDialog: MatDialog
   ) { }
+
+  ngAfterContentChecked(): void {
+    this.cdr.detectChanges(); // temp fix ExpressionChangedAfterItHasBeenCheckedError
+  }
 
   toggleExpandableSymbol(id: string): void {
     this.expandedId = this.expandedId === id ? '' : id;
@@ -197,6 +220,14 @@ export class TargetTableComponent implements OnInit {
         break;
       default: return;
     }
+  }
+
+  getYears(resultRecords: ResultRecord[]) {
+    return resultRecords.map(res => res.year);
+  }
+
+  getResultRecord(resultRecords: ResultRecord[], year: string): ResultRecord {
+    return resultRecords.find((res) => res.year == year);
   }
 
   ngOnInit(): void {

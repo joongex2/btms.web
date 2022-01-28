@@ -33,8 +33,7 @@
             <mat-form-field class="flex-auto gt-xs:pr-3">
                 <mat-label>ปี</mat-label>
                 <mat-select [formControlName]="'year'">
-                    <mat-option [value]="'2021'">2021</mat-option>
-                    <!-- <mat-option *ngFor="let year of years" [value]="year.value">{{year.title}}</mat-option> -->
+                    <mat-option *ngFor="let year of years" [value]="year.value">{{year.title}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field class="flex-auto gt-xs:pr-3">

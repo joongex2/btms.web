@@ -1,10 +1,10 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TargetService } from 'app/modules/target-info/target.service';
 import { RunningNo, SubTargetRecord, TargetRecord } from 'app/modules/target-info/target.types';
-import { LastCommentModalComponent } from '../modal/last-comment-modal/last-comment-modal.component';
-import { TargetEntryDetailModalComponent } from '../modal/target-entry-detail-modal/target-entry-detail-modal.component';
+import { LastCommentModalComponent } from '../modals/last-comment-modal/last-comment-modal.component';
 
 @Component({
   selector: 'app-target-entry-detail',
@@ -22,31 +22,45 @@ import { TargetEntryDetailModalComponent } from '../modal/target-entry-detail-mo
   ],
 })
 export class TargetEntryDetailComponent implements OnInit {
+  runningNoParam: string;
   runningNo: RunningNo;
   targets: TargetRecord[];
 
-  targetHeader1 = ['targetDetailSpanned', 'ownerSpanned', 'blankSpanned', 'year'];
-  targetHeader2 = ['blank', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  targetHeader1 = ['targetDetailSpanned', 'ownerSpanned', 'year', 'blankSpanned', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  targetHeader2 = ['blank'];
   targetRow1 = ['targetDetail'];
   targetRow2 = ['expandedDetail'];
   subTargetRow1 = ['subTargetDetail'];
   subTargetRow2 = ['expandedDetail'];
-  planRow1 = ['planDetail', 'owner', 'blank', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-  planRow2 = ['blank2', 'jan2', 'feb2', 'mar2', 'apr2', 'may2', 'jun2', 'jul2', 'aug2', 'sep2', 'oct2', 'nov2', 'dec2'];
+  mainMethodRow = ['methodDetail'];
 
   dataSource: TargetRecord[];
   expandedTargets: TargetRecord[] = [];
   expandedSubtargets: SubTargetRecord[] = [];
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private _targetService: TargetService,
-    private _matDialog: MatDialog
+    private _matDialog: MatDialog,
+    private cdr: ChangeDetectorRef,
   ) { }
 
+  ngAfterContentChecked(): void {
+    this.cdr.detectChanges(); // temp fix ExpressionChangedAfterItHasBeenCheckedError
+  }
+
   ngOnInit(): void {
-    const demoRunningCode = 'OBJ-ENPC-64-02'; // TODO: change later
-    this.runningNo = this._targetService.getRunningNo(demoRunningCode);
-    this.targets = this._targetService.getTargets(demoRunningCode);
+    // const demoRunningCode = 'OBJ-ENPC-64-02'; // TODO: change later
+    this.route.paramMap.subscribe(params => {
+      this.runningNoParam = params.get('runningNo');
+      this.runningNo = this._targetService.getRunningNo(this.runningNoParam);
+      if (!this.runningNo) {
+        this.router.navigate(['404-not-found']);
+        return;
+      }
+      this.targets = this._targetService.getTargets(this.runningNoParam);
+    });
     this.dataSource = this.targets;
   }
 
@@ -90,21 +104,4 @@ export class TargetEntryDetailComponent implements OnInit {
 
       });
   }
-
-  openTargetEntryModal(i, j, k, month) {
-    const dialogRef = this._matDialog.open(TargetEntryDetailModalComponent, {
-      data: {
-        targets: this.targets,
-        targetIndex: i,
-        subTargetIndex: j,
-        planIndex: k,
-        month
-      }
-    });
-    dialogRef.afterClosed()
-      .subscribe((result: any) => {
-
-      });
-  }
-
 }

@@ -1,0 +1,95 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+td {
+    vertical-align: top !important;
+}
+
+th.mat-header-cell,
+td.mat-cell {
+    text-align: center;
+    padding: 0 !important;
+}
+
+td.mat-cell.padding-left {
+    padding-left: 24px !important;
+}
+
+th.mat-header-cell:not(:first-child):not(:last-child),
+td.mat-cell:not(:first-child):not(:last-child) {
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+}
+
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
+}
+
+tr td:first-child {
+    border-left: none;
+}
+
+tr td:last-child {
+    border-right: none;
+}
+
+tr td.text-month {
+    color: blue;
+    text-decoration: underline;
+}
+
+:host ::ng-deep tbody > tr {
+    background-color: rgb(187, 211, 236) !important;
+}
+
+mat-checkbox {
+    display: block;
+    margin-top: 0.125rem;
+}
+
+.bg-dark-green {
+    background-color: rgb(55, 126, 34);
+}
+
+:host ::ng-deep .mat-checkbox .mat-checkbox-layout .mat-checkbox-inner-container {
+    margin: 0px;
+    background-color: rgb(203, 213, 225);
+}
+
+.hide {
+    display: none
+}
+
+.mat-column-methodName {
+    width: 18%;
+}
+
+.mat-column-owner {
+    width: 6%;
+}
+
+.mat-column-blank {
+    width: 6%;
+}
+
+.mat-column-year {
+    width: 10%;
+}
+
+.mat-column-jan,
+.mat-column-feb,
+.mat-column-mar,
+.mat-column-apr,
+.mat-column-may,
+.mat-column-jun,
+.mat-column-jul,
+.mat-column-aug,
+.mat-column-sep,
+.mat-column-oct,
+.mat-column-nov,
+.mat-column-dec {
+    width: 5%;
+}

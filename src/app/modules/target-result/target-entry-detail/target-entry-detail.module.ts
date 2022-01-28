@@ -20,13 +20,14 @@ import { RouterModule } from '@angular/router';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { IntegerOnlyModule } from 'app/shared/directives/integer-only.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { CauseModalComponent } from '../modal/cause-modal/cause-modal.component';
-import { FixModalComponent } from '../modal/fix-modal/fix-modal.component';
-import { LastCommentModalComponent } from '../modal/last-comment-modal/last-comment-modal.component';
-import { ProtectModalComponent } from '../modal/protect-modal/protect-modal.component';
-import { TargetEntryDetailModalComponent } from '../modal/target-entry-detail-modal/target-entry-detail-modal.component';
+import { CauseModalComponent } from '../modals/cause-modal/cause-modal.component';
+import { FixModalComponent } from '../modals/fix-modal/fix-modal.component';
+import { LastCommentModalComponent } from '../modals/last-comment-modal/last-comment-modal.component';
+import { ProtectModalComponent } from '../modals/protect-modal/protect-modal.component';
+import { TargetEntryDetailModalComponent } from '../modals/target-entry-detail-modal/target-entry-detail-modal.component';
 import { TargetEntryDetailComponent } from './target-entry-detail.component';
 import { targetEntryDetailRoutes } from './target-entry-detail.routing';
+import { MethodEntryTableComponent } from '../tables/method-entry-table/method-entry-table.component';
 
 
 
@@ -37,7 +38,8 @@ import { targetEntryDetailRoutes } from './target-entry-detail.routing';
     TargetEntryDetailModalComponent,
     CauseModalComponent,
     FixModalComponent,
-    ProtectModalComponent
+    ProtectModalComponent,
+    MethodEntryTableComponent
   ],
   imports: [
     RouterModule.forChild(targetEntryDetailRoutes),

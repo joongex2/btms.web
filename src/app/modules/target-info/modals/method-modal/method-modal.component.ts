@@ -56,24 +56,18 @@ export class MethodModalComponent implements OnInit {
 
     // initiate yearMonthTags if EDIT mode
     if (this.isEdit) {
-      if (this.modalData.data.jan) this.yearMonthTags.push({ year: '2021', month: 'jan' });
-      if (this.modalData.data.feb) this.yearMonthTags.push({ year: '2021', month: 'feb' });
-      if (this.modalData.data.mar) this.yearMonthTags.push({ year: '2021', month: 'mar' });
-      if (this.modalData.data.apr) this.yearMonthTags.push({ year: '2021', month: 'apr' });
-      if (this.modalData.data.may) this.yearMonthTags.push({ year: '2021', month: 'may' });
-      if (this.modalData.data.jun) this.yearMonthTags.push({ year: '2021', month: 'jun' });
-      if (this.modalData.data.jul) this.yearMonthTags.push({ year: '2021', month: 'jul' });
-      if (this.modalData.data.aug) this.yearMonthTags.push({ year: '2021', month: 'aug' });
-      if (this.modalData.data.sep) this.yearMonthTags.push({ year: '2021', month: 'sep' });
-      if (this.modalData.data.oct) this.yearMonthTags.push({ year: '2021', month: 'oct' });
-      if (this.modalData.data.nov) this.yearMonthTags.push({ year: '2021', month: 'nov' });
-      if (this.modalData.data.dec) this.yearMonthTags.push({ year: '2021', month: 'dec' });
+      const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+      for (let record of this.modalData.data.resultRecords) {
+        for (let month of months) {
+          if (record[month]) this.yearMonthTags.push({ year: record.year, month });
+        }
+      }
     }
 
     this.methodForm = this._formBuilder.group({
       methodId: [{ value: methodId, disabled: true }, [Validators.required]],
       methodName: [methodName, [Validators.required]],
-      year: [{ value: '2021', disabled: true }, []],
+      year: ['2021', []],
       month: ['', []],
       owner: [owner, [Validators.required]],
     });

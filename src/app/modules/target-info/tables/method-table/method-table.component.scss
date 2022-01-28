@@ -1,9 +1,14 @@
 :host ::ng-deep {
     .mat-column-methodId {
-        flex-basis: 7.5% !important;
+        flex-basis: 5% !important;
     }
+
     .mat-column-methodName {
-        flex-basis: 22.5% !important;
+        flex-basis: 12.5% !important;
+    }
+
+    .mat-column-year {
+        flex-basis: 12.5% !important;
     }
 
     .mat-column-jan {
