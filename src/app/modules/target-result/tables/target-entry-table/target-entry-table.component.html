@@ -1,0 +1,84 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 target-entry" style="min-width: 500px;"
+    multiTemplateDataRows>
+    <ng-container matColumnDef="targetDetailSpanned">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">รายละเอียด</th>
+    </ng-container>
+    <ng-container matColumnDef="targetDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="16" class="padding-left text-left">
+            <div class="flex flex-row items-center">
+                <mat-icon [class.active]="checkExpanded(element)" (click)="pushPopElement(element)">play_arrow
+                </mat-icon>
+                {{element.data.targetId}}. {{element.data.name}}
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ownerSpanned">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">ผู้รับผิดชอบ</th>
+    </ng-container>
+
+    <ng-container matColumnDef="year">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">ปี</th>
+    </ng-container>
+
+    <ng-container matColumnDef="blankSpanned">
+        <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    <ng-container matColumnDef="blank">
+        <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="jan">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">ม.ค.</th>
+    </ng-container>
+    <ng-container matColumnDef="feb">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">ก.พ.</th>
+    </ng-container>
+    <ng-container matColumnDef="mar">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">มี.ค.</th>
+    </ng-container>
+    <ng-container matColumnDef="apr">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">เม.ย.</th>
+    </ng-container>
+    <ng-container matColumnDef="may">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">พ.ค.</th>
+    </ng-container>
+    <ng-container matColumnDef="jun">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">มิ.ย.</th>
+    </ng-container>
+    <ng-container matColumnDef="jul">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">ก.ค.</th>
+    </ng-container>
+    <ng-container matColumnDef="aug">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">ส.ค.</th>
+    </ng-container>
+    <ng-container matColumnDef="sep">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">ก.ย.</th>
+    </ng-container>
+    <ng-container matColumnDef="oct">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">ต.ค.</th>
+    </ng-container>
+    <ng-container matColumnDef="nov">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">พ.ย.</th>
+    </ng-container>
+    <ng-container matColumnDef="dec">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">ธ.ค.</th>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.colspan]="16" style="border-top: none">
+            <div class="example-element-detail" [@detailExpand]="checkExpanded(element) ? 'expanded' : 'collapsed'">
+                <app-sub-target-entry-table 
+                    [dataSource]="element.kids.records"
+                    [runningNo]="runningNo"
+                    [targetIndex]="i">
+                </app-sub-target-entry-table>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="targetHeader1"></tr>
+    <tr mat-header-row *matHeaderRowDef="targetHeader2"></tr>
+    <tr mat-row class="example-element-row" *matRowDef="let element;let row; columns: targetRow1"></tr>
+    <tr mat-row *matRowDef="let row; columns: targetRow2" class="example-detail-row"></tr>
+</table>

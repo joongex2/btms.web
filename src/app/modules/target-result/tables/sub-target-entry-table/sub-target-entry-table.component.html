@@ -1,0 +1,29 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 sub-target-entry"
+    multiTemplateDataRows>
+    <ng-container matColumnDef="subTargetDetail">
+        <td mat-cell *matCellDef="let element" class="padding-left text-left">
+            <div class="flex flex-row item-center">
+                <mat-icon [class.active]="checkExpanded(element)"
+                    (click)="pushPopElement(element)">play_arrow
+                </mat-icon>
+                {{element.data.subTargetId}}. {{element.data.subTargetName}}
+            </div>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <div class="example-element-detail"
+                [@detailExpand]="checkExpanded(element) ? 'expanded' : 'collapsed'">
+                <app-main-method-entry-table 
+                    [dataSource]="element.kids.records" 
+                    [runningNo]="runningNo"
+                    [targetIndex]="targetIndex"
+                    [subTargetIndex]="i"
+                >
+                </app-main-method-entry-table>
+            </div>
+        </td>
+    </ng-container>
+    <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: subTargetRow1"></tr>
+    <tr mat-row *matRowDef="let row; columns: subTargetRow2" class="example-detail-row"></tr>
+</table>

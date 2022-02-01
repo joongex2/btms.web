@@ -1,0 +1,42 @@
+table {
+    width: 100%;
+}
+
+th.mat-header-cell,
+td.mat-cell {
+    text-align: center;
+    padding: 0 !important;
+}
+
+td.mat-cell.padding-left {
+    padding-left: 24px !important;
+}
+
+th.mat-header-cell:not(:first-child):not(:last-child),
+td.mat-cell:not(:first-child):not(:last-child) {
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+}
+
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
+}
+
+tr.example-detail-row {
+    height: 0;
+}
+
+.example-element-detail {
+    overflow: hidden;
+    display: flex;
+}
+
+.hide-header {
+    display: none;
+}
+
+/* table color */
+:host ::ng-deep .sub-target-entry > tbody > tr {
+    background-color: rgb(219, 215, 177) !important;
+}

@@ -1,0 +1,42 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+td {
+    vertical-align: top !important;
+}
+
+th.mat-header-cell,
+td.mat-cell {
+    text-align: center;
+    padding: 0 !important;
+}
+
+td.mat-cell.padding-left {
+    padding-left: 24px !important;
+}
+
+th.mat-header-cell:not(:first-child):not(:last-child),
+td.mat-cell:not(:first-child):not(:last-child) {
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+}
+
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
+}
+
+tr td:first-child {
+    border-left: none;
+}
+
+tr td:last-child {
+    border-right: none;
+}
+
+tr td.text-month {
+    color: blue;
+    text-decoration: underline;
+}

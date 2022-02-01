@@ -28,6 +28,9 @@ import { TargetEntryDetailModalComponent } from '../modals/target-entry-detail-m
 import { TargetEntryDetailComponent } from './target-entry-detail.component';
 import { targetEntryDetailRoutes } from './target-entry-detail.routing';
 import { MethodEntryTableComponent } from '../tables/method-entry-table/method-entry-table.component';
+import { MainMethodEntryTableComponent } from '../tables/main-method-entry-table/main-method-entry-table.component';
+import { SubTargetEntryTableComponent } from '../tables/sub-target-entry-table/sub-target-entry-table.component';
+import { TargetEntryTableComponent } from '../tables/target-entry-table/target-entry-table.component';
 
 
 
@@ -39,7 +42,10 @@ import { MethodEntryTableComponent } from '../tables/method-entry-table/method-e
     CauseModalComponent,
     FixModalComponent,
     ProtectModalComponent,
-    MethodEntryTableComponent
+    MethodEntryTableComponent,
+    MainMethodEntryTableComponent,
+    SubTargetEntryTableComponent,
+    TargetEntryTableComponent
   ],
   imports: [
     RouterModule.forChild(targetEntryDetailRoutes),

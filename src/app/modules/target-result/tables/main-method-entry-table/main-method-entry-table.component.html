@@ -1,0 +1,15 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 main-method-entry" multiTemplateDataRows>
+    <ng-container matColumnDef="methodDetail">
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <app-method-entry-table
+                [dataSource]="element.kids.methodRecords"
+                [runningNo]="runningNo"
+                [targetIndex]="targetIndex"
+                [subTargetIndex]="subTargetIndex"
+                [mainMethodIndex]="i"
+            >
+            </app-method-entry-table>
+        </td>
+    </ng-container>
+    <tr mat-row *matRowDef="let element;let row;columns: mainMethodRow" [hidden]="dataSource.length == 0"></tr>
+</table>
