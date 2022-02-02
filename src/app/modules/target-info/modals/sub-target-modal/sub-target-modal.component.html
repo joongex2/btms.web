@@ -30,7 +30,7 @@
         </mat-form-field>
 
         <mat-form-field class="fuse-mat-textarea flex-auto">
-            <mat-label>หัวข้อเป้าหมาย</mat-label>
+            <mat-label>หัวข้อเป้าหมายย่อย</mat-label>
             <textarea matInput [formControlName]="'subTargetName'" [rows]="3" matTextareaAutosize></textarea>
         </mat-form-field>
 
@@ -67,8 +67,8 @@
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
-        <mat-form-field class="flex-auto gt-xs:pr-3">
-            <mat-label>กำหนดเริ่ม</mat-label>
+        <!-- <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>เริ่ม</mat-label>
             <mat-select [formControlName]="'startYear'">
                 <mat-option *ngFor="let startYear of startYears" [value]="startYear.value">{{startYear.title}}</mat-option>
             </mat-select>
@@ -78,25 +78,62 @@
             <mat-select [formControlName]="'startMonth'">
                 <mat-option *ngFor="let startMonth of startMonths" [value]="startMonth.value">{{startMonth.title}}</mat-option>
             </mat-select>
+        </mat-form-field> -->
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>เริ่ม</mat-label>
+            <input
+                matInput
+                [matDatepicker]="startDatepicker"
+                [formControlName]="'startDate'"
+                [placeholder]="'เริ่ม'">
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="startDatepicker">
+            </mat-datepicker-toggle>
+            <mat-datepicker
+                #startDatepicker
+                startView="multi-year"
+                (yearSelected)="chosenYearHandler($event, subTargetForm.get('startDate'))"
+                (monthSelected)="chosenMonthHandler($event, startDatepicker, subTargetForm.get('startDate'))"
+            >
+            </mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field class="flex-auto gt-xs:pr-3">
-            <mat-label>กำหนดเสร็จ</mat-label>
+        <!-- <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>เสร็จ</mat-label>
             <mat-select [formControlName]="'finishYear'">
                 <mat-option *ngFor="let finishYear of finishYears" [value]="finishYear.value">{{finishYear.title}}</mat-option>
             </mat-select>
         </mat-form-field>
-
         <mat-form-field class="flex-auto gt-xs:pr-3">
             <mat-select [formControlName]="'finishMonth'">
                 <mat-option *ngFor="let finishMonth of finishMonths" [value]="finishMonth.value">{{finishMonth.title}}</mat-option>
             </mat-select>
+        </mat-form-field> -->
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>เสร็จ</mat-label>
+            <input
+                matInput
+                [matDatepicker]="finishDatepicker"
+                [formControlName]="'finishDate'"
+                [placeholder]="'เสร็จ'"
+                >
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="finishDatepicker">
+            </mat-datepicker-toggle>
+            <mat-datepicker 
+                #finishDatepicker
+                startView="multi-year"
+                (yearSelected)="chosenYearHandler($event, subTargetForm.get('finishDate'))"
+                (monthSelected)="chosenMonthHandler($event, finishDatepicker, subTargetForm.get('finishDate'))"    
+            ></mat-datepicker>
         </mat-form-field>
 
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
             <div class="flex-none flex items-center cursor-pointer"
-                [mat-dialog-close]="subTargetForm.getRawValue()">
+                (click)="saveAndClose()">
                 <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>ตกลง</span>
             </div>
             <div class="flex-none sm:ml-2 flex items-center cursor-pointer"

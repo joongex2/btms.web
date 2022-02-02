@@ -22,7 +22,8 @@ export class SubTargetEntryTableComponent implements OnInit {
   @Input() runningNo: string;
   @Input() targetIndex: number;
 
-  subTargetRow1 = ['subTargetDetail'];
+  subTargetHeader = ['expandIcon', 'subTargetId', 'subTargetName', 'index', 'value', 'unit', 'currentValue', 'startMonth', 'startYear', 'finishMonth', 'finishYear']
+  subTargetRow1 = ['expandIcon', 'subTargetId', 'subTargetName', 'index', 'value', 'unit', 'currentValue', 'startMonth', 'startYear', 'finishMonth', 'finishYear'];
   subTargetRow2 = ['expandedDetail'];
 
   expandedSubtargets: SubTargetRecord[] = [];

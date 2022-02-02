@@ -1,8 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { genRandomNumber } from '../../tables/mock-table-data';
+import { genRandomNumberString } from '../../tables/mock-table-data';
 import { ModalData, ModalMode } from '../modal.type';
+import * as moment from 'moment';
+import {default as _rollupMoment, Moment} from 'moment';
+import { MatDatepicker } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-sub-target-modal',
@@ -22,26 +25,6 @@ export class SubTargetModalComponent implements OnInit {
     { title: 'Value 2', value: 'value-2' },
     { title: 'Value 3', value: 'value-3' }
   ];
-  startYears: any[] = [
-    { title: '1990', value: '1990' },
-    { title: '1991', value: '1991' },
-    { title: '1992', value: '1992' }
-  ];
-  startMonths: any[] = [
-    { title: 'january', value: 'january' },
-    { title: 'febuary', value: 'febuary' },
-    { title: 'march', value: 'march' }
-  ];
-  finishYears: any[] = [
-    { title: '2019', value: '2019' },
-    { title: '2020', value: '2020' },
-    { title: '2021', value: '2021' }
-  ];
-  finishMonths: any[] = [
-    { title: 'january', value: 'january' },
-    { title: 'febuary', value: 'febuary' },
-    { title: 'march', value: 'march' }
-  ];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public modalData: ModalData,
@@ -51,16 +34,14 @@ export class SubTargetModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
-    const subTargetId = this.isEdit ? this.modalData.data.subTargetId : genRandomNumber();
+    const subTargetId = this.isEdit ? this.modalData.data.subTargetId : genRandomNumberString();
     const subTargetName = this.isEdit ? this.modalData.data.subTargetName : '';
     const index = this.isEdit ? this.modalData.data.index : '';
     const value = this.isEdit ? this.modalData.data.value : '';
     const unit = this.isEdit ? this.modalData.data.unit : '';
     const currentValue = this.isEdit ? this.modalData.data.currentValue : '';
-    const startMonth = this.isEdit ? this.modalData.data.startMonth : '';
-    const startYear = this.isEdit ? this.modalData.data.startYear : '';
-    const finishMonth = this.isEdit ? this.modalData.data.finishMonth : '';
-    const finishYear = this.isEdit ? this.modalData.data.finishYear : '';
+    const startDate = this.isEdit ? moment({ y: this.modalData.data.startYear, m: this.modalData.data.startMonth }) : null;
+    const finishDate = this.isEdit ? moment({ y: this.modalData.data.finishYear, m: this.modalData.data.finishMonth }) : null;
 
     this.subTargetForm = this._formBuilder.group({
       subTargetId: [{ value: subTargetId, disabled: true }, [Validators.required]],
@@ -69,15 +50,37 @@ export class SubTargetModalComponent implements OnInit {
       value: [value, [Validators.required]],
       unit: [unit, [Validators.required]],
       currentValue: [currentValue, [Validators.required]],
-      startMonth: [startMonth, [Validators.required]],
-      startYear: [startYear, [Validators.required]],
-      finishMonth: [finishMonth, [Validators.required]],
-      finishYear: [finishYear, [Validators.required]]
+      startDate: [startDate, [Validators.required]],
+      finishDate: [finishDate, [Validators.required]]
     });
+  }
+
+  chosenYearHandler(normalizedYear: Moment, dateForm: any) {
+    const ctrlValue = dateForm.value;
+    ctrlValue.year(normalizedYear.year());
+    dateForm.setValue(ctrlValue);
+  }
+
+  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>, dateForm: any) {
+    const ctrlValue = dateForm.value;
+    ctrlValue.month(normalizedMonth.month());
+    dateForm.setValue(ctrlValue);
+    datepicker.close();
   }
 
   close(): void {
     this.matDialogRef.close();
+  }
+
+  saveAndClose(): void {
+    const subTargetForm = this.subTargetForm.getRawValue();
+    this.matDialogRef.close({ 
+      ...subTargetForm, 
+      startMonth: subTargetForm.startDate.month(),
+      startYear: subTargetForm.startDate.year(),
+      finishMonth: subTargetForm.finishDate.month(),
+      finishYear: subTargetForm.finishDate.year()
+    });
   }
 
 }

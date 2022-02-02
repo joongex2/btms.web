@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
-import { genRandomNumber } from '../../tables/mock-table-data';
+import { genRandomNumberString } from '../../tables/mock-table-data';
 import { ModalData, ModalMode } from '../modal.type';
 
 @Component({
@@ -50,7 +50,7 @@ export class MethodModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
-    const methodId = this.isEdit ? this.modalData.data.methodId : genRandomNumber();
+    const methodId = this.isEdit ? this.modalData.data.methodId : genRandomNumberString();
     const methodName = this.isEdit ? this.modalData.data.methodName : '';
     const owner = this.isEdit ? this.modalData.data.owner : '';
 

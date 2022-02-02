@@ -18,8 +18,13 @@ export class MethodEntryTableComponent implements OnInit {
 
   @ViewChildren('yearSelect') yearSelects: QueryList<MatSelect>;
 
-  methodRow1 = ['methodName', 'owner', 'year', 'blank', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-  methodRow2 = ['blank2', 'jan2', 'feb2', 'mar2', 'apr2', 'may2', 'jun2', 'jul2', 'aug2', 'sep2', 'oct2', 'nov2', 'dec2'];
+  // targetHeader1 = ['targetDetailSpanned', 'ownerSpanned', 'year', 'blankSpanned', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  // targetHeader2 = ['blank'];
+  methodHeader = ['methodNo', 'methodName', 'year', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec', 'owner'];
+  methodRow1 = ['methodNo', 'methodName', 'year', 'targetHeader', 'owner'];
+  methodRow2 = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  methodRow3 = ['resultHeader'];
+  methodRow4 = ['jan2', 'feb2', 'mar2', 'apr2', 'may2', 'jun2', 'jul2', 'aug2', 'sep2', 'oct2', 'nov2', 'dec2'];
 
   constructor(
     private _matDialog: MatDialog

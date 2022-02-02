@@ -1,18 +1,57 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 sub-target-entry"
     multiTemplateDataRows>
-    <ng-container matColumnDef="subTargetDetail">
-        <td mat-cell *matCellDef="let element" class="padding-left text-left">
-            <div class="flex flex-row item-center">
-                <mat-icon [class.active]="checkExpanded(element)"
-                    (click)="pushPopElement(element)">play_arrow
-                </mat-icon>
-                {{element.data.subTargetId}}. {{element.data.subTargetName}}
-            </div>
+    <ng-container matColumnDef="expandIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <mat-icon [class.active]="checkExpanded(element)"
+                (click)="pushPopElement(element)">play_arrow
+            </mat-icon>
         </td>
     </ng-container>
+    <ng-container matColumnDef="subTargetId">
+        <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.subTargetId}}</td>
+    </ng-container>
+    <ng-container matColumnDef="subTargetName">
+        <th mat-header-cell *matHeaderCellDef>หัวข้อเป้าหมายย่อย</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.subTargetName}}</td>
+    </ng-container>
+    <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef>ดัชนี</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.index}}</td>
+    </ng-container>
+    <ng-container matColumnDef="value">
+        <th mat-header-cell *matHeaderCellDef>ค่าเป้าหมาย</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.value}}</td>
+    </ng-container>
+    <ng-container matColumnDef="unit">
+        <th mat-header-cell *matHeaderCellDef>หน่วย</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.unit}}</td>
+    </ng-container>
+    <ng-container matColumnDef="currentValue">
+        <th mat-header-cell *matHeaderCellDef>ค่าปัจจุบัน</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.currentValue}}</td>
+    </ng-container>
+    <ng-container matColumnDef="startMonth">
+        <th mat-header-cell *matHeaderCellDef>เริ่ม<br>(เดือน)</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.startMonth | thaiMonth}}</td>
+    </ng-container>
+    <ng-container matColumnDef="startYear">
+        <th mat-header-cell *matHeaderCellDef>เริ่ม<br>(ปี)</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.startYear}}</td>
+    </ng-container>
+    <ng-container matColumnDef="finishMonth">
+        <th mat-header-cell *matHeaderCellDef>เสร็จ<br>(เดือน)</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.finishMonth | thaiMonth}}</td>
+    </ng-container>
+    <ng-container matColumnDef="finishYear">
+        <th mat-header-cell *matHeaderCellDef>เสร็จ<br>(ปี)</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.finishYear}}</td>
+    </ng-container>
+
     <ng-container matColumnDef="expandedDetail">
-        <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <div class="example-element-detail"
+        <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.colspan]="11">
+            <div class="expand-element"
                 [@detailExpand]="checkExpanded(element) ? 'expanded' : 'collapsed'">
                 <app-main-method-entry-table 
                     [dataSource]="element.kids.records" 
@@ -24,6 +63,7 @@
             </div>
         </td>
     </ng-container>
-    <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: subTargetRow1"></tr>
-    <tr mat-row *matRowDef="let row; columns: subTargetRow2" class="example-detail-row"></tr>
+    <tr mat-header-row *matHeaderRowDef="subTargetHeader"></tr>
+    <tr mat-row class="normal-row" *matRowDef="let element;let row;columns: subTargetRow1"></tr>
+    <tr mat-row *matRowDef="let row; columns: subTargetRow2" class="expand-row"></tr>
 </table>

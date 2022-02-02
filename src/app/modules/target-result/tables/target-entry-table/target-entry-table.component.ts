@@ -24,9 +24,8 @@ export class TargetEntryTableComponent implements OnInit {
 
   @ViewChildren(SubTargetEntryTableComponent) subTargetEntryTables: QueryList<SubTargetEntryTableComponent>;
 
-  targetHeader1 = ['targetDetailSpanned', 'ownerSpanned', 'year', 'blankSpanned', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-  targetHeader2 = ['blank'];
-  targetRow1 = ['targetDetail'];
+  targetHeader = ['expandIcon', 'targetId', 'name', 'standard', 'relativeTarget'];
+  targetRow1 = ['expandIcon', 'targetId', 'name', 'standard', 'relativeTarget'];
   targetRow2 = ['expandedDetail'];
 
   expandedTargets: TargetRecord[] = [];

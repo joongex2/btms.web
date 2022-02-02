@@ -48,10 +48,10 @@ export interface SubTarget {
     value: string;
     unit: string;
     currentValue: string;
-    startMonth: string;
-    startYear: string;
-    finishMonth: string;
-    finishYear: string;
+    startMonth: number;
+    startYear: number;
+    finishMonth: number;
+    finishYear: number;
 }
 
 export interface MainMethodRecord {

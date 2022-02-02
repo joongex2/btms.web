@@ -6,17 +6,17 @@
         </div>
         <div class="flex flex-row items-center">
             <ng-container *ngIf="mode=='causeAndFix'">
-                <div class="flex-none ml-2">
+                <div class="flex-none ml-2 text-white">
                     <a href="#" onClick="return false;" (click)="mode='saveResult'" class="flex items-center">
                         <mat-icon class="text-current" svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>&nbsp;<span>Back</span>
                     </a>
                 </div>
-                <div class="flex-none ml-2">
+                <div class="flex-none ml-2 text-white">
                     <a href="#" onClick="return false;" class="flex items-center">
                         <mat-icon class="text-current" svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
                     </a>
                 </div>
-                <div class="flex-none ml-2">
+                <div class="flex-none ml-2 text-white">
                     <a href="#" onClick="return false;" class="flex items-center">
                         <mat-icon class="text-current" svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
                     </a>
@@ -164,7 +164,7 @@
                     <div class="col-span-3">: <span class="ml-2">Jate Hongsa</span></div>
                 </div>
 
-                <div class="mb-4 flex flex-row">
+                <!-- <div class="mb-4 flex flex-row">
                     <div class="flex-none">
                         <a href="#" onClick="return false;" (click)="expandAll()" class="flex items-center">
                             <mat-icon svgIcon="heroicons_solid:chevron-double-down"></mat-icon>&nbsp;<span>Expand All</span>
@@ -175,7 +175,7 @@
                             <mat-icon svgIcon="heroicons_solid:chevron-double-up"></mat-icon>&nbsp;<span>Collapse All</span>
                         </a>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Cause and Fix Table -->
                 <div class="mb-4">
@@ -187,7 +187,10 @@
                     </p>
                     <table class="cause-table" [dataSource]="causes" mat-table style="min-width: 500px;" multiTemplateDataRows #causeTable>
                         <ng-container matColumnDef="expandIcon">
-                            <th mat-header-cell *matHeaderCellDef></th>
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-down" (click)="expandAll()"></mat-icon>
+                                <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-up" (click)="collapseAll()"></mat-icon>
+                            </th>
                             <td mat-cell *matCellDef="let element">
                                 <mat-icon 
                                     [class.active]="checkExpanded(element, expandedCauses)"

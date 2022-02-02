@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { genRandomNumber } from '../../tables/mock-table-data';
+import { genRandomNumberString } from '../../tables/mock-table-data';
 import { ModalData, ModalMode } from '../modal.type';
 
 @Component({
@@ -21,7 +21,7 @@ export class PlanModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
-    const planName = this.isEdit ? this.modalData.data.planName : genRandomNumber();
+    const planName = this.isEdit ? this.modalData.data.planName : genRandomNumberString();
     const planActual = this.isEdit ? this.modalData.data.planActual : '';
     const planResource = this.isEdit ? this.modalData.data.planResource : '';
     const planOwner = this.isEdit ? this.modalData.data.planOwner : '';

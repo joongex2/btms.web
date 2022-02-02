@@ -1,21 +1,11 @@
 table {
     width: 100%;
+    table-layout: fixed;
 }
 
 th.mat-header-cell,
 td.mat-cell {
     text-align: center;
-    padding: 0 !important;
-}
-
-td.mat-cell.padding-left {
-    padding-left: 24px !important;
-}
-
-th.mat-header-cell:not(:first-child):not(:last-child),
-td.mat-cell:not(:first-child):not(:last-child) {
-    border-left: 1px solid white;
-    border-right: 1px solid white;
 }
 
 .mat-header-cell,
@@ -23,20 +13,73 @@ td.mat-cell:not(:first-child):not(:last-child) {
     border-bottom-color: white !important;
 }
 
-tr.example-detail-row {
+tr.expand-row {
     height: 0;
 }
 
-.example-element-detail {
+tr.normal-row td {
+    border-bottom-width: 0 !important;
+}
+
+.expand-element {
     overflow: hidden;
     display: flex;
 }
 
-.hide-header {
-    display: none;
+/* table color */
+:host ::ng-deep .sub-target-entry > thead > tr {
+    background-color: rgb(137, 129, 61) !important;
 }
 
-/* table color */
 :host ::ng-deep .sub-target-entry > tbody > tr {
     background-color: rgb(219, 215, 177) !important;
+}
+
+:host ::ng-deep .sub-target-entry > thead > tr > th.mat-header-cell {
+    color: white !important;
+}
+
+/* column width */
+.mat-column-expandIcon {
+    width: 5%;
+}
+
+.mat-column-subTargetId {
+    width: 5%;
+}
+
+.mat-column-subTargetName {
+    width: 20%;
+}
+
+.mat-column-index {
+    width: 10%;
+}
+
+.mat-column-value {
+    width: 10%;
+}
+
+.mat-column-unit {
+    width: 10%;
+}
+
+.mat-column-currentValue {
+    width: 10%;
+}
+
+.mat-column-startMonth {
+    width: 7.5%;
+}
+
+.mat-column-startYear {
+    width: 7.5%;
+}
+
+.mat-column-finishMonth {
+    width: 7.5%;
+}
+
+.mat-column-finishYear {
+    width: 7.5%;
 }

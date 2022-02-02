@@ -17,6 +17,10 @@
     border-bottom-color: white;
 }
 
+.mat-row.normal-row {
+  border-bottom-width: 0 !important;
+}
+
 /* color */
 .mat-header-row {
   background-color: rgb(132, 189, 0);
@@ -32,7 +36,7 @@
 
 /* column width */
 .mat-column-expandIcon {
-  flex-basis: 5%;
+  flex-basis: 7.5%;
 }
 
 .mat-column-targetId {
@@ -40,7 +44,7 @@
 }
 
 .mat-column-name {
-  flex-basis: 50%;
+  flex-basis: 47.5%;
 }
 
 .mat-column-standard {

@@ -31,6 +31,7 @@ import { MethodEntryTableComponent } from '../tables/method-entry-table/method-e
 import { MainMethodEntryTableComponent } from '../tables/main-method-entry-table/main-method-entry-table.component';
 import { SubTargetEntryTableComponent } from '../tables/sub-target-entry-table/sub-target-entry-table.component';
 import { TargetEntryTableComponent } from '../tables/target-entry-table/target-entry-table.component';
+import { PlanEntryTableComponent } from '../tables/plan-entry-table/plan-entry-table.component';
 
 
 
@@ -45,7 +46,8 @@ import { TargetEntryTableComponent } from '../tables/target-entry-table/target-e
     MethodEntryTableComponent,
     MainMethodEntryTableComponent,
     SubTargetEntryTableComponent,
-    TargetEntryTableComponent
+    TargetEntryTableComponent,
+    PlanEntryTableComponent
   ],
   imports: [
     RouterModule.forChild(targetEntryDetailRoutes),

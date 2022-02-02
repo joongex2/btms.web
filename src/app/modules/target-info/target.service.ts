@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MainMethod, Method, RunningNoRecord, RunningNo, SubTarget, SubTargetRecord, TargetRecord } from './target.types';
+import { MainMethod, RunningNoRecord, RunningNo, SubTarget, SubTargetRecord, TargetRecord } from './target.types';
 
 @Injectable({
     providedIn: 'root'
@@ -26,24 +26,24 @@ export class TargetService {
                     {
                         "data": {
                             "targetId": "1",
-                            "name": "รายงานการกระทำที่เป็นอันตรายและสภาพการที่เป็นอันตรายที่ได้รับขึ้นทะเบียน (unsafe act)",
-                            "standard": "ISO 14001/ISO 45001",
-                            "relativeTarget": "4"
+                            "name": "ควบคุมค่าน้ำทิ้ง ให้อยู่ในเกณฑ์ที่กฎหมายกำหนด",
+                            "standard": "ISO14001",
+                            "relativeTarget": "3"
                         },
                         "kids": {
                             "records": [
                                 {
                                     "data": {
                                         "subTargetId": "1",
-                                        "subTargetName": "รายงานการกระทำที่เป็นอันตรายและสภาพการที่เป็นอันตรายที่ได้รับขึ้นทะเบียน (unsafe act)",
-                                        "index": "ฉบับ/เดือน",
-                                        "value": ">=1",
-                                        "unit": "เรื่อง/เดือน",
-                                        "currentValue": "1",
-                                        "startMonth": "ม.ค.",
-                                        "startYear": "2021",
-                                        "finishMonth": "ธ.ค.",
-                                        "finishYear": "2021"
+                                        "subTargetName": "ควบคุมค่าพารามิเตอร์ pH ของมาตรฐานน้ำทิ้ง ให้อยู่ในเกณฑ์ที่กฎหมายกำหนด",
+                                        "index": "ค่า pH",
+                                        "value": "< 9",
+                                        "unit": "",
+                                        "currentValue": "5.5 - 9.0",
+                                        "startMonth": 0,
+                                        "startYear": 2022,
+                                        "finishMonth": 11,
+                                        "finishYear": 2022
                                     },
                                     "kids": {
                                         "records": [
@@ -55,25 +55,66 @@ export class TargetService {
                                                     planRecords: [
                                                         {
                                                             data: {
-                                                                planActual: '1.',
-                                                                planName: 'แผนงานที่ 1',
-                                                                planOwner: 'เจ้าหน้าที่ขึ้นไป',
-                                                                planResource: 'planResource1'
+                                                                planActual: '',
+                                                                planName: 'ตรวจสอบการระบายน้ำทิ้งจากขั้นตอนการล้างไลน์',
+                                                                planOwner: 'SN',
+                                                                planResource: ''
                                                             },
                                                             kids: {
 
                                                             }
+                                                        },
+                                                        {
+                                                            data: {
+                                                                planActual: '',
+                                                                planName: 'เก็บตัวอย่างน้ำทิ้งบ่อสุดท้ายของโรงงานส่งวิเคราะห์ตามพารามิเตอร์ที่กำหนดทุก 1 เดือน',
+                                                                planOwner: 'SHE',
+                                                                planResource: '1,000 บาท/เดือน'
+                                                            },
+                                                            kids: {
+
+                                                            }
+                                                        },
+                                                        {
+                                                            data: {
+                                                                planActual: '',
+                                                                planName: 'เมื่อไม่ได้เป้าหมายผู้ควบคุมระบบบำบัดร่วมกับเจ้าหน้าที่ประจำระบบบำบัดดำเนินการวิเคราะห์สาเหตุของปัญหาและรีบดำเนินการแก้ไขที่ต้นเหตุของปัญหา จากนั้นเก็บตัวอย่างเพื่อส่งวิเคราะห์อีกครั้งหลังการแก้ไข',
+                                                                planOwner: 'SHE,EN',
+                                                                planResource: ''
+                                                            },
+                                                            kids: {
+
+                                                            }
+                                                        },
+                                                        {
+                                                            data: {
+                                                                planActual: '',
+                                                                planName: 'ชี้แจงให้ทุกหน่วยงานที่เกี่ยวข้องทราบเพื่อการปฏิบัติที่ถูกต้อง',
+                                                                planOwner: 'SHE',
+                                                                planResource: ''
+                                                            },
+                                                            kids: {
+
+                                                            }
+                                                        },
+                                                        {
+                                                            data: {
+                                                                planActual: '',
+                                                                planName: 'ดำเนินการแก้ไขในกรณีที่ไม่เป็นไปตามที่กำหนด/และเฝ้าระวังป้องกันการเกิดซ้ำ ',
+                                                                planOwner: 'SHE',
+                                                                planResource: ''
+                                                            },
+                                                            kids: {
+
+                                                            }
+
                                                         }
                                                     ],
                                                     methodRecords: [
                                                         {
                                                             "data": {
                                                                 ['methodId']: "1",
-                                                                ["methodName"]: `1.ศึกษารายงานการกระทำที่เป็นอันตราย / สภาพที่เป็นอันตราย 
-                                                                2. ประชุมชี้แจงพนักงานในแผนก 
-                                                                3. พนักงานในแผนกดำเนินการค้นหาและบันทึกรายงานการกระทำที่เป็นอันตราย
-                                                                4. ตรวจสอบและประเมินจำนวนของบันทึกรายงานการกระทำที่เป็นอันตราย / สภาพที่เป็นอันตราย ในแต่ละเดือน
-                                                                    `,
+                                                                ["methodName"]: `ควบคุมค่าพารามิเตอร์ pH ของมาตรฐานน้ำทิ้ง ให้อยู่ในเกณฑ์ที่กฎหมายกำหนด`,
                                                                 resultRecords: [
                                                                     {
                                                                         year: '2019',
@@ -197,7 +238,7 @@ export class TargetService {
                                                                         }
                                                                     }
                                                                 ],
-                                                                "owner": "Department manager Maintenance Process Machine 1 PC"
+                                                                "owner": "จป.วิชาชีพอาวุโส,เจ้าหน้าที่สิ่งแวดล้อม"
                                                             },
                                                             "kids": {
 
@@ -206,7 +247,7 @@ export class TargetService {
                                                         {
                                                             "data": {
                                                                 ['methodId']: "2",
-                                                                ["methodName"]: `2. ประชุมชี้แจงพนักงานในแผนก`,
+                                                                ["methodName"]: `ประชุมชี้แจงพนักงานในแผนก`,
                                                                 resultRecords: [
                                                                     {
                                                                         year: '2019',
@@ -388,10 +429,10 @@ export class TargetService {
                                         "value": ">=1",
                                         "unit": "เรื่อง/เดือน",
                                         "currentValue": "1",
-                                        "startMonth": "ม.ค.",
-                                        "startYear": "2021",
-                                        "finishMonth": "ธ.ค.",
-                                        "finishYear": "2021"
+                                        "startMonth": 0,
+                                        "startYear": 2021,
+                                        "finishMonth": 11,
+                                        "finishYear": 2021
                                     },
                                     "kids": {
                                         "records": [
@@ -502,10 +543,10 @@ export class TargetService {
                                         "value": ">=1",
                                         "unit": "เรื่อง/เดือน",
                                         "currentValue": "1",
-                                        "startMonth": "ม.ค.",
-                                        "startYear": "2021",
-                                        "finishMonth": "ธ.ค.",
-                                        "finishYear": "2021"
+                                        "startMonth": 0,
+                                        "startYear": 2021,
+                                        "finishMonth": 11,
+                                        "finishYear": 2021
                                     },
                                     "kids": {
                                         "records": [

@@ -1,7 +1,7 @@
 import { MainMethodRecord, MethodRecord, PlanRecord, SubTargetRecord, TargetRecord } from "../target.types";
 
 export const genMockTargetRecord: () => TargetRecord = () => {
-    const randomValue = genRandomNumber();
+    const randomValue = genRandomNumberString();
     return {
         data: {
             targetId: randomValue,
@@ -16,7 +16,8 @@ export const genMockTargetRecord: () => TargetRecord = () => {
 }
 
 export const genMockSubTargetRecord: () => SubTargetRecord = () => {
-    const randomValue = genRandomNumber();
+    const randomValue = genRandomNumberString();
+    const randomNumber = genRandomNumber();
     return {
         data: {
             subTargetId: randomValue,
@@ -25,10 +26,10 @@ export const genMockSubTargetRecord: () => SubTargetRecord = () => {
             value: randomValue,
             unit: randomValue,
             currentValue: randomValue,
-            startMonth: randomValue,
-            startYear: randomValue,
-            finishMonth: randomValue,
-            finishYear: '1'
+            startMonth: randomNumber,
+            startYear: 2019,
+            finishMonth: randomNumber,
+            finishYear: 2019
         },
         kids: {
             records: []
@@ -37,7 +38,7 @@ export const genMockSubTargetRecord: () => SubTargetRecord = () => {
 }
 
 export const genMockMainMethodRecord: () => MainMethodRecord = () => {
-    const randomValue = genRandomNumber();
+    const randomValue = genRandomNumberString();
     return {
         data: {
             mainMethodId: randomValue
@@ -50,7 +51,7 @@ export const genMockMainMethodRecord: () => MainMethodRecord = () => {
 }
 
 export const genMockMethodRecord: () => MethodRecord = () => {
-    const randomValue = genRandomNumber();
+    const randomValue = genRandomNumberString();
     return {
         data: {
             methodId: randomValue,
@@ -115,7 +116,7 @@ export const genMockMethodRecord: () => MethodRecord = () => {
 };
 
 export const genMockPlanRecord: () => PlanRecord = () => {
-    const randomValue = genRandomNumber();
+    const randomValue = genRandomNumberString();
     return {
         data: {
             planName: randomValue,
@@ -127,8 +128,12 @@ export const genMockPlanRecord: () => PlanRecord = () => {
     }
 };
 
-export const genRandomNumber = () => {
+export const genRandomNumberString = () => {
     return getRandomInt(10000).toString();
+}
+
+export const genRandomNumber = () => {
+    return getRandomInt(10000);
 }
 
 function getRandomInt(max) {
