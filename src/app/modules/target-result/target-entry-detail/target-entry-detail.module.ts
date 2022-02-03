@@ -32,6 +32,10 @@ import { MainMethodEntryTableComponent } from '../tables/main-method-entry-table
 import { SubTargetEntryTableComponent } from '../tables/sub-target-entry-table/sub-target-entry-table.component';
 import { TargetEntryTableComponent } from '../tables/target-entry-table/target-entry-table.component';
 import { PlanEntryTableComponent } from '../tables/plan-entry-table/plan-entry-table.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import * as moment from 'moment';
 
 
 
@@ -68,9 +72,28 @@ import { PlanEntryTableComponent } from '../tables/plan-entry-table/plan-entry-t
     MatExpansionModule,
     MatPaginatorModule,
     MatSortModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
     FuseAlertModule,
     SharedModule,
     IntegerOnlyModule
+  ],
+  providers: [
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        parse: {
+          dateInput: moment.ISO_8601
+        },
+        display: {
+          dateInput: 'L',
+          monthYearLabel: 'MMM YYYY',
+          dateA11yLabel: 'LL',
+          monthYearA11yLabel: 'MMM YYYY'
+        }
+      }
+    },
+    { provide: MAT_DATE_LOCALE, useValue: 'th-TH' },
   ]
 })
 export class TargetEntryDetailModule { }

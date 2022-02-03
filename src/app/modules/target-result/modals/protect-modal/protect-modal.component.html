@@ -2,12 +2,12 @@
 
     <!-- Header -->
     <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
-        <div class="text-lg font-medium">
+        <div class="text-lg font-medium text-white">
             <span *ngIf="!isEdit">เพิ่มการป้องกันการเกิดซ้ำ</span>
             <span *ngIf="isEdit">แก้ไขการป้องกันการเกิดซ้ำ</span>
         </div>
         <button mat-icon-button (click)="close()" [tabIndex]="-1">
-            <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+            <mat-icon class="text-current text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
         </button>
     </div>
 
@@ -36,8 +36,17 @@
 
         <mat-form-field>
             <mat-label>กำหนดเสร็จ</mat-label>
-            <input matInput [formControlName]="'protectDueDate'">
-            <div class="copy-fields-toggles" matSuffix></div>
+            <input
+                matInput
+                [matDatepicker]="protectDueDatepicker"
+                [formControlName]="'protectDueDateSelect'"
+                [placeholder]="'กำหนดเสร็จ'">
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="protectDueDatepicker">
+            </mat-datepicker-toggle>
+            <mat-datepicker #protectDueDatepicker>
+            </mat-datepicker>
         </mat-form-field>
 
         <mat-form-field>
@@ -48,14 +57,23 @@
 
         <mat-form-field>
             <mat-label>วันที่ดำเนินการ</mat-label>
-            <input matInput [formControlName]="'protectStartDate'">
-            <div class="copy-fields-toggles" matSuffix></div>
+            <input
+                matInput
+                [matDatepicker]="protectStartDatepicker"
+                [formControlName]="'protectStartDateSelect'"
+                [placeholder]="'วันที่ดำเนินการ'">
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="protectStartDatepicker">
+            </mat-datepicker-toggle>
+            <mat-datepicker #protectStartDatepicker>
+            </mat-datepicker>
         </mat-form-field>
 
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
             <div class="flex-none flex items-center cursor-pointer"
-                [mat-dialog-close]="protectForm.getRawValue()">
+                (click)="saveAndClose()">
                 <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>ตกลง</span>
             </div>
             <div class="flex-none sm:ml-2 flex items-center cursor-pointer"

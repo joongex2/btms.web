@@ -1,14 +1,14 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 main-method-entry" multiTemplateDataRows>
     <ng-container matColumnDef="methodDetail">
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <app-plan-entry-table
+            <!-- <app-plan-entry-table
                 [dataSource]="element.kids.planRecords"
                 [runningNo]="runningNo"
                 [targetIndex]="targetIndex"
                 [subTargetIndex]="subTargetIndex"
                 [mainMethodIndex]="i"
             >
-            </app-plan-entry-table>
+            </app-plan-entry-table> -->
             <app-method-entry-table
                 [dataSource]="element.kids.methodRecords"
                 [runningNo]="runningNo"

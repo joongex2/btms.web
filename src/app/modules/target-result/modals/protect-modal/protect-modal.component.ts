@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { genRandomNumber } from 'app/modules/super-admin/mock-super-admin-data';
 import { ModalData, ModalMode } from 'app/modules/target-info/modals/modal.type';
+import * as moment from 'moment';
 
 
 @Component({
@@ -25,21 +26,30 @@ export class ProtectModalComponent implements OnInit {
     const protectNo = this.isEdit ? this.modalData.data.protectNo : genRandomNumber();
     const protectDetail = this.isEdit ? this.modalData.data.protectDetail : '';
     const protectOwner = this.isEdit ? this.modalData.data.protectOwner : '';
-    const protectDueDate = this.isEdit ? this.modalData.data.protectDueDate : '';
+    const protectDueDateSelect = this.isEdit ? moment(this.modalData.data.protectDueDate, 'YYYY-MM-DD') : '';
     const protectFollow = this.isEdit ? this.modalData.data.protectFollow : '';
-    const protectStartDate = this.isEdit ? this.modalData.data.protectStartDate : '';
+    const protectStartDateSelect = this.isEdit ? moment(this.modalData.data.protectStartDate, 'YYYY-MM-DD') : '';
 
     this.protectForm = this._formBuilder.group({
       protectNo: [protectNo, [Validators.required]],
       protectDetail: [protectDetail, [Validators.required]],
       protectOwner: [protectOwner, [Validators.required]],
-      protectDueDate: [protectDueDate, [Validators.required]],
+      protectDueDateSelect: [protectDueDateSelect, [Validators.required]],
       protectFollow: [protectFollow, [Validators.required]],
-      protectStartDate: [protectStartDate, [Validators.required]]
+      protectStartDateSelect: [protectStartDateSelect, [Validators.required]]
     });
   }
 
   close(): void {
     this.matDialogRef.close();
+  }
+
+  saveAndClose(): void {
+    const protectForm = this.protectForm.getRawValue();
+    this.matDialogRef.close({
+      ...protectForm,
+      protectDueDate: protectForm.protectDueDateSelect.format('YYYY-MM-DD'),
+      protectStartDate: protectForm.protectStartDateSelect.format('YYYY-MM-DD')
+    })
   }
 }

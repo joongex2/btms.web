@@ -135,9 +135,9 @@ export class TargetService {
                                                                                                     fixNo: '1',
                                                                                                     fixDetail: 'ไปแก้ไข',
                                                                                                     fixOwner: 'คุณเจตน์',
-                                                                                                    fixDueDate: '20/06/2019',
+                                                                                                    fixDueDate: '2019-06-20',
                                                                                                     fixFollow: 'พบมีการดำเนินการแก้ไขไปเมื่อ',
-                                                                                                    fixStartDate: '18/06/2019'
+                                                                                                    fixStartDate: '2019-06-18'
                                                                                                 }
                                                                                             }
                                                                                         ],
@@ -147,9 +147,9 @@ export class TargetService {
                                                                                                     protectNo: '1',
                                                                                                     protectDetail: 'AAAA',
                                                                                                     protectOwner: 'AA',
-                                                                                                    protectDueDate: '31/12/2019',
+                                                                                                    protectDueDate: '2019-12-31',
                                                                                                     protectFollow: 'มีการดำเนินงานอย่างต่อเนื่อง',
-                                                                                                    protectStartDate: '20/06/2019'
+                                                                                                    protectStartDate: '2019-06-20'
                                                                                                 }
                                                                                             }
                                                                                         ]
