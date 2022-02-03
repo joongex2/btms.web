@@ -22,6 +22,17 @@ export interface Role {
     documentPermissions?: DocumentPermission[];
 }
 
+export interface Menu {
+    menuId: string;
+    menuTitle: string;
+    menuDescription: string;
+    parentId: string;
+    menuUrl: string;
+    pageId: string;
+    menuSequence: string;
+    status: MenuStatus;
+}
+
 export enum GroupStatus {
     ACTIVE = 'active',
     EXPIRED = 'expired'
@@ -74,4 +85,9 @@ export enum DocumentPermission {
     SOLVE_CLOSED = 'SOLVE_CLOSED',
     SOLVE_CLOSED_NEW = 'SOLVE_CLOSED_NEW',
     SOLVE_DRAFT = 'SOLVE_DRAFT'
+}
+
+export enum MenuStatus {
+    ACTIVE = 'active',
+    INACTIVE = 'inActive'
 }

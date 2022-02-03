@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { DocumentPermission, GroupStatus, Role, RoleCode, RoleStatus, User, UserGroup, UserStatus } from "./super-admin.types";
+import { DocumentPermission, GroupStatus, Menu, MenuStatus, Role, RoleCode, RoleStatus, User, UserGroup, UserStatus } from "./super-admin.types";
 
 @Injectable({
     providedIn: 'root'
@@ -320,7 +320,7 @@ export class SuperAdminService {
         ]
     };
 
-    DocumentPermissionTypes = [
+    documentPermissionTypes = [
         DocumentPermission.DOCUMENT_CANCEL,
         DocumentPermission.DOCUMENT_DRAFT,
         DocumentPermission.DOCUMENT_ISSUED,
@@ -332,7 +332,80 @@ export class SuperAdminService {
         DocumentPermission.SOLVE_CLOSED,
         DocumentPermission.SOLVE_CLOSED_NEW,
         DocumentPermission.SOLVE_DRAFT
-    ]
+    ];
+
+    menus: Menu[] = [
+        {
+            menuId: '30',
+            menuTitle: 'ข้อมูลเป้าหมาย',
+            menuDescription: '',
+            parentId: '00',
+            menuUrl: '',
+            pageId: '',
+            menuSequence: '1',
+            status: MenuStatus.ACTIVE
+        },
+        {
+            menuId: '32',
+            menuTitle: 'ข้อมูลเป้าหมายฉบับเดิม',
+            menuDescription: '',
+            parentId: '30',
+            menuUrl: '~/COM007.aspx',
+            pageId: '',
+            menuSequence: '3',
+            status: MenuStatus.ACTIVE
+        },
+        {
+            menuId: '33',
+            menuTitle: 'ข้อมูลเป้าหมายของฉัน',
+            menuDescription: '',
+            parentId: '30',
+            menuUrl: '~/COM001.aspx',
+            pageId: '',
+            menuSequence: '2',
+            status: MenuStatus.ACTIVE
+        },
+        {
+            menuId: '34',
+            menuTitle: 'สร้างเป้าหมายใหม่',
+            menuDescription: '',
+            parentId: '30',
+            menuUrl: '~/IPC003.aspx',
+            pageId: '',
+            menuSequence: '4',
+            status: MenuStatus.ACTIVE
+        },
+        {
+            menuId: '40',
+            menuTitle: 'ผลการดำเนินงานตามเป้าหมาย',
+            menuDescription: '',
+            parentId: '00',
+            menuUrl: '',
+            pageId: '',
+            menuSequence: '2',
+            status: MenuStatus.ACTIVE
+        },
+        {
+            menuId: '41',
+            menuTitle: 'บันทึกผลการดำเนินงาน',
+            menuDescription: '',
+            parentId: '40',
+            menuUrl: '~/RPT001.aspx',
+            pageId: '',
+            menuSequence: '1',
+            status: MenuStatus.ACTIVE
+        },
+        {
+            menuId: '42',
+            menuTitle: 'สาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย',
+            menuDescription: '',
+            parentId: '40',
+            menuUrl: '~/FOW001.aspx',
+            pageId: '',
+            menuSequence: '2',
+            status: MenuStatus.ACTIVE
+        }
+    ];
  
     constructor() { }
 
@@ -354,6 +427,10 @@ export class SuperAdminService {
 
     getRoleDocumentPermMap(roleCode: string): DocumentPermission[] {
         // return this.roleDocumentPermMap[roleCode];
-        return this.DocumentPermissionTypes;
+        return this.documentPermissionTypes;
+    }
+
+    getMenus(): Menu[] {
+        return this.menus;
     }
 }

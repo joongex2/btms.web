@@ -95,6 +95,7 @@ export const appRoutes: Route[] = [
                 {path: 'user-group', loadChildren: () => import('app/modules/super-admin/user-group/user-group.module').then(m => m.UserGroupModule)},
                 {path: 'user', loadChildren: () => import('app/modules/super-admin/user/user.module').then(m => m.UserModule)},
                 {path: 'roles', loadChildren: () => import('app/modules/super-admin/role/role.module').then(m => m.RoleModule)},
+                {path: 'menu', loadChildren: () => import('app/modules/super-admin/menu/menu.module').then(m => m.MenuModule)},
                 {path: 'document-permission', loadChildren: () => import('app/modules/super-admin/document-permission/document-permission.module').then(m => m.DocumentPermissionModule)}
             ]},
 
