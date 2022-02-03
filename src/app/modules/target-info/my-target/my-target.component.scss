@@ -17,7 +17,7 @@
 }
 
 .example-table-container {
-  max-height: 374px;
+  max-height: 350px;
   overflow: auto;
 }
 
@@ -91,3 +91,15 @@
 :host ::ng-deep .mat-form-field-wrapper {
   margin-bottom: 0 !important;
 }
+
+// :host ::ng-deep .mat-paginator .mat-paginator-container {
+//   padding: 0 16px!important;
+// }
+
+// :host ::ng-deep .mat-paginator .mat-paginator-container .mat-paginator-page-size {
+//   margin: 4px 8px !important;
+// }
+
+// :host ::ng-deep .mat-paginator .mat-paginator-container .mat-paginator-range-actions {
+//   margin: 4px 0 !important;
+// }
