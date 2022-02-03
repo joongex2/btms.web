@@ -23,6 +23,7 @@ export const genMockSubTargetRecord: () => SubTargetRecord = () => {
             subTargetId: randomValue,
             subTargetName: randomValue,
             index: randomValue,
+            symbol: '>',
             value: randomValue,
             unit: randomValue,
             currentValue: randomValue,

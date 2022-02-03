@@ -21,7 +21,7 @@ export class SubTargetTableComponent implements OnInit {
     'subTargetId',
     'subTargetName',
     'index',
-    'value',
+    'symbolValue',
     'unit',
     'currentValue',
     'startMonth',

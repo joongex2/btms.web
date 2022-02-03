@@ -64,7 +64,7 @@ mat-checkbox {
 }
 
 .result-row {
-    height: 100px !important;
+    height: 65px !important;
 }
 
 /* table color */
@@ -115,4 +115,14 @@ mat-checkbox {
 .mat-column-nov,
 .mat-column-dec {
     width: 5%;
+}
+
+:host ::ng-deep .year-select .mat-form-field-wrapper {
+    padding: 4px 1px 0 1px !important;
+    font-size: 12px !important;
+}
+
+:host ::ng-deep .year-select .mat-form-field-flex {
+    min-height: 40px !important;
+    padding: 0 8px 0 4px !important;
 }

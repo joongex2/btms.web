@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
-    name: 'thaiMonth',
+    name: 'month',
 })
-export class ThaiMonthPipe implements PipeTransform {
+export class MonthPipe implements PipeTransform {
     constructor() { }
 
     /**
@@ -14,29 +14,29 @@ export class ThaiMonthPipe implements PipeTransform {
     transform(value: number): string {
         switch (value) {
             case 0:
-                return 'ม.ค.';
+                return 'Jan';
             case 1:
-                return 'ก.พ.';
+                return 'Feb';
             case 2:
-                return 'มี.ค.';
+                return 'Mar';
             case 3:
-                return 'เม.ย.';
+                return 'Apr';
             case 4:
-                return 'พ.ค.';
+                return 'May';
             case 5:
-                return 'มิ.ย.';
+                return 'Jun';
             case 6:
-                return 'ก.ค.';
+                return 'Jul';
             case 7:
-                return 'ส.ค.';
+                return 'Aug';
             case 8:
-                return 'ก.ย.';
+                return 'Sep';
             case 9:
-                return 'ต.ค.';
+                return 'Oct';
             case 10:
-                return 'พ.ย.';
+                return 'Nov';
             case 11:
-                return 'ธ.ค.';
+                return 'Dec';
             default:
                 return '-';
         }

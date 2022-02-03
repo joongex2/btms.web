@@ -45,6 +45,7 @@ export interface SubTarget {
     subTargetId: string;
     subTargetName: string;
     index: string;
+    symbol: string;
     value: string;
     unit: string;
     currentValue: string;

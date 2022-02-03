@@ -22,7 +22,7 @@
     </ng-container>
     <ng-container matColumnDef="value">
         <th mat-header-cell *matHeaderCellDef>ค่าเป้าหมาย</th>
-        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.value}}</td>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.symbol}}{{element.data.value}}</td>
     </ng-container>
     <ng-container matColumnDef="unit">
         <th mat-header-cell *matHeaderCellDef>หน่วย</th>
@@ -34,7 +34,7 @@
     </ng-container>
     <ng-container matColumnDef="startMonth">
         <th mat-header-cell *matHeaderCellDef>เริ่ม<br>(เดือน)</th>
-        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.startMonth | thaiMonth}}</td>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.startMonth | month}}</td>
     </ng-container>
     <ng-container matColumnDef="startYear">
         <th mat-header-cell *matHeaderCellDef>เริ่ม<br>(ปี)</th>
@@ -42,7 +42,7 @@
     </ng-container>
     <ng-container matColumnDef="finishMonth">
         <th mat-header-cell *matHeaderCellDef>เสร็จ<br>(เดือน)</th>
-        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.finishMonth | thaiMonth}}</td>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.data.finishMonth | month}}</td>
     </ng-container>
     <ng-container matColumnDef="finishYear">
         <th mat-header-cell *matHeaderCellDef>เสร็จ<br>(ปี)</th>

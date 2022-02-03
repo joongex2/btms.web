@@ -36,8 +36,10 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let element; let i = dataIndex">
                 <span *ngIf="!key.includes('Icon') && !key.includes('mainMethodDetail') && !key.includes('year')  && subMethodColumns.indexOf(key) == -1">
-                    <ng-container *ngIf="key == 'startMonth' || key == 'finishMonth'">{{ element.data[key] | thaiMonth }}</ng-container>
-                    <ng-container *ngIf="key != 'startMonth' && key != 'finishMonth'">{{ element.data[key] }}</ng-container>
+                    <ng-container *ngIf="key == 'startMonth' || key == 'finishMonth'">{{ element.data[key] | month }}</ng-container>
+                    <ng-container *ngIf="key == 'planActual'">{{ element.data[key] | date: 'dd/MM/yyyy' }}</ng-container>
+                    <ng-container *ngIf="key == 'symbolValue'">{{ element.data['symbol'] }}{{ element.data['value'] }}</ng-container>
+                    <ng-container *ngIf="key != 'startMonth' && key != 'finishMonth' && key != 'symbolValue' && key != 'planActual'">{{ element.data[key] }}</ng-container>
                 </span>
                 <span *ngIf="subMethodColumns.indexOf(key) != -1" class="w-full">
                     <ng-container *ngIf="key !== 'year' && yearSelects">
@@ -49,7 +51,7 @@
                     </ng-container>
                 </span>
                 <span *ngIf="key == 'year'" class="w-full p-1">
-                    <mat-form-field class="w-full">
+                    <mat-form-field class="w-full year-select">
                         <mat-select #yearSelect name="yearSelect" id="yearSelect" [value]="element.data.resultRecords[0] ? element.data.resultRecords[0].year: undefined">
                             <mat-option *ngFor="let year of getYears(element.data.resultRecords)" [value]="year">
                                 {{year}}

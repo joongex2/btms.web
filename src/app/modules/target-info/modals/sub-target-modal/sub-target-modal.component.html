@@ -40,17 +40,18 @@
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
-        <mat-form-field class="flex-auto gt-xs:pr-3">
-            <mat-label>ค่าเป้าหมาย</mat-label>
-            <mat-select [formControlName]="'value'">
-                <mat-option *ngFor="let value of values" [value]="value.value">{{value.title}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="flex-auto gt-xs:pr-3">
-            <input matInput>
-            <div class="copy-fields-toggles" matSuffix></div>
-        </mat-form-field>
+        <div class="flex flex-col sm:flex-row flex-auto gt-xs:pr-3 gap-4">
+            <mat-form-field class="flex-auto">
+                <mat-label>ค่าเป้าหมาย</mat-label>
+                <mat-select [formControlName]="'symbol'">
+                    <mat-option *ngFor="let symbol of symbols" [value]="symbol.value">{{symbol.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="flex-auto sm:mt-6">
+                <input matInput [formControlName]="'value'" name="value" appIntegerOnly>
+                <div class="copy-fields-toggles" matSuffix></div>
+            </mat-form-field>
+        </div>
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
             <mat-label>หน่วย</mat-label>
@@ -84,6 +85,7 @@
             <input
                 matInput
                 [matDatepicker]="startDatepicker"
+                datePickerFormat="MMM YYYY"
                 [formControlName]="'startDate'"
                 [placeholder]="'เริ่ม'">
             <mat-datepicker-toggle
@@ -115,6 +117,7 @@
             <input
                 matInput
                 [matDatepicker]="finishDatepicker"
+                datePickerFormat="MMM YYYY"
                 [formControlName]="'finishDate'"
                 [placeholder]="'เสร็จ'"
                 >

@@ -92,8 +92,7 @@ import * as moment from 'moment';
           monthYearA11yLabel: 'MMM YYYY'
         }
       }
-    },
-    { provide: MAT_DATE_LOCALE, useValue: 'th-TH' },
+    }
   ]
 })
 export class TargetEntryDetailModule { }

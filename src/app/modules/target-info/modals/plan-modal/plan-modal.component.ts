@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { genRandomNumberString } from '../../tables/mock-table-data';
 import { ModalData, ModalMode } from '../modal.type';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-plan-modal',
@@ -22,13 +23,13 @@ export class PlanModalComponent implements OnInit {
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
     const planName = this.isEdit ? this.modalData.data.planName : genRandomNumberString();
-    const planActual = this.isEdit ? this.modalData.data.planActual : '';
+    const planActualSelect = this.isEdit ? moment(this.modalData.data.planActual, 'YYYY-MM-DD') : '';
     const planResource = this.isEdit ? this.modalData.data.planResource : '';
     const planOwner = this.isEdit ? this.modalData.data.planOwner : '';
 
     this.planForm = this._formBuilder.group({
       planName: [planName, [Validators.required]],
-      planActual: [planActual, [Validators.required]],
+      planActualSelect: [planActualSelect, [Validators.required]],
       planResource: [planResource, [Validators.required]],
       planOwner: [planOwner, [Validators.required]]
     });
@@ -36,5 +37,13 @@ export class PlanModalComponent implements OnInit {
 
   close(): void {
     this.matDialogRef.close();
+  }
+
+  saveAndClose(): void {
+    const planForm = this.planForm.getRawValue();
+    this.matDialogRef.close({
+      ...planForm,
+      planActual: planForm.planActualSelect.format('YYYY-MM-DD')
+    })
   }
 }

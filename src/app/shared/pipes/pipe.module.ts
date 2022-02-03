@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { ThaiMonthPipe } from './thai-month-pipe';
+import { MonthPipe } from './month-pipe';
 
 @NgModule({
     declarations: [
-        ThaiMonthPipe
+        MonthPipe
     ],
     exports: [
-        ThaiMonthPipe
+        MonthPipe
     ]
 })
 export class PipeModule {

@@ -20,10 +20,12 @@ export class SubTargetModalComponent implements OnInit {
     { title: 'Standard 2', value: 'standard-2' },
     { title: 'Standard 3', value: 'standard-3' }
   ];
-  values: any[] = [
-    { title: 'Value 1', value: 'value-1' },
-    { title: 'Value 2', value: 'value-2' },
-    { title: 'Value 3', value: 'value-3' }
+  symbols: any[] = [
+    { title: '>', value: '>' },
+    { title: '<', value: '<' },
+    { title: '>=', value: '>=' },
+    { title: '<=', value: '<=' },
+    { title: '=', value: '=' }
   ];
 
   constructor(
@@ -37,16 +39,18 @@ export class SubTargetModalComponent implements OnInit {
     const subTargetId = this.isEdit ? this.modalData.data.subTargetId : genRandomNumberString();
     const subTargetName = this.isEdit ? this.modalData.data.subTargetName : '';
     const index = this.isEdit ? this.modalData.data.index : '';
+    const symbol = this.isEdit ? this.modalData.data.symbol : '';
     const value = this.isEdit ? this.modalData.data.value : '';
     const unit = this.isEdit ? this.modalData.data.unit : '';
     const currentValue = this.isEdit ? this.modalData.data.currentValue : '';
-    const startDate = this.isEdit ? moment({ y: this.modalData.data.startYear, m: this.modalData.data.startMonth }) : null;
-    const finishDate = this.isEdit ? moment({ y: this.modalData.data.finishYear, m: this.modalData.data.finishMonth }) : null;
+    const startDate = this.isEdit ? moment({ y: this.modalData.data.startYear, m: this.modalData.data.startMonth }) : moment();
+    const finishDate = this.isEdit ? moment({ y: this.modalData.data.finishYear, m: this.modalData.data.finishMonth }) : moment();
 
     this.subTargetForm = this._formBuilder.group({
       subTargetId: [{ value: subTargetId, disabled: true }, [Validators.required]],
       subTargetName: [subTargetName, [Validators.required]],
       index: [index, [Validators.required]],
+      symbol: [symbol, [Validators.required]],
       value: [value, [Validators.required]],
       unit: [unit, [Validators.required]],
       currentValue: [currentValue, [Validators.required]],

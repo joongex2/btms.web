@@ -75,6 +75,16 @@ ng-select.required:after, form-control.required:after {
     top:7px;
 }
 
+:host ::ng-deep .year-select .mat-form-field-wrapper {
+  padding: 4px 1px 0 1px !important;
+  font-size: 12px !important;
+}
+
+:host ::ng-deep .year-select .mat-form-field-flex {
+  min-height: 40px !important;
+  padding: 0 8px 0 4px !important;
+}
+
 @media only screen and (max-width: 768px) {
     .mat-table {
         overflow-x: scroll;

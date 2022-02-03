@@ -37,7 +37,8 @@ export class TargetService {
                                         "subTargetId": "1",
                                         "subTargetName": "ควบคุมค่าพารามิเตอร์ pH ของมาตรฐานน้ำทิ้ง ให้อยู่ในเกณฑ์ที่กฎหมายกำหนด",
                                         "index": "ค่า pH",
-                                        "value": "< 9",
+                                        "symbol": "<",
+                                        "value": "9",
                                         "unit": "",
                                         "currentValue": "5.5 - 9.0",
                                         "startMonth": 0,
@@ -55,7 +56,7 @@ export class TargetService {
                                                     planRecords: [
                                                         {
                                                             data: {
-                                                                planActual: '',
+                                                                planActual: '2021-10-10',
                                                                 planName: 'ตรวจสอบการระบายน้ำทิ้งจากขั้นตอนการล้างไลน์',
                                                                 planOwner: 'SN',
                                                                 planResource: ''
@@ -66,7 +67,7 @@ export class TargetService {
                                                         },
                                                         {
                                                             data: {
-                                                                planActual: '',
+                                                                planActual: '2021-10-10',
                                                                 planName: 'เก็บตัวอย่างน้ำทิ้งบ่อสุดท้ายของโรงงานส่งวิเคราะห์ตามพารามิเตอร์ที่กำหนดทุก 1 เดือน',
                                                                 planOwner: 'SHE',
                                                                 planResource: '1,000 บาท/เดือน'
@@ -77,7 +78,7 @@ export class TargetService {
                                                         },
                                                         {
                                                             data: {
-                                                                planActual: '',
+                                                                planActual: '2021-10-10',
                                                                 planName: 'เมื่อไม่ได้เป้าหมายผู้ควบคุมระบบบำบัดร่วมกับเจ้าหน้าที่ประจำระบบบำบัดดำเนินการวิเคราะห์สาเหตุของปัญหาและรีบดำเนินการแก้ไขที่ต้นเหตุของปัญหา จากนั้นเก็บตัวอย่างเพื่อส่งวิเคราะห์อีกครั้งหลังการแก้ไข',
                                                                 planOwner: 'SHE,EN',
                                                                 planResource: ''
@@ -88,7 +89,7 @@ export class TargetService {
                                                         },
                                                         {
                                                             data: {
-                                                                planActual: '',
+                                                                planActual: '2021-10-10',
                                                                 planName: 'ชี้แจงให้ทุกหน่วยงานที่เกี่ยวข้องทราบเพื่อการปฏิบัติที่ถูกต้อง',
                                                                 planOwner: 'SHE',
                                                                 planResource: ''
@@ -99,7 +100,7 @@ export class TargetService {
                                                         },
                                                         {
                                                             data: {
-                                                                planActual: '',
+                                                                planActual: '2021-10-10',
                                                                 planName: 'ดำเนินการแก้ไขในกรณีที่ไม่เป็นไปตามที่กำหนด/และเฝ้าระวังป้องกันการเกิดซ้ำ ',
                                                                 planOwner: 'SHE',
                                                                 planResource: ''
@@ -119,7 +120,7 @@ export class TargetService {
                                                                     {
                                                                         year: '2019',
                                                                         "jan": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: [
                                                                                 {
                                                                                     data: {
@@ -158,82 +159,82 @@ export class TargetService {
                                                                             ]
                                                                         },
                                                                         "feb": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "mar": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "apr": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "may": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jun": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jul": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "aug": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "sep": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "oct": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "nov": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "dec": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         }
                                                                     },
                                                                     {
                                                                         year: '2020',
                                                                         "jan": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "may": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jun": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jul": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "aug": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "sep": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "oct": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "dec": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         }
                                                                     }
@@ -243,170 +244,29 @@ export class TargetService {
                                                             "kids": {
 
                                                             }
-                                                        },
-                                                        {
-                                                            "data": {
-                                                                ['methodId']: "2",
-                                                                ["methodName"]: `ประชุมชี้แจงพนักงานในแผนก`,
-                                                                resultRecords: [
-                                                                    {
-                                                                        year: '2019',
-                                                                        "feb": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "mar": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "apr": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "may": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "jun": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "jul": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "aug": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "sep": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "oct": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "nov": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "dec": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        }
-                                                                    },
-                                                                    {
-                                                                        year: '2020',
-                                                                        "jan": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "may": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "jun": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "jul": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "aug": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "sep": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "oct": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "dec": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        }
-                                                                    }
-                                                                ],
-                                                                "owner": "Department manager Maintenance Process Machine 1 PC"
-                                                            },
-                                                            "kids": {
-
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                data: {
-                                                    mainMethodId: "2"
-                                                },
-                                                kids: {
-                                                    planRecords: [
-                                                        {
-                                                            data: {
-                                                                planActual: '1.',
-                                                                planName: 'แผนงานที่ 1',
-                                                                planOwner: 'เจ้าหน้าที่ขึ้นไป',
-                                                                planResource: 'planResource1'
-                                                            },
-                                                            kids: {
-
-                                                            }
-                                                        }
-                                                    ],
-                                                    methodRecords: [
-                                                        {
-                                                            "data": {
-                                                                ['methodId']: "1",
-                                                                ["methodName"]: `1. ตรวจสอบปริมาณวัตถุดิบให้เพียงพอต่อการผลิต 2. ประสานงานทางทีมการผลิตในการ
-                                                                    ตรวจสอบการผลิตที่สินค้ามีแนวโน้มที่จะผลิตได้ไม่ครบ 3. ดำเนินการประสานงานผล หรือผู้เกี่ยวข้อง กรณีที่
-                                                                    จะไม่สามารถส่งสินค้าได้ตาม Commit 4. กรณีที่มีการเปลี่ยนแปลง เช่า เปลี่ยนแปลง Commit วางแผนต้อง
-                                                                    แจ้งให้ผู้เกี่ยวข้องทราบ
-                                                                    `,
-                                                                resultRecords: [
-                                                                    {
-                                                                        year: '2020',
-                                                                        "jan": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "may": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "aug": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "sep": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "oct": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        },
-                                                                        "dec": {
-                                                                            status: 'initial',
-                                                                            causeRecords: []
-                                                                        }
-                                                                    }
-                                                                ],
-                                                                "owner": "เจ้าหน้าที่ขึ้นไป"
-                                                            },
-                                                            "kids": {
-
-                                                            }
                                                         }
                                                     ]
                                                 }
                                             }
                                         ]
+                                    }
+                                },
+                                {
+                                    "data": {
+                                        "subTargetId": "2",
+                                        "subTargetName": "ควบคุมไม่ให้มีการเรียกปรับเงินจากลูกค้า Lotus ในกรณีที่เป็นความผิดพลาดของแผนกวางแผนผลิต",
+                                        "index": "ฉบับ/เดือน",
+                                        "symbol": ">=",
+                                        "value": "1",
+                                        "unit": "เรื่อง/เดือน",
+                                        "currentValue": "1",
+                                        "startMonth": 0,
+                                        "startYear": 2021,
+                                        "finishMonth": 11,
+                                        "finishYear": 2021
+                                    },
+                                    "kids": {
+                                        "records": []
                                     }
                                 }
                             ]
@@ -426,7 +286,8 @@ export class TargetService {
                                         "subTargetId": "1",
                                         "subTargetName": "ควบคุมไม่ให้มีการเรียกปรับเงินจากลูกค้า Lotus ในกรณีที่เป็นความผิดพลาดของแผนกวางแผนผลิต",
                                         "index": "ฉบับ/เดือน",
-                                        "value": ">=1",
+                                        "symbol": ">=",
+                                        "value": "1",
                                         "unit": "เรื่อง/เดือน",
                                         "currentValue": "1",
                                         "startMonth": 0,
@@ -444,7 +305,7 @@ export class TargetService {
                                                     planRecords: [
                                                         {
                                                             data: {
-                                                                planActual: '1.',
+                                                                planActual: '2021-10-10',
                                                                 planName: 'แผนงานที่ 1',
                                                                 planOwner: 'เจ้าหน้าที่ขึ้นไป',
                                                                 planResource: 'planResource1'
@@ -467,35 +328,35 @@ export class TargetService {
                                                                     {
                                                                         year: '2019',
                                                                         "jan": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "may": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jun": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jul": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "aug": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "sep": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "oct": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "dec": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         }
                                                                     }
@@ -540,7 +401,8 @@ export class TargetService {
                                         "subTargetId": "1",
                                         "subTargetName": "ติดตามปิดประเด็นข้อบกพร่องจากการตรวจ ประเมินภายในและการตรวจประเมินจากหน่วยงานภายนอกของระบบคุณภาพให้ได้ตามระยะเวลาที่กำหนด",
                                         "index": "ฉบับ/เดือน",
-                                        "value": ">=1",
+                                        "symbol": ">=",
+                                        "value": "1",
                                         "unit": "เรื่อง/เดือน",
                                         "currentValue": "1",
                                         "startMonth": 0,
@@ -558,7 +420,7 @@ export class TargetService {
                                                     planRecords: [
                                                         {
                                                             data: {
-                                                                planActual: '1.',
+                                                                planActual: '2021-10-10',
                                                                 planName: 'แผนงานที่ 1',
                                                                 planOwner: 'เจ้าหน้าที่ขึ้นไป',
                                                                 planResource: 'planResource1'
@@ -580,31 +442,31 @@ export class TargetService {
                                                                     {
                                                                         year: '2019',
                                                                         "jan": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "feb": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "mar": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "apr": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "may": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jun": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jul": {
-                                                                            status: 'initial',
+                                                                            status: '9',
                                                                             causeRecords: []
                                                                         }
                                                                     }
