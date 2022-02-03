@@ -26,9 +26,9 @@ export class ProtectModalComponent implements OnInit {
     const protectNo = this.isEdit ? this.modalData.data.protectNo : genRandomNumber();
     const protectDetail = this.isEdit ? this.modalData.data.protectDetail : '';
     const protectOwner = this.isEdit ? this.modalData.data.protectOwner : '';
-    const protectDueDateSelect = this.isEdit ? moment(this.modalData.data.protectDueDate, 'YYYY-MM-DD') : '';
+    const protectDueDateSelect = this.isEdit ? moment(this.modalData.data.protectDueDate, 'YYYY-MM-DD') : moment();
     const protectFollow = this.isEdit ? this.modalData.data.protectFollow : '';
-    const protectStartDateSelect = this.isEdit ? moment(this.modalData.data.protectStartDate, 'YYYY-MM-DD') : '';
+    const protectStartDateSelect = this.isEdit ? moment(this.modalData.data.protectStartDate, 'YYYY-MM-DD') : moment();
 
     this.protectForm = this._formBuilder.group({
       protectNo: [protectNo, [Validators.required]],

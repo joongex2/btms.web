@@ -23,7 +23,7 @@ export class PlanModalComponent implements OnInit {
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
     const planName = this.isEdit ? this.modalData.data.planName : genRandomNumberString();
-    const planActualSelect = this.isEdit ? moment(this.modalData.data.planActual, 'YYYY-MM-DD') : '';
+    const planActualSelect = this.isEdit ? moment(this.modalData.data.planActual, 'YYYY-MM-DD') : moment();
     const planResource = this.isEdit ? this.modalData.data.planResource : '';
     const planOwner = this.isEdit ? this.modalData.data.planOwner : '';
 

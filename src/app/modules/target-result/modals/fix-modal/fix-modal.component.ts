@@ -26,9 +26,9 @@ export class FixModalComponent implements OnInit {
     const fixNo = this.isEdit ? this.modalData.data.fixNo : genRandomNumber();
     const fixDetail = this.isEdit ? this.modalData.data.fixDetail : '';
     const fixOwner = this.isEdit ? this.modalData.data.fixOwner : '';
-    const fixDueDateSelect = this.isEdit ? moment(this.modalData.data.fixDueDate, 'YYYY-MM-DD') : '';
+    const fixDueDateSelect = this.isEdit ? moment(this.modalData.data.fixDueDate, 'YYYY-MM-DD') : moment();
     const fixFollow = this.isEdit ? this.modalData.data.fixFollow : '';
-    const fixStartDateSelect = this.isEdit ? moment(this.modalData.data.fixStartDate, 'YYYY-MM-DD') : '';
+    const fixStartDateSelect = this.isEdit ? moment(this.modalData.data.fixStartDate, 'YYYY-MM-DD') : moment();
 
     this.fixForm = this._formBuilder.group({
       fixNo: [fixNo, [Validators.required]],

@@ -115,7 +115,7 @@ export class MethodTableComponent implements OnInit {
       for (const key of Object.keys(resultRecord)) {
         if (tag.month === key) {
           (resultRecord[key] as ResultDetail) = {
-            status: 'initial',
+            status: '9',
             causeRecords: []
           }
         }

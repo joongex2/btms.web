@@ -21,18 +21,18 @@ export class MethodModalComponent implements OnInit {
     { title: '2021', value: '2021' }
   ];
   months: any[] = [
-    { title: 'January', value: 'Jan' },
-    { title: 'February', value: 'Feb' },
-    { title: 'March', value: 'Mar' },
-    { title: 'April', value: 'Apr' },
-    { title: 'May', value: 'May' },
-    { title: 'June', value: 'Jun' },
-    { title: 'July', value: 'Jul' },
-    { title: 'August', value: 'Aug' },
-    { title: 'September', value: 'Sep' },
-    { title: 'October', value: 'Oct' },
-    { title: 'November', value: 'Nov' },
-    { title: 'December', value: 'Dec' },
+    { title: 'January', value: 'jan' },
+    { title: 'February', value: 'feb' },
+    { title: 'March', value: 'mar' },
+    { title: 'April', value: 'apr' },
+    { title: 'May', value: 'may' },
+    { title: 'June', value: 'jun' },
+    { title: 'July', value: 'jul' },
+    { title: 'August', value: 'aug' },
+    { title: 'September', value: 'sep' },
+    { title: 'October', value: 'oct' },
+    { title: 'November', value: 'nov' },
+    { title: 'December', value: 'dec' },
   ];
   yearMonthTags: any[] = [];
 
