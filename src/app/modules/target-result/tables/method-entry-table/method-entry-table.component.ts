@@ -56,4 +56,8 @@ export class MethodEntryTableComponent implements OnInit {
   getResultRecord(resultRecords: ResultRecord[], year: string): ResultRecord {
     return resultRecords.find((res) => res.year == year);
   }
+
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 }
