@@ -6,6 +6,9 @@ export interface RunningNoRecord {
 }
 
 export interface RunningNo {
+    bu: string;
+    subBu: string;
+    plant: string;
     site: string;
     division: string;
     department: string;

@@ -28,10 +28,10 @@ export class PlanModalComponent implements OnInit {
     const planOwner = this.isEdit ? this.modalData.data.planOwner : '';
 
     this.planForm = this._formBuilder.group({
-      planName: [planName, [Validators.required]],
-      planActualSelect: [planActualSelect, [Validators.required]],
+      planName: [planName],
+      planActualSelect: [planActualSelect],
       planResource: [planResource, [Validators.required]],
-      planOwner: [planOwner, [Validators.required]]
+      planOwner: [planOwner]
     });
   }
 
@@ -40,6 +40,10 @@ export class PlanModalComponent implements OnInit {
   }
 
   saveAndClose(): void {
+    if (!this.planForm.valid) {
+      this.planForm.markAllAsTouched();
+      return;
+    }
     const planForm = this.planForm.getRawValue();
     this.matDialogRef.close({
       ...planForm,

@@ -1,9 +1,10 @@
 <app-target-table [dataSource]="mainMethods"
                [displayedColumns]="displayedColumns"
-               [title]="'วิธีการดำเนินงาน/แผนการดำเนินงาน'"
+               [title]="'แผนงาน/รายละเอียด'"
                [renderTemplate]="'mainMethod'"
                [runningNo]="runningNo"
-               [targetId]="targetId"
+               [targetIndex]="targetIndex"
+               [subTargetIndex]="subTargetIndex"
                (addMainMethod)="addMainMethod()"
                (deleteMainMethod)="deleteMainMethod($event)"
                #mainMethodTable

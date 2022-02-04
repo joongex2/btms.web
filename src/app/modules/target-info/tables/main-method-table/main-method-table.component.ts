@@ -10,7 +10,8 @@ import { TargetTableComponent } from '../target-table/target-table.component';
 })
 export class MainMethodTableComponent implements OnInit {
   @Input() runningNo: string;
-  @Input() targetId: string;
+  @Input() targetIndex: string;
+  @Input() subTargetIndex: string;
   @Input() mainMethods: MainMethodRecord[];
   @ViewChild('mainMethodTable') mainMethodTable: TargetTableComponent;
 

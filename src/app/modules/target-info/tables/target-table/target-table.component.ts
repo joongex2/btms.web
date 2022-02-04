@@ -20,7 +20,9 @@ export class TargetTableComponent implements OnInit {
   @Input() renderTemplate: string;
 
   @Input() runningNo: string;
-  @Input() targetId: string;
+  @Input() targetIndex: string;
+  @Input() subTargetIndex: string;
+  @Input() mainMethodIndex: string;
 
   @Output() addTarget: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() addSubTarget: EventEmitter<boolean> = new EventEmitter<boolean>();

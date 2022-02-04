@@ -4,7 +4,7 @@ table {
 
 th.mat-header-cell,
 td.mat-cell {
-    text-align: center;
+    // text-align: center;
     // border: 1px solid rgb(100, 116, 139);
     // padding: 0 !important;
 }
@@ -70,8 +70,10 @@ p.fix-header, p.protect-header {
     justify-content: center;
 }
 
+/* column width */
+/* upload table */
 .mat-column-fileName {
-    width: 25%;
+    width: 27.5%;
 }
 
 .mat-column-uploader {
@@ -83,8 +85,36 @@ p.fix-header, p.protect-header {
 }
 
 .mat-column-deleteIcon {
-    width: 5%;
+    width: 2.5%;
 }
+
+/* cause table */
+.mat-column-expandIcon {
+    width: 10%;
+}
+ 
+.mat-column-causeNo {
+    width: 17.5%;
+}
+
+.mat-column-causeDetail {
+    width: 22.5%;
+}
+
+.mat-column-causeNote {
+    width: 22.5%;
+}
+
+.mat-column-causeStatus {
+    width: 22.5%;
+}
+
+.mat-column-editIcon {
+    width: 2.5%;
+}
+
+/* fix table */
+/* protect table */
 
 :host ::ng-deep .mat-form-field-wrapper {
     margin-bottom: 0 !important;

@@ -13,7 +13,9 @@ import { TargetTableComponent } from '../target-table/target-table.component';
 })
 export class PlanTableComponent implements OnInit {
   @Input() runningNo: string;
-  @Input() targetId: string;
+  @Input() targetIndex: string;
+  @Input() subTargetIndex: string;
+  @Input() mainMethodIndex: string;
   @Input() plans: PlanRecord[];
   @ViewChild('planTable') planTable: TargetTableComponent;
 

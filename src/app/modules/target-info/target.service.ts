@@ -8,6 +8,9 @@ export class TargetService {
     runningNos: RunningNoRecord[] = [
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",
@@ -120,7 +123,7 @@ export class TargetService {
                                                                     {
                                                                         year: '2019',
                                                                         "jan": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: [
                                                                                 {
                                                                                     data: {
@@ -159,82 +162,82 @@ export class TargetService {
                                                                             ]
                                                                         },
                                                                         "feb": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "mar": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "apr": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "may": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jun": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jul": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "aug": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "sep": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "oct": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "nov": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "dec": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         }
                                                                     },
                                                                     {
                                                                         year: '2020',
                                                                         "jan": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "may": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jun": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jul": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "aug": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "sep": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "oct": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "dec": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         }
                                                                     }
@@ -328,35 +331,35 @@ export class TargetService {
                                                                     {
                                                                         year: '2019',
                                                                         "jan": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "may": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jun": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jul": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "aug": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "sep": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "oct": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "dec": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         }
                                                                     }
@@ -442,31 +445,31 @@ export class TargetService {
                                                                     {
                                                                         year: '2019',
                                                                         "jan": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "feb": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "mar": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "apr": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "may": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jun": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         },
                                                                         "jul": {
-                                                                            status: '9',
+                                                                            status: '>9',
                                                                             causeRecords: []
                                                                         }
                                                                     }
@@ -491,6 +494,9 @@ export class TargetService {
         },
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร2 จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",
@@ -522,6 +528,9 @@ export class TargetService {
         },
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร3 จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",
@@ -541,6 +550,9 @@ export class TargetService {
         },
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร4 จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",
@@ -560,6 +572,9 @@ export class TargetService {
         },
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร3 จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",
@@ -579,6 +594,9 @@ export class TargetService {
         },
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร4 จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",
@@ -598,6 +616,9 @@ export class TargetService {
         },
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร5 จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",
@@ -617,6 +638,9 @@ export class TargetService {
         },
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร6 จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",
@@ -636,6 +660,9 @@ export class TargetService {
         },
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร7 จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",
@@ -655,6 +682,9 @@ export class TargetService {
         },
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร8 จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",
@@ -674,6 +704,9 @@ export class TargetService {
         },
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร9 จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",
@@ -693,6 +726,9 @@ export class TargetService {
         },
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร10 จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",
@@ -712,6 +748,9 @@ export class TargetService {
         },
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร11 จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",
@@ -731,6 +770,9 @@ export class TargetService {
         },
         {
             data: {
+                "bu": "Agro",
+                "subBu": "Feed",
+                "plant": "BTG-LR1",
                 "site": "บริษัท เบทาโกร12 จำกัด มหาชน (โรงงานปากช่อง)",
                 "division": "สำนักการผลิต (FC)",
                 "department": "แผนกวิศวกรรม",

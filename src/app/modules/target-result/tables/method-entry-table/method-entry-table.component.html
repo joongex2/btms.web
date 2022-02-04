@@ -1,9 +1,5 @@
 <table mat-table [dataSource]="dataSource"
     class="mat-elevation-z8 plan-entry" multiTemplateDataRows>
-    <ng-container matColumnDef="methodNo">
-        <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
-        <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.rowspan]="4">{{i+1}}</td>
-    </ng-container>
     <ng-container matColumnDef="methodName">
         <th mat-header-cell *matHeaderCellDef>รายละเอียด</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.rowspan]="4" class="text-left"
@@ -38,8 +34,9 @@
             [ngClass]="{
                 'border border-solid border-white': col=='dec' 
             }">
-            <ng-container *ngIf="yearSelects && getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value) && getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value)[col.replace('2','')] != undefined; else blank">
-                <a href="#" onClick="return false" class="text-month">P</a>
+            <ng-container *ngIf="yearSelects && getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value) && getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value)[col] != undefined; else blank">
+                <a href="#" onClick="return false" class="text-month">P</a><br>
+                {{subTargetSymbolValue}}
             </ng-container>
             <ng-template #blank></ng-template>
         </td>
@@ -56,7 +53,7 @@
             <ng-container *ngIf="yearSelects && getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value) && getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value)[col.replace('2','')] != undefined; else blank">
                 <mat-checkbox [color]="'primary'"></mat-checkbox>
                 <a class="text-month" href="#" onClick="return false" (click)="openTargetEntryModal(yearSelects.toArray()[i]?.value, col.replace('2',''))">A</a><br>
-                9
+                {{subTargetSymbolValue}}
             </ng-container>
             <ng-template #blank></ng-template>
         </td>

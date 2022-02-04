@@ -31,6 +31,7 @@ import { ProtectModalComponent } from '../protect-modal/protect-modal.component'
 export class TargetEntryDetailModalComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('uploadFileInput') uploadFileInput: ElementRef;
+  @ViewChild('uploadCauseAndFixFileInput') uploadCauseAndFixFileInput: ElementRef;
   @ViewChild('causeTable') causeTable: MatTable<Cause>;
   @ViewChildren('fixTable') fixTables: QueryList<MatTable<Fix>>;
   @ViewChildren('protectTable') protectTables: QueryList<MatTable<Protect>>;
@@ -42,7 +43,9 @@ export class TargetEntryDetailModalComponent implements OnInit {
     'deleteIcon'
   ];
   fileUploads: FileUpload[];
+  causeAndFixFileUploads: FileUpload[];
   fileList: FileList;
+  causeAndFixFileList: FileList;
   showRefDocument: boolean = false;
 
   dataColumns2 = [
@@ -115,8 +118,9 @@ export class TargetEntryDetailModalComponent implements OnInit {
   ];
 
   //bind value
-  dataSource: MatTableDataSource<FileUpload>;
-  // dataSource2: any;
+  dataSource: MatTableDataSource<FileUpload>; // saveResult File Table Source
+  causeAndFixFiles: MatTableDataSource<FileUpload>; // causeAndFix File Table Source
+
   targetResult: string;
   naCheckBox: boolean;
   choice: string;
@@ -144,7 +148,9 @@ export class TargetEntryDetailModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.fileUploads = this._targetResultService.getFileUploads();
+    this.causeAndFixFileUploads = this._targetResultService.getCauseAndFixFileUploads();
     this.dataSource = new MatTableDataSource(this.fileUploads);
+    this.causeAndFixFiles = new MatTableDataSource(this.causeAndFixFileUploads);
   }
 
   ngAfterViewInit(): void {
@@ -165,9 +171,14 @@ export class TargetEntryDetailModalComponent implements OnInit {
     this.causes = (this.method.resultRecords.find(res => res.year == this.year)[this.month] as ResultDetail).causeRecords;
   }
 
-  deleteUser(index: number): void {
+  deleteFileUpload(index: number): void {
     this.fileUploads.splice(index, 1);
     this.dataSource.data = this.fileUploads;
+  }
+
+  deleteCauseAndFixFileUpload(index: number): void {
+    this.causeAndFixFileUploads.splice(index, 1);
+    this.causeAndFixFiles.data = this.causeAndFixFileUploads;
   }
 
   uploadFile(fileList: FileList): void {
@@ -184,6 +195,23 @@ export class TargetEntryDetailModalComponent implements OnInit {
       this.dataSource.data = this.fileUploads;
       this.fileList = undefined;
       this.uploadFileInput.nativeElement.value = '';
+    }
+  }
+
+  uploadCauseAndFixFile(causeAndFixFileList: FileList): void {
+    this.causeAndFixFileList = causeAndFixFileList;
+  }
+
+  uploadCauseAndFixFileClick(): void {
+    if (this.causeAndFixFileList && this.causeAndFixFileList.length > 0) {
+      this.causeAndFixFileUploads.push({
+        fileName: this.causeAndFixFileList[0].name,
+        uploader: 'xxx',
+        date: 'xxx'
+      });
+      this.causeAndFixFiles.data = this.causeAndFixFileUploads;
+      this.causeAndFixFileList = undefined;
+      this.uploadCauseAndFixFileInput.nativeElement.value = '';
     }
   }
 

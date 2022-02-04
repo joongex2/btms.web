@@ -2,7 +2,7 @@
     [ngClass]="{ 
         'target-table' : title === 'เป้าหมายหลัก', 
         'sub-target-table' : title === 'เป้าหมายย่อย',
-        'method-table': title === 'วิธีการดำเนินงาน/แผนการดำเนินงาน'}"
+        'method-table': title === 'แผนงาน/รายละเอียด'}"
     [class.sub-row]="title"
 >
     <p class="table-title flex flex-row justify-between cursor-pointer">
@@ -80,8 +80,20 @@
                 </ng-container>
                 <ng-container *ngIf="key.includes('mainMethodDetail')">
                     <div class="flex flex-col w-full">
-                        <app-plan-table class="border-x border-x-white" [plans]="element.kids.planRecords"></app-plan-table>
-                        <app-method-table class="border-x border-x-white" [methods]="element.kids.methodRecords"></app-method-table>    
+                        <app-plan-table class="border-x border-x-white" 
+                            [runningNo]="runningNo"
+                            [targetIndex]="targetIndex"
+                            [subTargetIndex]="subTargetIndex"
+                            [mainMethodIndex]="i"
+                            [plans]="element.kids.planRecords">
+                        </app-plan-table>
+                        <app-method-table class="border-x border-x-white"
+                            [runningNo]="runningNo"
+                            [targetIndex]="targetIndex"
+                            [subTargetIndex]="subTargetIndex"
+                            [mainMethodIndex]="i"
+                            [methods]="element.kids.methodRecords"
+                        ></app-method-table>    
                     </div>
                 </ng-container>
             </mat-cell>
@@ -89,16 +101,19 @@
 
         <!-- EXPANDABLE ROW -->
         <ng-container matColumnDef="expandedDetail">
-            <mat-cell *matCellDef="let element"
+            <mat-cell *matCellDef="let element; let i = dataIndex"
                 [@expandableRow]="checkExpanded(element) ? 'expanded' : 'collapsed'">
                 <div class="w-full" [ngSwitch]="renderTemplate">
                     <app-sub-target-table *ngSwitchCase="'target'" 
                         [runningNo]="runningNo" 
-                        [targetId]="element.data['targetId']" 
+                        [targetIndex]="i"
                         [subTargets]="element.kids.records"
                     >
                     </app-sub-target-table>
-                    <app-main-method-table *ngSwitchCase="'subTarget'" 
+                    <app-main-method-table *ngSwitchCase="'subTarget'"
+                        [runningNo]="runningNo"
+                        [targetIndex]="targetIndex"
+                        [subTargetIndex]="i"
                         [mainMethods]="element.kids.records">
                     </app-main-method-table>
                 </div>

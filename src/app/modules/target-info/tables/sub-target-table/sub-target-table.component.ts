@@ -12,7 +12,7 @@ import { SubTarget, SubTargetRecord } from './../../target.types';
 })
 export class SubTargetTableComponent implements OnInit {
   @Input() runningNo: string;
-  @Input() targetId: string;
+  @Input() targetIndex: string;
   @Input() subTargets: SubTargetRecord[];
   @ViewChild('subTargetTable') subTargetTable: TargetTableComponent;
 

@@ -44,7 +44,15 @@ export class TargetResultService {
             uploader: '',
             date: ''
         }
-    ]
+    ];
+
+    causeAndFixFileUploads: FileUpload[] = [
+        {
+            fileName: 'cause-and-fix-1.xlsx',
+            uploader: '',
+            date: ''
+        }
+    ];
 
     constructor(){}
 
@@ -54,5 +62,9 @@ export class TargetResultService {
     
     getFileUploads() {
         return this.fileUploads;
+    }
+
+    getCauseAndFixFileUploads() {
+        return this.causeAndFixFileUploads;
     }
 }
