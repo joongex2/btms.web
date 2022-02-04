@@ -18,7 +18,7 @@ export class Dashboard1Component implements OnInit, OnDestroy {
   chartMonthlyExpenses: ApexOptions = {};
   chartYearlyExpenses: ApexOptions = {};
   data: any;
-  selectedProject: string = 'ACME Corp. Backend App';
+  selectedProject: string = 'Dashboard 1';
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   /**

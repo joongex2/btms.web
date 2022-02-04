@@ -10,22 +10,22 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id   : 'dashboards.dashboard1',
-                title: 'Dashboard 1',
+                title: 'Dashboard',
                 type : 'basic',
                 link : '/dashboards/dashboard1'
             },
-            {
-                id   : 'dashboards.dashboard2',
-                title: 'Dashboard 2',
-                type : 'basic',
-                link : '/dashboards/dashboard2'
-            },
-            {
-                id   : 'dashboards.dashboard3',
-                title: 'Dashboard 3',
-                type : 'basic',
-                link : '/dashboards/dashboard3'
-            }
+            // {
+            //     id   : 'dashboards.dashboard2',
+            //     title: 'Dashboard 2',
+            //     type : 'basic',
+            //     link : '/dashboards/dashboard2'
+            // },
+            // {
+            //     id   : 'dashboards.dashboard3',
+            //     title: 'Dashboard 3',
+            //     type : 'basic',
+            //     link : '/dashboards/dashboard3'
+            // }
         ]
     }, {
         id      : 'target-info',
