@@ -36,17 +36,32 @@
     padding: 0 24px !important;
 }
 
-:host ::ng-deep .mat-sort-header-arrow {
-    color: white !important;
-}
-
 :host ::ng-deep .mat-form-field-wrapper {
     margin-bottom: 0 !important;
 }
 
-mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
-    padding-left: 12px;
+table {
+    width: 100%;
+    table-layout: fixed;
+    min-width: 800px;
 }
+
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
+}
+
+.mat-header-cell {
+    color: white !important
+}
+
+:host ::ng-deep .mat-sort-header-arrow {
+    color: white !important;
+}
+
+// mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
+//     padding-left: 12px;
+// }
 
 /* color */
 .mat-header-row {
@@ -71,48 +86,34 @@ mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-
 }
 
 /* column width */
-.mat-column-detailIcon {
-    flex-basis: 5%;
-}
-
 .mat-column-parentId {
-    flex-basis: 10%;
+    width: 12.5%;
 }
 
 .mat-column-menuId {
-    flex-basis: 10%;
+    width: 10%;
 }
 
 .mat-column-menuTitle {
-    flex-basis: 35%;
+    width: 37.5%;
 }
 
 .mat-column-menuSequence {
-    flex-basis: 10%;
+    width: 10%;
 }
 
 .mat-column-menuUrl {
-    flex-basis: 15%;
+    width: 15%;
 }
 
 .mat-column-status {
-    flex-basis: 10%;
+    width: 10%;
 }
 
 .mat-column-editIcon {
-    flex-basis: 2.5%;
+    width: 2.5%;
 }
 
 .mat-column-deleteIcon {
-    flex-basis: 2.5%;
-}
-
-@media only screen and (max-width: 768px) {
-    .mat-table {
-        overflow-x: scroll;
-    }
-    .mat-row,
-    .mat-header-row {
-        min-width: 800px;
-    }
+    width: 2.5%;
 }

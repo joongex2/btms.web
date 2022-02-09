@@ -30,16 +30,8 @@
                         {{element.date}}
                     </td>
                 </ng-container>
-                <!-- <ng-container matColumnDef="disclaimer">
-                    <td mat-footer-cell *matFooterCellDef colspan="3">
-                        <div class="flex justify-between items-center">
-                            Found {{lastComments.length}} record(s)
-                        </div>
-                    </td>
-                </ng-container> -->
                 <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: dataColumns"></tr>
-                <!-- <tr mat-footer-row *matFooterRowDef="['disclaimer']" class="example-second-footer-row"></tr> -->
             </table>
             <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>    
         </div>

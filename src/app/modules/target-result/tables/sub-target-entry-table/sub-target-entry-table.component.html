@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 sub-target-entry"
+<table mat-table [dataSource]="subTargets" class="mat-elevation-z8 sub-target-entry"
     multiTemplateDataRows>
     <ng-container matColumnDef="expandIcon">
         <th mat-header-cell *matHeaderCellDef></th>
@@ -54,7 +54,7 @@
             <div class="expand-element"
                 [@detailExpand]="checkExpanded(element) ? 'expanded' : 'collapsed'">
                 <app-main-method-entry-table 
-                    [dataSource]="element.kids.records" 
+                    [mainMethods]="element.kids.records" 
                     [runningNo]="runningNo"
                     [targetIndex]="targetIndex"
                     [subTargetIndex]="i"

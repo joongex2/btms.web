@@ -1,72 +1,98 @@
-:host ::ng-deep {
-  /* color */
-  .sub-row p {
-    background-color: rgb(119, 112, 36) !important;
-    color: white !important;
-  }
 
-  .mat-header-row {
-    background-color: rgb(137, 129, 61) !important;
-  }
+table {
+  width: 100%;
+  table-layout: fixed;
+}
 
-  .mat-row {
-    background-color: rgb(219, 215, 177) !important;
-  }
+.mat-header-cell,
+.mat-cell {
+  border-bottom-color: white !important;
+}
 
-  .mat-header-cell {
-    color: white !important;
-  }
+.mat-header-cell {
+  color: white !important;
+}
 
-  /* column width */
-  .mat-column-expandIcon {
-    flex-basis: 5% !important;
-  }
+tr.expand-row {
+  height: 0;
+}
 
-  .mat-column-subTargetId {
-    flex-basis: 5% !important;
-  }
+tr.normal-row td {
+  border-bottom-width: 0;
+}
 
-  .mat-column-subTargetName {
-    flex-basis: 15% !important;
-  }
+.expand-element {
+  overflow: hidden;
+  display: flex;
+}
 
-  .mat-column-index {
-    flex-basis: 10% !important;
-  }
+/* color */
+p.table-title {
+  font-size: 12px;
+  font-weight: bold;
+  border-bottom: 1px solid white;
+  padding: 10px;
+  background-color: rgb(119, 112, 36);
+  color: white !important;
+}
 
-  .mat-column-symbolValue {
-    flex-basis: 10% !important;
-  }
+.mat-header-row {
+  background-color: rgb(137, 129, 61) !important;
+}
 
-  .mat-column-unit {
-    flex-basis: 10% !important;
-  }
+.mat-row {
+  background-color: rgb(219, 215, 177) !important;
+}
 
-  .mat-column-currentValue {
-    flex-basis: 10% !important;
-  }
+/* column width */
+.mat-column-expandIcon {
+  width: 5%;
+}
 
-  .mat-column-startMonth {
-    flex-basis: 7.5% !important;
-  }
+.mat-column-subTargetId {
+  width: 5%;
+}
 
-  .mat-column-startYear {
-    flex-basis: 7.5% !important;
-  }
+.mat-column-subTargetName {
+  width: 15%;
+}
 
-  .mat-column-finishMonth {
-    flex-basis: 7.5% !important;
-  }
+.mat-column-index {
+  width: 10%;
+}
 
-  .mat-column-finishYear {
-    flex-basis: 7.5% !important;
-  }
+.mat-column-symbolValue {
+  width: 10%;
+}
 
-  .mat-column-editIcon {
-    flex-basis: 2.5% !important;
-  }
+.mat-column-unit {
+  width: 10%;
+}
 
-  .mat-column-deleteIcon {
-    flex-basis: 2.5%;
-  }
+.mat-column-currentValue {
+  width: 10%;
+}
+
+.mat-column-startMonth {
+  width: 7.5%;
+}
+
+.mat-column-startYear {
+  width: 7.5%;
+}
+
+.mat-column-finishMonth {
+  width: 7.5%;
+}
+
+.mat-column-finishYear {
+  width: 7.5%;
+}
+
+.mat-column-editIcon {
+  width: 2.5%;
+}
+
+.mat-column-deleteIcon {
+  width: 2.5%;
 }

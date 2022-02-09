@@ -1,25 +1,56 @@
-:host ::ng-deep {
-    .mat-column-planName {
-        flex-basis: 38%!important;
-    }
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+  
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
+}
 
-    .mat-column-planActual {
-        flex-basis: 19% !important;
-    }
+.mat-header-cell {
+    color: white !important;
+}
 
-    .mat-column-planResource {
-        flex-basis: 19% !important;
-    }
+/* color */
+p.table-title {
+    font-size: 12px;
+    font-weight: bold;
+    border-bottom: 1px solid white;
+    padding: 10px;
+    background-color: rgb(15, 55, 97);
+    color: white !important;
+}
 
-    .mat-column-planOwner {
-        flex-basis: 19% !important;
-    }
+.mat-header-row {
+    background-color: rgb(23, 78, 136) !important;
+}
 
-    .mat-column-editIcon {
-        flex-basis: 2.5% !important;
-    }
-    
-    .mat-column-deleteIcon {
-        flex-basis: 2.5% !important;
-    }
+.mat-row {
+    background-color: rgb(187, 211, 236) !important;
+}
+
+/* column width */
+.mat-column-planName {
+    width: 38%;
+}
+
+.mat-column-planActual {
+    width: 19%;
+}
+
+.mat-column-planResource {
+    width: 19%;
+}
+
+.mat-column-planOwner {
+    width: 19%;
+}
+
+.mat-column-editIcon {
+    width: 2.5%;
+}
+
+.mat-column-deleteIcon {
+    width: 2.5%;
 }

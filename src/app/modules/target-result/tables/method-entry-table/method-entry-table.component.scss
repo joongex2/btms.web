@@ -3,15 +3,19 @@ table {
     table-layout: fixed;
 }
 
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
+}
+
+.mat-header-cell {
+    color: white !important
+}
+
 th.mat-header-cell,
 td.mat-cell {
     text-align: center;
     padding: 0 !important;
-}
-
-.mat-header-cell,
-.mat-cell {
-    border-bottom-color: white !important;
 }
 
 td {
@@ -55,10 +59,6 @@ mat-checkbox {
     background-color: rgb(203, 213, 225);
 }
 
-.hide {
-    display: none
-}
-
 .header-row {
     height: 20px !important;
 }
@@ -68,16 +68,12 @@ mat-checkbox {
 }
 
 /* table color */
-:host ::ng-deep thead > tr {
+.mat-header-row  {
     background-color: rgb(23, 78, 136) !important;
 }
 
-:host ::ng-deep tbody > tr {
+.mat-row {
     background-color: rgb(187, 211, 236) !important;
-}
-
-:host ::ng-deep thead > tr > th.mat-header-cell {
-    color: white !important;
 }
 
 /* column width */

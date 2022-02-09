@@ -1,24 +1,15 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
 import { SubTargetRecord } from 'app/modules/target-info/target.types';
+import { detailExpandAnimation } from 'app/shared/table-animation';
 
 @Component({
   selector: 'app-sub-target-entry-table',
   templateUrl: './sub-target-entry-table.component.html',
   styleUrls: ['./sub-target-entry-table.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition(
-        'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-    ]),
-  ],
+  animations: [detailExpandAnimation],
 })
 export class SubTargetEntryTableComponent implements OnInit {
-  @Input() dataSource: SubTargetRecord[];
+  @Input() subTargets: SubTargetRecord[];
   @Input() runningNo: string;
   @Input() targetIndex: number;
 
@@ -53,7 +44,7 @@ export class SubTargetEntryTableComponent implements OnInit {
   }
 
   expandAll() {
-    for (let subTarget of this.dataSource) {
+    for (let subTarget of this.subTargets) {
       this.expandedSubtargets.push(subTarget);
     }
   }

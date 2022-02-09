@@ -44,7 +44,6 @@ export class UserComponent implements OnInit {
 
   // table setting
   displayedColumns: string[] = [
-    'detailIcon',
     'userLogin',
     'userName',
     'email',

@@ -1,128 +1,80 @@
-<div 
-    [ngClass]="{ 
-        'target-table' : title === 'เป้าหมายหลัก', 
-        'sub-target-table' : title === 'เป้าหมายย่อย',
-        'method-table': title === 'แผนงาน/รายละเอียด'}"
-    [class.sub-row]="title"
->
-    <p class="table-title flex flex-row justify-between cursor-pointer">
-        <span>{{ title }}</span>
-        <span *ngIf="renderTemplate === 'target'" class="flex items-center" (click)="addTarget.next(true);">
-            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มเป้าหมายหลัก
-        </span>
-        <span *ngIf="renderTemplate === 'subTarget'" class="flex items-center" (click)="addSubTarget.next(true);">            
-            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มเป้าหมายย่อย
-        </span>
-        <span *ngIf="renderTemplate === 'mainMethod'" class="flex items-center" (click)="addMainMethod.next(true);">
-            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มวิธีการดำเนินงาน
-        </span>
-        <span *ngIf="renderTemplate === 'plan'" class="flex items-center" (click)="addPlan.next(true);">
-            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่ม Plan
-        </span>
-        <span *ngIf="renderTemplate === 'method'" class="flex items-center" (click)="addMethod.next(true);">
-            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มรายละเอียด
-        </span>
-    </p>
-    <mat-table [dataSource]="dataSource" multiTemplateDataRows>
-
-        <!-- COLUMNS AND ROWS-->
-        <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
-            <mat-header-cell *matHeaderCellDef>
-                <ng-container *ngIf="key != 'expandIcon' || renderTemplate != 'target';else expandIcon">{{ key.includes('Icon') ? '' : keyToColumnName[key] }}</ng-container>
-                <ng-template #expandIcon>
-                    <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-down" (click)="expandAll()"></mat-icon>
-                    <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-up" (click)="collapseAll()"></mat-icon>
-                </ng-template>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element; let i = dataIndex">
-                <span *ngIf="!key.includes('Icon') && !key.includes('mainMethodDetail') && !key.includes('year')  && subMethodColumns.indexOf(key) == -1">
-                    <ng-container *ngIf="key == 'startMonth' || key == 'finishMonth'">{{ element.data[key] | month }}</ng-container>
-                    <ng-container *ngIf="key == 'planActual'">{{ element.data[key] | date: 'dd/MM/yyyy' }}</ng-container>
-                    <ng-container *ngIf="key == 'symbolValue'">{{ element.data['symbol'] }}{{ element.data['value'] }}</ng-container>
-                    <ng-container *ngIf="key != 'startMonth' && key != 'finishMonth' && key != 'symbolValue' && key != 'planActual'">{{ element.data[key] }}</ng-container>
-                </span>
-                <span *ngIf="subMethodColumns.indexOf(key) != -1" class="w-full">
-                    <ng-container *ngIf="key !== 'year' && yearSelects">
-                        {{getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value) ? 
-                            getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value)[key] ?
-                                getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value)[key].status 
-                                : '-'
-                            : '-'}}
-                    </ng-container>
-                </span>
-                <span *ngIf="key == 'year'" class="w-full p-1">
-                    <mat-form-field class="w-full year-select">
-                        <mat-select #yearSelect name="yearSelect" id="yearSelect" [value]="element.data.resultRecords[0] ? element.data.resultRecords[0].year: undefined">
-                            <mat-option *ngFor="let year of getYears(element.data.resultRecords)" [value]="year">
-                                {{year}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </span>
-                
-                <ng-container *ngIf="key.includes('Icon')">
-                    <mat-icon *ngIf="key === 'expandIcon'"
-                        [class.active]="checkExpanded(element)"
-                        (click)="pushPopElement(element)">play_arrow</mat-icon>
-                    
-                    <!-- editIcon -->
-                    <mat-icon *ngIf="renderTemplate === 'target' && key === 'editIcon'" (click)="editTarget.next(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขหมายหลัก"></mat-icon>
-                    <mat-icon *ngIf="renderTemplate === 'subTarget' && key === 'editIcon'" (click)="editSubTarget.next(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขเป้าหมายย่อย"></mat-icon>
-                    <mat-icon *ngIf="renderTemplate === 'plan' && key === 'editIcon'" (click)="editPlan.next(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขแผนงาน"></mat-icon>
-                    <mat-icon *ngIf="renderTemplate === 'method' && key === 'editIcon'" (click)="editMethod.next(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขรายละเอียด"></mat-icon>
-
-                    <!-- deleteIcon -->
-                    <mat-icon *ngIf="renderTemplate === 'target' && key === 'deleteIcon'" (click)="deleteTarget.next(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบเป้าหมายหลัก"></mat-icon>
-                    <mat-icon *ngIf="renderTemplate === 'subTarget' && key === 'deleteIcon'" (click)="deleteSubTarget.next(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบเป้าหมายย่อย"></mat-icon>
-                    <mat-icon *ngIf="renderTemplate === 'mainMethod' && key === 'deleteIcon'" (click)="deleteMainMethod.next(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบวิธีการดำเนินงาน"></mat-icon>
-                    <mat-icon *ngIf="renderTemplate === 'plan' && key === 'deleteIcon'" (click)="deletePlan.next(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบแผนงาน"></mat-icon>
-                    <mat-icon *ngIf="renderTemplate === 'method' && key === 'deleteIcon'" (click)="deleteMethod.next(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบรายละเอียด"></mat-icon>
-                </ng-container>
-                <ng-container *ngIf="key.includes('mainMethodDetail')">
-                    <div class="flex flex-col w-full">
-                        <app-plan-table class="border-x border-x-white" 
-                            [runningNo]="runningNo"
-                            [targetIndex]="targetIndex"
-                            [subTargetIndex]="subTargetIndex"
-                            [mainMethodIndex]="i"
-                            [plans]="element.kids.planRecords">
-                        </app-plan-table>
-                        <app-method-table class="border-x border-x-white"
-                            [runningNo]="runningNo"
-                            [targetIndex]="targetIndex"
-                            [subTargetIndex]="subTargetIndex"
-                            [mainMethodIndex]="i"
-                            [methods]="element.kids.methodRecords"
-                        ></app-method-table>    
-                    </div>
-                </ng-container>
-            </mat-cell>
-        </ng-container>
-
-        <!-- EXPANDABLE ROW -->
-        <ng-container matColumnDef="expandedDetail">
-            <mat-cell *matCellDef="let element; let i = dataIndex"
-                [@expandableRow]="checkExpanded(element) ? 'expanded' : 'collapsed'">
-                <div class="w-full" [ngSwitch]="renderTemplate">
-                    <app-sub-target-table *ngSwitchCase="'target'" 
-                        [runningNo]="runningNo" 
-                        [targetIndex]="i"
-                        [subTargets]="element.kids.records"
-                    >
-                    </app-sub-target-table>
-                    <app-main-method-table *ngSwitchCase="'subTarget'"
-                        [runningNo]="runningNo"
-                        [targetIndex]="targetIndex"
-                        [subTargetIndex]="i"
-                        [mainMethods]="element.kids.records">
-                    </app-main-method-table>
+<p class="table-title flex flex-row justify-between items-center">
+    <span>เป้าหมายหลัก</span>
+    <span class="flex items-center cursor-pointer" (click)="addTarget();">
+        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มเป้าหมายหลัก
+    </span>
+</p>
+<div class="overflow-x-auto">
+    <table mat-table [dataSource]="targets" multiTemplateDataRows #targetTable>
+        <ng-container matColumnDef="expandIcon">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-down" (click)="expandAll()"></mat-icon>
+                <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-up" (click)="collapseAll()"></mat-icon>
+            </th>
+            <td mat-cell *matCellDef="let element; let i = dataIndex">
+                <div class="flex items-center">
+                    <mat-icon [class.active]="checkExpanded(element)" (click)="pushPopElement(element)">play_arrow</mat-icon>
                 </div>
-            </mat-cell>
+            </td>
         </ng-container>
-
-        <mat-header-row [ngClass]="{ 'hide-header' : renderTemplate === 'mainMethod' }" *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row class="normal-row" *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        <mat-row class="expandable-row" *matRowDef="let row; columns: ['expandedDetail'];">
-        </mat-row>
-    </mat-table>
+        <ng-container matColumnDef="targetId">
+            <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
+            <td mat-cell *matCellDef="let element; let i = dataIndex">
+                {{element.data.targetId}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>หัวข้อเป้าหมาย</th>
+            <td mat-cell *matCellDef="let element; let i = dataIndex">
+                {{element.data.name}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="standard">
+            <th mat-header-cell *matHeaderCellDef>Standard</th>
+            <td mat-cell *matCellDef="let element; let i = dataIndex">
+                {{element.data.standard}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="relativeTarget">
+            <th mat-header-cell *matHeaderCellDef>พันธะมุ่งหมาย</th>
+            <td mat-cell *matCellDef="let element; let i = dataIndex">
+                {{element.data.relativeTarget}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="editIcon">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element; let i = dataIndex">
+                <div class="flex items-center">
+                    <mat-icon (click)="editTarget(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขหมายหลัก"></mat-icon>
+                </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="deleteIcon">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element; let i = dataIndex">
+                <div class="flex items-center">
+                    <mat-icon (click)="deleteTarget(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบเป้าหมายหลัก"></mat-icon>
+                </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.colspan]="7">
+                <div class="expand-element"
+                [@detailExpand]="checkExpanded(element) ? 'expanded' : 'collapsed'">
+                    <div class="w-full">
+                        <app-sub-target-table
+                            [runningNo]="runningNo" 
+                            [targetIndex]="i"
+                            [subTargets]="element.kids.records"
+                        >
+                        </app-sub-target-table>
+                    </div>
+                </div>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="normal-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail'];" class="expand-row"></tr>
+    </table>
 </div>
+

@@ -1,0 +1,69 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
+}
+
+.mat-header-cell {
+    color: white !important
+}
+
+tr.expand-row {
+    height: 0;
+}
+
+tr.normal-row td {
+    border-bottom-width: 0;
+}
+
+.expand-element {
+    overflow: hidden;
+    display: flex;
+}
+
+/* color */
+p.cause-header {
+    font-size: 12px;
+    font-weight: bold;
+    border-bottom: 1px solid white;
+    padding: 10px;
+    background-color: rgb(97, 138, 2);
+    color: white !important;
+}
+
+.mat-header-row {
+    background-color: rgb(132, 189, 0) !important;
+}
+
+.mat-row {
+    background-color: rgb(218, 235, 180) !important;
+}
+
+/* column width */
+.mat-column-expandIcon {
+    width: 10%;
+}
+ 
+.mat-column-causeNo {
+    width: 17.5%;
+}
+
+.mat-column-causeDetail {
+    width: 22.5%;
+}
+
+.mat-column-causeNote {
+    width: 22.5%;
+}
+
+.mat-column-causeStatus {
+    width: 22.5%;
+}
+
+.mat-column-editIcon {
+    width: 2.5%;
+}

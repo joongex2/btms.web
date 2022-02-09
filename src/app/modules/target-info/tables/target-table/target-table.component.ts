@@ -1,176 +1,48 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSelect } from '@angular/material/select';
 import { MatTable } from '@angular/material/table';
-import { ResultRecord, SubTarget, Target } from '../../target.types';
+import { detailExpandAnimation } from 'app/shared/table-animation';
+import { ModalMode } from '../../modals/modal.type';
+import { TargetModalComponent } from '../../modals/target-modal/target-modal.component';
+import { Target, TargetRecord } from '../../target.types';
 import { SubTargetTableComponent } from '../sub-target-table/sub-target-table.component';
-import { TargetService } from './../../target.service';
-import { expandableTableRowAnimation } from './../table-animation';
 
 @Component({
   selector: 'app-target-table',
   templateUrl: './target-table.component.html',
   styleUrls: ['./target-table.component.scss'],
-  animations: [expandableTableRowAnimation]
+  animations: [detailExpandAnimation]
 })
 export class TargetTableComponent implements OnInit {
-  @Input() dataSource: any;
-  @Input() displayedColumns: string[];
-  @Input() title: string;
-  @Input() renderTemplate: string;
-
   @Input() runningNo: string;
-  @Input() targetIndex: string;
-  @Input() subTargetIndex: string;
-  @Input() mainMethodIndex: string;
+  @Input() targets: TargetRecord[];
 
-  @Output() addTarget: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() addSubTarget: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() addMainMethod: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() addPlan: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() addMethod: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-  @Output() editTarget: EventEmitter<number> = new EventEmitter<number>();
-  @Output() editSubTarget: EventEmitter<number> = new EventEmitter<number>();
-  @Output() editPlan: EventEmitter<number> = new EventEmitter<number>();
-  @Output() editMethod: EventEmitter<number> = new EventEmitter<number>();
-
-  @Output() deleteTarget: EventEmitter<number> = new EventEmitter<number>();
-  @Output() deleteSubTarget: EventEmitter<number> = new EventEmitter<number>();
-  @Output() deleteMainMethod: EventEmitter<number> = new EventEmitter<number>();
-  @Output() deletePlan: EventEmitter<number> = new EventEmitter<number>();
-  @Output() deleteMethod: EventEmitter<number> = new EventEmitter<number>();
-
-  @ViewChild(MatTable) table: MatTable<any>;
-  @ViewChildren('yearSelect') yearSelects: QueryList<MatSelect>;
   @ViewChildren(SubTargetTableComponent) subTargetTables: QueryList<SubTargetTableComponent>;
+  @ViewChild('targetTable') targetTable: MatTable<Target>;
 
-  expandedId: string = '';
-
-  // subTargetModal
-  type = [
-    { name: 'type1', value: 1 },
-    { name: 'type2', value: 2 }
+  displayedColumns: string[] = [
+    'expandIcon',
+    'targetId',
+    'name',
+    'standard',
+    'relativeTarget',
+    'editIcon',
+    'deleteIcon'
   ];
-  targetValues = [
-    { name: 'targetValue1', value: 1 },
-    { name: 'targetValue2', value: 2 }
-  ];
-  start1 = [
-    { name: 'start11', value: 1 },
-    { name: 'start12', value: 2 }
-  ];
-  start2 = [
-    { name: 'start21', value: 1 },
-    { name: 'start22', value: 2 }
-  ];
-  finish1 = [
-    { name: 'finish1', value: 1 },
-    { name: 'finish2', value: 2 }
-  ];
-  finish2 = [
-    { name: 'finish21', value: 1 },
-    { name: 'finish22', value: 2 }
-  ];
-
-  selectedType: string;
-  selectedTargetValue: string;
-  selectedStart1: string;
-  selectedStart2: string;
-  selectedFinish1: string;
-  selectedFinish2: string;
-
-  expandedTargets: Target[] = [];
-  expandedSubtargets: SubTarget[] = [];
-
-  subMethodColumns: any = [
-    'year',
-    'jan',
-    'feb',
-    'mar',
-    'apr',
-    'may',
-    'jun',
-    'jul',
-    'aug',
-    'sep',
-    'oct',
-    'nov',
-    'dec',
-  ]
-
-  keyToColumnName: any = {
-    'targetId': 'ลำดับที่',
-    'name': 'หัวข้อเป้าหมาย',
-    'standard': 'Standard',
-    'relativeTarget': 'พันธะมุ่งหมาย',
-    'subTargetId': 'ลำดับที่',
-    'subTargetName': 'หัวข้อเป้าหมายย่อย',
-    'index': 'ดัชนี',
-    'symbolValue': 'ค่าเป้าหมาย',
-    'unit': 'หน่วย',
-    'currentValue': 'ค่าปัจจุบัน',
-    'startMonth': 'เริ่ม (เดือน)',
-    'startYear': 'เริ่ม (ปี)',
-    'finishMonth': 'เสร็จ (เดือน)',
-    'finishYear': 'เสร็จ (ปี)',
-    'planName': 'Plan',
-    'planActual': 'กำหนดเสร็จ',
-    'planResource': 'ทรัพยากร',
-    'planOwner': 'ผู้รับผิดชอบ',
-    'methodId': 'ลำดับที่',
-    'methodName': 'รายละเอียด',
-    'year': 'ปี',
-    'jan': 'Jan',
-    'feb': 'Feb',
-    'mar': 'Mar',
-    'apr': 'Apr',
-    'may': 'May',
-    'jun': 'Jun',
-    'jul': 'Jul',
-    'aug': 'Aug',
-    'sep': 'Sep',
-    'oct': 'Oct',
-    'nov': 'Nov',
-    'dec': 'Dec',
-    'owner': 'ผู้รับผิดชอบ'
-  };
+  expandedTargets: TargetRecord[] = [];
 
   constructor(
-    private targetService: TargetService,
-    private cdr: ChangeDetectorRef,
     private _matDialog: MatDialog
   ) { }
 
-  ngAfterContentChecked(): void {
-    this.cdr.detectChanges(); // temp fix ExpressionChangedAfterItHasBeenCheckedError
-  }
-
-  toggleExpandableSymbol(id: string): void {
-    this.expandedId = this.expandedId === id ? '' : id;
-  }
-
-  refreshMasterTable() {
-    this.dataSource = [...this.targetService.getTargets(this.runningNo)];
-    this.cdr.detectChanges();
-  }
-
-  getExpandedElements(): any[] {
-    switch (this.renderTemplate) {
-      case 'target':
-        return this.expandedTargets;
-      case 'subTarget':
-        return this.expandedSubtargets;
-      default: return;
-    }
+  ngOnInit(): void {
   }
 
   checkExpanded(element): boolean {
-    let expandedElements = this.getExpandedElements();
-    if (!expandedElements) return;
+    if (!this.expandedTargets) return;
 
     let flag = false;
-    expandedElements.forEach(e => {
+    this.expandedTargets.forEach(e => {
       if (e === element) {
         flag = true;
       }
@@ -179,59 +51,73 @@ export class TargetTableComponent implements OnInit {
   }
 
   pushPopElement(element) {
-    let expandedElements = this.getExpandedElements();
-    if (!expandedElements) return;
+    if (!this.expandedTargets) return;
 
-    const index = expandedElements.indexOf(element);
+    const index = this.expandedTargets.indexOf(element);
     if (index === -1) {
-      expandedElements.push(element);
+      this.expandedTargets.push(element);
     } else {
-      expandedElements.splice(index, 1);
+      this.expandedTargets.splice(index, 1);
     }
   }
 
-  expandAll(): void {
-    switch (this.renderTemplate) {
-      case ('target'):
-        for (let data of this.dataSource) {
-          if (this.expandedTargets.indexOf(data) === -1) this.expandedTargets.push(data);
-        }
-        for (let subTargetTable of this.subTargetTables) {
-          subTargetTable.expandAll();
-        }
-        break;
-      case ('subTarget'):
-        for (let data of this.dataSource) {
-          this.expandedSubtargets.push(data);
-        }
-        break;
-      default: return;
+  expandAll() {
+    for (let target of this.targets) {
+      if (this.expandedTargets.indexOf(target) === -1) this.expandedTargets.push(target);
+    }
+    for (let subTargetTable of this.subTargetTables) {
+      subTargetTable.expandAll();
     }
   }
 
-  collapseAll(): void {
-    switch (this.renderTemplate) {
-      case ('target'):
-        this.expandedTargets = [];
-        for (let subTargetTable of this.subTargetTables) {
-          subTargetTable.collapseAll();
-        }
-        break;
-      case ('subTarget'):
-        this.expandedSubtargets = [];
-        break;
-      default: return;
+  collapseAll() {
+    this.expandedTargets = [];
+    for (let subTargetTable of this.subTargetTables) {
+      subTargetTable.collapseAll();
     }
   }
 
-  getYears(resultRecords: ResultRecord[]) {
-    return resultRecords.map(res => res.year);
+  addTarget(): void {
+    // const mockTarget = genMockTargetRecord();
+    // this.targets.push(mockTarget);
+    // this.targetTable.table.renderRows();
+
+    // Open the dialog
+    const dialogRef = this._matDialog.open(TargetModalComponent, {
+      data: {
+        mode: ModalMode.ADD,
+        data: undefined
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe((target: Target) => {
+        if (!target) return; // cancel
+        this.targets.push({ data: target, kids: { records: [] } });
+        this.targetTable.renderRows();
+      });
   }
 
-  getResultRecord(resultRecords: ResultRecord[], year: string): ResultRecord {
-    return resultRecords.find((res) => res.year == year);
+  editTarget(index: number): void {
+    // this.targets[index].data.name = 'edit22';
+    // this.targetTable.table.renderRows();
+
+    // Open the dialog
+    const dialogRef = this._matDialog.open(TargetModalComponent, {
+      data: {
+        mode: ModalMode.EDIT,
+        data: this.targets[index].data
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe((target: Target) => {
+        if (!target) return; // cancel
+        this.targets[index].data = target;
+        this.targetTable.renderRows();
+      });
   }
 
-  ngOnInit(): void {
+  deleteTarget(index: number): void {
+    this.targets.splice(index, 1);
+    this.targetTable.renderRows();
   }
 }

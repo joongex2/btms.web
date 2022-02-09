@@ -36,6 +36,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import * as moment from 'moment';
+import { FixTableComponent } from '../tables/fix-table/fix-table.component';
+import { ProtectTableComponent } from '../tables/protect-table/protect-table.component';
+import { CauseTableComponent } from '../tables/cause-table/cause-table.component';
+import { FileUploadTableComponent } from '../tables/file-upload-table/file-upload-table.component';
 
 
 
@@ -51,7 +55,11 @@ import * as moment from 'moment';
     MainMethodEntryTableComponent,
     SubTargetEntryTableComponent,
     TargetEntryTableComponent,
-    PlanEntryTableComponent
+    PlanEntryTableComponent,
+    FixTableComponent,
+    ProtectTableComponent,
+    CauseTableComponent,
+    FileUploadTableComponent
   ],
   imports: [
     RouterModule.forChild(targetEntryDetailRoutes),

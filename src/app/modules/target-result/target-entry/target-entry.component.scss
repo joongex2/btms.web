@@ -25,6 +25,21 @@
   padding: 0 24px !important;
 }
 
+table {
+  width: 100%;
+  table-layout: fixed;
+  min-width: 800px;
+}
+
+.mat-header-cell,
+.mat-cell {
+  border-bottom-color: white !important;
+}
+
+.mat-header-cell {
+  color: white !important
+}
+
 ::ng-deep .mat-sort-header-arrow {
     color: white !important;
 }
@@ -42,34 +57,25 @@
   background-color: rgb(229, 240, 203);
 }
 
-.mat-header-row,
-.mat-row {
-  border-bottom-color: white;
-}
-
-.mat-header-cell {
-  color: white !important
-}
-
 /* column width */
 .mat-column-runningNo {
-  flex-basis: 40%;
+  width: 40%;
 }
 
 .mat-column-revisionNo {
-  flex-basis: 30%;
+  width: 30%;
 }
 
 .mat-column-issuedDate {
-  flex-basis: 17.5%;
+  width: 17.5%;
 }
 
 .mat-column-year {
-  flex-basis: 7.5%;
+  width: 7.5%;
 }
 
 .mat-column-detail {
-  flex-basis: 5%;
+  width: 5%;
 }
 
 :host ::ng-deep .mat-form-field-wrapper {

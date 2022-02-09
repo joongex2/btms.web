@@ -1,66 +1,76 @@
-.sub-row {
-    border: 0; 
-    margin: 0;
-    
-    p {
-        font-size: 12px;
-        font-weight: bold;
-        border-bottom: 1px solid white;
-        padding: 10px;
-        background-color: rgb(97, 138, 2);
-        color: white;
-    }
+table {
+  width: 100%;
+  table-layout: fixed;
+  min-width: 800px;
 }
 
-.mat-header-row,
-.mat-row {
-    border-bottom-color: white;
-}
-
-.mat-row.normal-row {
-  border-bottom-width: 0 !important;
-}
-
-/* color */
-.mat-header-row {
-  background-color: rgb(132, 189, 0);
-}
-
-.mat-row {
-  background-color: rgb(218, 235, 180);
+.mat-header-cell,
+.mat-cell {
+  border-bottom-color: white !important;
 }
 
 .mat-header-cell {
   color: white !important;
 }
 
+tr.expand-row {
+  height: 0;
+}
+
+tr.normal-row td {
+  border-bottom-width: 0;
+}
+
+.expand-element {
+  overflow: hidden;
+  display: flex;
+}
+
+/* color */
+p.table-title {
+  font-size: 12px;
+  font-weight: bold;
+  border-bottom: 1px solid white;
+  padding: 10px;
+  background-color: rgb(97, 138, 2);
+  color: white !important;
+}
+
+.mat-header-row {
+  background-color: rgb(132, 189, 0) !important;
+}
+
+.mat-row {
+  background-color: rgb(218, 235, 180) !important;
+}
+
 /* column width */
 .mat-column-expandIcon {
-  flex-basis: 7.5%;
+  width: 7.5%;
 }
 
 .mat-column-targetId {
-  flex-basis: 10%;
+  width: 10%;
 }
 
 .mat-column-name {
-  flex-basis: 47.5%;
+  width: 47.5%;
 }
 
 .mat-column-standard {
-  flex-basis: 15%;
+  width: 15%;
 }
 
 .mat-column-relativeTarget {
-  flex-basis: 10%;
+  width: 10%;
 }
 
 .mat-column-editIcon {
-  flex-basis: 5%;
+  width: 5%;
 }
 
 .mat-column-deleteIcon {
-  flex-basis: 5%;
+  width: 5%;
 }
 
 ::ng-deep .hide-header {
@@ -75,24 +85,12 @@ ng-select.required:after, form-control.required:after {
     top:7px;
 }
 
-:host ::ng-deep .year-select .mat-form-field-wrapper {
-  padding: 4px 1px 0 1px !important;
-  font-size: 12px !important;
-}
-
-:host ::ng-deep .year-select .mat-form-field-flex {
-  min-height: 40px !important;
-  padding: 0 8px 0 8px !important;
-}
-
 @media only screen and (max-width: 768px) {
     .mat-table {
-        overflow-x: scroll;
+      overflow-x: scroll;
     }
     .mat-row,
     .mat-header-row {
-        min-width: 800px;
+      min-width: 800px;
     }
 }
-
-

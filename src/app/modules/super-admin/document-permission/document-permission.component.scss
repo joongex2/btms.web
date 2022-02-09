@@ -36,17 +36,32 @@
     padding: 0 24px !important;
 }
 
-:host ::ng-deep .mat-sort-header-arrow {
-    color: white !important;
-}
-
 :host ::ng-deep .mat-form-field-wrapper {
     margin-bottom: 0 !important;
 }
 
-mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
-    padding-left: 12px;
+table {
+    width: 100%;
+    table-layout: fixed;
+    min-width: 800px;
 }
+
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
+}
+
+.mat-header-cell {
+    color: white !important
+}
+
+:host ::ng-deep .mat-sort-header-arrow {
+    color: white !important;
+}
+
+// mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
+//     padding-left: 12px;
+// }
 
 /* color */
 .mat-header-row {
@@ -61,46 +76,26 @@ mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-
     background-color: rgb(229, 240, 203);
 }
 
-.mat-header-row,
-.mat-row {
-    border-bottom-color: white;
-}
-
-.mat-header-cell {
-    color: white !important
-}
-
 /* column width */
 .mat-column-roleCode {
-    flex-basis: 15%;
+    width: 15%;
 }
 
 .mat-column-roleDescription {
-    flex-basis: 30%;
+    width: 30%;
 }
 
 .mat-column-documentPermissions {
-    flex-basis: 50%;
+    width: 50%;
 }
 
 .mat-column-editIcon {
-    flex-basis: 2.5%;
+    width: 2.5%;
 }
 
 .mat-column-deleteIcon {
-    flex-basis: 2.5%;
+    width: 2.5%;
 }
-
-@media only screen and (max-width: 768px) {
-    .mat-table {
-        overflow-x: scroll;
-    }
-    .mat-row,
-    .mat-header-row {
-        min-width: 800px;
-    }
-}
-
     
 .tag-box {
     position: relative;

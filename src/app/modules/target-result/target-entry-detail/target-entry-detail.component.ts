@@ -14,7 +14,7 @@ import { TargetEntryTableComponent } from '../tables/target-entry-table/target-e
 export class TargetEntryDetailComponent implements OnInit {
   runningNoParam: string;
   runningNo: RunningNo;
-  dataSource: TargetRecord[];
+  targets: TargetRecord[];
 
   @ViewChild(TargetEntryTableComponent) targetEntryTableComponent: TargetEntryTableComponent;
 
@@ -33,7 +33,7 @@ export class TargetEntryDetailComponent implements OnInit {
         this.router.navigate(['404-not-found']);
         return;
       }
-      this.dataSource = this._targetService.getTargets(this.runningNoParam);
+      this.targets = this._targetService.getTargets(this.runningNoParam);
     });
   }
 

@@ -38,9 +38,9 @@ export class TargetResultService {
         }
     ];
 
-    fileUploads: FileUpload[] = [
+    saveResultFileUploads: FileUpload[] = [
         {
-            fileName: 'test-1.xlsx',
+            fileName: 'save-result-1.xlsx',
             uploader: '',
             date: ''
         }
@@ -60,8 +60,8 @@ export class TargetResultService {
         return this.lastComments;
     }
     
-    getFileUploads() {
-        return this.fileUploads;
+    getSaveResultFileUploads() {
+        return this.saveResultFileUploads;
     }
 
     getCauseAndFixFileUploads() {

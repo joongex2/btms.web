@@ -38,7 +38,6 @@ export class MenuComponent implements OnInit {
 
   // table setting
   displayedColumns: string[] = [
-    'detailIcon',
     'parentId',
     'menuId',
     'menuTitle',

@@ -34,7 +34,6 @@ export class UserGroupComponent implements OnInit {
 
   // table setting
   displayedColumns: string[] = [
-    'detailIcon',
     'groupCode',
     'groupDescription',
     'sequence',

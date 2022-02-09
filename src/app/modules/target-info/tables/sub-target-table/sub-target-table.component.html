@@ -1,12 +1,104 @@
-<app-target-table [dataSource]="subTargets"
-               [displayedColumns]="displayedColumns"
-               [title]="'เป้าหมายย่อย'"
-               [renderTemplate]="'subTarget'"
-               [runningNo]="runningNo"
-               [targetIndex]="targetIndex"
-               (addSubTarget)="addSubTarget()"
-               (editSubTarget)="editSubTarget($event)"
-               (deleteSubTarget)="deleteSubTarget($event)"
-               #subTargetTable
-               >
-</app-target-table>
+<p class="table-title flex flex-row justify-between items-center">
+    <span>เป้าหมายย่อย</span>
+    <span class="flex items-center cursor-pointer" (click)="addSubTarget();">
+        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มเป้าหมายย่อย
+    </span>
+</p>
+<table mat-table [dataSource]="subTargets" multiTemplateDataRows #subTargetTable>
+    <ng-container matColumnDef="expandIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <mat-icon [class.active]="checkExpanded(element)" (click)="pushPopElement(element)">play_arrow</mat-icon>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="subTargetId">
+        <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.data.subTargetId}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="subTargetName">
+        <th mat-header-cell *matHeaderCellDef>หัวข้อเป้าหมายย่อย</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.data.subTargetName}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef>ดัชนี</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.data.index}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="symbolValue">
+        <th mat-header-cell *matHeaderCellDef>ค่าเป้าหมาย</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{ element.data.symbol }}{{ element.data.value }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="unit">
+        <th mat-header-cell *matHeaderCellDef>หน่วย</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.data.unit}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="currentValue">
+        <th mat-header-cell *matHeaderCellDef>ค่าปัจจุบัน</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.data.currentValue}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="startMonth">
+        <th mat-header-cell *matHeaderCellDef>เริ่ม (เดือน)</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.data.startMonth | month}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="startYear">
+        <th mat-header-cell *matHeaderCellDef>เริ่ม (ปี)</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.data.startYear}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="finishMonth">
+        <th mat-header-cell *matHeaderCellDef>เสร็จ (เดือน)</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.data.finishMonth | month}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="finishYear">
+        <th mat-header-cell *matHeaderCellDef>เสร็จ (ปี)</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.data.finishYear}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="editIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <mat-icon (click)="editSubTarget(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขเป้าหมายย่อย"></mat-icon>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="deleteIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <mat-icon (click)="deleteSubTarget(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบเป้าหมายย่อย"></mat-icon>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.colspan]="13">
+            <div class="expand-element"
+            [@detailExpand]="checkExpanded(element) ? 'expanded' : 'collapsed'">
+                <div class="w-full">
+                    <app-main-method-table
+                        [runningNo]="runningNo"
+                        [targetIndex]="targetIndex"
+                        [subTargetIndex]="i"
+                        [mainMethods]="element.kids.records">
+                    </app-main-method-table>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="normal-row"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail'];" class="expand-row"></tr>
+</table>

@@ -7,7 +7,7 @@ import { PlanRecord } from 'app/modules/target-info/target.types';
   styleUrls: ['./plan-entry-table.component.scss']
 })
 export class PlanEntryTableComponent implements OnInit {
-  @Input() dataSource: PlanRecord[];
+  @Input() plans: PlanRecord[];
   @Input() runningNo: string;
   @Input() targetIndex: string;
   @Input() subTargetIndex: string;

@@ -95,15 +95,15 @@
                             <div class="col-span-6 sm:col-span-3 font-medium">Running No.</div>
                             <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.runningNo : '-'}}</span></div>
                             <div class="col-span-6 sm:col-span-3 font-medium">BU</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.bu : '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Sub-BU</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.subBu : '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Plant</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.plant : '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Site</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.site : '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Division/Department</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.division + '/' + runningNo.department : '-'}}</span></div>
+                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.bu : '-'}}</span></div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Sub-BU</div>
+                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.subBu : '-'}}</span></div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Plant</div>
+                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.plant : '-'}}</span></div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Site</div>
+                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.site : '-'}}</span></div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Division/Department</div>
+                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.division + '/' + runningNo.department : '-'}}</span></div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Status</div>
                             <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.status : 'New'}}</span></div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Revision No.</div>
@@ -155,19 +155,11 @@
             </div> -->
 
             <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
-                <div class="overflow-x-auto">
-                    <app-target-table [dataSource]="targets" 
-                        [displayedColumns]="displayedColumns"
-                        [renderTemplate]="'target'"
-                        [runningNo]="runningNo?.runningNo" 
-                        [title]="'เป้าหมายหลัก'" 
-                        (addTarget)="addTarget()"
-                        (editTarget)="editTarget($event)"
-                        (deleteTarget)="deleteTarget($event)"
-                        #targetTable
-                    >
-                    </app-target-table>
-                </div>
+                <app-target-table
+                    [runningNo]="runningNo?.runningNo" 
+                    [targets]="targets"
+                >
+                </app-target-table>
             </div>
         </div>
     </div>

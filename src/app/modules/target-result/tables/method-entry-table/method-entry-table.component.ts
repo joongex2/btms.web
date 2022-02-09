@@ -11,7 +11,7 @@ import { TargetEntryDetailModalComponent } from '../../modals/target-entry-detai
   styleUrls: ['./method-entry-table.component.scss']
 })
 export class MethodEntryTableComponent implements OnInit {
-  @Input() dataSource: MethodRecord[];
+  @Input() methods: MethodRecord[];
   @Input() runningNo: string;
   @Input() targetIndex: string;
   @Input() subTargetIndex: string;

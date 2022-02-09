@@ -7,7 +7,7 @@ import { MainMethodRecord } from 'app/modules/target-info/target.types';
   styleUrls: ['./main-method-entry-table.component.scss']
 })
 export class MainMethodEntryTableComponent implements OnInit {
-  @Input() dataSource: MainMethodRecord[];
+  @Input() mainMethods: MainMethodRecord[];
   @Input() runningNo: string;
   @Input() targetIndex: number;
   @Input() subTargetIndex: number;

@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
+import { MatTable } from '@angular/material/table';
 import { MethodModalComponent } from '../../modals/method-modal/method-modal.component';
 import { ModalMode } from '../../modals/modal.type';
 import { TargetService } from '../../target.service';
-import { TargetTableComponent } from '../target-table/target-table.component';
-import { Method, MethodRecord, ResultDetail, ResultRecord, SubTarget } from './../../target.types';
+import { Method, MethodRecord, ResultRecord, SubTarget } from './../../target.types';
 
 @Component({
   selector: 'app-method-table',
@@ -17,7 +18,8 @@ export class MethodTableComponent implements OnInit {
   @Input() subTargetIndex: string;
   @Input() mainMethodIndex: string;
   @Input() methods: MethodRecord[];
-  @ViewChild('methodTable') methodTable: TargetTableComponent;
+  @ViewChild('methodTable') methodTable: MatTable<Method>;
+  @ViewChildren('yearSelect') yearSelects: QueryList<MatSelect>;
 
   subTargetSymbolValue: string;
 
@@ -41,13 +43,33 @@ export class MethodTableComponent implements OnInit {
     'deleteIcon'
   ];
 
+  monthColumns: string[] = [
+    'jan',
+    'feb',
+    'mar',
+    'apr',
+    'may',
+    'jun',
+    'jul',
+    'aug',
+    'sep',
+    'oct',
+    'nov',
+    'dec'
+  ]
+
   constructor(
+    private cdr: ChangeDetectorRef,
     private _matDialog: MatDialog,
     private _targetService: TargetService
   ) { }
 
   ngOnInit(): void {
     this.getCurrentSubTargetSymbolValue();
+  }
+
+  ngAfterContentChecked(): void {
+    this.cdr.detectChanges(); // temp fix ExpressionChangedAfterItHasBeenCheckedError
   }
 
   getCurrentSubTargetSymbolValue() {
@@ -74,7 +96,7 @@ export class MethodTableComponent implements OnInit {
       .subscribe((methodModalData: any) => {
         if (!methodModalData) return; // cancel
         this.methods.push({ data: this.genMethodFromModal(methodModalData), kids: undefined });
-        this.methodTable.table.renderRows();
+        this.methodTable.renderRows();
       });
   }
 
@@ -93,13 +115,13 @@ export class MethodTableComponent implements OnInit {
       .subscribe((methodModalData: any) => {
         if (!methodModalData) return; // cancel
         this.methods[index].data = this.genMethodFromModal(methodModalData, index);
-        this.methodTable.table.renderRows();
+        this.methodTable.renderRows();
       });
   }
 
   deleteMethod(index: number): void {
     this.methods.splice(index, 1);
-    this.methodTable.table.renderRows();
+    this.methodTable.renderRows();
   }
 
   genMethodFromModal(methodModalData: any, methodIndex?: any): Method {
@@ -156,6 +178,18 @@ export class MethodTableComponent implements OnInit {
       owner: methodModalData.form.owner,
       resultRecords
     }
+  }
+
+  getYears(resultRecords: ResultRecord[]) {
+    return resultRecords.map(res => res.year);
+  }
+
+  getResultRecord(resultRecords: ResultRecord[], year: string): ResultRecord {
+    return resultRecords.find((res) => res.year == year);
+  }
+
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
 }

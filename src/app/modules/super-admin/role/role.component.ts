@@ -33,7 +33,6 @@ export class RoleComponent implements OnInit {
 
   // table setting
   displayedColumns: string[] = [
-    'detailIcon',
     'roleCode',
     'roleDescription',
     'sequence',

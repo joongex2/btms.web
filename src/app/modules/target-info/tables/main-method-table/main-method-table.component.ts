@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MainMethodRecord } from '../../target.types';
+import { MatTable } from '@angular/material/table';
+import { MainMethod, MainMethodRecord } from '../../target.types';
 import { genMockMainMethodRecord } from '../mock-table-data';
-import { TargetTableComponent } from '../target-table/target-table.component';
 
 @Component({
   selector: 'app-main-method-table',
@@ -13,7 +13,7 @@ export class MainMethodTableComponent implements OnInit {
   @Input() targetIndex: string;
   @Input() subTargetIndex: string;
   @Input() mainMethods: MainMethodRecord[];
-  @ViewChild('mainMethodTable') mainMethodTable: TargetTableComponent;
+  @ViewChild('mainMethodTable') mainMethodTable: MatTable<MainMethod>;
 
   displayedColumns: string[] = [
     'mainMethodId',
@@ -28,11 +28,11 @@ export class MainMethodTableComponent implements OnInit {
   addMainMethod(): void {
     const mockMainMethod = genMockMainMethodRecord();
     this.mainMethods.push(mockMainMethod);
-    this.mainMethodTable.table.renderRows();
+    this.mainMethodTable.renderRows();
   }
 
   deleteMainMethod(index: number): void {
     this.mainMethods.splice(index, 1);
-    this.mainMethodTable.table.renderRows();
+    this.mainMethodTable.renderRows();
   }
 }

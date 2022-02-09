@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 target-entry" style="min-width: 500px;"
+<table mat-table [dataSource]="targets" class="mat-elevation-z8 target-entry" style="min-width: 500px;"
     multiTemplateDataRows>
     <ng-container matColumnDef="expandIcon">
         <th mat-header-cell *matHeaderCellDef>
@@ -34,7 +34,7 @@
         <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.colspan]="5" style="border-top: none">
             <div class="expand-element" [@detailExpand]="checkExpanded(element) ? 'expanded' : 'collapsed'">
                 <app-sub-target-entry-table 
-                    [dataSource]="element.kids.records"
+                    [subTargets]="element.kids.records"
                     [runningNo]="runningNo"
                     [targetIndex]="i">
                 </app-sub-target-entry-table>

@@ -3,14 +3,18 @@ table {
     table-layout: fixed;
 }
 
-th.mat-header-cell,
-td.mat-cell {
-    text-align: center;
-}
-
 .mat-header-cell,
 .mat-cell {
     border-bottom-color: white !important;
+}
+
+.mat-header-cell {
+    color: white !important
+}
+
+th.mat-header-cell,
+td.mat-cell {
+    text-align: center;
 }
 
 tr.expand-row {
@@ -26,17 +30,13 @@ tr.normal-row td {
     display: flex;
 }
 
-/* table color */
-:host ::ng-deep .sub-target-entry > thead > tr {
+/* color */
+.mat-header-row {
     background-color: rgb(137, 129, 61) !important;
 }
 
-:host ::ng-deep .sub-target-entry > tbody > tr {
+.mat-row {
     background-color: rgb(219, 215, 177) !important;
-}
-
-:host ::ng-deep .sub-target-entry > thead > tr > th.mat-header-cell {
-    color: white !important;
 }
 
 /* column width */

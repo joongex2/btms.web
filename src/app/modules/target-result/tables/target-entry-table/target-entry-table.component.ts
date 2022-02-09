@@ -1,25 +1,16 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { TargetRecord } from 'app/modules/target-info/target.types';
+import { detailExpandAnimation } from 'app/shared/table-animation';
 import { SubTargetEntryTableComponent } from '../sub-target-entry-table/sub-target-entry-table.component';
 
 @Component({
   selector: 'app-target-entry-table',
   templateUrl: './target-entry-table.component.html',
   styleUrls: ['./target-entry-table.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition(
-        'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-    ]),
-  ],
+  animations: [detailExpandAnimation],
 })
 export class TargetEntryTableComponent implements OnInit {
-  @Input() dataSource: TargetRecord[];
+  @Input() targets: TargetRecord[];
   @Input() runningNo: string;
 
   @ViewChildren(SubTargetEntryTableComponent) subTargetEntryTables: QueryList<SubTargetEntryTableComponent>;
@@ -61,7 +52,7 @@ export class TargetEntryTableComponent implements OnInit {
   }
 
   expandAll() {
-    for (let target of this.dataSource) {
+    for (let target of this.targets) {
       this.expandedTargets.push(target);
     }
     for (let subTargetEntryTable of this.subTargetEntryTables) {

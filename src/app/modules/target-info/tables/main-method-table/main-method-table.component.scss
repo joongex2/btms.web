@@ -1,48 +1,60 @@
-:host ::ng-deep {
-    /* color */
-    .sub-row p {
-        background-color: rgb(15, 55, 97) !important;
-        color: white;
-    }
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+  
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
+}
 
-    .mat-header-row {
-        background-color: rgb(23, 78, 136) !important;
-    }
+.mat-header-cell {
+    color: white !important;
+}
 
-    .mat-row {
-        background-color: rgb(187, 211, 236) !important;
-    }
+/* color */
+p.table-title {
+    font-size: 12px;
+    font-weight: bold;
+    border-bottom: 1px solid white;
+    padding: 10px;
+    background-color: rgb(15, 55, 97);
+    color: white !important;
+}
 
-    .mat-header-cell {
-        color: white !important
-    }
+.mat-header-row {
+    background-color: rgb(23, 78, 136) !important;
+}
 
-    /* column width */
-    .mat-column-mainMethodId {
-        flex-basis: 5% !important;
-    }
-    
-    .mat-column-mainMethodDetail {
-        flex-basis: 92.5% !important;
-    }
+.mat-row {
+    background-color: rgb(187, 211, 236) !important;
+}
 
-    .mat-column-deleteIcon {
-        flex-basis: 2.5% !important;
-    }
+/* column width */
+.mat-column-mainMethodId {
+    width: 5%;
+}
 
-    .mat-input-element {
-        caret-color: rgb(23, 78, 136) !important;
-    }
-    
-    .mat-form-field.mat-form-field-appearance-fill.mat-focused:not(.mat-form-field-invalid) .mat-form-field-wrapper .mat-form-field-flex {
-        border-color: rgb(23, 78, 136) !important;
-    }
-    
-    .mat-form-field {
-        &.mat-focused {
-          &.mat-primary .mat-select-arrow {
-            color: rgb(23, 78, 136) !important;
-          }
+.mat-column-mainMethodDetail {
+    width: 92.5%;
+}
+
+.mat-column-deleteIcon {
+    width: 2.5%;
+}
+
+.mat-input-element {
+    caret-color: rgb(23, 78, 136) !important;
+}
+
+.mat-form-field.mat-form-field-appearance-fill.mat-focused:not(.mat-form-field-invalid) .mat-form-field-wrapper .mat-form-field-flex {
+    border-color: rgb(23, 78, 136) !important;
+}
+
+.mat-form-field {
+    &.mat-focused {
+        &.mat-primary .mat-select-arrow {
+        color: rgb(23, 78, 136) !important;
         }
     }
 }
