@@ -10,20 +10,19 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'app/shared/shared.module';
-import { UserGroupModalComponent } from '../modals/user-group-modal/user-group-modal.component';
-import { UserModalComponent } from '../modals/user-modal/user-modal.component';
-import { UserComponent } from './user.component';
-import { userRoutes } from './user.routing';
+import { SubBuModalComponent } from '../modals/sub-bu-modal/sub-bu-modal.component';
+import { SubBuComponent } from './sub-bu.component';
+import { subBuRoutes } from './sub-bu.routing';
 
 
 
 @NgModule({
   declarations: [
-    UserComponent,
-    UserModalComponent
+    SubBuComponent,
+    SubBuModalComponent
   ],
   imports: [
-    RouterModule.forChild(userRoutes),
+    RouterModule.forChild(subBuRoutes),
     MatIconModule,
     MatSelectModule,
     MatFormFieldModule,
@@ -36,4 +35,4 @@ import { userRoutes } from './user.routing';
     SharedModule
   ]
 })
-export class UserModule { }
+export class SubBuModule { }

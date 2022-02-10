@@ -109,46 +109,58 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
         ],
     }, {
-        id      : 'admin-menu',
+        id      : 'admin',
         title   : 'Admin Menu',
         type    : 'collapsable',
         icon    : 'heroicons_outline:user',
         children: [
             {
-                id   : 'admin-menu.site',
-                title: 'Site',
+                id   : 'admin.bu',
+                title: 'BU',
                 type : 'basic',
-                link : '/admin-menu/site'
+                link : '/admin/bu'
             },
             {
-                id   : 'admin-menu.division',
+                id   : 'admin.sub.bu',
+                title: 'Sub-BU',
+                type : 'basic',
+                link : '/admin/sub-bu'
+            },
+            {
+                id   : 'admin.plant',
+                title: 'Plant',
+                type : 'basic',
+                link : '/admin/plant'
+            },
+            {
+                id   : 'admin.division',
                 title: 'Division',
                 type : 'basic',
-                link : '/admin-menu/division'
+                link : '/admin/division'
             },
             {
-                id   : 'admin-menu.department',
-                title: 'Departmenet',
+                id   : 'admin.department',
+                title: 'Department',
                 type : 'basic',
-                link : '/admin-menu/department'
+                link : '/admin/department'
             },
             {
-                id   : 'admin-menu.organizations',
-                title: 'Organizations',
+                id   : 'admin.organization',
+                title: 'Organization',
                 type : 'basic',
-                link : '/admin-menu/organizations'
+                link : '/admin/organization'
             },
             {
-                id   : 'admin-menu.document-control',
+                id   : 'admin.document-control',
                 title: 'Document Control',
                 type : 'basic',
-                link : '/admin-menu/document-control'
+                link : '/admin/document-control'
             },
             {
-                id   : 'admin-menu.user-maintenance',
-                title: 'User Maintenance',
+                id   : 'admin.user',
+                title: 'User',
                 type : 'basic',
-                link : '/admin-menu/user-maintenance'
+                link : '/admin/user'
             }
         ],
     }, {
@@ -164,16 +176,10 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/super-admin/user-group'
             },
             {
-                id   : 'super-admin.user',
-                title: 'User',
+                id   : 'super-admin.role',
+                title: 'Role',
                 type : 'basic',
-                link : '/super-admin/user'
-            },
-            {
-                id   : 'super-admin.roles',
-                title: 'Roles',
-                type : 'basic',
-                link : '/super-admin/roles'
+                link : '/super-admin/role'
             },
             {
                 id   : 'super-admin.menu',
@@ -192,6 +198,30 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Document Permission',
                 type : 'basic',
                 link : '/super-admin/document-permission'
+            },
+            {
+                id   : 'super-admin.workflow',
+                title: 'Workflow',
+                type : 'basic',
+                link : '/super-admin/workflow'
+            },
+            {
+                id   : 'super-admin.report-setting',
+                title: 'Report Setting',
+                type : 'basic',
+                link : '/super-admin/report-setting'
+            },
+            {
+                id   : 'super-admin.application-setting',
+                title: 'Application Setting',
+                type : 'basic',
+                link : '/super-admin/application-setting'
+            },
+            {
+                id   : 'super-admin.data-management',
+                title: 'Data Management',
+                type : 'basic',
+                link : '/super-admin/data-management'
             }
         ],
     }

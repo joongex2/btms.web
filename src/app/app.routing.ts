@@ -91,10 +91,18 @@ export const appRoutes: Route[] = [
                 {path: 'target-entry', loadChildren: () => import('app/modules/target-result/target-entry/target-entry.module').then(m=>m.TargetEntryModule)},
                 {path: 'target-entry/:runningNo', loadChildren: () => import('app/modules/target-result/target-entry-detail/target-entry-detail.module').then(m=>m.TargetEntryDetailModule)}
             ]},
+            {path: 'admin', children: [
+                {path: 'bu', loadChildren: () => import('app/modules/admin/bu/bu.module').then(m => m.BuModule)},
+                {path: 'sub-bu', loadChildren: () => import('app/modules/admin/sub-bu/sub-bu.module').then(m => m.SubBuModule)},
+                {path: 'plant', loadChildren: () => import('app/modules/admin/plant/plant.module').then(m => m.PlantModule)},
+                {path: 'division', loadChildren: () => import('app/modules/admin/division/division.module').then(m => m.DivisionModule)},
+                {path: 'department', loadChildren: () => import('app/modules/admin/department/department.module').then(m => m.DepartmentModule)},
+                {path: 'organization', loadChildren: () => import('app/modules/admin/organization/organization.module').then(m => m.OrganizationModule)},
+                {path: 'user', loadChildren: () => import('app/modules/admin/user/user.module').then(m => m.UserModule)},
+            ]},
             {path: 'super-admin', children: [
                 {path: 'user-group', loadChildren: () => import('app/modules/super-admin/user-group/user-group.module').then(m => m.UserGroupModule)},
-                {path: 'user', loadChildren: () => import('app/modules/super-admin/user/user.module').then(m => m.UserModule)},
-                {path: 'roles', loadChildren: () => import('app/modules/super-admin/role/role.module').then(m => m.RoleModule)},
+                {path: 'role', loadChildren: () => import('app/modules/super-admin/role/role.module').then(m => m.RoleModule)},
                 {path: 'menu', loadChildren: () => import('app/modules/super-admin/menu/menu.module').then(m => m.MenuModule)},
                 {path: 'document-permission', loadChildren: () => import('app/modules/super-admin/document-permission/document-permission.module').then(m => m.DocumentPermissionModule)}
             ]},

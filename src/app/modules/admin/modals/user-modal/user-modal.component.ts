@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { genRandomNumber } from '../../mock-super-admin-data';
-import { UserStatus } from '../../super-admin.types';
-import { ModalData, ModalMode } from '../modal.types';
+import { genRandomNumber } from '../../../super-admin/mock-super-admin-data';
+
+import { ModalData, ModalMode } from '../../../super-admin/modals/modal.types';
+import { Status } from '../../admin.types';
 
 
 @Component({
@@ -23,8 +24,8 @@ export class UserModalComponent implements OnInit {
     { title: '06', value: '06' }
   ];
   statuses: any[] = [
-    { title: 'Active', value: UserStatus.ACTIVE },
-    { title: 'Expired', value: UserStatus.EXPIRED }
+    { title: 'Active', value: Status.ACTIVE },
+    { title: 'Inactive', value: Status.INACTIVE }
   ];
 
   constructor(

@@ -1,0 +1,50 @@
+<div class="flex flex-col w-80v md:w-160 max-h-80v -m-6">
+
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium text-white">
+            <span *ngIf="!isEdit">เพิ่มDivision</span>
+            <span *ngIf="isEdit">แก้ไขDivision</span>
+        </div>
+        <button mat-icon-button (click)="close()" [tabIndex]="-1">
+            <mat-icon class="text-current text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <!-- Body -->
+    <form
+        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
+        [formGroup]="divisionForm">
+
+        <mat-form-field>
+            <mat-label>Division Code</mat-label>
+            <input matInput [formControlName]="'divisionCode'">
+            <div class="copy-fields-toggles" matSuffix></div>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Division Description</mat-label>
+            <input matInput [formControlName]="'divisionDescription'">
+            <div class="copy-fields-toggles" matSuffix></div>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>Status</mat-label>
+            <mat-select [formControlName]="'status'">
+                <mat-option *ngFor="let status of statuses" [value]="status.value">{{status.title}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
+            <div class="flex-none flex items-center cursor-pointer"
+                [mat-dialog-close]="divisionForm.getRawValue()">
+                <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>ตกลง</span>
+            </div>
+            <div class="flex-none sm:ml-2 flex items-center cursor-pointer"
+                (click)="close()">
+                <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>ยกเลิก</span>
+            </div>
+        </div>
+    </form>
+</div>

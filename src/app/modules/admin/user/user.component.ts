@@ -3,10 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { ModalMode } from '../modals/modal.types';
+import { ModalMode } from '../../super-admin/modals/modal.types';
 import { UserModalComponent } from '../modals/user-modal/user-modal.component';
-import { SuperAdminService } from '../super-admin.service';
-import { User, UserStatus } from '../super-admin.types';
+import { AdminService } from '../admin.service';
+import { Status, User } from '../admin.types';
+
 
 @Component({
   selector: 'app-user',
@@ -26,7 +27,7 @@ export class UserComponent implements OnInit {
   userName: string;
   email: string;
   selectedGroup: string;
-  selectedStatus: UserStatus;
+  selectedStatus: Status;
 
   // select option
   groups: any = [
@@ -38,8 +39,8 @@ export class UserComponent implements OnInit {
     { title: '06', value: '06' },
   ]
   statuses: any = [
-    { title: 'Active', value: UserStatus.ACTIVE },
-    { title: 'Expired', value: UserStatus.EXPIRED }
+    { title: 'Active', value: Status.ACTIVE },
+    { title: 'Inactive', value: Status.INACTIVE }
   ]
 
   // table setting
@@ -62,16 +63,16 @@ export class UserComponent implements OnInit {
   };
 
   constructor(
-    private _superAdminService: SuperAdminService,
+    private _adminService: AdminService,
     private _matDialog: MatDialog
   ) {
-    this.users = this._superAdminService.getUsers();
+    this.users = this._adminService.getUsers();
     this.dataSource = new MatTableDataSource(this.users);
   }
 
   ngOnInit(): void {
     // default
-    this.selectedStatus = UserStatus.ACTIVE;
+    this.selectedStatus = Status.ACTIVE;
     this.dataSource.filterPredicate = this.customFilterPredicate();
   }
 
