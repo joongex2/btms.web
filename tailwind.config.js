@@ -168,7 +168,7 @@ const config = {
                 '2/4': '50%',
                 '3/4': '75%',
             },
-            minHeight               : theme => ({
+            minHeight               : ({theme}) => ({
                 ...theme('spacing'),
                 '10v': '10vh',
 				'20v': '20vh',
@@ -181,7 +181,7 @@ const config = {
 				'90v': '90vh',
 				'100v': '100vh'
             }),
-            maxHeight               : theme => ({
+            maxHeight               :  {
                 none: 'none',
                 '10v': '10vh',
 				'20v': '20vh',
@@ -193,8 +193,8 @@ const config = {
 				'80v': '80vh',
 				'90v': '90vh',
 				'100v': '100vh'
-            }),
-            minWidth                : theme => ({
+            },
+            minWidth                : ({theme}) => ({
                 ...theme('spacing'),
                 screen: '100vw',
                 '10v': '10vw',
@@ -208,7 +208,7 @@ const config = {
 				'90v': '90vw',
 				'100v': '100vw',
             }),
-            maxWidth                : theme => ({
+            maxWidth                : ({theme}) => ({
                 ...theme('spacing'),
                 screen: '100vw',
                 '10v': '10vw',
@@ -254,7 +254,7 @@ const config = {
             },
 
             // @tailwindcss/typography
-            typography: (theme) => ({
+            typography: ({theme}) => ({
                 DEFAULT: {
                     css: {
                         color              : 'var(--fuse-text-default)',
