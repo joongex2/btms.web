@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { DocumentPermission, GroupStatus, Menu, MenuStatus, Role, RoleCode, RoleStatus, UserGroup } from "./super-admin.types";
+import { Status } from "../admin/admin.types";
+import { DocumentPermission, GroupMenu, GroupStatus, Menu, MenuStatus, Role, RoleCode, RoleStatus, UserGroup } from "./super-admin.types";
 
 @Injectable({
     providedIn: 'root'
@@ -252,6 +253,28 @@ export class SuperAdminService {
         }
     ];
 
+    groupMenus: GroupMenu[] = [
+        {
+            group: {
+                groupCode: '00',
+                groupDescription: 'Administrator',
+                sequence: '1',
+                status: GroupStatus.ACTIVE
+            },
+            menu: {
+                menuId: '30',
+                menuTitle: 'ข้อมูลเป้าหมาย',
+                menuDescription: '',
+                parentId: '00',
+                menuUrl: '',
+                pageId: '',
+                menuSequence: '1',
+                status: MenuStatus.ACTIVE
+            },
+            status: Status.ACTIVE
+        }
+    ];
+
     constructor() { }
 
     getGroups(): UserGroup[] {
@@ -273,5 +296,9 @@ export class SuperAdminService {
 
     getMenus(): Menu[] {
         return this.menus;
+    }
+
+    getGroupMenus(): GroupMenu[] {
+        return this.groupMenus;
     }
 }

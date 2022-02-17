@@ -12,14 +12,14 @@
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
-                        <span class="ml-1 text-secondary">User Master Management</span>
+                        <span class="ml-1 text-secondary">Document Control Master Management</span>
                     </div>
                 </div>
             </div>
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    User Master Management
+                    Document Control Master Management
                 </h2>
             </div>
         </div>
@@ -49,39 +49,64 @@
                     <!-- CONTENT GOES HERE -->
                     <form>
                         <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
-                            <div class="col-span-6 sm:col-span-3 font-medium">User Login</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Organization Code</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <input [(ngModel)]="userLogin" name="userLogin" matInput>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">User Name</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2">
-                                    <input [(ngModel)]="userName" name="userName" matInput>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-span-6 sm:col-span-3 sm:col-start-1 font-medium">Email</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2">
-                                    <input [(ngModel)]="email" name="email" matInput>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Group</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedGroup" name="group">
-                                        <mat-option *ngFor="let group of groups" [value]="group.value">
-                                            {{group.title}}
+                                    <mat-select [(ngModel)]="selectedOrganizationCode" name="organizationCode">
+                                        <mat-option *ngFor="let organizationCode of organizationCodes" [value]="organizationCode.value">
+                                            {{organizationCode.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 sm:col-start-1 font-medium">Status</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Document Type</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedDocumentType" name="documentType">
+                                        <mat-option *ngFor="let documentType of documentTypes" [value]="documentType.value">
+                                            {{documentType.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Prefix</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="prefix" name="prefix" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Suffix</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="suffix" name="suffix" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Length of Running</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="lengthOfRunning" name="lengthOfRunning" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Last Running</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="lastRunning" name="lastRunning" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Last Document No.</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="lastDocument" name="lastDocument" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Status</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
@@ -114,13 +139,13 @@
             <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
                 <div class="example-table-container" [class.sub-row]="'title'">
                     <p class="table-title flex flex-row justify-between cursor-pointer">
-                        <span>ยูเซอร์</span>
-                        <span class="flex items-center" (click)="addUser()">
-                            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มยูเซอร์
+                        <span>DocumentControl</span>
+                        <span class="flex items-center" (click)="addDocumentControl()">
+                            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มDocumentControl
                         </span>
                     </p>
                     <div class="overflow-x-auto">
-                        <table mat-table #userTable [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
+                        <table mat-table #documentControlTable [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
                         matSort>
                             <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ keyToColumnName[key] }}</th>
@@ -128,8 +153,8 @@
                                     <span *ngIf="!key.includes('Icon')">{{ element[key] }}</span>
                                     <ng-container *ngIf="key.includes('Icon')">
                                         <div class="flex items-center">
-                                            <mat-icon *ngIf="key === 'editIcon'" (click)="editUser(i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขยูเซอร์"></mat-icon>
-                                            <mat-icon *ngIf="key === 'deleteIcon'" (click)="deleteUser(i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบยูเซอร์"></mat-icon>
+                                            <mat-icon *ngIf="key === 'editIcon'" (click)="editDocumentControl(i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขDocumentControl"></mat-icon>
+                                            <mat-icon *ngIf="key === 'deleteIcon'" (click)="deleteDocumentControl(i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบDocumentControl"></mat-icon>
                                         </div>
                                     </ng-container>
                                 </td>

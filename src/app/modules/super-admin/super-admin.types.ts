@@ -1,3 +1,5 @@
+import { Status } from "../admin/admin.types";
+
 export interface UserGroup {
     groupCode: string;
     groupDescription: string;
@@ -22,6 +24,12 @@ export interface Menu {
     pageId: string;
     menuSequence: string;
     status: MenuStatus;
+}
+
+export interface GroupMenu {
+    group: UserGroup;
+    menu: Menu;
+    status: Status;
 }
 
 export enum GroupStatus {

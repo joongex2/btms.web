@@ -98,12 +98,14 @@ export const appRoutes: Route[] = [
                 {path: 'division', loadChildren: () => import('app/modules/admin/division/division.module').then(m => m.DivisionModule)},
                 {path: 'department', loadChildren: () => import('app/modules/admin/department/department.module').then(m => m.DepartmentModule)},
                 {path: 'organization', loadChildren: () => import('app/modules/admin/organization/organization.module').then(m => m.OrganizationModule)},
+                {path: 'document-control', loadChildren: () => import('app/modules/admin/document-control/document-control.module').then(m => m.DocumentControlModule)},
                 {path: 'user', loadChildren: () => import('app/modules/admin/user/user.module').then(m => m.UserModule)},
             ]},
             {path: 'super-admin', children: [
                 {path: 'user-group', loadChildren: () => import('app/modules/super-admin/user-group/user-group.module').then(m => m.UserGroupModule)},
                 {path: 'role', loadChildren: () => import('app/modules/super-admin/role/role.module').then(m => m.RoleModule)},
                 {path: 'menu', loadChildren: () => import('app/modules/super-admin/menu/menu.module').then(m => m.MenuModule)},
+                {path: 'group-menu', loadChildren: () => import('app/modules/super-admin/group-menu/group-menu.module').then(m => m.GroupMenuModule)},
                 {path: 'document-permission', loadChildren: () => import('app/modules/super-admin/document-permission/document-permission.module').then(m => m.DocumentPermissionModule)}
             ]},
 

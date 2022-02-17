@@ -57,6 +57,17 @@ export interface UserRole {
     status: Status;
 }
 
+export interface DocumentControl {
+    organizationCode: string;
+    documentType: string;
+    prefix: string;
+    suffix: string;
+    lengthOfRunning: string;
+    lastRunning: string;
+    lastDocument: string;
+    status: Status;
+}
+
 export enum Status {
     ACTIVE = 'ACTIVE',
     INACTIVE = 'INACTIVE'

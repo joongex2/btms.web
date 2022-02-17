@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { RoleStatus } from "../super-admin/super-admin.types";
-import { Bu, Department, Division, Organization, Plant, Status, SubBu, User, UserRole } from "./admin.types";
+import { Bu, Department, Division, DocumentControl, Organization, Plant, Status, SubBu, User, UserRole } from "./admin.types";
 
 @Injectable({
     providedIn: 'root'
@@ -274,6 +274,25 @@ export class AdminService {
         }
     ];
 
+    documentControls: DocumentControl[] = [
+        {
+            organizationCode: 'BTG-LP1MK',
+            documentType: 'BTMS_01',
+            prefix: 'OBJ-FGLR-59-',
+            suffix: '',
+            lengthOfRunning: '2',
+            lastRunning: '0',
+            lastDocument: 'OBJ-FGLR1-57-02',
+            status: Status.INACTIVE
+        }
+    ];
+
+    documentTypes: string[] = [
+        'BTMS_01',
+        'BTMS_02',
+        'BTMS_03'
+    ]
+
     constructor() { }
 
     getOrganizations(): Organization[] {
@@ -307,5 +326,13 @@ export class AdminService {
     getUserRoles(organizationCode: string): UserRole[] {
         const organization = this.organizations.find((org) => org.organizationCode == organizationCode);
         return organization.userRoles;
+    }
+
+    getDocumentControls(): DocumentControl[] {
+        return this.documentControls;
+    }
+
+    getDocumentTypes(): string[] {
+        return this.documentTypes;
     }
 }
