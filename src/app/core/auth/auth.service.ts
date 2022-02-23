@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
+import { NavigationService } from '../navigation/navigation.service';
+import { getBaseUrl } from 'app/shared/helpers/get-base-url';
+import { FuseNavigationItem } from '@fuse/components/navigation';
 
 @Injectable()
 export class AuthService
@@ -14,7 +17,8 @@ export class AuthService
      */
     constructor(
         private _httpClient: HttpClient,
-        private _userService: UserService
+        private _userService: UserService,
+        private _navigationService: NavigationService
     )
     {
     }
@@ -34,6 +38,19 @@ export class AuthService
     get accessToken(): string
     {
         return localStorage.getItem('accessToken') ?? '';
+    }
+
+    /**
+     * Setter & getter for refresh access token
+     */
+    set refreshToken(refreshToken: string)
+    {
+        localStorage.setItem('refreshToken', refreshToken);
+    }
+
+    get refreshToken(): string
+    {
+        return localStorage.getItem('refreshToken') ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -73,17 +90,30 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post(getBaseUrl('/v1/Auths/sign-in'), credentials).pipe(
             switchMap((response: any) => {
 
                 // Store the access token in the local storage
                 this.accessToken = response.accessToken;
+
+                // Store the refresh access token in the local storage
+                this.refreshToken = response.refreshToken;
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
                 // Store the user on the user service
                 this._userService.user = response.user;
+
+                // Set the navigation menu
+                let navigation = JSON.parse(response.user.menu);
+                navigation = this.filterCheckMenu(navigation);
+                this._navigationService.navigation = {
+                    compact: navigation,
+                    default: navigation,
+                    futuristic: navigation,
+                    horizontal: navigation
+                }
 
                 // Return a new observable with the response
                 return of(response);
@@ -97,8 +127,8 @@ export class AuthService
     signInUsingToken(): Observable<any>
     {
         // Renew token
-        return this._httpClient.post('api/auth/refresh-access-token', {
-            accessToken: this.accessToken
+        return this._httpClient.post(getBaseUrl('/v1/Auths/refresh-token'), {
+            refreshToken: this.refreshToken
         }).pipe(
             catchError(() =>
 
@@ -110,11 +140,24 @@ export class AuthService
                 // Store the access token in the local storage
                 this.accessToken = response.accessToken;
 
+                // Store the refresh token in the local storage
+                this.refreshToken = response.refreshToken;
+
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
                 // Store the user on the user service
                 this._userService.user = response.user;
+
+                // Set the navigation menu
+                let navigation = JSON.parse(response.user.menu);
+                navigation = this.filterCheckMenu(navigation);
+                this._navigationService.navigation ={
+                    compact: navigation,
+                    default: navigation,
+                    futuristic: navigation,
+                    horizontal: navigation
+                }
 
                 // Return true
                 return of(true);
@@ -129,6 +172,9 @@ export class AuthService
     {
         // Remove the access token from the local storage
         localStorage.removeItem('accessToken');
+        
+        // Remove the refresh token from the local storage
+        localStorage.removeItem('refreshToken');
 
         // Set the authenticated flag to false
         this._authenticated = false;
@@ -169,7 +215,7 @@ export class AuthService
         }
 
         // Check the access token availability
-        if ( !this.accessToken )
+        if ( !this.accessToken || !this.refreshToken )
         {
             return of(false);
         }
@@ -182,5 +228,12 @@ export class AuthService
 
         // If the access token exists and it didn't expire, sign in using it
         return this.signInUsingToken();
+    }
+
+    filterCheckMenu(navigation: FuseNavigationItem[]): FuseNavigationItem[] {
+        for (let nav of navigation) {
+            nav.children = nav.children.filter((child) => child.check);
+        }
+        return navigation.filter((nav) => nav.children.length != 0);
     }
 }

@@ -3,13 +3,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ModalMode } from '../modals/modal.types';
-import { UserGroupModalComponent } from '../modals/user-group-modal/user-group-modal.component';
-import { SuperAdminService } from '../super-admin.service';
-import { GroupStatus, UserGroup } from '../super-admin.types';
+import { UserGroupModalComponent } from './modals/user-group-modal/user-group-modal.component';
+import { UserGroupService } from './user-group.service';
+import { UserGroup } from './user-group.types';
 
 @Component({
-  selector: 'app-user-group',
+  selector: 'user-group',
   templateUrl: './user-group.component.html',
   styleUrls: ['./user-group.component.scss']
 })
@@ -17,50 +18,48 @@ export class UserGroupComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('userGroupTable') userGroupTable: MatTable<UserGroup>;
-  userGroups: UserGroup[];
+  defaultMenu: string;
 
   // bind value
-  dataSource: MatTableDataSource<UserGroup>;
-  groupCode: string;
-  groupDescription: string;
-  sequence: string;
-  selectedStatus: string;
+  dataSource: MatTableDataSource<UserGroup> = new MatTableDataSource([]);
+  name = '';
+  selectedIsActive: boolean = undefined;
 
   // select option
-  statuses: any = [
-    { title: 'Active', value: GroupStatus.ACTIVE },
-    { title: 'Expired', value: GroupStatus.EXPIRED }
+  isActives: any = [
+    { title: 'Active', value: true },
+    { title: 'Inactive', value: false }
   ]
 
   // table setting
   displayedColumns: string[] = [
-    'groupCode',
-    'groupDescription',
-    'sequence',
-    'status',
-    'editIcon',
-    'deleteIcon'
+    'index',
+    'name',
+    'isActive',
+    'editDeleteIcon'
   ];
 
   keyToColumnName: any = {
-    'groupCode': 'Group Code',
-    'groupDescription': 'Group Description',
-    'sequence': 'Sequence',
-    'status': 'status'
+    'index': 'ลำดับที่',
+    'name': 'Name',
+    'isActive': 'สถานะ',
+    'editDeleteIcon': 'จัดการ'
   };
 
   constructor(
-    private _superAdminService: SuperAdminService,
+    private _userGroupService: UserGroupService,
+    private _fuseConfirmationService: FuseConfirmationService,
     private _matDialog: MatDialog
   ) {
-    this.userGroups = this._superAdminService.getGroups();
-    this.dataSource = new MatTableDataSource(this.userGroups);
+    this.loadUserGroups();
   }
 
   ngOnInit(): void {
-    // default
-    this.selectedStatus = GroupStatus.ACTIVE;
     this.dataSource.filterPredicate = this.customFilterPredicate();
+    this._userGroupService.getDefaultMenu().subscribe({
+      next: (v) => { this.defaultMenu = v.menu },
+      error: (e) => console.error(e)
+    });
   }
 
   ngAfterViewInit() {
@@ -71,67 +70,83 @@ export class UserGroupComponent implements OnInit {
   customFilterPredicate() {
     const myFilterPredicate = function (data: UserGroup, filter: string): boolean {
       let searchString = JSON.parse(filter);
-      return (!searchString.groupCode || data.groupCode.toString().trim().toLowerCase().indexOf(searchString.groupCode.toLowerCase()) !== -1)
-        && (!searchString.groupDescription || data.groupDescription.toString().trim().toLowerCase().indexOf(searchString.groupDescription.toLowerCase()) !== -1)
-        && (!searchString.sequence || data.sequence.toString().trim().toLowerCase().indexOf(searchString.sequence.toLowerCase()) !== -1)
-        && (!searchString.status || data.status.toString().trim().toLowerCase().indexOf(searchString.status.toLowerCase()) !== -1);
+      return (!searchString.name || data.name.toString().trim().toLowerCase().indexOf(searchString.name.toLowerCase()) !== -1)
+        && (searchString.isActive == undefined || data.isActive == searchString.isActive)
     }
     return myFilterPredicate;
   }
 
   search() {
+    this.paginator.pageIndex = 0;
     const filterValue: any = {
-      groupCode: this.groupCode,
-      groupDescription: this.groupDescription,
-      sequence: this.sequence,
-      status: this.selectedStatus
+      name: this.name,
+      isActive: this.selectedIsActive,
     }
     this.dataSource.filter = JSON.stringify(filterValue);
   }
 
   clear() {
+    this.paginator.pageIndex = 0;
     this.dataSource.filter = '{}';
-    this.groupCode = undefined;
-    this.groupDescription = undefined;
-    this.sequence = undefined;
-    this.selectedStatus = undefined;
+    this.name = '';
+    this.selectedIsActive = undefined;
   }
 
   addUserGroup(): void {
     const dialogRef = this._matDialog.open(UserGroupModalComponent, {
       data: {
         mode: ModalMode.ADD,
-        data: undefined
+        data: {
+          defaultMenu: this.defaultMenu
+        }
       }
     });
     dialogRef.afterClosed()
       .subscribe((userGroup: UserGroup) => {
         if (!userGroup) return; // cancel
-        this.userGroups.push(userGroup);
-        this.dataSource.data = this.userGroups;
-        this.userGroupTable.renderRows();
+        this.loadUserGroups();
       });
   }
 
-  editUserGroup(index: number) {
+  editUserGroup(element: UserGroup) {
     const dialogRef = this._matDialog.open(UserGroupModalComponent, {
       data: {
         mode: ModalMode.EDIT,
-        data: this.userGroups[index]
+        data: {
+          defaultMenu: this.defaultMenu,
+          userGroup: element
+        }
       }
     });
     dialogRef.afterClosed()
       .subscribe((userGroup: UserGroup) => {
         if (!userGroup) return; // cancel
-        this.userGroups[index] = userGroup;
-        this.dataSource.data = this.userGroups;
-        this.userGroupTable.renderRows();
+        this.loadUserGroups();
       });
   }
 
-  deleteUserGroup(index: number) {
-    this.userGroups.splice(index, 1);
-    this.dataSource.data = this.userGroups;
-    this.userGroupTable.renderRows();
+  deleteUserGroup(element: UserGroup) {
+    this._fuseConfirmationService.open({
+      title: 'ต้องการลบข้อมูลใช่หรือไม่',
+      icon: { name: 'heroicons_outline:question-mark-circle' },
+      actions: {
+        confirm: { show: true, label: 'ตกลง' },
+        cancel: { show: true, label: 'ยกเลิก' }
+      }
+    }).afterClosed().subscribe((result) => {
+      if (result == 'confirmed') {
+        this._userGroupService.deleteUserGroup(element.id).subscribe({
+          next: (v) => { this.loadUserGroups() },
+          error: (e) => console.error(e)
+        });
+      }
+    });
+  }
+
+  loadUserGroups() {
+    this._userGroupService.getUserGroups().subscribe({
+      next: (userGroups: UserGroup[]) => this.dataSource.data = userGroups,
+      error: (e) => console.log(e)
+    });
   }
 }

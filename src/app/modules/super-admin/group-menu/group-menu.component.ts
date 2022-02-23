@@ -6,7 +6,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { GroupMenuModalComponent } from '../modals/group-menu-modal/group-menu-modal.component';
 import { ModalMode } from '../modals/modal.types';
 import { SuperAdminService } from '../super-admin.service';
-import { GroupMenu, GroupStatus, Menu, UserGroup } from '../super-admin.types';
+import { GroupMenu, GroupStatus, Menu } from '../super-admin.types';
 
 @Component({
   selector: 'app-group-menu',
@@ -23,7 +23,7 @@ export class GroupMenuComponent implements OnInit {
 
   // bind value
   dataSource: MatTableDataSource<GroupMenu>;
-  group: UserGroup;
+  group: any;
   menu: Menu;
   selectedStatus: string;
 
@@ -138,7 +138,7 @@ export class GroupMenuComponent implements OnInit {
     this.groupMenuTable.renderRows();
   }
 
-  findColumnValue(key: string, elem: UserGroup) {
+  findColumnValue(key: string, elem: any) {
     return key.split('.').reduce((prev, cur) => prev[cur], elem);
   }
 }

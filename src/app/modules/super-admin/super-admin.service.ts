@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import { Status } from "../admin/admin.types";
-import { DocumentPermission, GroupMenu, GroupStatus, Menu, MenuStatus, Role, RoleCode, RoleStatus, UserGroup } from "./super-admin.types";
+import { DocumentPermission, GroupMenu, GroupStatus, Menu, MenuStatus, Role, RoleCode, RoleStatus } from "./super-admin.types";
 
 @Injectable({
     providedIn: 'root'
 })
 export class SuperAdminService {
-    groups: UserGroup[] = [
+    groups: any[] = [
         {
             groupCode: '00',
             groupDescription: 'Administrator',
@@ -277,7 +277,7 @@ export class SuperAdminService {
 
     constructor() { }
 
-    getGroups(): UserGroup[] {
+    getGroups(): any[] {
         return this.groups
     }
 

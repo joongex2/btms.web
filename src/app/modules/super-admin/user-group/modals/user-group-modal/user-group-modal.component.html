@@ -1,0 +1,77 @@
+<div class="flex flex-col w-80v md:w-160 max-h-80v -m-6">
+
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium text-white">
+            <span *ngIf="!isEdit">เพิ่มกรุ๊ปยูเซอร์</span>
+            <span *ngIf="isEdit">แก้ไขกรุ๊ปยูเซอร์</span>
+        </div>
+        <button mat-icon-button (click)="close()" [tabIndex]="-1">
+            <mat-icon class="text-current text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <!-- Body -->
+    <form
+        class="grid gap-4 grid-cols-12 p-6 sm:p-8 overflow-y-auto items-center"
+        [formGroup]="userGroupForm">
+
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Name</div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <input matInput [formControlName]="'name'">
+                <div class="copy-fields-toggles" matSuffix></div>
+                <mat-error>Name is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-span-4 font-medium"><span class="text-red-700">*</span>สถานะ</div>
+        <div class="col-span-8 flex items-center">
+            <mat-radio-group aria-label="Select an status" [formControlName]="'isActive'" name="isActive">
+                <mat-radio-button [ngClass]="{ 'ml-2': i != 0 }" *ngFor="let isActive of isActives; index as i" [color]="'primary'" [value]="isActive.value">{{isActive.title}}</mat-radio-button>
+            </mat-radio-group>
+        </div>
+
+        <div class="col-span-4 font-medium">กลุ่มเมนูและหน้าจอ</div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <mat-select [formControlName]="'menuGroupsIndex'">
+                    <mat-option *ngFor="let menuGroup of userGroupForm.get('menuGroups')['controls']; index as i" [value]="i">{{menuGroup.get('title').value}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-span-4 font-medium flex flex-col items-start h-full">การให้สิทธ์เมนูและหน้าจอ</div>
+        <div class="col-span-8 flex items-center">
+            <div class="col-span-12 flex flex-col space-y-4">
+                <ng-container *ngIf="userGroupForm.get('menuGroupsIndex').value != undefined">
+                    <ng-container *ngFor="let menu of userGroupForm.get('menuGroups')['controls'][userGroupForm.get('menuGroupsIndex').value].get('menus')['controls']; let i = index">
+                        <mat-checkbox [color]="'primary'" [formControl]="menu.get('check')">{{menu.get('title').value}}</mat-checkbox>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+
+         <!-- Alert -->
+         <fuse-alert
+            *ngIf="isShowError()"
+            [appearance]="'outline'"
+            [showIcon]="false"
+            [type]="alert.type"
+            [@shake]="alert.type === 'error'">
+            {{alert.message}}
+        </fuse-alert>
+
+        <!-- Actions -->
+        <div class="col-span-12 flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
+            <div class="flex-none flex items-center cursor-pointer"
+                (click)="saveAndClose()">
+                <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>ตกลง</span>
+            </div>
+            <div class="flex-none sm:ml-2 flex items-center cursor-pointer"
+                (click)="close()">
+                <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>ยกเลิก</span>
+            </div>
+        </div>
+    </form>
+</div>

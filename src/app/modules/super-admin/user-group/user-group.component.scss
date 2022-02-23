@@ -1,12 +1,10 @@
-.sub-row {        
-    p {
-        font-weight: bold;
-        // background: white;
-        border-bottom: 1px solid white;
-        padding: 10px;
-        background-color: rgb(97, 138, 2);
-        color: white;
-    }
+p.table-title {
+    font-weight: bold;
+    // background: white;
+    border-bottom: 1px solid white;
+    padding: 10px;
+    background-color: rgb(97, 138, 2);
+    color: white;
 }
 
 .example-action-buttons {
@@ -25,11 +23,6 @@
 
 .example-headers-align .mat-form-field + .mat-form-field {
     // margin-left: 8px;
-}
-
-.example-table-container {
-    max-height: 395px;
-    overflow: auto;
 }
 
 :host ::ng-deep .mat-expansion-panel-body {
@@ -77,26 +70,18 @@ table {
 }
 
 /* column width */
-.mat-column-groupCode {
-    width: 25%;
-}
-
-.mat-column-groupDescription {
-    width: 37.5%;
-}
-
-.mat-column-sequence {
-    width: 20%;
-}
-
-.mat-column-status {
+.mat-column-index {
     width: 10%;
 }
 
-.mat-column-editIcon {
-    width: 2.5%;
+.mat-column-name {
+    width: 60%;
 }
 
-.mat-column-deleteIcon {
-    width: 2.5%;
+.mat-column-isActive {
+    width: 20%;
+}
+
+.mat-column-editDeleteIcon {
+    width: 10%;
 }

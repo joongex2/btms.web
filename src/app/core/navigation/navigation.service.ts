@@ -22,8 +22,15 @@ export class NavigationService
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Getter for navigation
+     * Setter & getter for navigation
+     * 
+     * @param value
      */
+    set navigation(value: Navigation)
+    {
+        // Store the value
+        this._navigation.next(value);
+    }
     get navigation$(): Observable<Navigation>
     {
         return this._navigation.asObservable();

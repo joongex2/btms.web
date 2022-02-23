@@ -1,12 +1,5 @@
 import { Status } from "../admin/admin.types";
 
-export interface UserGroup {
-    groupCode: string;
-    groupDescription: string;
-    sequence: string;
-    status: GroupStatus;
-}
-
 export interface Role {
     roleCode: string;
     roleDescription: string;
@@ -27,7 +20,7 @@ export interface Menu {
 }
 
 export interface GroupMenu {
-    group: UserGroup;
+    group: any;
     menu: Menu;
     status: Status;
 }

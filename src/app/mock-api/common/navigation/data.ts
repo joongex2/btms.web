@@ -13,19 +13,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Dashboard',
                 type : 'basic',
                 link : '/dashboards/dashboard1'
-            },
-            // {
-            //     id   : 'dashboards.dashboard2',
-            //     title: 'Dashboard 2',
-            //     type : 'basic',
-            //     link : '/dashboards/dashboard2'
-            // },
-            // {
-            //     id   : 'dashboards.dashboard3',
-            //     title: 'Dashboard 3',
-            //     type : 'basic',
-            //     link : '/dashboards/dashboard3'
-            // }
+            }
         ]
     }, {
         id      : 'target-info',
@@ -50,8 +38,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'สร้างเป้าหมายใหม่',
                 type : 'basic',
                 link : '/target-info/new-target'
-            },
-        ],
+            }
+        ]
     }, {
         id      : 'target-result',
         title   : 'ผลการดำเนินการตามเป้าหมาย',
@@ -75,8 +63,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'ข้อมูลผลการดำเนินการ',
                 type : 'basic',
                 link : '/target-result/result-info'
-            },
-        ],
+            }
+        ]
     }, {
         id      : 'report',
         title   : 'Report',
@@ -107,7 +95,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 link : '/report/save-cause-track'
             },
-        ],
+        ]
     }, {
         id      : 'admin',
         title   : 'Admin Menu',
@@ -162,7 +150,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 link : '/admin/user'
             }
-        ],
+        ]
     }, {
         id      : 'super-admin',
         title   : 'Super Admin Menu',
@@ -180,18 +168,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Role',
                 type : 'basic',
                 link : '/super-admin/role'
-            },
-            {
-                id   : 'super-admin.menu',
-                title: 'Menu',
-                type : 'basic',
-                link : '/super-admin/menu'
-            },
-            {
-                id   : 'super-admin.group-menu',
-                title: 'Group Menu',
-                type : 'basic',
-                link : '/super-admin/group-menu'
             },
             {
                 id   : 'super-admin.document-permission',
@@ -223,7 +199,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 link : '/super-admin/data-management'
             }
-        ],
+        ]
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
