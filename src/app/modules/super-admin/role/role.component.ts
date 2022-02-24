@@ -3,13 +3,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { ConfirmationService } from 'app/shared/services/confirmation.service';
+import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { ModalMode } from '../modals/modal.types';
-import { RoleModalComponent } from '../modals/role-modal/role-modal.component';
-import { SuperAdminService } from '../super-admin.service';
-import { Role, RoleStatus } from '../super-admin.types';
+import { RoleModalComponent } from './role-modal/role-modal.component';
+import { RoleService } from './role.service';
+import { Role } from './role.types';
+
 
 @Component({
-  selector: 'app-role',
+  selector: 'role',
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.scss']
 })
@@ -17,48 +20,52 @@ export class RoleComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('roleTable') roleTable: MatTable<Role>;
-  roles: Role[];
 
   // bind value
-  dataSource: MatTableDataSource<Role>;
-  roleCode: string;
-  roleDescription: string;
-  selectedStatus: string;
+  dataSource: MatTableDataSource<Role> = new MatTableDataSource([]);
+  code: string;
+  name: string;
+  selectedIsActive: boolean;
 
   // select option
-  statuses: any = [
-    { title: 'Active', value: RoleStatus.ACTIVE },
-    { title: 'Expired', value: RoleStatus.EXPIRED }
-  ]
+  isActives: any = [
+    { title: 'Active', value: true },
+    { title: 'Inactive', value: false }
+  ];
 
   // table setting
   displayedColumns: string[] = [
-    'roleCode',
-    'roleDescription',
-    'sequence',
-    'status',
-    'editIcon',
-    'deleteIcon'
+    'index',
+    'code',
+    'name',
+    'isActive',
+    'editDeleteIcon'
   ];
 
   keyToColumnName: any = {
-    'roleCode': 'Role ID',
-    'roleDescription': 'Role Description',
-    'sequence': 'Sequence',
-    'status': 'Status'
+    'index': 'ลำดับที่',
+    'code': 'Code',
+    'name': 'Name',
+    'isActive': 'สถานะ',
+    'editDeleteIcon': 'จัดการ'
   };
 
+  notSortColumn: string[] = [
+    'index',
+    'editDeleteIcon'
+  ];
+
   constructor(
-    private _superAdminService: SuperAdminService,
+    private _roleService: RoleService,
+    private _confirmationService: ConfirmationService,
+    private _snackBarService: SnackBarService,
     private _matDialog: MatDialog
   ) {
-    this.roles = this._superAdminService.getRoles();
-    this.dataSource = new MatTableDataSource(this.roles);
+    this.loadRoles();
   }
 
   ngOnInit(): void {
     // default
-    this.selectedStatus = RoleStatus.ACTIVE;
     this.dataSource.filterPredicate = this.customFilterPredicate();
   }
 
@@ -70,27 +77,27 @@ export class RoleComponent implements OnInit {
   customFilterPredicate() {
     const myFilterPredicate = function (data: Role, filter: string): boolean {
       let searchString = JSON.parse(filter);
-      return (!searchString.roleCode || data.roleCode.toString().trim().toLowerCase().indexOf(searchString.roleCode.toLowerCase()) !== -1)
-        && (!searchString.roleDescription || data.roleDescription.toString().trim().toLowerCase().indexOf(searchString.roleDescription.toLowerCase()) !== -1)
-        && (!searchString.status || data.status.toString().trim().toLowerCase().indexOf(searchString.status.toLowerCase()) !== -1);
+      return (!searchString.code || data.code.toString().trim().toLowerCase().indexOf(searchString.code.toLowerCase()) !== -1)
+        && (!searchString.name || data.name.toString().trim().toLowerCase().indexOf(searchString.name.toLowerCase()) !== -1)
+        && (searchString.isActive == undefined || data.isActive == searchString.isActive);
     }
     return myFilterPredicate;
   }
 
   search() {
     const filterValue: any = {
-      roleCode: this.roleCode,
-      roleDescription: this.roleDescription,
-      status: this.selectedStatus
+      code: this.code,
+      name: this.name,
+      isActive: this.selectedIsActive
     }
     this.dataSource.filter = JSON.stringify(filterValue);
   }
 
   clear() {
     this.dataSource.filter = '{}';
-    this.roleCode = undefined;
-    this.roleDescription = undefined;
-    this.selectedStatus = undefined;
+    this.code = '';
+    this.name = '';
+    this.selectedIsActive = undefined;
   }
 
   addRole(): void {
@@ -103,31 +110,45 @@ export class RoleComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe((role: Role) => {
         if (!role) return; // cancel
-        this.roles.push(role);
-        this.dataSource.data = this.roles;
-        this.roleTable.renderRows();
+        this.loadRoles();
       });
   }
 
-  editRole(index: number) {
+  editRole(element: Role) {
     const dialogRef = this._matDialog.open(RoleModalComponent, {
       data: {
         mode: ModalMode.EDIT,
-        data: this.roles[index]
+        data: element
       }
     });
     dialogRef.afterClosed()
       .subscribe((role: Role) => {
         if (!role) return; // cancel
-        this.roles[index] = role;
-        this.dataSource.data = this.roles;
-        this.roleTable.renderRows();
+        this.loadRoles();
       });
   }
 
-  deleteRole(index: number) {
-    this.roles.splice(index, 1);
-    this.dataSource.data = this.roles;
-    this.roleTable.renderRows();
+  deleteRole(element: Role) {
+    this._confirmationService.delete().afterClosed().subscribe((result) => {
+      if (result == 'confirmed') {
+        this._roleService.deleteRole(element.id).subscribe({
+          next: (v) => {
+            this._snackBarService.success();
+            this.loadRoles()
+          },
+          error: (e) => {
+            this._snackBarService.error();
+            console.error(e)
+          }
+        });
+      }
+    });
+  }
+
+  loadRoles() {
+    this._roleService.getRoles().subscribe({
+      next: (roles: Role[]) => this.dataSource.data = roles,
+      error: (e) => console.log(e)
+    });
   }
 }

@@ -99,16 +99,16 @@
                         <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ keyToColumnName[key] }}</th>
                             <td mat-cell *matCellDef="let element; let i = index">
+                                <ng-container *ngIf="key == 'index'">{{ (paginator.pageIndex * paginator.pageSize) + (i + 1) }}</ng-container>
+                                <ng-container *ngIf="key == 'isActive'">{{ element[key] | isActive }}</ng-container>
                                 <ng-container *ngIf="key == 'editDeleteIcon'">
                                     <div class="flex items-center justify-center">
                                         <mat-icon (click)="editUserGroup(element)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขกลุ่มยูเซอร์"></mat-icon>
                                         <mat-icon (click)="deleteUserGroup(element)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบกลุ่มยูเซอร์"></mat-icon>
                                     </div>
                                 </ng-container>
-                                <ng-container *ngIf="key != 'editDeleteIcon'">
-                                    <ng-container *ngIf="key == 'index'">{{ (paginator.pageIndex * paginator.pageSize) + (i + 1) }}</ng-container>
-                                    <ng-container *ngIf="key == 'isActive'">{{ element[key] | isActive }}</ng-container>
-                                    <ng-container *ngIf="key != 'isActive'">{{ element[key] }}</ng-container>
+                                <ng-container *ngIf="key != 'index' && key != 'isActive' && key != 'editDeleteIcon'">
+                                    {{ element[key] }}
                                 </ng-container>
                             </td>
                         </ng-container>

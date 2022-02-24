@@ -3,7 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { ConfirmationService } from 'app/shared/services/confirmation.service';
+import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { ModalMode } from '../modals/modal.types';
 import { UserGroupModalComponent } from './modals/user-group-modal/user-group-modal.component';
 import { UserGroupService } from './user-group.service';
@@ -48,7 +49,8 @@ export class UserGroupComponent implements OnInit {
 
   constructor(
     private _userGroupService: UserGroupService,
-    private _fuseConfirmationService: FuseConfirmationService,
+    private _confirmationService: ConfirmationService,
+    private _snackBarService: SnackBarService,
     private _matDialog: MatDialog
   ) {
     this.loadUserGroups();
@@ -126,18 +128,17 @@ export class UserGroupComponent implements OnInit {
   }
 
   deleteUserGroup(element: UserGroup) {
-    this._fuseConfirmationService.open({
-      title: 'ต้องการลบข้อมูลใช่หรือไม่',
-      icon: { name: 'heroicons_outline:question-mark-circle' },
-      actions: {
-        confirm: { show: true, label: 'ตกลง' },
-        cancel: { show: true, label: 'ยกเลิก' }
-      }
-    }).afterClosed().subscribe((result) => {
+    this._confirmationService.delete().afterClosed().subscribe((result) => {
       if (result == 'confirmed') {
         this._userGroupService.deleteUserGroup(element.id).subscribe({
-          next: (v) => { this.loadUserGroups() },
-          error: (e) => console.error(e)
+          next: (v) => {
+            this._snackBarService.success();
+            this.loadUserGroups()
+          },
+          error: (e) => {
+            this._snackBarService.error();
+            console.error(e)
+          }
         });
       }
     });

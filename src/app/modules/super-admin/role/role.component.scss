@@ -77,28 +77,24 @@ table {
 }
 
 /* column width */
-.mat-column-roleCode {
-    width: 15%;
+.mat-column-index {
+    width: 10%;
 }
 
-.mat-column-roleDescription {
-    width: 50%;
+.mat-column-code {
+    width: 30%;
 }
 
-.mat-column-sequence {
-    width: 15%;
+.mat-column-name {
+    width: 30%;
 }
 
-.mat-column-status {
-    width: 15%;
+.mat-column-isActive {
+    width: 20%;
 }
 
-.mat-column-editIcon {
-    width: 2.5%;
-}
-
-.mat-column-deleteIcon {
-    width: 2.5%;
+.mat-column-editDeleteIcon {
+    width: 10%;
 }
 
 @media only screen and (max-width: 768px) {

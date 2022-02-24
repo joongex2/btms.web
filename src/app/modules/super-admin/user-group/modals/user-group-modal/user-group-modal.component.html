@@ -12,9 +12,7 @@
     </div>
 
     <!-- Body -->
-    <form
-        class="grid gap-4 grid-cols-12 p-6 sm:p-8 overflow-y-auto items-center"
-        [formGroup]="userGroupForm">
+    <form class="grid gap-4 grid-cols-12 p-6 sm:p-8 overflow-y-auto items-center" [formGroup]="userGroupForm">
 
         <div class="col-span-4 font-medium"><span class="text-warn">*</span>Name</div>
         <div class="col-span-8 flex items-center">
@@ -25,18 +23,22 @@
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium"><span class="text-red-700">*</span>สถานะ</div>
+        <div class="col-span-4 font-medium">สถานะ</div>
         <div class="col-span-8 flex items-center">
-            <mat-radio-group aria-label="Select an status" [formControlName]="'isActive'" name="isActive">
-                <mat-radio-button [ngClass]="{ 'ml-2': i != 0 }" *ngFor="let isActive of isActives; index as i" [color]="'primary'" [value]="isActive.value">{{isActive.title}}</mat-radio-button>
-            </mat-radio-group>
+            <mat-form-field class="flex-auto">
+                <mat-select [formControlName]="'isActive'" placeholder="สถานะ">
+                    <mat-option *ngFor="let isActive of isActives" [value]="isActive.value">{{isActive.title}}</mat-option>
+                </mat-select>
+                <mat-error>สถานะ is required</mat-error>
+            </mat-form-field>
         </div>
 
         <div class="col-span-4 font-medium">กลุ่มเมนูและหน้าจอ</div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
                 <mat-select [formControlName]="'menuGroupsIndex'">
-                    <mat-option *ngFor="let menuGroup of userGroupForm.get('menuGroups')['controls']; index as i" [value]="i">{{menuGroup.get('title').value}}</mat-option>
+                    <mat-option *ngFor="let menuGroup of userGroupForm.get('menuGroups')['controls']; index as i"
+                        [value]="i">{{menuGroup.get('title').value}}</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
@@ -45,31 +47,27 @@
         <div class="col-span-8 flex items-center">
             <div class="col-span-12 flex flex-col space-y-4">
                 <ng-container *ngIf="userGroupForm.get('menuGroupsIndex').value != undefined">
-                    <ng-container *ngFor="let menu of userGroupForm.get('menuGroups')['controls'][userGroupForm.get('menuGroupsIndex').value].get('menus')['controls']; let i = index">
-                        <mat-checkbox [color]="'primary'" [formControl]="menu.get('check')">{{menu.get('title').value}}</mat-checkbox>
+                    <ng-container
+                        *ngFor="let menu of userGroupForm.get('menuGroups')['controls'][userGroupForm.get('menuGroupsIndex').value].get('menus')['controls']; let i = index">
+                        <mat-checkbox [color]="'primary'" [formControl]="menu.get('check')">{{menu.get('title').value}}
+                        </mat-checkbox>
                     </ng-container>
                 </ng-container>
             </div>
         </div>
 
-         <!-- Alert -->
-         <fuse-alert
-            *ngIf="isShowError()"
-            [appearance]="'outline'"
-            [showIcon]="false"
-            [type]="alert.type"
+        <!-- Alert -->
+        <fuse-alert class="col-span-12" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false" [type]="alert.type"
             [@shake]="alert.type === 'error'">
             {{alert.message}}
         </fuse-alert>
 
         <!-- Actions -->
         <div class="col-span-12 flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
-            <div class="flex-none flex items-center cursor-pointer"
-                (click)="saveAndClose()">
+            <div class="flex-none flex items-center cursor-pointer" (click)="saveAndClose()">
                 <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>ตกลง</span>
             </div>
-            <div class="flex-none sm:ml-2 flex items-center cursor-pointer"
-                (click)="close()">
+            <div class="flex-none sm:ml-2 flex items-center cursor-pointer" (click)="close()">
                 <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>ยกเลิก</span>
             </div>
         </div>

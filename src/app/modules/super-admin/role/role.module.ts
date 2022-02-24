@@ -9,8 +9,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
+import { FuseAlertModule } from '@fuse/components/alert';
 import { SharedModule } from 'app/shared/shared.module';
-import { RoleModalComponent } from '../modals/role-modal/role-modal.component';
+import { RoleModalComponent } from './role-modal/role-modal.component';
 import { RoleComponent } from './role.component';
 import { roleRoutes } from './role.routing';
 
@@ -32,6 +33,7 @@ import { roleRoutes } from './role.routing';
     MatSortModule,
     MatPaginatorModule,
     MatDialogModule,
+    FuseAlertModule,
     SharedModule
   ]
 })

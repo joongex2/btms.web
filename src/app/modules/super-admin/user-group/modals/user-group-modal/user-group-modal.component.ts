@@ -1,9 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { FuseNavigationItem } from '@fuse/components/navigation';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { ConfirmationService } from 'app/shared/services/confirmation.service';
+import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { firstValueFrom } from 'rxjs';
 import { ModalData, ModalMode } from '../../../modals/modal.types';
 import { UserGroupService } from '../../user-group.service';
@@ -13,7 +16,8 @@ import { UserGroup } from '../../user-group.types';
 @Component({
   selector: 'user-group-modal',
   templateUrl: './user-group-modal.component.html',
-  styleUrls: ['./user-group-modal.component.scss']
+  styleUrls: ['./user-group-modal.component.scss'],
+  animations: fuseAnimations
 })
 export class UserGroupModalComponent implements OnInit {
   isEdit: boolean = false;
@@ -37,7 +41,8 @@ export class UserGroupModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public modalData: ModalData,
     public matDialogRef: MatDialogRef<UserGroupModalComponent>,
     private _userGroupService: UserGroupService,
-    private _fuseConfirmationService: FuseConfirmationService,
+    private _confirmationService: ConfirmationService,
+    private _snackBarService: SnackBarService,
     private _formBuilder: FormBuilder
   ) { }
 
@@ -96,15 +101,7 @@ export class UserGroupModalComponent implements OnInit {
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
     } else {
-      this._fuseConfirmationService.open({
-        title: 'ต้องการบันทึกข้อมูลใช่หรือไม่?',
-        // message: 'ต้องการลบข้อมูลใช่หรือไม่',
-        icon: { name: 'heroicons_outline:question-mark-circle', color: 'primary'},
-        actions: { 
-          confirm: { show: true, label: 'ตกลง', color: 'primary'},
-          cancel: { show: true, label: 'ยกเลิก'}
-        }
-      }).afterClosed().subscribe(async (result) => {
+      this._confirmationService.save().afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {
           try {
             const menuString = this.createMenuString();
@@ -123,8 +120,10 @@ export class UserGroupModalComponent implements OnInit {
                 this.userGroupForm.get('isActive').value
               ));
             }
+            this._snackBarService.success();
             this.matDialogRef.close(true);
           } catch (e) {
+            this._snackBarService.error();
             this.showError(e, true);
           }
         }
