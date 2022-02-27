@@ -1,12 +1,10 @@
-.sub-row {        
-    p {
-        font-weight: bold;
-        // background: white;
-        border-bottom: 1px solid white;
-        padding: 10px;
-        background-color: rgb(97, 138, 2);
-        color: white;
-    }
+p.table-title {
+    font-weight: bold;
+    // background: white;
+    border-bottom: 1px solid white;
+    padding: 10px;
+    background-color: rgb(97, 138, 2);
+    color: white;
 }
 
 .example-action-buttons {
@@ -48,52 +46,65 @@ table {
 
 .mat-header-cell,
 .mat-cell {
-  border-bottom-color: white !important;
+    border-bottom-color: white !important;
 }
 
 .mat-header-cell {
-  color: white !important
+    color: white !important
+}
+
+:host ::ng-deep .mat-sort-header-arrow {
+    color: white !important;
 }
 
 // mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
 //     padding-left: 12px;
 // }
 
-:host ::ng-deep .mat-sort-header-arrow {
-    color: white !important;
-}
-
-
 /* color */
 .mat-header-row {
-    background-color: rgb(132, 189, 0) !important;
+    background-color: rgb(132, 189, 0) !important; // important because replace by sticky
 }
 
 .mat-row:nth-child(even) {
-    background-color: rgb(206, 230, 150) !important;
+    background-color: rgb(206, 230, 150);
 }
 
 .mat-row:nth-child(odd) {
-    background-color: rgb(229, 240, 203) !important;
+    background-color: rgb(229, 240, 203);
 }
 
 /* column width */
-.mat-column-roleDescription {
-    width: 30%;
+.mat-column-index {
+    width: 10%;
 }
 
-.mat-column-fullName {
-    width: 45%;
+.mat-column-type {
+    width: 20%;
 }
 
-.mat-column-status {
-    width: 15%;
+.mat-column-code {
+    width: 20%;
 }
 
-.mat-column-editIcon {
-    width: 5%;
+.mat-column-name {
+    width: 20%;
 }
 
-.mat-column-deleteIcon {
-    width: 5%;
+.mat-column-isActive {
+    width: 20%;
+}
+
+.mat-column-editDeleteIcon {
+    width: 10%;
+}
+
+@media only screen and (max-width: 768px) {
+    .mat-table {
+        overflow-x: scroll;
+    }
+    .mat-row,
+    .mat-header-row {
+        min-width: 800px;
+    }
 }

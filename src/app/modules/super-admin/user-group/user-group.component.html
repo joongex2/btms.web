@@ -56,11 +56,11 @@
                                     <input [(ngModel)]="name" name="name" matInput>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">สถานะ</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Status</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedIsActive" name="isActive">
+                                    <mat-select [(ngModel)]="selectedIsActive" name="isActive" placeholder="ทั้งหมด">
                                         <mat-option *ngFor="let isActive of isActives" [value]="isActive.value">
                                             {{isActive.title}}
                                         </mat-option>

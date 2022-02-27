@@ -37,72 +37,66 @@
                     </mat-expansion-panel-header>
                     <!-- CONTENT GOES HERE -->
                     <form>
-                        <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
-                            <div class="col-span-6 sm:col-span-3 font-medium">Organization Code</div>
+                        <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center"
+                            style="color: rgb(30, 41, 59)">
+                            <div class="col-span-6 sm:col-span-3 font-medium">Code</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <input [(ngModel)]="organizationCode" name="organizationCode" matInput>
+                                    <input [(ngModel)]="code" name="code" matInput>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Organization Description</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Name</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <input [(ngModel)]="organizationDescription" name="organizationDescription" matInput>
+                                    <input [(ngModel)]="name" name="name" matInput>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 sm:col-start-1 font-medium">BU Description</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Business Unit Code</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="bu" name="bu">
-                                        <mat-option *ngFor="let bu of bus" [value]="bu.value">
-                                            {{bu.title}}
+                                    <mat-select [(ngModel)]="selectedBusinessCode" name="businessCode"
+                                        placeholder="ทั้งหมด">
+                                        <mat-option *ngFor="let businessCode of businessCodes"
+                                            [value]="businessCode.value">
+                                            {{businessCode.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Sub-BU Description</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Sub-Business Unit Code</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="subBu" name="subBu">
-                                        <mat-option *ngFor="let subBu of subBus" [value]="subBu.value">
-                                            {{subBu.title}}
+                                    <mat-select [(ngModel)]="selectedSubBusinessCode" name="subBusinessCode" placeholder="ทั้งหมด">
+                                        <mat-option *ngFor="let subBusinessCode of subBusinessCodes"
+                                            [value]="subBusinessCode.value">
+                                            {{subBusinessCode.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 sm:col-start-1 font-medium">Plant Description</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Plant Code</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="plant" name="plant">
-                                        <mat-option *ngFor="let plant of plants" [value]="plant.value">
-                                            {{plant.title}}
+                                    <mat-select [(ngModel)]="selectedPlantCode" name="plantCode" placeholder="ทั้งหมด">
+                                        <mat-option *ngFor="let plantCode of plantCodes" [value]="plantCode.value">
+                                            {{plantCode.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Division Description</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Division Code</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="division" name="division">
-                                        <mat-option *ngFor="let division of divisions" [value]="division.value">
-                                            {{division.title}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-span-6 sm:col-span-3 sm:col-start-1 font-medium">Department Description</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="department" name="department">
-                                        <mat-option *ngFor="let department of departments" [value]="department.value">
-                                            {{department.title}}
+                                    <mat-select [(ngModel)]="selectedDivisionCode" name="divisionCode" placeholder="ทั้งหมด">
+                                        <mat-option *ngFor="let divisionCode of divisionCodes"
+                                            [value]="divisionCode.value">
+                                            {{divisionCode.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
@@ -111,20 +105,21 @@
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedStatus" name="status">
-                                        <mat-option *ngFor="let status of statuses" [value]="status.value">
-                                            {{status.title}}
+                                    <mat-select [(ngModel)]="selectedIsActive" name="isActive">
+                                        <mat-option *ngFor="let isActive of isActives" [value]="isActive.value">
+                                            {{isActive.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
                         </div>
-    
+
                         <div
                             class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
                             <div class="flex-none" (click)="search()">
                                 <a href="#" onClick="return false;" class="flex items-center">
-                                    <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Search</span>
+                                    <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>
+                                    &nbsp;<span>Search</span>
                                 </a>
                             </div>
                             <div class="flex-none ml-2" (click)="clear()">
@@ -136,9 +131,9 @@
                     </form>
                 </mat-expansion-panel>
             </mat-accordion>
-    
+
             <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
-                <div class="example-table-container" [class.sub-row]="'title'">
+                <div class="example-table-container">
                     <p class="table-title flex flex-row justify-between cursor-pointer">
                         <span>Organization</span>
                         <span class="flex items-center" (click)="addOrganization()">
@@ -146,25 +141,41 @@
                         </span>
                     </p>
                     <div class="overflow-x-auto">
-                        <table mat-table #organizationTable [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
-                        matSort>
+                        <table mat-table #organizationTable [dataSource]="dataSource"
+                            class="my-target-table mat-elevation-z8" style="width:100%" matSort>
                             <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ keyToColumnName[key] }}</th>
+                                <ng-container *ngIf="notSortColumn.includes(key)">
+                                    <th mat-header-cell *matHeaderCellDef
+                                        [ngClass]="{ 'text-center' : key == 'editDeleteIcon' }">{{ keyToColumnName[key]
+                                        }}</th>
+                                </ng-container>
+                                <ng-container *ngIf="!notSortColumn.includes(key)">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ keyToColumnName[key] }}
+                                    </th>
+                                </ng-container>
                                 <td mat-cell *matCellDef="let element; let i = index">
-                                    <span *ngIf="!key.includes('Icon') && key !== 'userRole' && objColumns.indexOf(key) == -1">{{ element[key] }}</span>
-                                    <span *ngIf="objColumns.indexOf(key) != -1">{{ element[key] ? element[key][key+'Code']: '' }}</span>
-                                    <a *ngIf="key == 'userRole'" [routerLink]="'./user-role/'+element.organizationCode" class="underline text-blue-600">Manage</a>
-                                    <div *ngIf="key.includes('Icon')" class="flex items-center">
-                                        <mat-icon *ngIf="key === 'editIcon'" (click)="editOrganization(i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขOrganization"></mat-icon>
-                                        <mat-icon *ngIf="key === 'deleteIcon'" (click)="deleteOrganization(i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบOrganization"></mat-icon>
-                                    </div>
+                                    <ng-container *ngIf="key == 'index'">{{ (paginator.pageIndex * paginator.pageSize) +
+                                        (i + 1) }}</ng-container>
+                                    <ng-container *ngIf="key == 'isActive'">{{ element[key] | isActive }}</ng-container>
+                                    <ng-container *ngIf="key == 'editDeleteIcon'">
+                                        <div class="flex items-center justify-center">
+                                            <mat-icon (click)="editOrganization(element)" svgIcon="heroicons_outline:pencil"
+                                                class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขมาสเตอร์"></mat-icon>
+                                            <mat-icon (click)="deleteOrganization(element)" svgIcon="heroicons_outline:x"
+                                                class="w-5 min-w-5 cursor-pointer" title="ลบมาสเตอร์"></mat-icon>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="key != 'index' && key != 'isActive' && key != 'editDeleteIcon'">{{
+                                        element[key] }}</ng-container>
                                 </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         </table>
                     </div>
-                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+                    <mat-paginator #pagination [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                        aria-label="Select page of periodic elements">
                     </mat-paginator>
                 </div>
             </div>

@@ -2,32 +2,34 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { ModalMode } from '../modals/modal.types';
-import { RoleModalComponent } from './modals/role-modal/role-modal.component';
-import { RoleService } from './role.service';
-import { Role } from './role.types';
+import { MasterModalComponent } from './modals/master-modal/master-modal.component';
+import { MasterService } from './master.service';
+import { Master } from './master.types';
 
 
 @Component({
-  selector: 'role',
-  templateUrl: './role.component.html',
-  styleUrls: ['./role.component.scss']
+  selector: 'master',
+  templateUrl: './master.component.html',
+  styleUrls: ['./master.component.scss']
 })
-export class RoleComponent implements OnInit {
+export class MasterComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   // bind value
-  dataSource: MatTableDataSource<Role> = new MatTableDataSource([]);
+  dataSource: MatTableDataSource<Master> = new MatTableDataSource([]);
   code: string;
   name: string;
+  selectedType: string;
   selectedIsActive: boolean;
 
   // select option
-  isActives: any = [
+  types: any[];
+  isActives: any[] = [
     { title: 'Active', value: true },
     { title: 'Inactive', value: false }
   ];
@@ -35,6 +37,7 @@ export class RoleComponent implements OnInit {
   // table setting
   displayedColumns: string[] = [
     'index',
+    'type',
     'code',
     'name',
     'isActive',
@@ -43,6 +46,7 @@ export class RoleComponent implements OnInit {
 
   keyToColumnName: any = {
     'index': 'ลำดับที่',
+    'type': 'Type',
     'code': 'Code',
     'name': 'Name',
     'isActive': 'Status',
@@ -54,16 +58,29 @@ export class RoleComponent implements OnInit {
     'editDeleteIcon'
   ];
 
+  masterTypeMapper: { [key: string]: string };
+
   constructor(
-    private _roleService: RoleService,
+    private _masterService: MasterService,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
     private _matDialog: MatDialog
   ) {
-    this.loadRoles();
+    this.loadMasters();
   }
 
   ngOnInit(): void {
+    this._masterService.getMasterTypes().subscribe({
+      next: (types: any[]) => {
+        this.types = types.map((type) => ({ title: type.name, value: type.type }));
+        this.masterTypeMapper = types.reduce((prev, cur) => {
+          prev[cur.type] = cur.name;
+          return prev;
+        }, {});
+      },
+      error: (e) => console.log(e)
+    });
+
     // default
     this.dataSource.filterPredicate = this.customFilterPredicate();
   }
@@ -74,10 +91,11 @@ export class RoleComponent implements OnInit {
   }
 
   customFilterPredicate() {
-    const myFilterPredicate = function (data: Role, filter: string): boolean {
+    const myFilterPredicate = function (data: Master, filter: string): boolean {
       let searchString = JSON.parse(filter);
       return (!searchString.code || data.code.toString().trim().toLowerCase().indexOf(searchString.code.toLowerCase()) !== -1)
         && (!searchString.name || data.name.toString().trim().toLowerCase().indexOf(searchString.name.toLowerCase()) !== -1)
+        && (searchString.type == undefined || data.type == searchString.type)
         && (searchString.isActive == undefined || data.isActive == searchString.isActive);
     }
     return myFilterPredicate;
@@ -87,6 +105,7 @@ export class RoleComponent implements OnInit {
     const filterValue: any = {
       code: this.code,
       name: this.name,
+      type: this.selectedType,
       isActive: this.selectedIsActive
     }
     this.dataSource.filter = JSON.stringify(filterValue);
@@ -96,11 +115,12 @@ export class RoleComponent implements OnInit {
     this.dataSource.filter = '{}';
     this.code = '';
     this.name = '';
+    this.selectedType = undefined;
     this.selectedIsActive = undefined;
   }
 
-  addRole(): void {
-    const dialogRef = this._matDialog.open(RoleModalComponent, {
+  addMaster(): void {
+    const dialogRef = this._matDialog.open(MasterModalComponent, {
       data: {
         mode: ModalMode.ADD,
         data: undefined
@@ -109,12 +129,12 @@ export class RoleComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe((isAdd: boolean) => {
         if (!isAdd) return; // cancel
-        this.loadRoles();
+        this.loadMasters();
       });
   }
 
-  editRole(element: Role) {
-    const dialogRef = this._matDialog.open(RoleModalComponent, {
+  editMaster(element: Master) {
+    const dialogRef = this._matDialog.open(MasterModalComponent, {
       data: {
         mode: ModalMode.EDIT,
         data: element
@@ -123,17 +143,17 @@ export class RoleComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe((isEdit: boolean) => {
         if (!isEdit) return; // cancel
-        this.loadRoles();
+        this.loadMasters();
       });
   }
 
-  deleteRole(element: Role) {
+  deleteMaster(element: Master) {
     this._confirmationService.delete().afterClosed().subscribe((result) => {
       if (result == 'confirmed') {
-        this._roleService.deleteRole(element.id).subscribe({
+        this._masterService.deleteMaster(element.id).subscribe({
           next: (v) => {
             this._snackBarService.success();
-            this.loadRoles()
+            this.loadMasters()
           },
           error: (e) => {
             this._snackBarService.error();
@@ -144,9 +164,9 @@ export class RoleComponent implements OnInit {
     });
   }
 
-  loadRoles() {
-    this._roleService.getRoles().subscribe({
-      next: (roles: Role[]) => this.dataSource.data = roles,
+  loadMasters() {
+    this._masterService.getMasters().subscribe({
+      next: (masters: Master[]) => this.dataSource.data = masters,
       error: (e) => console.log(e)
     });
   }

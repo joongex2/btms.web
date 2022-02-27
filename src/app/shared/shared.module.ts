@@ -9,7 +9,7 @@ import { SnackBarService } from './services/snack-bar.service';
 
 @NgModule({
     declarations: [
-        IsActivePipe,
+        IsActivePipe
     ],
     imports: [
         CommonModule,

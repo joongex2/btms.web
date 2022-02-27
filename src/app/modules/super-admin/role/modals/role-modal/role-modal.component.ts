@@ -6,9 +6,9 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { firstValueFrom } from 'rxjs';
-import { ModalData, ModalMode } from '../../modals/modal.types';
-import { RoleService } from '../role.service';
-import { Role } from '../role.types';
+import { ModalData, ModalMode } from '../../../modals/modal.types';
+import { RoleService } from '../../role.service';
+import { Role } from '../../role.types';
 
 
 @Component({

@@ -92,11 +92,7 @@ export const appRoutes: Route[] = [
                 {path: 'target-entry/:runningNo', loadChildren: () => import('app/modules/target-result/target-entry-detail/target-entry-detail.module').then(m=>m.TargetEntryDetailModule)}
             ]},
             {path: 'admin', children: [
-                {path: 'bu', loadChildren: () => import('app/modules/admin/bu/bu.module').then(m => m.BuModule)},
-                {path: 'sub-bu', loadChildren: () => import('app/modules/admin/sub-bu/sub-bu.module').then(m => m.SubBuModule)},
-                {path: 'plant', loadChildren: () => import('app/modules/admin/plant/plant.module').then(m => m.PlantModule)},
-                {path: 'division', loadChildren: () => import('app/modules/admin/division/division.module').then(m => m.DivisionModule)},
-                {path: 'department', loadChildren: () => import('app/modules/admin/department/department.module').then(m => m.DepartmentModule)},
+                {path: 'master', loadChildren: () => import('app/modules/admin/master/master.module').then(m => m.MasterModule)},
                 {path: 'organization', loadChildren: () => import('app/modules/admin/organization/organization.module').then(m => m.OrganizationModule)},
                 {path: 'document-control', loadChildren: () => import('app/modules/admin/document-control/document-control.module').then(m => m.DocumentControlModule)},
                 {path: 'user', loadChildren: () => import('app/modules/admin/user/user.module').then(m => m.UserModule)},

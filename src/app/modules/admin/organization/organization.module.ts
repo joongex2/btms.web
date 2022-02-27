@@ -9,21 +9,19 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
+import { FuseAlertModule } from '@fuse/components/alert';
 import { SharedModule } from 'app/shared/shared.module';
-import { OrganizationModalComponent } from '../modals/organization-modal/organization-modal.component';
-import { UserRoleModalComponent } from '../modals/user-role-modal/user-role-modal.component';
+import { OrganizationModalComponent } from './modals/organization-modal/organization-modal.component';
 import { OrganizationComponent } from './organization.component';
 import { organizationRoutes } from './organization.routing';
-import { UserRoleComponent } from './user-role/user-role.component';
+
 
 
 
 @NgModule({
   declarations: [
     OrganizationComponent,
-    OrganizationModalComponent,
-    UserRoleComponent,
-    UserRoleModalComponent
+    OrganizationModalComponent
   ],
   imports: [
     RouterModule.forChild(organizationRoutes),
@@ -36,6 +34,7 @@ import { UserRoleComponent } from './user-role/user-role.component';
     MatSortModule,
     MatPaginatorModule,
     MatDialogModule,
+    FuseAlertModule,
     SharedModule
   ]
 })

@@ -11,7 +11,7 @@ import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { SharedModule } from 'app/shared/shared.module';
-import { RoleModalComponent } from './role-modal/role-modal.component';
+import { RoleModalComponent } from './modals/role-modal/role-modal.component';
 import { RoleComponent } from './role.component';
 import { roleRoutes } from './role.routing';
 

@@ -1,12 +1,10 @@
-.sub-row {        
-    p {
-        font-weight: bold;
-        // background: white;
-        border-bottom: 1px solid white;
-        padding: 10px;
-        background-color: rgb(97, 138, 2);
-        color: white;
-    }
+p.table-title {
+    font-weight: bold;
+    // background: white;
+    border-bottom: 1px solid white;
+    padding: 10px;
+    background-color: rgb(97, 138, 2);
+    color: white;
 }
 
 .example-action-buttons {
@@ -78,46 +76,38 @@ table {
 }
 
 /* column width */
-.mat-column-organizationCode {
-    width: 15%;
-}
-
-.mat-column-organizationDescription {
-    width: 15%;
-}
-
-.mat-column-bu {
-    width: 8%;
-}
-
-.mat-column-subBu {
-    width: 8%;
-}
-
-.mat-column-plant {
-    width: 8%;
-}
-
-.mat-column-division {
-    width: 8%;
-}
-
-.mat-column-department {
-    width: 8%;
-}
-
-.mat-column-status {
+.mat-column-index {
     width: 10%;
 }
 
-.mat-column-userRole {
+.mat-column-code {
+    width: 11%;
+}
+
+.mat-column-name {
+    width: 14%;
+}
+
+.mat-column-businessCode {
+    width: 11%;
+}
+
+.mat-column-subBusinessCode {
+    width: 11%;
+}
+
+.mat-column-plantCode {
+    width: 11%;
+}
+
+.mat-column-divisionCode {
+    width: 11%;
+}
+
+.mat-column-isActive {
+    width: 11%;
+}
+
+.mat-column-editDeleteIcon {
     width: 10%;
-}
-
-.mat-column-editIcon {
-    width: 5%;
-}
-
-.mat-column-deleteIcon {
-    width: 5%;
 }

@@ -52,11 +52,11 @@
                                     <input [(ngModel)]="name" name="name" matInput>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 sm:col-start-1 font-medium">สถานะ</div>
+                            <div class="col-span-6 sm:col-span-3 sm:col-start-1 font-medium">Status</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedIsActive" name="isActive">
+                                    <mat-select [(ngModel)]="selectedIsActive" name="isActive" placeholder="ทั้งหมด">
                                         <mat-option *ngFor="let isActive of isActives" [value]="isActive.value">
                                             {{isActive.title}}
                                         </mat-option>
@@ -83,7 +83,7 @@
             </mat-accordion>
     
             <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
-                <div class="example-table-container" [class.sub-row]="'title'">
+                <div class="example-table-container">
                     <p class="table-title flex flex-row justify-between cursor-pointer">
                         <span>หน้าที่</span>
                         <span class="flex items-center" (click)="addRole()">

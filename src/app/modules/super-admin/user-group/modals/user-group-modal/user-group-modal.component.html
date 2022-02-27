@@ -23,13 +23,13 @@
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium">สถานะ</div>
+        <div class="col-span-4 font-medium">Status</div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
-                <mat-select [formControlName]="'isActive'" placeholder="สถานะ">
+                <mat-select [formControlName]="'isActive'" placeholder="Status">
                     <mat-option *ngFor="let isActive of isActives" [value]="isActive.value">{{isActive.title}}</mat-option>
                 </mat-select>
-                <mat-error>สถานะ is required</mat-error>
+                <mat-error>Status is required</mat-error>
             </mat-form-field>
         </div>
 

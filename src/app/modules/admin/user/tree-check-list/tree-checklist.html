@@ -1,0 +1,79 @@
+
+
+<span class="ml-2 flex items-center cursor-pointer" (click)="addNewRootItem()">
+    <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>&nbsp;<span>Add Organize</span>
+</span>
+<mat-tree #treeSelector [dataSource]="dataSource" [treeControl]="treeControl">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+        <button mat-icon-button disabled></button>
+        <mat-checkbox class="checklist-leaf-node" [checked]="checklistSelection.isSelected(node)"
+            (change)="todoLeafItemSelectionToggle(node)" [ngClass]="{ 'ml-6': node.level == 0 }"
+            [disabled]="node.level == 0"
+            >
+            <ng-container *ngIf="node.level == 0;else roleText">
+                {{organizationCodeNameMapper ? organizationCodeNameMapper[node.item]: ''}}
+            </ng-container>
+            <ng-template #roleText>
+                {{roleCodeNameMapper ? roleCodeNameMapper[node.item]: ''}}
+            </ng-template>
+        </mat-checkbox>
+            <ng-container *ngIf="node.level == 0;else roleIcon">
+                <span class="ml-2 flex items-center cursor-pointer" (click)="addNewItem(node)">
+                    <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>&nbsp;<span>Add role</span>
+                </span>
+                <span class="ml-2 flex items-center cursor-pointer" (click)="deleteNode(node)">
+                    <mat-icon svgIcon="heroicons_outline:x"></mat-icon>&nbsp;<span>Delete Organize</span>
+                </span>
+            </ng-container>
+            <ng-template #roleIcon>
+                <span class="ml-2 flex items-center cursor-pointer" (click)="deleteNode(node)">
+                    <mat-icon svgIcon="heroicons_outline:x"></mat-icon>            
+                </span>
+            </ng-template>
+    </mat-tree-node>
+
+    <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
+        <button mat-icon-button disabled></button>
+        <ng-container *ngIf="node.level == 0;else roleSelect">
+            <mat-form-field class="ml-6">
+                <mat-select #itemValue name="organization" placeholder="ทั้งหมด">
+                    <mat-option *ngFor="let organization of organizations" [value]="organization.value">
+                        {{organization.title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
+        </ng-container>
+        <ng-template #roleSelect>
+            <mat-form-field>
+                <mat-select #itemValue name="role" placeholder="ทั้งหมด">
+                    <mat-option *ngFor="let role of roles" [value]="role.value">
+                        {{role.title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
+        </ng-template>
+    </mat-tree-node>
+
+    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.item">
+            <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+        </button>
+        <mat-checkbox [checked]="descendantsPartiallySelected(node) || descendantsAllSelected(node)"
+            (change)="todoItemSelectionToggle(node)" [disabled]="noRealDescendants(node)">
+            {{organizationCodeNameMapper ? organizationCodeNameMapper[node.item]: ''}}
+        </mat-checkbox>
+        <span class="ml-2 flex items-center cursor-pointer" (click)="addNewItem(node)">
+            <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>&nbsp;<span>Add Role</span>
+        </span>
+        <span class="ml-2 flex items-center cursor-pointer" (click)="deleteNode(node)">
+            <mat-icon svgIcon="heroicons_outline:x"></mat-icon>&nbsp;<span>Delete Organize</span>
+        </span>
+    </mat-tree-node>
+</mat-tree>
+
+<!-- test -->
+<button type="button" style="background-color: grey;" (click)="getOutput()">Get Output</button>

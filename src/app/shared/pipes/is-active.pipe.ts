@@ -14,9 +14,9 @@ export class IsActivePipe implements PipeTransform {
     transform(value: boolean): string {
         switch (value) {
             case true:
-                return 'ใช้งาน';
+                return 'Active';
             case false:
-                return 'ไม่ใช้งาน';
+                return 'Inactive';
             default:
                 return '-';
         }

@@ -18,7 +18,6 @@ import { UserGroup } from './user-group.types';
 export class UserGroupComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild('userGroupTable') userGroupTable: MatTable<UserGroup>;
   defaultMenu: string;
 
   // bind value
@@ -43,7 +42,7 @@ export class UserGroupComponent implements OnInit {
   keyToColumnName: any = {
     'index': 'ลำดับที่',
     'name': 'Name',
-    'isActive': 'สถานะ',
+    'isActive': 'Status',
     'editDeleteIcon': 'จัดการ'
   };
 
@@ -104,8 +103,8 @@ export class UserGroupComponent implements OnInit {
       }
     });
     dialogRef.afterClosed()
-      .subscribe((userGroup: UserGroup) => {
-        if (!userGroup) return; // cancel
+      .subscribe((isAdd: boolean) => {
+        if (!isAdd) return; // cancel
         this.loadUserGroups();
       });
   }
@@ -121,8 +120,8 @@ export class UserGroupComponent implements OnInit {
       }
     });
     dialogRef.afterClosed()
-      .subscribe((userGroup: UserGroup) => {
-        if (!userGroup) return; // cancel
+      .subscribe((isEdit: boolean) => {
+        if (!isEdit) return; // cancel
         this.loadUserGroups();
       });
   }

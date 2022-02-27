@@ -2,98 +2,98 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { AdminService } from '../admin.service';
-import { Bu, Department, Division, Organization, Plant, Status, SubBu } from '../admin.types';
+import { MatTableDataSource } from '@angular/material/table';
+import { ConfirmationService } from 'app/shared/services/confirmation.service';
+import { SnackBarService } from 'app/shared/services/snack-bar.service';
+import { MasterService } from '../master/master.service';
+import { Master } from '../master/master.types';
 import { ModalMode } from '../modals/modal.types';
-import { OrganizationModalComponent } from '../modals/organization-modal/organization-modal.component';
+import { OrganizationModalComponent } from './modals/organization-modal/organization-modal.component';
+
+import { OrganizationService } from './organization.service';
+import { Organization } from './organization.types';
 
 @Component({
-  selector: 'app-organization',
+  selector: 'organization',
   templateUrl: './organization.component.html',
   styleUrls: ['./organization.component.scss']
 })
 export class OrganizationComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild('organizationTable') organizationTable: MatTable<Organization>;
-  organizations: Organization[];
-  bus: any[];
-  subBus: any[];
-  plants: any[];
-  divisions: any[];
-  departments: any[];
 
   // bind value
-  dataSource: MatTableDataSource<Organization>;
-  organizationCode: string;
-  organizationDescription: string;
-  bu: Bu;
-  subBu: SubBu;
-  plant: Plant;
-  division: Division;
-  department: Department;
-  selectedStatus: Status;
+  dataSource: MatTableDataSource<Organization> = new MatTableDataSource([]);
+  code: string;
+  name: string;
+  selectedBusinessCode: string;
+  selectedSubBusinessCode: string;
+  selectedPlantCode: string;
+  selectedDivisionCode: string;
+  selectedIsActive: boolean;
 
   // select option
-  statuses: any = [
-    { title: 'Active', value: Status.ACTIVE },
-    { title: 'Inactive', value: Status.INACTIVE }
-  ]
+  businessCodes: any[];
+  subBusinessCodes: any[];
+  plantCodes: any[];
+  divisionCodes: any[];
+  isActives: any = [
+    { title: 'Active', value: true },
+    { title: 'Inactive', value: false }
+  ];
 
   // table setting
   displayedColumns: string[] = [
-    'organizationCode',
-    'organizationDescription',
-    'bu',
-    'subBu',
-    'plant',
-    'division',
-    'department',
-    'status',
-    'userRole',
-    'editIcon',
-    'deleteIcon'
+    'index',
+    'code',
+    'name',
+    'businessCode',
+    'subBusinessCode',
+    'plantCode',
+    'divisionCode',
+    'isActive',
+    'editDeleteIcon'
   ];
 
   keyToColumnName: any = {
-    'organizationCode': 'Organization Code',
-    'organizationDescription': 'Organization Description',
-    'bu': 'BU',
-    'subBu': 'Sub-BU',
-    'plant': 'Plant',
-    'division': 'Division',
-    'department': 'Department',
-    'status': 'Status',
-    'userRole': 'User Role'
+    'index': 'ลำดับที่',
+    'code': 'Code',
+    'name': 'Name',
+    'businessCode': 'Business Unit Code',
+    'subBusinessCode': 'Sub-Business Unit Code',
+    'plantCode': 'Plant Code',
+    'divisionCode': 'Division Code',
+    'isActive': 'Status',
+    'editDeleteIcon': 'จัดการ'
   };
 
-  objColumns: string[] = [
-    'bu',
-    'subBu',
-    'plant',
-    'division',
-    'department'
+  notSortColumn: string[] = [
+    'index',
+    'editDeleteIcon'
   ];
 
   constructor(
-    private _adminService: AdminService,
+    private _masterService: MasterService,
+    private _organizationService: OrganizationService,
+    private _confirmationService: ConfirmationService,
+    private _snackBarService: SnackBarService,
     private _matDialog: MatDialog
   ) {
-    this.organizations = this._adminService.getOrganizations();
-    this.dataSource = new MatTableDataSource(this.organizations);
+    this.loadOrganizations();
   }
 
   ngOnInit(): void {
-    // get all admin values
-    this.bus = this._adminService.getBus().map((bu) => ({ title: bu.buDescription, value: bu }));
-    this.subBus = this._adminService.getSubBus().map((subBu) => ({ title: subBu.subBuDescription, value: subBu }));
-    this.plants = this._adminService.getPlants().map((plant) => ({ title: plant.plantDescription, value: plant }));
-    this.divisions = this._adminService.getDivisions().map((division) => ({ title: division.divisionDescription, value: division }));
-    this.departments = this._adminService.getDepartments().map((department) => ({ title: department.departmentDescription, value: department }));
-
+    this._masterService.getMasters().subscribe({
+      next: (masters: Master[]) => {
+        // TODO: not sure can load type from api
+        this.businessCodes = masters.filter((master) => master.type == 'BNU').map((master) => ({ title: master.code, value: master.code }));
+        this.subBusinessCodes = masters.filter((master) => master.type == 'SBU').map((master) => ({ title: master.code, value: master.code }));
+        this.plantCodes = masters.filter((master) => master.type == 'PLT').map((master) => ({ title: master.code, value: master.code }));
+        this.divisionCodes = masters.filter((master) => master.type == 'DIV').map((master) => ({ title: master.code, value: master.code }));
+      },
+      error: (e) => console.log(e)
+    });
     // default
-    this.selectedStatus = Status.ACTIVE;
     this.dataSource.filterPredicate = this.customFilterPredicate();
   }
 
@@ -105,42 +105,39 @@ export class OrganizationComponent implements OnInit {
   customFilterPredicate() {
     const myFilterPredicate = function (data: Organization, filter: string): boolean {
       let searchString = JSON.parse(filter);
-      return (!searchString.organizationCode || data.organizationCode.toString().trim().toLowerCase().indexOf(searchString.organizationCode.toLowerCase()) !== -1)
-        && (!searchString.organizationDescription || data.organizationDescription.toString().trim().toLowerCase().indexOf(searchString.organizationDescription.toLowerCase()) !== -1)
-        && (!searchString.bu || data.bu.buDescription == searchString.bu.buDescription)
-        && (!searchString.subBu || data.subBu.subBuDescription == searchString.subBu.subBuDescription)
-        && (!searchString.plant || data.plant.plantDescription == searchString.plant.plantDescription)
-        && (!searchString.division || data.division.divisionDescription == searchString.division.divisionDescription)
-        && (!searchString.department || data.department.departmentDescription == searchString.department.departmentDescription)
-        && (!searchString.status || data.status.toString().trim().toLowerCase().indexOf(searchString.status.toLowerCase()) !== -1);
+      return (!searchString.code || data.code.toString().trim().toLowerCase().indexOf(searchString.code.toLowerCase()) !== -1)
+        && (!searchString.name || data.name.toString().trim().toLowerCase().indexOf(searchString.name.toLowerCase()) !== -1)
+        && (searchString.businessCode == undefined || data.businessCode == searchString.businessCode)
+        && (searchString.subBusinessCode == undefined || data.subBusinessCode == searchString.subBusinessCode)
+        && (searchString.plantCode == undefined || data.plantCode == searchString.plantCode)
+        && (searchString.divisionCode == undefined || data.divisionCode == searchString.divisionCode)
+        && (searchString.isActive == undefined || data.isActive == searchString.isActive);
     }
     return myFilterPredicate;
   }
 
   search() {
     const filterValue: any = {
-      organizationCode: this.organizationCode,
-      organizationDescription: this.organizationDescription,
-      bu: this.bu,
-      subBu: this.subBu,
-      plant: this.plant,
-      division: this.division,
-      department: this.department,
-      status: this.selectedStatus
+      code: this.code,
+      name: this.name,
+      businessCode: this.selectedBusinessCode,
+      subBusinessCode: this.selectedSubBusinessCode,
+      plantCode: this.selectedPlantCode,
+      divisionCode: this.selectedDivisionCode,
+      isActive: this.selectedIsActive
     }
     this.dataSource.filter = JSON.stringify(filterValue);
   }
 
   clear() {
     this.dataSource.filter = '{}';
-    this.organizationCode = undefined;
-    this.organizationDescription = undefined;
-    this.bu = undefined;
-    this.subBu = undefined;
-    this.plant = undefined;
-    this.division = undefined;
-    this.department = undefined;
-    this.selectedStatus = undefined;
+    this.code = '';
+    this.name = '';
+    this.selectedBusinessCode = undefined;
+    this.selectedSubBusinessCode = undefined;
+    this.selectedPlantCode = undefined;
+    this.selectedDivisionCode = undefined;
+    this.selectedIsActive = undefined;
   }
 
   addOrganization(): void {
@@ -151,34 +148,47 @@ export class OrganizationComponent implements OnInit {
       }
     });
     dialogRef.afterClosed()
-      .subscribe((organization: Organization) => {
-        if (!organization) return; // cancel
-        organization.userRoles = [];
-        this.organizations.push(organization);
-        this.dataSource.data = this.organizations;
-        this.organizationTable.renderRows();
+      .subscribe((isAdd: boolean) => {
+        if (!isAdd) return; // cancel
+        this.loadOrganizations();
       });
   }
 
-  editOrganization(index: number) {
+  editOrganization(element: Organization) {
     const dialogRef = this._matDialog.open(OrganizationModalComponent, {
       data: {
         mode: ModalMode.EDIT,
-        data: this.organizations[index]
+        data: element
       }
     });
     dialogRef.afterClosed()
-      .subscribe((organization: Organization) => {
-        if (!organization) return; // cancel
-        this.organizations[index] = organization;
-        this.dataSource.data = this.organizations;
-        this.organizationTable.renderRows();
+      .subscribe((isEdit: boolean) => {
+        if (!isEdit) return; // cancel
+        this.loadOrganizations();
       });
   }
 
-  deleteOrganization(index: number) {
-    this.organizations.splice(index, 1);
-    this.dataSource.data = this.organizations;
-    this.organizationTable.renderRows();
+  deleteOrganization(element: Organization) {
+    this._confirmationService.delete().afterClosed().subscribe((result) => {
+      if (result == 'confirmed') {
+        this._organizationService.deleteOrganization(element.id).subscribe({
+          next: (v) => {
+            this._snackBarService.success();
+            this.loadOrganizations()
+          },
+          error: (e) => {
+            this._snackBarService.error();
+            console.error(e)
+          }
+        });
+      }
+    });
+  }
+
+  loadOrganizations() {
+    this._organizationService.getOrganizations().subscribe({
+      next: (organizations: Organization[]) => this.dataSource.data = organizations,
+      error: (e) => console.log(e)
+    });
   }
 }

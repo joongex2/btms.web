@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,26 +8,22 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { MatTreeModule } from '@angular/material/tree';
 import { RouterModule } from '@angular/router';
+import { FuseAlertModule } from '@fuse/components/alert';
 import { SharedModule } from 'app/shared/shared.module';
-import { UserModalComponent } from '../modals/user-modal/user-modal.component';
-import { TreeChecklistComponent } from './tree-check-list/tree-checklist';
-import { UserDetailComponent } from './user-detail/user-detail.component';
-import { UserComponent } from './user.component';
-import { userRoutes } from './user.routing';
+import { MasterModalComponent } from './modals/master-modal/master-modal.component';
+import { MasterComponent } from './master.component';
+import { masterRoutes } from './master.routing';
 
 
 
 @NgModule({
   declarations: [
-    UserComponent,
-    UserDetailComponent,
-    UserModalComponent,
-    TreeChecklistComponent
+    MasterComponent,
+    MasterModalComponent
   ],
   imports: [
-    RouterModule.forChild(userRoutes),
+    RouterModule.forChild(masterRoutes),
     MatIconModule,
     MatSelectModule,
     MatFormFieldModule,
@@ -38,9 +33,8 @@ import { userRoutes } from './user.routing';
     MatSortModule,
     MatPaginatorModule,
     MatDialogModule,
-    MatTreeModule,
-    MatCheckboxModule,
+    FuseAlertModule,
     SharedModule
   ]
 })
-export class UserModule { }
+export class MasterModule { }
