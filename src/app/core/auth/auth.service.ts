@@ -106,7 +106,7 @@ export class AuthService
                 this._userService.user = response.user;
 
                 // Set the navigation menu
-                let navigation = JSON.parse(response.user.menu);
+                let navigation = response.user.menus;
                 navigation = this.filterCheckMenu(navigation);
                 this._navigationService.navigation = {
                     compact: navigation,
@@ -150,7 +150,7 @@ export class AuthService
                 this._userService.user = response.user;
 
                 // Set the navigation menu
-                let navigation = JSON.parse(response.user.menu);
+                let navigation = response.user.menus;
                 navigation = this.filterCheckMenu(navigation);
                 this._navigationService.navigation ={
                     compact: navigation,

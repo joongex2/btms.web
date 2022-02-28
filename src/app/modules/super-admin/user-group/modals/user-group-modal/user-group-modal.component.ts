@@ -49,7 +49,7 @@ export class UserGroupModalComponent implements OnInit {
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
     this.userGroup = this.isEdit ? this.modalData.data.userGroup : undefined;
-    this.defaultMenu = this.isEdit ? JSON.parse(this.userGroup.menu) : JSON.parse(this.modalData.data.defaultMenu);
+    this.defaultMenu = this.isEdit ? this.userGroup.menus : this.modalData.data.defaultMenu;
     const name = this.isEdit ? this.userGroup.name : '';
     const isActive = this.isEdit ? this.userGroup.isActive : false;
 
@@ -79,14 +79,14 @@ export class UserGroupModalComponent implements OnInit {
     });
   }
 
-  createMenuString(): string {
+  createMenus(): any {
     const newMenu = JSON.parse(JSON.stringify(this.defaultMenu));
     for (let groupMenu of this.userGroupForm.get('menuGroups')['controls']) {
       for (let menu of groupMenu.get('menus')['controls']) {
         this.findMenu(newMenu, groupMenu.get('id').value, menu.get('id').value).check = menu.get('check').value;
       }
     }
-    return JSON.stringify(newMenu);
+    return newMenu;
   }
 
   findMenu(defaultMenu: FuseNavigationItem[], groupMenuId: string, menuId: string) {
@@ -104,19 +104,19 @@ export class UserGroupModalComponent implements OnInit {
       this._confirmationService.save().afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {
           try {
-            const menuString = this.createMenuString();
+            const menus = this.createMenus();
             if (this.isEdit) {
               await firstValueFrom(this._userGroupService.updateUserGroup(
                 this.userGroup.id, 
                 this.userGroupForm.get('name').value,
-                menuString,
+                menus,
                 this.userGroupForm.get('isActive').value
               ));
             } else {
               // add
               await firstValueFrom(this._userGroupService.createUserGroup(
                 this.userGroupForm.get('name').value,
-                menuString,
+                menus,
                 this.userGroupForm.get('isActive').value
               ));
             }

@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { fuseAnimations } from '@fuse/animations';
+import { FuseAlertType } from '@fuse/components/alert';
 import { RoleService } from 'app/modules/super-admin/role/role.service';
-import { Role } from 'app/modules/super-admin/role/role.types';
 import { UserGroupService } from 'app/modules/super-admin/user-group/user-group.service';
 import { UserGroup } from 'app/modules/super-admin/user-group/user-group.types';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
+import { firstValueFrom } from 'rxjs';
 import { OrganizationService } from '../../organization/organization.service';
-import { Organization } from '../../organization/organization.types';
+import { TreeChecklistComponent } from '../tree-check-list/tree-checklist';
 import { UserService } from '../user.service';
 import { User } from '../user.types';
 
@@ -18,14 +21,17 @@ import { User } from '../user.types';
 @Component({
   selector: 'user-detail',
   templateUrl: './user-detail.component.html',
-  styleUrls: ['./user-detail.component.scss']
+  styleUrls: ['./user-detail.component.scss'],
+  animations: fuseAnimations
 })
 export class UserDetailComponent implements OnInit {
+  @ViewChild(NgForm) f: NgForm;
+  @ViewChild(TreeChecklistComponent) tcl: TreeChecklistComponent;
+
+  isEdit: boolean = true;
   id: number;
   user: User;
   userGroups: any[];
-  organizations: any[];
-  roles: any[];
   isActives = [
     { title: 'Active', value: true },
     { title: 'Inactive', value: false }
@@ -34,10 +40,20 @@ export class UserDetailComponent implements OnInit {
   resultsLength = 0;
 
   // bind value
-  selectedUserGroup: string;
-  selectedOrganization: string;
-  selectedRole: string;
-  selectedIsActive: string;
+  username: string;
+  name: string;
+  email: string;
+  selectedUserGroup: number;
+  selectedIsActive: boolean;
+  organizes: any;
+
+  // alert
+  showAlert: boolean = false;
+  hasApiError: boolean = false;
+  alert: { type: FuseAlertType; message: string } = {
+    type: 'success',
+    message: ''
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -51,11 +67,19 @@ export class UserDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // this.isEdit = this.modalData.mode === ModalMode.EDIT;
     this.id = parseInt(this.route.snapshot.paramMap.get('id'));
 
     this._userService.getUser(this.id).subscribe({
-      next: (user: User) => {
-        this.user = user;
+      next: (v: User) => {
+        this.user = v;
+        this.username = this.isEdit ? this.user.username : '';
+        this.name = this.isEdit ? this.user.name : '';
+        this.email = this.isEdit ? this.user.email : '';
+        this.selectedUserGroup = this.isEdit ? this.user.groupId : undefined;
+        this.selectedIsActive = this.isEdit ? this.user.isActive : undefined;
+        this.organizes = this.isEdit ? this.user.organizes : [];
+        this.tcl.setOrganizes(this.organizes);
       },
       error: (e) => console.error(e)
     });
@@ -64,71 +88,57 @@ export class UserDetailComponent implements OnInit {
       next: (v: UserGroup[]) => { this.userGroups = v.map((v) => ({ title: v.name, value: v.id })) },
       error: (e) => console.error(e)
     });
-
-    this._organizationService.getOrganizations().subscribe({
-      next: (v: Organization[]) => { this.organizations = v.map((v) => ({ title: v.name, value: v.id })) },
-      error: (e) => console.error(e)
-    });
-
-    this._roleService.getRoles().subscribe({
-      next: (v: Role[]) => { this.roles = v.map((v) => ({ title: v.name, value: v.id })) },
-      error: (e) => console.error(e)
-    });
   }
 
-  search() {
-
+  async save() {
+    if (!this.f.valid) {
+      this.f.control.markAllAsTouched();
+      this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
+      return;
+    } else {
+      this._confirmationService.save().afterClosed().subscribe(async (result) => {
+        if (result == 'confirmed') {
+          try {
+            if (this.isEdit) {
+              await firstValueFrom(this._userService.updateUser(
+                this.user.id,
+                this.name,
+                this.email,
+                this.selectedUserGroup,
+                this.selectedIsActive,
+                this.tcl.getOrganizes()
+              ));
+            } else {
+              // add
+              await firstValueFrom(this._userService.createUser(
+                this.name,
+                this.email,
+                this.username,
+                this.selectedUserGroup,
+                this.selectedIsActive,
+                this.tcl.getOrganizes(),
+              ));
+            }
+            this._snackBarService.success();
+          } catch (e) {
+            this._snackBarService.error();
+            this.showError(e, true);
+          }
+        }
+      });
+    }
   }
 
-  clear() {
-    this.selectedUserGroup = undefined;
-    this.selectedOrganization = undefined;
-    this.selectedRole = undefined;
-    this.selectedIsActive = undefined;
+  showError(error: string, hasApiError?: boolean) {
+    this.showAlert = true;
+    this.alert = {
+      type: 'error',
+      message: error
+    };
+    if (hasApiError) this.hasApiError = true;
   }
 
-  // addUser(): void {
-  //   const dialogRef = this._matDialog.open(UserModalComponent, {
-  //     data: {
-  //       mode: ModalMode.ADD,
-  //       data: undefined
-  //     }
-  //   });
-  //   dialogRef.afterClosed()
-  //     .subscribe((master: Master) => {
-  //       if (!master) return; // cancel
-  //       // this.refreshTableSubject.next(true);
-  //     });
-  // }
-
-  // editUser(element: User) {
-  //   const dialogRef = this._matDialog.open(UserModalComponent, {
-  //     data: {
-  //       mode: ModalMode.EDIT,
-  //       data: element
-  //     }
-  //   });
-  //   dialogRef.afterClosed()
-  //     .subscribe((isEdit: boolean) => {
-  //       if (!isEdit) return; // cancel
-  //       // this.refreshTableSubject.next(true);
-  //     });
-  // }
-
-  // deleteUser(element: User) {
-  //   this._confirmationService.delete().afterClosed().subscribe(async (result) => {
-  //     if (result == 'confirmed') {
-  //       this._userService.deleteUser(element.id).subscribe({
-  //         next: (v) => {
-  //           this._snackBarService.success();
-  //           // this.refreshTableSubject.next(true);
-  //         },
-  //         error: (e) => {
-  //           this._snackBarService.error();
-  //           console.error(e);
-  //         }
-  //       });
-  //     }
-  //   });
-  // }
+  isShowError() {
+    return (this.showAlert && !this.f.valid) || this.hasApiError;
+  }
 }

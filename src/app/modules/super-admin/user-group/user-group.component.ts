@@ -58,7 +58,7 @@ export class UserGroupComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource.filterPredicate = this.customFilterPredicate();
     this._userGroupService.getDefaultMenu().subscribe({
-      next: (v) => { this.defaultMenu = v.menu },
+      next: (v) => { this.defaultMenu = v.menus },
       error: (e) => console.error(e)
     });
   }

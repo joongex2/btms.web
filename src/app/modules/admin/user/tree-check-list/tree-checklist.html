@@ -11,7 +11,7 @@
             [disabled]="node.level == 0"
             >
             <ng-container *ngIf="node.level == 0;else roleText">
-                {{organizationCodeNameMapper ? organizationCodeNameMapper[node.item]: ''}}
+                {{organizeCodeNameMapper ? organizeCodeNameMapper[node.item]: ''}}
             </ng-container>
             <ng-template #roleText>
                 {{roleCodeNameMapper ? roleCodeNameMapper[node.item]: ''}}
@@ -22,12 +22,12 @@
                     <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>&nbsp;<span>Add role</span>
                 </span>
                 <span class="ml-2 flex items-center cursor-pointer" (click)="deleteNode(node)">
-                    <mat-icon svgIcon="heroicons_outline:x"></mat-icon>&nbsp;<span>Delete Organize</span>
+                    <mat-icon>delete</mat-icon>&nbsp;<span>Delete Organize</span>
                 </span>
             </ng-container>
             <ng-template #roleIcon>
                 <span class="ml-2 flex items-center cursor-pointer" (click)="deleteNode(node)">
-                    <mat-icon svgIcon="heroicons_outline:x"></mat-icon>            
+                    <mat-icon>delete</mat-icon>            
                 </span>
             </ng-template>
     </mat-tree-node>
@@ -35,20 +35,20 @@
     <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
         <button mat-icon-button disabled></button>
         <ng-container *ngIf="node.level == 0;else roleSelect">
-            <mat-form-field class="ml-6">
+            <mat-form-field class="ml-6 mb-2">
                 <mat-select #itemValue name="organization" placeholder="ทั้งหมด">
                     <mat-option *ngFor="let organization of organizations" [value]="organization.value">
-                        {{organization.title}}
+                        {{organizeCodeNameMapper ? organizeCodeNameMapper[organization.title]: ''}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
             <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
         </ng-container>
         <ng-template #roleSelect>
-            <mat-form-field>
+            <mat-form-field class="mb-2">
                 <mat-select #itemValue name="role" placeholder="ทั้งหมด">
                     <mat-option *ngFor="let role of roles" [value]="role.value">
-                        {{role.title}}
+                        {{roleCodeNameMapper ? roleCodeNameMapper[role.title]: ''}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -64,16 +64,16 @@
         </button>
         <mat-checkbox [checked]="descendantsPartiallySelected(node) || descendantsAllSelected(node)"
             (change)="todoItemSelectionToggle(node)" [disabled]="noRealDescendants(node)">
-            {{organizationCodeNameMapper ? organizationCodeNameMapper[node.item]: ''}}
+            {{organizeCodeNameMapper ? organizeCodeNameMapper[node.item]: ''}}
         </mat-checkbox>
         <span class="ml-2 flex items-center cursor-pointer" (click)="addNewItem(node)">
             <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>&nbsp;<span>Add Role</span>
         </span>
         <span class="ml-2 flex items-center cursor-pointer" (click)="deleteNode(node)">
-            <mat-icon svgIcon="heroicons_outline:x"></mat-icon>&nbsp;<span>Delete Organize</span>
+            <mat-icon>delete</mat-icon>&nbsp;<span>Delete Organize</span>
         </span>
     </mat-tree-node>
 </mat-tree>
 
 <!-- test -->
-<button type="button" style="background-color: grey;" (click)="getOutput()">Get Output</button>
+<!-- <button type="button" style="background-color: grey;" (click)="getOrganizes()">Get Output</button> -->

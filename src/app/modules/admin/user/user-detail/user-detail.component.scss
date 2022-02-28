@@ -21,9 +21,9 @@
     overflow: auto;
 }
 
-:host ::ng-deep .mat-expansion-panel-body {
-    padding: 0 24px !important;
-}
+// :host ::ng-deep .mat-expansion-panel-body {
+//     padding: 0 24px !important;
+// }
 
 :host ::ng-deep .mat-form-field-wrapper {
     margin-bottom: 0 !important;

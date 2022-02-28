@@ -30,23 +30,40 @@
                 </h2>
             </div>
         </div>
+        <!-- Actions -->
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <a [routerLink]="'./..'" class="flex items-center">
+                <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
+                &nbsp;<span>ย้อนหลับ</span>
+            </a>
+            <div (click)="save()" class="cursor-pointer flex items-center ml-3">
+                <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>บันทึก</span>
+            </div>
+        </div> 
     </div>
 
     <!-- Main -->
     <div class="flex-auto p-6 overflow-y-auto">
         <div class="flex-auto">
             <mat-accordion class="example-headers-align" multi>
-                <mat-expansion-panel>
+                <mat-expansion-panel [expanded]="true">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                            <mat-icon [svgIcon]="'heroicons_outline:information-circle'"></mat-icon>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <!-- CONTENT GOES HERE -->
-                    <form>
+                    <form #f="ngForm">
                         <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
                             <div class="col-span-6 sm:col-span-3 font-medium">Username</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{user ? user.username : '-'}}</span></div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input matInput [(ngModel)]="username" name="username" [disabled]="isEdit">
+                                    <div class="copy-fields-toggles" matSuffix></div>
+                                    <mat-error>username is required</mat-error>
+                                </mat-form-field>
+                            </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Group</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
@@ -58,9 +75,16 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Email</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{user ? user.email : '-'}}</span></div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Organization</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Full Name</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input matInput [(ngModel)]="name" name="name">
+                                    <div class="copy-fields-toggles" matSuffix></div>
+                                    <mat-error>Name is required</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Status</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
@@ -71,22 +95,19 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 sm:col-start-1 font-medium">Full Name</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{user ? user.name : '-'}}</span></div>
-                        </div>
-    
-                        <div
-                            class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                            <div class="flex-none" (click)="search()">
-                                <a href="#" onClick="return false;" class="flex items-center">
-                                    <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Search</span>
-                                </a>
+                            <div class="col-span-6 sm:col-span-3 sm:col-start-1 font-medium">Email</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input matInput [(ngModel)]="email" name="email">
+                                    <div class="copy-fields-toggles" matSuffix></div>
+                                    <mat-error>email is required</mat-error>
+                                </mat-form-field>
                             </div>
-                            <div class="flex-none ml-2" (click)="clear()">
-                                <a href="#" onClick="return false;" class="flex items-center">
-                                    <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Clear</span>
-                                </a>
-                            </div>
+                            <fuse-alert class="col-span-12 sm:col-start-1" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false"
+                                [type]="alert.type" [@shake]="alert.type === 'error'">
+                                {{alert.message}}
+                            </fuse-alert>
                         </div>
                     </form>
                 </mat-expansion-panel>

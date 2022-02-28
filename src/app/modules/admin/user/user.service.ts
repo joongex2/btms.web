@@ -11,24 +11,20 @@ export class UserService {
     constructor(private _httpClient: HttpClient) { }
 
     createUser(
-        roleId: number,
         name: string,
-        nameInThai: string,
-        employeeCode: string,
+        email: string,
         username: string,
-        organizeUnit: string,
+        groupId: number,
         isActive: boolean,
-        menu: string
+        organizes: any
     ): Observable<any> {
         return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Users'), {
-            roleId,
             name,
-            nameInThai,
-            employeeCode,
+            email,
             username,
-            organizeUnit,
+            groupId,
             isActive,
-            menu
+            organizes
         }).pipe(map(data => data.model));
     }
 
@@ -42,15 +38,19 @@ export class UserService {
 
     updateUser(
         id: number,
-        roleId: number,
+        name: string,
+        email: string,
+        groupId: number,
         isActive: boolean,
-        menu: string
+        organizes: any
     ): Observable<any> {
         return this._httpClient.put<ResultMapper>(getBaseUrl(`/v1/Users/${id}`), {
             id,
-            roleId,
+            name,
+            email,
+            groupId,
             isActive,
-            menu
+            organizes
         }).pipe(map(data => data.model));
     }
 

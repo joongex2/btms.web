@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
+import { Component, Injectable, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTree, MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { RoleService } from 'app/modules/super-admin/role/role.service';
 import { Role } from 'app/modules/super-admin/role/role.types';
@@ -24,7 +24,7 @@ export class TodoItemFlatNode {
 }
 
 // raw data example
-const ORG_EXAMPLE = `{"organizations":[{"organizationCode":"BTG-LP1MK","roles":[{"roleCode":"D00"},{"roleCode":"D01"}]},{"organizationCode":"BTG-LPEN","roles":[{"roleCode":"D02"},{"roleCode":"R01"}]}]}`;
+const ORG_EXAMPLE = `{"organizations":[{"organizeCode":"BTG-LP1MK","roles":[{"roleCode":"D00"},{"roleCode":"D01"}]},{"organizeCode":"BTG-LPEN","roles":[{"roleCode":"D02"},{"roleCode":"R01"}]}]}`;
 
 /**
  * The Json object for to-do list data.
@@ -66,62 +66,71 @@ export class ChecklistDatabase {
     }
 
     constructor() {
-        this.initialize();
+        // this.initialize();
     }
 
     initialize() {
-        // Prepare input tree obj
-        const TREE_EXAMPLE = this.prepareInput(ORG_EXAMPLE);
+        // // Prepare input tree obj
+        // const TREE_EXAMPLE = this.prepareInput(ORG_EXAMPLE);
 
-        console.log(TREE_EXAMPLE);
+        // console.log(TREE_EXAMPLE);
 
-        // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
-        //     file node as children.
-        // const data = this.buildFileTree(TREE_DATA, 0);
-        const data = this.buildFileTree(TREE_EXAMPLE, 0);
+        // // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
+        // //     file node as children.
+        // // const data = this.buildFileTree(TREE_DATA, 0);
+        // const data = this.buildFileTree(TREE_EXAMPLE, 0);
 
-        // Notify the change.
-        this.dataChange.next(data);
+        // // Notify the change.
+        // this.dataChange.next(data);
     }
 
-    prepareInput(objString: string): any {
-        const obj = JSON.parse(objString);
-        const organizations = obj.organizations;
-        const output = {};
+    initializeData(organizes: any): TodoItemFlatNode[] {
+        const { organizeTree, selected } = this.prepareInput(organizes);
+        const data = this.buildFileTree(organizeTree, 0);
+        this.dataChange.next(data);
+        return selected;
+    }
+
+    prepareInput(organizations: any): { organizeTree: any, selected: TodoItemFlatNode[] } {
+        const organizeTree = {};
+        const selected: TodoItemFlatNode[] = [];
         for (let org of organizations) {
-            output[org.organizationCode] = [];
+            // level 0
+            organizeTree[org.organizeCode] = [];
+            if (org.isActive) selected.push({ item: org.organizeCode, level: 0, expandable: org.roles && org.roles.length > 0});
             for (let role of org.roles) {
-                output[org.organizationCode].push(role.roleCode);
+                // level 1
+                organizeTree[org.organizeCode].push(role.roleCode);
+                if (role.isActive) selected.push({ item: role.roleCode, level: 1, expandable: false});
             }
         }
-        return output;
+        return { organizeTree, selected };
     }
 
-    prepareOutput(selectionModel: SelectionModel<TodoItemFlatNode>): string {
-        if (this.data.length == 0) return null;
-        const output = {
-            organizations: []
-        };
+    prepareOutput(selectionModel: SelectionModel<TodoItemFlatNode>): any {
+        if (this.data.length == 0) return [];
+        const organizations = [];
         for (let org of this.data) {
             // level 0
-            if (this.isInSelectionModel(selectionModel, org.item, 0)) {
-                const roles = [];
-                for (let role of org.children) {
-                    // level 1
-                    if (this.isInSelectionModel(selectionModel, role.item, 1)) {
-                        roles.push({
-                            roleCode: role.item
-                        })
-                    }
-                }
-                output.organizations.push({
-                    organizationCode: org.item,
-                    roles
+            if (org.item == '') continue;
+            const roles = [];
+            const orgIsActive = this.isInSelectionModel(selectionModel, org.item, 0) ? true : false;
+            for (let role of org.children) {
+                // level 1
+                if (role.item == '') continue;
+                const roleIsActive = this.isInSelectionModel(selectionModel, role.item, 1) ? true : false;
+                roles.push({
+                    roleCode: role.item,
+                    isActive: roleIsActive
                 })
             }
-
+            organizations.push({
+                organizeCode: org.item,
+                isActive: orgIsActive,
+                roles
+            })
         }
-        return JSON.stringify(output);
+        return organizations;
     }
 
     isInSelectionModel(selectionModel: SelectionModel<TodoItemFlatNode>, item: string, level: number) {
@@ -188,13 +197,13 @@ export class ChecklistDatabase {
 @Component({
     selector: 'tree-checklist',
     templateUrl: './tree-checklist.html',
-    styleUrls: ['./tree-checklist.css'],
+    styleUrls: ['./tree-checklist.scss'],
     providers: [ChecklistDatabase],
 })
 export class TreeChecklistComponent implements OnInit {
     @ViewChild('treeSelector') matTree: MatTree<any>;
     organizations: any[];
-    organizationCodeNameMapper: { [key: string]: string };
+    organizeCodeNameMapper: { [key: string]: string };
     roles: any[];
     roleCodeNameMapper: { [key: string]: string };
     JSON = JSON;
@@ -219,7 +228,7 @@ export class TreeChecklistComponent implements OnInit {
 
     /** The selection for checklist */
     checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
-
+ 
     constructor(
         public _database: ChecklistDatabase,
         private _organizationService: OrganizationService,
@@ -243,7 +252,7 @@ export class TreeChecklistComponent implements OnInit {
         this._organizationService.getOrganizations().subscribe({
             next: (v: Organization[]) => {
                 this.organizations = v.map((v) => ({ title: v.code, value: v.code }));
-                this.organizationCodeNameMapper = v.reduce((prev, cur) => {
+                this.organizeCodeNameMapper = v.reduce((prev, cur) => {
                     prev[cur.code] = `${cur.code}: ${cur.name}`;
                     return prev;
                 }, {});
@@ -422,7 +431,12 @@ export class TreeChecklistComponent implements OnInit {
         this._database.deleteItem(parentNode, _node);
     }
 
-    getOutput() {
-        alert(this._database.prepareOutput(this.checklistSelection));
+    setOrganizes(organizes: any): void {
+        const selected = this._database.initializeData(organizes);
+        this.checklistSelection.select(...selected);
+    }
+
+    getOrganizes(): any {
+        return this._database.prepareOutput(this.checklistSelection);
     }
 }

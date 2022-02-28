@@ -1,0 +1,7 @@
+.mat-form-field {
+    margin-right: 4px;
+}
+
+:host ::ng-deep .mat-form-field-infix {
+    width: 200px !important;
+}

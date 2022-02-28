@@ -12,12 +12,12 @@ export class UserGroupService {
 
     createUserGroup(
         name: string,
-        menu: string,
+        menus: any,
         isActive: boolean
     ): Observable<any> {
         return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Groups'), {
             name,
-            menu,
+            menus,
             isActive
         }).pipe(map(data => data.model));
     }
@@ -33,12 +33,12 @@ export class UserGroupService {
     updateUserGroup(
         id: number,
         name: string,
-        menu: string,
+        menus: any,
         isActive: boolean
     ): Observable<any> {
         return this._httpClient.put<ResultMapper>(getBaseUrl(`/v1/Groups/${id}`), {
             name,
-            menu,
+            menus,
             isActive
         }).pipe(map(data => data.model));
     }
@@ -48,6 +48,6 @@ export class UserGroupService {
     }
 
     getDefaultMenu(): Observable<any> {
-        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Groups/menu`)).pipe(map(data => data.model));
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Groups/menus`)).pipe(map(data => data.model));
     }
 }

@@ -11,6 +11,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTreeModule } from '@angular/material/tree';
 import { RouterModule } from '@angular/router';
+import { FuseAlertModule } from '@fuse/components/alert';
 import { SharedModule } from 'app/shared/shared.module';
 import { UserModalComponent } from '../modals/user-modal/user-modal.component';
 import { TreeChecklistComponent } from './tree-check-list/tree-checklist';
@@ -40,6 +41,7 @@ import { userRoutes } from './user.routing';
     MatDialogModule,
     MatTreeModule,
     MatCheckboxModule,
+    FuseAlertModule,
     SharedModule
   ]
 })
