@@ -10,9 +10,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'app/shared/shared.module';
-import { DocumentControlModalComponent } from '../modals/document-control-modal/document-control-modal.component';
+import { DocumentControlModalComponent } from './modals/document-control-modal/document-control-modal.component';
 import { DocumentControlComponent } from './document-control.component';
 import { documentControlRoutes } from './document-control.routing';
+import { FuseAlertModule } from '@fuse/components/alert';
 
 
 
@@ -32,6 +33,7 @@ import { documentControlRoutes } from './document-control.routing';
     MatSortModule,
     MatPaginatorModule,
     MatDialogModule,
+    FuseAlertModule,
     SharedModule
   ]
 })

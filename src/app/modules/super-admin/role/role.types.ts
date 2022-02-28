@@ -3,4 +3,5 @@ export interface Role {
     code: string;
     name: string;
     isActive: boolean;
+    workflowStatuses: any;
 }

@@ -67,8 +67,9 @@ export class UserDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.isEdit = this.modalData.mode === ModalMode.EDIT;
-    this.id = parseInt(this.route.snapshot.paramMap.get('id'));
+    const routeId = this.route.snapshot.paramMap.get('id');
+    this.id = routeId ? parseInt(routeId): null;
+    this.isEdit = routeId ? true: false;
 
     this._userService.getUser(this.id).subscribe({
       next: (v: User) => {

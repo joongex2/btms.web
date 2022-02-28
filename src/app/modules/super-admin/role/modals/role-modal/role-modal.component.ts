@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
@@ -25,6 +25,7 @@ export class RoleModalComponent implements OnInit {
     { title: 'Active', value: true },
     { title: 'Inactive', value: false }
   ];
+  workflowStatuses: any[];
 
   // alert
   showAlert: boolean = false;
@@ -44,17 +45,51 @@ export class RoleModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this._roleService.getWorkflowStatuses().subscribe({
+      next: (v: any[]) => { this.workflowStatuses = v.map((v) => ({ title: v.key, value: v.value })) },
+      error: (e) => console.error(e)
+    });
+
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
     this.role = this.modalData.data;
     const code = this.isEdit ? this.role.code : '';
     const name = this.isEdit ? this.role.name : '';
     const isActive = this.isEdit ? this.role.isActive : false;
+    const defaultWorkflowStatuses = this.isEdit ? this.role.workflowStatuses : [];
+    const workflowStatuses = new FormArray([]);
+    for (let wf of defaultWorkflowStatuses) {
+      workflowStatuses.push(this._formBuilder.group({
+        workflowStatus: wf.workflowStatus,
+        isActive: true
+      }))
+    }
 
     this.roleForm = this._formBuilder.group({
       code: [{ value: code, disabled: this.isEdit }, [Validators.required]],
       name: [name, [Validators.required]],
-      isActive: [{ value: isActive, disabled: !this.isEdit }, [Validators.required]]
+      isActive: [{ value: isActive, disabled: !this.isEdit }, [Validators.required]],
+      selectedWorkflowStatus: [undefined],
+      workflowStatuses
     });
+  }
+
+  addWorkflowStatus() {
+    const wfArray = this.roleForm.get('workflowStatuses').value;
+    const selectedWorkflowStatus = this.roleForm.get('selectedWorkflowStatus').value;
+    if (wfArray.find((wf) => wf.workflowStatus == selectedWorkflowStatus)) {
+      this.showError('ไม่สามารถเพิ่ม Workflow Status ซ้ำ');
+      return;
+    } else {
+      if (this.alert.message == 'ไม่สามารถเพิ่ม Workflow Status ซ้ำ') this.hideError();
+    }
+    (this.roleForm.get('workflowStatuses') as FormArray).push(this._formBuilder.group({
+      workflowStatus: selectedWorkflowStatus,
+      isActive: true
+    }));
+  }
+
+  deleteWorkflowStatus(index: number) {
+    (this.roleForm.get('workflowStatuses') as FormArray).removeAt(index);
   }
 
   async saveAndClose() {
@@ -70,13 +105,15 @@ export class RoleModalComponent implements OnInit {
               await firstValueFrom(this._roleService.updateRole(
                 this.role.id,
                 this.roleForm.get('name').value,
-                this.roleForm.get('isActive').value
+                this.roleForm.get('isActive').value,
+                this.roleForm.get('workflowStatuses').value
               ));
             } else {
               // add
               await firstValueFrom(this._roleService.createRole(
                 this.roleForm.get('code').value,
-                this.roleForm.get('name').value
+                this.roleForm.get('name').value,
+                this.roleForm.get('workflowStatuses').value
               ));
             }
             this._snackBarService.success();
@@ -101,6 +138,11 @@ export class RoleModalComponent implements OnInit {
       message: error
     };
     if (hasApiError) this.hasApiError = true;
+  }
+
+  hideError() {
+    this.showAlert = false;
+    this.alert = undefined;
   }
 
   isShowError() {

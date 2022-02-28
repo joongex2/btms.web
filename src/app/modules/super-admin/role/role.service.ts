@@ -12,11 +12,13 @@ export class RoleService {
 
     createRole(
         code: string,
-        name: string
+        name: string,
+        workflowStatuses: any
     ): Observable<any> {
         return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Roles'), {
             code,
-            name
+            name,
+            workflowStatuses
         }).pipe(map(data => data.model));
     }
 
@@ -31,15 +33,21 @@ export class RoleService {
     updateRole(
         id: number,
         name: string,
-        isActive: boolean
+        isActive: boolean,
+        workflowStatuses: any
     ): Observable<any> {
         return this._httpClient.put<ResultMapper>(getBaseUrl(`/v1/Roles/${id}`), {
             name,
-            isActive
+            isActive,
+            workflowStatuses
         }).pipe(map(data => data.model));
     }
 
     deleteRole(id: number): Observable<any> {
         return this._httpClient.delete<ResultMapper>(getBaseUrl(`/v1/Roles/${id}`)).pipe(map(data => data.model));
+    }
+
+    getWorkflowStatuses(): Observable<any> {
+        return this._httpClient.get<ResultMapper>(getBaseUrl('/v1/Roles/workflow-statuses')).pipe(map(data => data.model));
     }
 }

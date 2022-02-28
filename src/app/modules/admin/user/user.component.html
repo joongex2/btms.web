@@ -125,12 +125,12 @@
     
             <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
                 <div class="example-table-container" [class.sub-row]="'title'">
-                    <!-- <p class="table-title flex flex-row justify-between cursor-pointer">
+                    <p class="table-title flex flex-row justify-between cursor-pointer">
                         <span>ยูเซอร์</span>
-                        <span class="flex items-center" (click)="addUser()">
+                        <span class="flex items-center" [routerLink]="'./user-detail'">
                             <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มยูเซอร์
                         </span>
-                    </p> -->
+                    </p>
                     <div class="overflow-x-auto">
                         <table mat-table #userTable [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
                         matSort>
@@ -145,7 +145,7 @@
                                     <ng-container *ngIf="key == 'index'">{{ (paginator.pageIndex*paginator.pageSize) + (i+1) }}</ng-container>
                                     <ng-container *ngIf="key == 'isActive'">{{ element[key] | isActive }}</ng-container>
                                     <ng-container *ngIf="key == 'detailIcon'">
-                                        <a class="flex items-center justify-center" [routerLink]="'./'+element.id">
+                                        <a class="flex items-center justify-center" [routerLink]="'./user-detail/'+element.id">
                                             <mat-icon svgIcon="heroicons_solid:menu"></mat-icon>
                                         </a>
                                     </ng-container>

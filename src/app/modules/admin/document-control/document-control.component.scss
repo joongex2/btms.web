@@ -78,42 +78,46 @@ table {
 }
 
 /* column width */
+.mat-column-index {
+    width: 10%;
+}
+
 .mat-column-organizationcode {
-    width: 18%;
+    width: 8%;
+}
+
+.mat-column-documentCode {
+    width: 16%;
 }
 
 .mat-column-documentType {
-    width: 12%;
+    width: 8%;
 }
 
 .mat-column-prefix {
-    width: 12%;
+    width: 8%;
 }
 
 .mat-column-suffix {
-    width: 6%;
+    width: 8%;
 }
 
-.mat-column-lengthOfRunning {
-    width: 12%;
-}
-
-.mat-column-lastRunning {
-    width: 12%;
+.mat-column-lengthOfRunningNo {
+    width: 8%;
 }
 
 .mat-column-lastDocumentNo {
-    width: 12%;
+    width: 8%;
 }
 
-.mat-column-status {
-    width: 11%;
+.mat-column-lastRunningNo {
+    width: 8%;
 }
 
-.mat-column-editIcon {
-    width: 2.5%;
+.mat-column-isActive {
+    width: 8%;
 }
 
-.mat-column-deleteIcon {
-    width: 2.5%;
+.mat-column-editDeleteIcon {
+    width: 10%;
 }

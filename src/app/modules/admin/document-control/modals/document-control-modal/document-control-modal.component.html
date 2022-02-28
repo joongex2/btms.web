@@ -1,0 +1,122 @@
+<div class="flex flex-col w-80v md:w-160 max-h-80v -m-6">
+
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium text-white">
+            <span *ngIf="!isEdit">เพิ่มDocumentControl</span>
+            <span *ngIf="isEdit">แก้ไขDocumentControl</span>
+        </div>
+        <button mat-icon-button (click)="close()" [tabIndex]="-1">
+            <mat-icon class="text-current text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <!-- Body -->
+    <form class="grid gap-4 grid-cols-12 p-6 sm:p-8 overflow-y-auto items-center" [formGroup]="documentControlForm">
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Organize Code</div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <mat-select [formControlName]="'organizeCode'" placeholder="Organize Code">
+                    <mat-option *ngFor="let organizeCode of organizeCodes" [value]="organizeCode.value">
+                        {{organizeCode.title}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>Organize Code is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Document Code</div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <input matInput [formControlName]="'documentCode'">
+                <div class="copy-fields-toggles" matSuffix></div>
+                <mat-error>Document Code is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Document Type</div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <mat-select [formControlName]="'documentType'" placeholder="Document Type">
+                    <mat-option *ngFor="let documentType of documentTypes" [value]="documentType.value">
+                        {{documentType.title}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>Document Type is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Prefix</div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <input matInput [formControlName]="'prefix'">
+                <div class="copy-fields-toggles" matSuffix></div>
+                <mat-error>Prefix is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Suffix</div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <input matInput [formControlName]="'suffix'">
+                <div class="copy-fields-toggles" matSuffix></div>
+                <mat-error>Suffix is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Length of Running No.</div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <input matInput [formControlName]="'lengthOfRunningNo'" appIntegerOnly>
+                <div class="copy-fields-toggles" matSuffix></div>
+                <mat-error>Length of Running No. is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Last Document No.</div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <input matInput [formControlName]="'lastDocumentNo'">
+                <div class="copy-fields-toggles" matSuffix></div>
+                <mat-error>Last Document No. is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Last Running No.</div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <input matInput [formControlName]="'lastRunningNo'" appIntegerOnly>
+                <div class="copy-fields-toggles" matSuffix></div>
+                <mat-error>Last Running No. is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Status</div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <mat-select [formControlName]="'isActive'" placeholder="Status">
+                    <mat-option *ngFor="let isActive of isActives" [value]="isActive.value">
+                        {{isActive.title}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>Status is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <!-- Alert -->
+        <fuse-alert class="col-span-12" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false"
+            [type]="alert.type" [@shake]="alert.type === 'error'">
+            {{alert.message}}
+        </fuse-alert>
+
+        <!-- Actions -->
+        <div class="col-span-12 flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
+            <div class="flex-none flex items-center cursor-pointer" (click)="saveAndClose()">
+                <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>ตกลง</span>
+            </div>
+            <div class="flex-none sm:ml-2 flex items-center cursor-pointer" (click)="close()">
+                <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>ยกเลิก</span>
+            </div>
+        </div>
+    </form>
+</div>

@@ -8,7 +8,11 @@ export const userRoutes: Route[] = [
         component: UserComponent
     },
     {
-        path: ':id',
+        path: 'user-detail',
+        component: UserDetailComponent
+    },
+    {
+        path: 'user-detail/:id',
         component: UserDetailComponent
     }
 ];

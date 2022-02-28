@@ -23,17 +23,6 @@
                 </h2>
             </div>
         </div>
-        <!-- Actions -->
-        <!-- <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <button mat-stroked-button>
-                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
-                Edit
-            </button>
-            <button class="ml-3" mat-flat-button [color]="'accent'">
-                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
-                View
-            </button>
-        </div> -->
     </div>
 
     <!-- Main -->
@@ -53,18 +42,25 @@
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedOrganizationCode" name="organizationCode">
-                                        <mat-option *ngFor="let organizationCode of organizationCodes" [value]="organizationCode.value">
-                                            {{organizationCode.title}}
+                                    <mat-select [(ngModel)]="selectedOrganizeCode" name="organizeCode" placeholder="ทั้งหมด">
+                                        <mat-option *ngFor="let organizeCode of organizeCodes" [value]="organizeCode.value">
+                                            {{organizeCode.title}}
                                         </mat-option>
                                     </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Document Code</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="documentCode" name="documentCode" matInput>
                                 </mat-form-field>
                             </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Document Type</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedDocumentType" name="documentType">
+                                    <mat-select [(ngModel)]="selectedDocumentType" name="documentType" placeholder="ทั้งหมด">
                                         <mat-option *ngFor="let documentType of documentTypes" [value]="documentType.value">
                                             {{documentType.title}}
                                         </mat-option>
@@ -85,34 +81,34 @@
                                     <input [(ngModel)]="suffix" name="suffix" matInput>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Length of Running</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Length of Running No.</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <input [(ngModel)]="lengthOfRunning" name="lengthOfRunning" matInput>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Last Running</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2">
-                                    <input [(ngModel)]="lastRunning" name="lastRunning" matInput>
+                                    <input [(ngModel)]="lengthOfRunningNo" name="lengthOfRunningNo" matInput appIntegerOnly>
                                 </mat-form-field>
                             </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Last Document No.</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <input [(ngModel)]="lastDocument" name="lastDocument" matInput>
+                                    <input [(ngModel)]="lastDocumentNo" name="lastDocumentNo" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Last Running No.</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="lastRunningNo" name="lastRunningNo" matInput appIntegerOnly>
                                 </mat-form-field>
                             </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Status</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedStatus" name="status">
-                                        <mat-option *ngFor="let status of statuses" [value]="status.value">
-                                            {{status.title}}
+                                    <mat-select [(ngModel)]="selectedIsActive" name="isActive" placeholder="ทั้งหมด">
+                                        <mat-option *ngFor="let isActive of isActives" [value]="isActive.value">
+                                            {{isActive.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
@@ -145,25 +141,40 @@
                         </span>
                     </p>
                     <div class="overflow-x-auto">
-                        <table mat-table #documentControlTable [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
+                        <table mat-table [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
                         matSort>
                             <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ keyToColumnName[key] }}</th>
+                                <ng-container *ngIf="notSortColumn.includes(key)">
+                                    <th mat-header-cell *matHeaderCellDef
+                                        [ngClass]="{ 'text-center' : key == 'editDeleteIcon' }">{{ keyToColumnName[key]
+                                        }}</th>
+                                </ng-container>
+                                <ng-container *ngIf="!notSortColumn.includes(key)">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ keyToColumnName[key] }}
+                                    </th>
+                                </ng-container>
                                 <td mat-cell *matCellDef="let element; let i = index">
-                                    <span *ngIf="!key.includes('Icon')">{{ element[key] }}</span>
-                                    <ng-container *ngIf="key.includes('Icon')">
-                                        <div class="flex items-center">
-                                            <mat-icon *ngIf="key === 'editIcon'" (click)="editDocumentControl(i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขDocumentControl"></mat-icon>
-                                            <mat-icon *ngIf="key === 'deleteIcon'" (click)="deleteDocumentControl(i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบDocumentControl"></mat-icon>
+                                    <ng-container *ngIf="key == 'index'">{{ (paginator.pageIndex * paginator.pageSize) +
+                                        (i + 1) }}</ng-container>
+                                    <ng-container *ngIf="key == 'isActive'">{{ element[key] | isActive }}</ng-container>
+                                    <ng-container *ngIf="key == 'editDeleteIcon'">
+                                        <div class="flex items-center justify-center">
+                                            <mat-icon (click)="editDocumentControl(element)" svgIcon="heroicons_outline:pencil"
+                                                class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขมาสเตอร์"></mat-icon>
+                                            <mat-icon (click)="editDocumentControl(element)" svgIcon="heroicons_outline:x"
+                                                class="w-5 min-w-5 cursor-pointer" title="ลบมาสเตอร์"></mat-icon>
                                         </div>
                                     </ng-container>
+                                    <ng-container
+                                        *ngIf="key != 'index' && key != 'isActive' && key != 'editDeleteIcon'">{{
+                                        element[key] }}</ng-container>
                                 </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         </table>
                     </div>
-                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+                    <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
                     </mat-paginator>
                 </div>
             </div>

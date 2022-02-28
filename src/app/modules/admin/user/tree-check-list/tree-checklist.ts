@@ -433,7 +433,9 @@ export class TreeChecklistComponent implements OnInit {
 
     setOrganizes(organizes: any): void {
         const selected = this._database.initializeData(organizes);
-        this.checklistSelection.select(...selected);
+        for (let node of this.treeControl.dataNodes) {
+            if (selected.find((s) => s.item == node.item && s.level == node.level)) this.checklistSelection.select(node);
+        }
     }
 
     getOrganizes(): any {

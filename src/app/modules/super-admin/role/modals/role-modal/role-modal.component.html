@@ -16,16 +16,14 @@
         class="grid gap-4 grid-cols-12 p-6 sm:p-8 overflow-y-auto items-center"
         [formGroup]="roleForm">
 
-        <ng-container *ngIf="!isEdit">
-            <div class="col-span-4 font-medium"><span class="text-warn">*</span>Code</div>
-            <div class="col-span-8 flex items-center">
-                <mat-form-field class="flex-auto">
-                    <input matInput [formControlName]="'code'">
-                    <div class="copy-fields-toggles" matSuffix></div>
-                    <mat-error>Code is required</mat-error>
-                </mat-form-field>
-            </div>
-        </ng-container>
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Code</div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <input matInput [formControlName]="'code'">
+                <div class="copy-fields-toggles" matSuffix></div>
+                <mat-error>Code is required</mat-error>
+            </mat-form-field>
+        </div>
 
         <div class="col-span-4 font-medium"><span class="text-warn">*</span>Name</div>
         <div class="col-span-8 flex items-center">
@@ -36,17 +34,37 @@
             </mat-form-field>
         </div>
 
-        <ng-container *ngIf="isEdit">
-            <div class="col-span-4 font-medium">Status</div>
-            <div class="col-span-8 flex items-center">
-                <mat-form-field class="flex-auto">
-                    <mat-select [formControlName]="'isActive'" placeholder="Status">
-                        <mat-option *ngFor="let isActive of isActives" [value]="isActive.value">{{isActive.title}}</mat-option>
-                    </mat-select>
-                    <mat-error>Status is required</mat-error>
-                </mat-form-field>
+        <div class="col-span-4 font-medium">Status</div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <mat-select [formControlName]="'isActive'" placeholder="Status">
+                    <mat-option *ngFor="let isActive of isActives" [value]="isActive.value">{{isActive.title}}</mat-option>
+                </mat-select>
+                <mat-error>Status is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-span-4 font-medium">เลือก Workflow Status</div>
+        <div class="col-span-6 flex items-center">
+            <mat-form-field class="flex-auto">
+                <mat-select [formControlName]="'selectedWorkflowStatus'" placeholder="Workflow Status">
+                    <mat-option *ngFor="let workflowStatus of workflowStatuses" [value]="workflowStatus.value">{{workflowStatus.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <button class="col-span-2" mat-icon-button (click)="addWorkflowStatus()">
+            <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+        </button>
+
+        <div class="col-span-12 sm:col-span-8 sm:col-start-5">
+            <div class="grid gap-2 grid-cols-12">
+                <div *ngFor="let wf of roleForm.get('workflowStatuses')['controls']; let i = index" class="tag-box col-span-4">
+                    <span>{{wf.get('workflowStatus').value}}</span>
+                    <mat-icon class="icon-size-5 ml-1 cursor-pointer" [svgIcon]="'heroicons_solid:trash'"
+                        (click)="deleteWorkflowStatus(i)"></mat-icon>
+                </div>
             </div>
-        </ng-container>
+        </div>
 
         <!-- Alert -->
         <fuse-alert class="col-span-12" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false" [type]="alert.type"

@@ -12,27 +12,27 @@
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
-                        <a [routerLink]="'./..'">
+                        <a [routerLink]="isEdit ? './../..' : './..'">
                             <span class="ml-1 text-secondary">User Master Management</span>
                         </a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
-                        <span class="ml-1 text-secondary">{{id}}</span>
+                        <span class="ml-1 text-secondary">Details</span>
                     </div>
                 </div>
             </div>
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    User Master Management {{id}}
+                    User Master Management Details
                 </h2>
             </div>
         </div>
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <a [routerLink]="'./..'" class="flex items-center">
+            <a [routerLink]="isEdit ? './../..' : './..'" class="flex items-center">
                 <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
                 &nbsp;<span>ย้อนหลับ</span>
             </a>
