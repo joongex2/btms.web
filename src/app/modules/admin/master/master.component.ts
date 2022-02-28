@@ -134,17 +134,25 @@ export class MasterComponent implements OnInit {
   }
 
   editMaster(element: Master) {
-    const dialogRef = this._matDialog.open(MasterModalComponent, {
-      data: {
-        mode: ModalMode.EDIT,
-        data: element
+    this._masterService.getMaster(element.id).subscribe({
+      next: (master: Master) => {
+        const dialogRef = this._matDialog.open(MasterModalComponent, {
+          data: {
+            mode: ModalMode.EDIT,
+            data: master
+          }
+        });
+        dialogRef.afterClosed()
+          .subscribe((isEdit: boolean) => {
+            if (!isEdit) return; // cancel
+            this.loadMasters();
+          });
+      },
+      error: (e) => {
+        this._snackBarService.error();
+        console.error(e)
       }
     });
-    dialogRef.afterClosed()
-      .subscribe((isEdit: boolean) => {
-        if (!isEdit) return; // cancel
-        this.loadMasters();
-      });
   }
 
   deleteMaster(element: Master) {

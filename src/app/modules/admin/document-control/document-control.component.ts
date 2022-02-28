@@ -163,17 +163,25 @@ export class DocumentControlComponent implements OnInit {
   }
 
   editDocumentControl(element: DocumentControl) {
-    const dialogRef = this._matDialog.open(DocumentControlModalComponent, {
-      data: {
-        mode: ModalMode.EDIT,
-        data: element
+    this._documentControlService.getDocumentControl(element.id).subscribe({
+      next: (documentControl: DocumentControl) => {
+        const dialogRef = this._matDialog.open(DocumentControlModalComponent, {
+          data: {
+            mode: ModalMode.EDIT,
+            data: documentControl
+          }
+        });
+        dialogRef.afterClosed()
+          .subscribe((documentControl: DocumentControl) => {
+            if (!documentControl) return; // cancel
+            this.loadDocumentControls();
+          });
+      },
+      error: (e) => {
+        this._snackBarService.error();
+        console.error(e)
       }
     });
-    dialogRef.afterClosed()
-      .subscribe((documentControl: DocumentControl) => {
-        if (!documentControl) return; // cancel
-        this.loadDocumentControls();
-      });
   }
 
   deleteDocumentControl(element: DocumentControl) {

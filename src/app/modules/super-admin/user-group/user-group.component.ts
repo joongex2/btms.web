@@ -110,20 +110,28 @@ export class UserGroupComponent implements OnInit {
   }
 
   editUserGroup(element: UserGroup) {
-    const dialogRef = this._matDialog.open(UserGroupModalComponent, {
-      data: {
-        mode: ModalMode.EDIT,
-        data: {
-          defaultMenu: this.defaultMenu,
-          userGroup: element
-        }
+    this._userGroupService.getUserGroup(element.id).subscribe({
+      next: (userGroup: UserGroup) => {
+        const dialogRef = this._matDialog.open(UserGroupModalComponent, {
+          data: {
+            mode: ModalMode.EDIT,
+            data: {
+              defaultMenu: this.defaultMenu,
+              userGroup
+            }
+          }
+        });
+        dialogRef.afterClosed()
+          .subscribe((isEdit: boolean) => {
+            if (!isEdit) return; // cancel
+            this.loadUserGroups();
+          });
+      },
+      error: (e) => {
+        this._snackBarService.error();
+        console.error(e)
       }
     });
-    dialogRef.afterClosed()
-      .subscribe((isEdit: boolean) => {
-        if (!isEdit) return; // cancel
-        this.loadUserGroups();
-      });
   }
 
   deleteUserGroup(element: UserGroup) {

@@ -21,14 +21,14 @@
                 <span class="ml-2 flex items-center cursor-pointer" (click)="addNewItem(node)">
                     <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>&nbsp;<span>Add role</span>
                 </span>
-                <span class="ml-2 flex items-center cursor-pointer" (click)="deleteNode(node)">
+                <!-- <span class="ml-2 flex items-center cursor-pointer" (click)="deleteNode(node)">
                     <mat-icon>delete</mat-icon>&nbsp;<span>Delete Organize</span>
-                </span>
+                </span> -->
             </ng-container>
             <ng-template #roleIcon>
-                <span class="ml-2 flex items-center cursor-pointer" (click)="deleteNode(node)">
+                <!-- <span class="ml-2 flex items-center cursor-pointer" (click)="deleteNode(node)">
                     <mat-icon>delete</mat-icon>            
-                </span>
+                </span> -->
             </ng-template>
     </mat-tree-node>
 
@@ -36,7 +36,7 @@
         <button mat-icon-button disabled></button>
         <ng-container *ngIf="node.level == 0;else roleSelect">
             <mat-form-field class="ml-6 mb-2">
-                <mat-select #itemValue name="organization" placeholder="ทั้งหมด">
+                <mat-select #itemValue name="organization" placeholder="Organize">
                     <mat-option *ngFor="let organization of organizations" [value]="organization.value">
                         {{organizeCodeNameMapper ? organizeCodeNameMapper[organization.title]: ''}}
                     </mat-option>
@@ -46,7 +46,7 @@
         </ng-container>
         <ng-template #roleSelect>
             <mat-form-field class="mb-2">
-                <mat-select #itemValue name="role" placeholder="ทั้งหมด">
+                <mat-select #itemValue name="role" placeholder="Role">
                     <mat-option *ngFor="let role of roles" [value]="role.value">
                         {{roleCodeNameMapper ? roleCodeNameMapper[role.title]: ''}}
                     </mat-option>
@@ -69,9 +69,9 @@
         <span class="ml-2 flex items-center cursor-pointer" (click)="addNewItem(node)">
             <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>&nbsp;<span>Add Role</span>
         </span>
-        <span class="ml-2 flex items-center cursor-pointer" (click)="deleteNode(node)">
+        <!-- <span class="ml-2 flex items-center cursor-pointer" (click)="deleteNode(node)">
             <mat-icon>delete</mat-icon>&nbsp;<span>Delete Organize</span>
-        </span>
+        </span> -->
     </mat-tree-node>
 </mat-tree>
 

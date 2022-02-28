@@ -12,14 +12,14 @@
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
-                        <span class="ml-1 text-secondary">User Master Management</span>
+                        <span class="ml-1 text-secondary">User Management</span>
                     </div>
                 </div>
             </div>
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    User Master Management
+                    User Management
                 </h2>
             </div>
         </div>
@@ -146,7 +146,7 @@
                                     <ng-container *ngIf="key == 'isActive'">{{ element[key] | isActive }}</ng-container>
                                     <ng-container *ngIf="key == 'detailIcon'">
                                         <a class="flex items-center justify-center" [routerLink]="'./user-detail/'+element.id">
-                                            <mat-icon svgIcon="heroicons_solid:menu"></mat-icon>
+                                            <mat-icon svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5"></mat-icon>
                                         </a>
                                     </ng-container>
                                     <ng-container *ngIf="key != 'index' && key != 'isActive' && key != 'detailIcon'">{{ element[key] }}</ng-container>

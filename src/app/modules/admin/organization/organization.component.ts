@@ -155,17 +155,25 @@ export class OrganizationComponent implements OnInit {
   }
 
   editOrganization(element: Organization) {
-    const dialogRef = this._matDialog.open(OrganizationModalComponent, {
-      data: {
-        mode: ModalMode.EDIT,
-        data: element
+    this._organizationService.getOrganization(element.id).subscribe({
+      next: (organization: Organization) => {
+        const dialogRef = this._matDialog.open(OrganizationModalComponent, {
+          data: {
+            mode: ModalMode.EDIT,
+            data: organization
+          }
+        });
+        dialogRef.afterClosed()
+          .subscribe((isEdit: boolean) => {
+            if (!isEdit) return; // cancel
+            this.loadOrganizations();
+          });
+      },
+      error: (e) => {
+        this._snackBarService.error();
+        console.error(e)
       }
     });
-    dialogRef.afterClosed()
-      .subscribe((isEdit: boolean) => {
-        if (!isEdit) return; // cancel
-        this.loadOrganizations();
-      });
   }
 
   deleteOrganization(element: Organization) {

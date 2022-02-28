@@ -34,7 +34,7 @@
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <a [routerLink]="isEdit ? './../..' : './..'" class="flex items-center">
                 <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
-                &nbsp;<span>ย้อนหลับ</span>
+                &nbsp;<span>ย้อนกลับ</span>
             </a>
             <div (click)="save()" class="cursor-pointer flex items-center ml-3">
                 <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>บันทึก</span>
@@ -59,7 +59,7 @@
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <input matInput [(ngModel)]="username" name="username" [disabled]="isEdit">
+                                    <input matInput [(ngModel)]="username" name="username" [disabled]="isEdit" required>
                                     <div class="copy-fields-toggles" matSuffix></div>
                                     <mat-error>username is required</mat-error>
                                 </mat-form-field>
@@ -68,7 +68,7 @@
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedUserGroup" name="userGroup">
+                                    <mat-select [(ngModel)]="selectedUserGroup" name="userGroup" required>
                                         <mat-option *ngFor="let userGroup of userGroups" [value]="userGroup.value">
                                             {{userGroup.title}}
                                         </mat-option>
@@ -79,7 +79,7 @@
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <input matInput [(ngModel)]="name" name="name">
+                                    <input matInput [(ngModel)]="name" name="name" required>
                                     <div class="copy-fields-toggles" matSuffix></div>
                                     <mat-error>Name is required</mat-error>
                                 </mat-form-field>
@@ -88,7 +88,7 @@
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedIsActive" name="isActive">
+                                    <mat-select [(ngModel)]="selectedIsActive" name="isActive" required>
                                         <mat-option *ngFor="let isActive of isActives" [value]="isActive.value">
                                             {{isActive.title}}
                                         </mat-option>
@@ -99,7 +99,7 @@
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <input matInput [(ngModel)]="email" name="email">
+                                    <input matInput [(ngModel)]="email" name="email" required>
                                     <div class="copy-fields-toggles" matSuffix></div>
                                     <mat-error>email is required</mat-error>
                                 </mat-form-field>

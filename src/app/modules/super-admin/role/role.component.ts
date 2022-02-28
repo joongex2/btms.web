@@ -114,17 +114,25 @@ export class RoleComponent implements OnInit {
   }
 
   editRole(element: Role) {
-    const dialogRef = this._matDialog.open(RoleModalComponent, {
-      data: {
-        mode: ModalMode.EDIT,
-        data: element
+    this._roleService.getRole(element.id).subscribe({
+      next: (role: Role) => {
+        const dialogRef = this._matDialog.open(RoleModalComponent, {
+          data: {
+            mode: ModalMode.EDIT,
+            data: role
+          }
+        });
+        dialogRef.afterClosed()
+          .subscribe((isEdit: boolean) => {
+            if (!isEdit) return; // cancel
+            this.loadRoles();
+          });
+      },
+      error: (e) => {
+        this._snackBarService.error();
+        console.error(e)
       }
     });
-    dialogRef.afterClosed()
-      .subscribe((isEdit: boolean) => {
-        if (!isEdit) return; // cancel
-        this.loadRoles();
-      });
   }
 
   deleteRole(element: Role) {
