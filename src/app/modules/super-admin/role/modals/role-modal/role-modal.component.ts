@@ -54,13 +54,13 @@ export class RoleModalComponent implements OnInit {
     this.role = this.modalData.data;
     const code = this.isEdit ? this.role.code : '';
     const name = this.isEdit ? this.role.name : '';
-    const isActive = this.isEdit ? this.role.isActive : false;
+    const isActive = this.isEdit ? this.role.isActive : true;
     const workflowStatuses = this.isEdit ? this.parseWorkFlowStatusesArray(this.role.workflowStatuses) : [];
 
     this.roleForm = this._formBuilder.group({
       code: [{ value: code, disabled: this.isEdit }, [Validators.required]],
       name: [name, [Validators.required]],
-      isActive: [{ value: isActive, disabled: !this.isEdit }, [Validators.required]],
+      isActive: [isActive, [Validators.required]],
       workflowStatuses: [workflowStatuses]
     });
   }
@@ -94,6 +94,7 @@ export class RoleModalComponent implements OnInit {
               await firstValueFrom(this._roleService.createRole(
                 this.roleForm.get('code').value,
                 this.roleForm.get('name').value,
+                this.roleForm.get('isActive').value,
                 this.createWorkflowStatusesArray(this.roleForm.get('workflowStatuses').value)
               ));
             }
@@ -101,7 +102,7 @@ export class RoleModalComponent implements OnInit {
             this.matDialogRef.close(true);
           } catch (e) {
             this._snackBarService.error();
-            this.showError(e, true);
+            this.showError(e.error, true);
           }
         }
       });

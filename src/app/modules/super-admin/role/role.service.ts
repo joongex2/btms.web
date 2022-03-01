@@ -13,11 +13,13 @@ export class RoleService {
     createRole(
         code: string,
         name: string,
+        isActive: boolean,
         workflowStatuses: any
     ): Observable<any> {
         return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Roles'), {
             code,
             name,
+            isActive,
             workflowStatuses
         }).pipe(map(data => data.model));
     }
