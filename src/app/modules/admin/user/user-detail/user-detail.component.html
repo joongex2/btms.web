@@ -12,7 +12,7 @@
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
-                        <a [routerLink]="isEdit ? './../..' : './..'">
+                        <a href="#" onClick="return false;" (click)="back()">
                             <span class="ml-1 text-secondary">User Master Management</span>
                         </a>
                     </div>
@@ -32,10 +32,10 @@
         </div>
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <a [routerLink]="isEdit ? './../..' : './..'" class="flex items-center">
+            <div (click)="back()" class="cursor-pointer flex items-center">
                 <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
                 &nbsp;<span>ย้อนกลับ</span>
-            </a>
+            </div>
             <div (click)="save()" class="cursor-pointer flex items-center ml-3">
                 <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>บันทึก</span>
             </div>

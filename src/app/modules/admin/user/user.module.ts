@@ -16,6 +16,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { UserModalComponent } from '../modals/user-modal/user-modal.component';
 import { TreeChecklistComponent } from './tree-check-list/tree-checklist';
 import { UserDetailComponent } from './user-detail/user-detail.component';
+import { UserListComponent } from './user-list/user-list.component';
 import { UserComponent } from './user.component';
 import { userRoutes } from './user.routing';
 
@@ -24,6 +25,7 @@ import { userRoutes } from './user.routing';
 @NgModule({
   declarations: [
     UserComponent,
+    UserListComponent,
     UserDetailComponent,
     UserModalComponent,
     TreeChecklistComponent

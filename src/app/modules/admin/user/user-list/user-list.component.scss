@@ -25,11 +25,6 @@ p.table-title {
     // margin-left: 8px;
 }
 
-.example-table-container {
-    max-height: 395px;
-    overflow: auto;
-}
-
 :host ::ng-deep .mat-expansion-panel-body {
     padding: 0 24px !important;
 }

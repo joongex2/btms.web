@@ -11,6 +11,7 @@ import { firstValueFrom } from 'rxjs';
 import { TreeChecklistComponent } from '../tree-check-list/tree-checklist';
 import { UserService } from '../user.service';
 import { User } from '../user.types';
+import { Location } from '@angular/common';
 
 
 
@@ -54,6 +55,7 @@ export class UserDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private _location: Location,
     private _userGroupService: UserGroupService,
     private _userService: UserService,
     private _confirmationService: ConfirmationService,
@@ -160,5 +162,9 @@ export class UserDetailComponent implements OnInit {
       },
       error: (e) => console.error(e)
     });
+  }
+
+  back() {
+    this._location.back();
   }
 }

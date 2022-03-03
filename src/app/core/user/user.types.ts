@@ -6,4 +6,5 @@ export interface User
     email: string;
     avatar?: string;
     status?: string;
+    menus: any;
 }
