@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -27,6 +28,7 @@ import { User } from '../user.types';
 export class UserListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatExpansionPanel) matExpansionPanel: MatExpansionPanel;
 
   // bind value
   dataSource: MatTableDataSource<User> = new MatTableDataSource([]);
@@ -125,6 +127,9 @@ export class UserListComponent implements OnInit {
       size: v.pageSize
     }));
 
+    this.matExpansionPanel.opened.subscribe((v) => this.addQueryParam({ expand: true }));
+    this.matExpansionPanel.closed.subscribe((v) => this.addQueryParam({ expand: undefined }));
+
     this._activatedRoute.queryParams.pipe(
       distinctUntilChanged()
     ).subscribe(params => {
@@ -142,6 +147,8 @@ export class UserListComponent implements OnInit {
           this.selectedRole = params.role ? params.role : undefined;
           this.selectedIsActive = params.isActive ? (params.isActive === 'true') : undefined;
           this.filter();
+          // set expand
+          if (params.expand === 'true') this.matExpansionPanel.open();
         })
       }
     });
