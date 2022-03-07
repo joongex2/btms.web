@@ -16,11 +16,11 @@ export class MenuGuard implements CanActivate, CanActivateChild {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.menuCheck(state.url.split('?')[0]);
+        return this.menuCheck(this.getConfiguredUrl(route));
     }
 
     canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.menuCheck(state.url.split('?')[0]);
+        return this.menuCheck(this.getConfiguredUrl(route));
     }
 
     menuCheck(stateUrl: string): Observable<boolean> {
@@ -36,5 +36,19 @@ export class MenuGuard implements CanActivate, CanActivateChild {
             this._router.navigate(['403-forbidden']);
             return of(false);
         }));
+    }
+
+    getResolvedUrl(route: ActivatedRouteSnapshot): string {
+        return '/' + route.pathFromRoot
+            .map(v => v.url.map(segment => segment.toString()).join('/'))
+            .filter(v => v)
+            .join('/');
+    }
+
+    getConfiguredUrl(route: ActivatedRouteSnapshot): string {
+        return '/' + route.pathFromRoot
+            .filter(v => v.routeConfig && v.routeConfig.path)
+            .map(v => v.routeConfig!.path)
+            .join('/');
     }
 }
