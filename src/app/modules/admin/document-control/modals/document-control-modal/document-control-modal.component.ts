@@ -5,10 +5,10 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { OrganizationService } from 'app/modules/admin/organization/organization.service';
 import { Organization } from 'app/modules/admin/organization/organization.types';
+import { ModalData, ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { firstValueFrom } from 'rxjs';
-import { ModalData, ModalMode } from '../../../../super-admin/modals/modal.types';
 import { DocumentControlService } from '../../document-control.service';
 import { DocumentControl } from '../../document-control.types';
 

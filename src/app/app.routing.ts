@@ -74,8 +74,6 @@ export const appRoutes: Route[] = [
             initialData: InitialDataResolver,
         },
         children   : [
-            {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
-
             {path: 'dashboards', children: [
                 {path: 'dashboard1', loadChildren: () => import('app/modules/dashboards/dashboard1/dashboard1.module').then(m => m.Dashboard1Module)},
                 {path: 'dashboard2', loadChildren: () => import('app/modules/dashboards/dashboard2/dashboard2.module').then(m => m.Dashboard2Module)},
@@ -100,9 +98,6 @@ export const appRoutes: Route[] = [
             {path: 'super-admin', children: [
                 {path: 'user-group', loadChildren: () => import('app/modules/super-admin/user-group/user-group.module').then(m => m.UserGroupModule)},
                 {path: 'role', loadChildren: () => import('app/modules/super-admin/role/role.module').then(m => m.RoleModule)},
-                {path: 'menu', loadChildren: () => import('app/modules/super-admin/menu/menu.module').then(m => m.MenuModule)},
-                {path: 'group-menu', loadChildren: () => import('app/modules/super-admin/group-menu/group-menu.module').then(m => m.GroupMenuModule)},
-                {path: 'document-permission', loadChildren: () => import('app/modules/super-admin/document-permission/document-permission.module').then(m => m.DocumentPermissionModule)}
             ]},
 
             {path: '403-forbidden', loadChildren: () => import('app/modules/error/error-403/error-403.module').then(m => m.Error403Module)},

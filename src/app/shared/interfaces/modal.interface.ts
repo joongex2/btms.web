@@ -1,9 +1,9 @@
 export interface ModalData {
-    mode: ModalMode,
+    mode?: ModalMode,
     data: any;
 }
 
 export enum ModalMode {
     ADD,
     EDIT
-} 
+}

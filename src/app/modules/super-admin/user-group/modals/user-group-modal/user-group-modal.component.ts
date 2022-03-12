@@ -4,13 +4,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { FuseNavigationItem } from '@fuse/components/navigation';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { ModalData, ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { firstValueFrom } from 'rxjs';
-import { ModalData, ModalMode } from '../../../modals/modal.types';
 import { UserGroupService } from '../../user-group.service';
 import { UserGroup } from '../../user-group.types';
+
 
 
 @Component({
@@ -107,7 +107,7 @@ export class UserGroupModalComponent implements OnInit {
             const menus = this.createMenus();
             if (this.isEdit) {
               await firstValueFrom(this._userGroupService.updateUserGroup(
-                this.userGroup.id, 
+                this.userGroup.id,
                 this.userGroupForm.get('name').value,
                 menus,
                 this.userGroupForm.get('isActive').value
@@ -138,7 +138,7 @@ export class UserGroupModalComponent implements OnInit {
   showError(error: string, hasApiError?: boolean) {
     this.showAlert = true;
     this.alert = {
-      type   : 'error',
+      type: 'error',
       message: error
     };
     if (hasApiError) this.hasApiError = true;

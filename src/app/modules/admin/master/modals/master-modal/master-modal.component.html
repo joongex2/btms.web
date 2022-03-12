@@ -14,14 +14,14 @@
     <!-- Body -->
     <form class="grid gap-4 grid-cols-12 p-6 sm:p-8 overflow-y-auto items-center" [formGroup]="masterForm">
 
-        <div class="col-span-4 font-medium">Type</div>
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Type</div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
-                <mat-select [formControlName]="'type'" placeholder="ประเภท">
+                <mat-select [formControlName]="'type'" placeholder="Type">
                     <mat-option *ngFor="let type of types" [value]="type.value">{{type.title}}
                     </mat-option>
                 </mat-select>
-                <mat-error>ประเภท is required</mat-error>
+                <mat-error>Type is required</mat-error>
             </mat-form-field>
         </div>
 

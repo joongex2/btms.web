@@ -2,13 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
+import { ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
-import { ModalMode } from '../modals/modal.types';
 import { UserGroupModalComponent } from './modals/user-group-modal/user-group-modal.component';
 import { UserGroupService } from './user-group.service';
 import { UserGroup } from './user-group.types';
+
 
 @Component({
   selector: 'user-group',

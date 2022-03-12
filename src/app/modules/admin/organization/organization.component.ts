@@ -3,15 +3,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { MasterService } from '../master/master.service';
 import { Master } from '../master/master.types';
-import { ModalMode } from '../modals/modal.types';
 import { OrganizationModalComponent } from './modals/organization-modal/organization-modal.component';
-
 import { OrganizationService } from './organization.service';
 import { Organization } from './organization.types';
+
+
 
 @Component({
   selector: 'organization',

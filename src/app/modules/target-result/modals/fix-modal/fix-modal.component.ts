@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { genRandomNumber } from 'app/modules/super-admin/mock-super-admin-data';
 import { ModalData, ModalMode } from 'app/modules/target-info/modals/modal.type';
+import { genRandomNumber } from 'app/shared/helpers/gen-number';
 import * as moment from 'moment';
+
 
 
 @Component({
@@ -46,8 +47,8 @@ export class FixModalComponent implements OnInit {
 
   saveAndClose(): void {
     const fixForm = this.fixForm.getRawValue();
-    this.matDialogRef.close({ 
-      ...fixForm, 
+    this.matDialogRef.close({
+      ...fixForm,
       fixDueDate: fixForm.fixDueDateSelect.format('YYYY-MM-DD'),
       fixStartDate: fixForm.fixStartDateSelect.format('YYYY-MM-DD')
     });
