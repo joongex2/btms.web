@@ -61,18 +61,19 @@
                                 <mat-form-field class="flex-auto ml-2">
                                     <input matInput [(ngModel)]="username" name="username" [disabled]="isEdit" required>
                                     <div class="copy-fields-toggles" matSuffix></div>
-                                    <mat-error>username is required</mat-error>
+                                    <mat-error>Username is required</mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Group</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedUserGroup" name="userGroup" required>
+                                    <mat-select [(ngModel)]="selectedUserGroup" name="userGroup" placeholder="Group" required>
                                         <mat-option *ngFor="let userGroup of userGroups" [value]="userGroup.value">
                                             {{userGroup.title}}
                                         </mat-option>
                                     </mat-select>
+                                    <mat-error>Group is required</mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Full Name</div>
@@ -88,7 +89,7 @@
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedIsActive" name="isActive" required>
+                                    <mat-select [(ngModel)]="selectedIsActive" name="isActive" placeholder="Status" required>
                                         <mat-option *ngFor="let isActive of isActives" [value]="isActive.value">
                                             {{isActive.title}}
                                         </mat-option>
@@ -101,7 +102,7 @@
                                 <mat-form-field class="flex-auto ml-2">
                                     <input matInput [(ngModel)]="email" name="email" required>
                                     <div class="copy-fields-toggles" matSuffix></div>
-                                    <mat-error>email is required</mat-error>
+                                    <mat-error>Email is required</mat-error>
                                 </mat-form-field>
                             </div>
                             <fuse-alert class="col-span-12 sm:col-start-1" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false"
