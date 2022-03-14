@@ -12,7 +12,9 @@
         "build": "ng build",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
-        "lint": "ng lint"
+        "lint": "ng lint",
+        "build:prod": "ng build --configuration production --vendor-chunk",
+        "build:staging": "ng build --configuration staging --vendor-chunk"
     },
     "dependencies": {
         "@angular/animations": "13.1.1",
