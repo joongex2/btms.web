@@ -22,6 +22,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "01/02/2021",
                 "issuedDate": "03/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
@@ -508,6 +509,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "30/01/2021",
                 "issuedDate": "03/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
@@ -542,6 +544,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "30/01/2021",
                 "issuedDate": "09/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
@@ -564,6 +567,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "30/01/2021",
                 "issuedDate": "10/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
@@ -586,6 +590,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "30/01/2021",
                 "issuedDate": "10/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
@@ -608,6 +613,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "30/01/2021",
                 "issuedDate": "10/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
@@ -630,6 +636,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "30/01/2021",
                 "issuedDate": "10/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
@@ -652,6 +659,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "30/01/2021",
                 "issuedDate": "10/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
@@ -674,6 +682,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "30/01/2021",
                 "issuedDate": "10/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
@@ -696,6 +705,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "30/01/2021",
                 "issuedDate": "10/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
@@ -718,6 +728,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "30/01/2021",
                 "issuedDate": "10/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
@@ -740,6 +751,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "30/01/2021",
                 "issuedDate": "10/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
@@ -762,6 +774,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "30/01/2021",
                 "issuedDate": "10/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {
@@ -784,6 +797,7 @@ export class TargetService {
                 "modifyNo": "",
                 "createDate": "30/01/2021",
                 "issuedDate": "10/02/2021",
+                "dueDate": "03/02/2021",
                 "creator": "Phaiboon Charoensalung"
             },
             "kids": {

@@ -1,5 +1,4 @@
-export interface User
-{
+export interface User {
     id: string;
     name: string;
     username: string;
@@ -7,4 +6,25 @@ export interface User
     avatar?: string;
     status?: string;
     menus: any;
+    organizes: Organize[];
+}
+
+export interface Organize {
+    organizeCode: string;
+    organizeName: string;
+    businessUnitCode: string;
+    businessUnit: string;
+    subBusinessUnitCode: string;
+    subBusinessUnit: string;
+    plantCode: string;
+    plant: string;
+    divisionCode: string;
+    division: string;
+    roles: Role[];
+    canCreate?: boolean;
+}
+
+interface Role {
+    roleId: number;
+    roleCode: string;
 }

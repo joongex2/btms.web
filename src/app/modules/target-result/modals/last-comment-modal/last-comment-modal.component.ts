@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { ModalData } from "app/modules/target-info/modals/modal.type";
+import { ModalData } from "app/modules/target-info/target-management/modals/modal.type";
 import { TargetResultService } from "../../target-result.service";
 import { LastComment } from "../../target-result.types";
 

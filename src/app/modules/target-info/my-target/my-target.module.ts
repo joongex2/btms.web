@@ -16,6 +16,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'app/shared/shared.module';
+import { MyTargetListComponent } from './my-target-list/my-target-list.component';
 import { MyTargetComponent } from './my-target.component';
 import { myTargetRoutes } from './my-target.routing';
 
@@ -23,7 +24,8 @@ import { myTargetRoutes } from './my-target.routing';
 
 @NgModule({
   declarations: [
-    MyTargetComponent
+    MyTargetComponent,
+    MyTargetListComponent
   ],
   imports: [
     RouterModule.forChild(myTargetRoutes),

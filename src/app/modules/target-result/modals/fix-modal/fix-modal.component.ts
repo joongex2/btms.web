@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ModalData, ModalMode } from 'app/modules/target-info/modals/modal.type';
+import { ModalData, ModalMode } from 'app/modules/target-info/target-management/modals/modal.type';
 import { genRandomNumber } from 'app/shared/helpers/gen-number';
 import * as moment from 'moment';
 

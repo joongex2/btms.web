@@ -81,7 +81,6 @@ export const appRoutes: Route[] = [
             ]},
             {path: 'target-info', children: [
                 {path: 'my-target', loadChildren: () => import('app/modules/target-info/my-target/my-target.module').then(m => m.MyTargetModule)},
-                {path: 'my-target/:runningNo', loadChildren: () => import('app/modules/target-info/target-detail/target-detail.module').then(m => m.TargetDetailModule)},
                 {path: 'old-target', loadChildren: () => import('app/modules/target-info/old-target/old-target.module').then(m => m.OldTargetModule)},
                 {path: 'new-target', loadChildren: () => import('app/modules/target-info/new-target/new-target.module').then(m => m.NewTargetModule)}                
             ]},

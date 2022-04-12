@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -13,11 +14,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'app/shared/shared.module';
-import { TargetManagementComponent } from '../pages/target-management/target-management.component';
-import { TargetManagementModule } from '../pages/target-management/target-management.module';
-import { MethodTableComponent } from '../tables/method-table/method-table.component';
-import { SubTargetTableComponent } from '../tables/sub-target-table/sub-target-table.component';
-import { TargetTableComponent } from '../tables/target-table/target-table.component';
+import { TargetManagementModule } from '../target-management/target-management.module';
+import { NewTargetListComponent } from './new-target-list/new-target-list.component';
 import { NewTargetComponent } from './new-target.component';
 import { newTargetRoutes } from './new-target.routing';
 
@@ -25,7 +23,8 @@ import { newTargetRoutes } from './new-target.routing';
 
 @NgModule({
   declarations: [
-    NewTargetComponent
+    NewTargetComponent,
+    NewTargetListComponent
   ],
   imports: [
     RouterModule.forChild(newTargetRoutes),
@@ -41,6 +40,7 @@ import { newTargetRoutes } from './new-target.routing';
     MatSelectModule,
     MatInputModule,
     MatTableModule,
+    MatPaginatorModule,
     SharedModule,
     TargetManagementModule
   ]

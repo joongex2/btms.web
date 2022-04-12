@@ -21,15 +21,15 @@ import { FuseAlertModule } from "@fuse/components/alert";
 import { DatePickerFormatDirectiveModule } from "app/shared/directives/date-picker-format.module";
 import { IntegerOnlyModule } from "app/shared/directives/integer-only.module";
 import { SharedModule } from "app/shared/shared.module";
-import { MethodModalComponent } from '../../modals/method-modal/method-modal.component';
-import { PlanModalComponent } from "../../modals/plan-modal/plan-modal.component";
-import { SubTargetModalComponent } from '../../modals/sub-target-modal/sub-target-modal.component';
-import { TargetModalComponent } from '../../modals/target-modal/target-modal.component';
-import { MainMethodTableComponent } from "../../tables/main-method-table/main-method-table.component";
-import { MethodTableComponent } from "../../tables/method-table/method-table.component";
-import { PlanTableComponent } from "../../tables/plan-table/plan-table.component";
-import { SubTargetTableComponent } from "../../tables/sub-target-table/sub-target-table.component";
-import { TargetTableComponent } from "../../tables/target-table/target-table.component";
+import { MethodModalComponent } from './modals/method-modal/method-modal.component';
+import { PlanModalComponent } from "./modals/plan-modal/plan-modal.component";
+import { SubTargetModalComponent } from './modals/sub-target-modal/sub-target-modal.component';
+import { TargetModalComponent } from './modals/target-modal/target-modal.component';
+import { MainMethodTableComponent } from "./tables/main-method-table/main-method-table.component";
+import { MethodTableComponent } from "./tables/method-table/method-table.component";
+import { PlanTableComponent } from "./tables/plan-table/plan-table.component";
+import { SubTargetTableComponent } from "./tables/sub-target-table/sub-target-table.component";
+import { TargetTableComponent } from "./tables/target-table/target-table.component";
 import { TargetManagementComponent } from "./target-management.component";
 
 @NgModule({

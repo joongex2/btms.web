@@ -4,7 +4,7 @@ import { MatTable } from '@angular/material/table';
 import { detailExpandAnimation } from 'app/shared/table-animation';
 import { ModalMode } from '../../modals/modal.type';
 import { SubTargetModalComponent } from '../../modals/sub-target-modal/sub-target-modal.component';
-import { SubTarget, SubTargetRecord } from './../../target.types';
+import { SubTarget, SubTargetRecord } from '../../../target.types';
 
 @Component({
   selector: 'app-sub-target-table',

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { ModalMode } from '../../modals/modal.type';
 import { PlanModalComponent } from '../../modals/plan-modal/plan-modal.component';
-import { Plan, PlanRecord } from '../../target.types';
+import { Plan, PlanRecord } from '../../../target.types';
 
 @Component({
   selector: 'app-plan-table',

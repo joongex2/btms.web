@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
-import { ModalMode } from 'app/modules/target-info/modals/modal.type';
+import { ModalMode } from 'app/modules/target-info/target-management/modals/modal.type';
 import { Protect, ProtectRecord } from 'app/modules/target-info/target.types';
 import { ProtectModalComponent } from '../../modals/protect-modal/protect-modal.component';
 

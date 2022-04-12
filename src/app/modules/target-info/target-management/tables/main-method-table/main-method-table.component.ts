@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
-import { MainMethod, MainMethodRecord } from '../../target.types';
+import { MainMethod, MainMethodRecord } from '../../../target.types';
 import { genMockMainMethodRecord } from '../mock-table-data';
 
 @Component({

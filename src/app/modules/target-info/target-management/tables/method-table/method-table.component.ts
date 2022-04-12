@@ -4,8 +4,8 @@ import { MatSelect } from '@angular/material/select';
 import { MatTable } from '@angular/material/table';
 import { MethodModalComponent } from '../../modals/method-modal/method-modal.component';
 import { ModalMode } from '../../modals/modal.type';
-import { TargetService } from '../../target.service';
-import { Method, MethodRecord, ResultRecord, SubTarget } from './../../target.types';
+import { TargetService } from '../../../target.service';
+import { Method, MethodRecord, ResultRecord, SubTarget } from '../../../target.types';
 
 @Component({
   selector: 'app-method-table',

@@ -21,6 +21,7 @@ export interface RunningNo {
     createDate: string;
     issuedDate: string;
     creator: string;
+    dueDate: string;
 }
 
 export interface TargetRecord {

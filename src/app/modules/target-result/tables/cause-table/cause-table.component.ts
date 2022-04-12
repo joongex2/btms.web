@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
-import { ModalMode } from 'app/modules/target-info/modals/modal.type';
+import { ModalMode } from 'app/modules/target-info/target-management/modals/modal.type';
 import { Cause, CauseRecord } from 'app/modules/target-info/target.types';
 import { detailExpandAnimation } from 'app/shared/table-animation';
 import { CauseModalComponent } from '../../modals/cause-modal/cause-modal.component';

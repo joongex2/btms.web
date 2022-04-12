@@ -1,4 +1,4 @@
-import { MainMethodRecord, MethodRecord, PlanRecord, SubTargetRecord, TargetRecord } from "../target.types";
+import { MainMethodRecord, MethodRecord, PlanRecord, SubTargetRecord, TargetRecord } from "../../target.types";
 
 export const genMockTargetRecord: () => TargetRecord = () => {
     const randomValue = genRandomNumberString();
