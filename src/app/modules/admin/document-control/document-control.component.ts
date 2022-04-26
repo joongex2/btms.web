@@ -92,7 +92,7 @@ export class DocumentControlComponent implements OnInit {
 
   ngOnInit(): void {
     this._organizationService.getOrganizations().subscribe({
-      next: (v: Organization[]) => { this.organizeCodes = v.map((v) => ({ title: v.code, value: v.code })) },
+      next: (v: Organization[]) => { this.organizeCodes = v.map((v) => ({ title: v.organizeName, value: v.organizeCode })) },
       error: (e) => console.error(e)
     });
 

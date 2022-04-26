@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
@@ -16,6 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'app/shared/shared.module';
+import { TargetManagementModule } from '../target-management/target-management.module';
 import { MyTargetListComponent } from './my-target-list/my-target-list.component';
 import { MyTargetComponent } from './my-target.component';
 import { myTargetRoutes } from './my-target.routing';
@@ -44,7 +46,9 @@ import { myTargetRoutes } from './my-target.routing';
     MatExpansionModule,
     MatSortModule,
     MatPaginatorModule,
-    SharedModule
+    MatAutocompleteModule,
+    SharedModule,
+    TargetManagementModule
   ]
 })
 export class MyTargetModule { }

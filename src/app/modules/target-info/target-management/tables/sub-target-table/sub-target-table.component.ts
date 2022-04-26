@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
+import { SubTarget } from 'app/shared/interfaces/document.interface';
+import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { detailExpandAnimation } from 'app/shared/table-animation';
 import { ModalMode } from '../../modals/modal.type';
 import { SubTargetModalComponent } from '../../modals/sub-target-modal/sub-target-modal.component';
-import { SubTarget, SubTargetRecord } from '../../../target.types';
 
 @Component({
   selector: 'app-sub-target-table',
@@ -14,20 +15,21 @@ import { SubTarget, SubTargetRecord } from '../../../target.types';
 })
 export class SubTargetTableComponent implements OnInit {
   @Input() runningNo: string;
-  @Input() targetIndex: string;
-  @Input() subTargets: SubTargetRecord[];
+  @Input() targetId: number;
+  @Input() subTargets: SubTarget[];
+  @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('subTargetTable') subTargetTable: MatTable<SubTarget>;
 
-  expandedSubtargets: SubTargetRecord[] = [];
+  expandedSubtargets: SubTarget[] = [];
 
   displayedColumns: string[] = [
     'expandIcon',
-    'subTargetId',
-    'subTargetName',
-    'index',
+    'priority',
+    'targetDetailDescription',
+    'targetIndex',
     'symbolValue',
-    'unit',
-    'currentValue',
+    'targetUnit',
+    'currentTarget',
     'startMonth',
     'startYear',
     'finishMonth',
@@ -36,52 +38,99 @@ export class SubTargetTableComponent implements OnInit {
     'deleteIcon'
   ];
 
-  constructor(private _matDialog: MatDialog) { }
+  constructor(
+    private _matDialog: MatDialog,
+    private _confirmationService: ConfirmationService
+  ) { }
 
   ngOnInit(): void { }
 
   addSubTarget(): void {
-    // const mockSubTarget = genMockSubTargetRecord();
-    // this.subTargets.push(mockSubTarget);
-    // this.subTargetTable.table.renderRows();
-
     // Open the dialog
     const dialogRef = this._matDialog.open(SubTargetModalComponent, {
       data: {
         mode: ModalMode.ADD,
-        data: undefined
+        data: undefined,
+        index: this.subTargets.length + 1
       }
     });
     dialogRef.afterClosed()
       .subscribe((subTarget: SubTarget) => {
         if (!subTarget) return; // cancel
-        this.subTargets.push({ data: subTarget, kids: { records: [] } });
+        this.subTargets.push({
+          id: 0,
+          priority: subTarget.priority,
+          measureType: subTarget.measureType,
+          targetDetailDescription: subTarget.targetDetailDescription,
+          targetIndex: subTarget.targetIndex,
+          targetOperator: subTarget.targetOperator,
+          targetValue: subTarget.targetValue,
+          targetReferenceValue: subTarget.targetReferenceValue,
+          targetUnit: subTarget.targetUnit,
+          currentTarget: subTarget.currentTarget,
+          startMonth: subTarget.startMonth,
+          startYear: subTarget.startYear,
+          finishMonth: subTarget.finishMonth,
+          finishYear: subTarget.finishYear,
+          markForEdit: false,
+          markForDelete: false,
+          topics: [],
+          plans: []
+        });
         this.subTargetTable.renderRows();
+        this.markForEdit.emit(this.targetId);
       });
   }
 
   editSubTarget(index: number): void {
-    // this.subTargets[index].data.startMonth = 'sfaarandom';
-    // this.subTargetTable.table.renderRows();
-
     // Open the dialog
     const dialogRef = this._matDialog.open(SubTargetModalComponent, {
       data: {
         mode: ModalMode.EDIT,
-        data: this.subTargets[index].data
+        data: this.subTargets[index]
       }
     });
     dialogRef.afterClosed()
       .subscribe((subTarget: SubTarget) => {
         if (!subTarget) return; // cancel
-        this.subTargets[index].data = subTarget;
+        this.subTargets[index].measureType = subTarget.measureType;
+        this.subTargets[index].targetDetailDescription = subTarget.targetDetailDescription;
+        this.subTargets[index].targetIndex = subTarget.targetIndex;
+        this.subTargets[index].targetOperator = subTarget.targetOperator;
+        this.subTargets[index].targetValue = subTarget.targetValue;
+        this.subTargets[index].targetUnit = subTarget.targetUnit;
+        this.subTargets[index].currentTarget = subTarget.currentTarget;
+        this.subTargets[index].targetReferenceValue = subTarget.targetReferenceValue;
+        this.subTargets[index].startMonth = subTarget.startMonth;
+        this.subTargets[index].startYear = subTarget.startYear;
+        this.subTargets[index].finishMonth = subTarget.finishMonth;
+        this.subTargets[index].finishYear = subTarget.finishYear;
+        this.subTargets[index].markForEdit = true;
         this.subTargetTable.renderRows();
+        this.markForEdit.emit(this.targetId);
       });
   }
 
   deleteSubTarget(index: number): void {
-    this.subTargets.splice(index, 1);
-    this.subTargetTable.renderRows();
+    this._confirmationService.delete().afterClosed().subscribe((result) => {
+      if (result == 'confirmed') {
+        if (this.subTargets[index].id === 0) {
+          this.subTargets.splice(index, 1);
+        } else {
+          this.subTargets[index].markForDelete = true;
+        }
+        // reindex
+        let newPriority = 1;
+        for (let subTarget of this.subTargets) {
+          if (!subTarget.markForDelete) {
+            subTarget.priority = newPriority;
+            newPriority++;
+          }
+        }
+        this.subTargetTable.renderRows();
+        this.markForEdit.emit(this.targetId);
+      }
+    });
   }
 
   checkExpanded(element): boolean {
@@ -115,6 +164,12 @@ export class SubTargetTableComponent implements OnInit {
 
   collapseAll() {
     this.expandedSubtargets = [];
+  }
+
+  markForEditHandler(subTargetId: number) {
+    const subTarget = this.subTargets.find(v => v.id === subTargetId);
+    if (subTarget) subTarget.markForEdit = true;
+    this.markForEdit.emit(this.targetId);
   }
 
 }

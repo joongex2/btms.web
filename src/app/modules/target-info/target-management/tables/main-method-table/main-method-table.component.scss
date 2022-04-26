@@ -12,6 +12,14 @@ table {
     color: white !important;
 }
 
+:host ::ng-deep .main-method-table > tbody > tr > td.mat-cell:first-of-type {
+    padding-left: 0;
+}
+
+:host ::ng-deep .main-method-table > tbody > tr > td.mat-cell:last-of-type {
+    padding-right: 0;
+}
+
 /* color */
 p.table-title {
     font-size: 12px;
@@ -31,17 +39,17 @@ p.table-title {
 }
 
 /* column width */
-.mat-column-mainMethodId {
-    width: 5%;
-}
+// .mat-column-mainMethodId {
+//     width: 5%;
+// }
 
 .mat-column-mainMethodDetail {
-    width: 92.5%;
+    width: 100%;
 }
 
-.mat-column-deleteIcon {
-    width: 2.5%;
-}
+// .mat-column-deleteIcon {
+//     width: 2.5%;
+// }
 
 .mat-input-element {
     caret-color: rgb(23, 78, 136) !important;

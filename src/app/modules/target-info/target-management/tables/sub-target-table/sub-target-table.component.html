@@ -11,64 +11,64 @@
             <mat-icon [class.active]="checkExpanded(element)" (click)="pushPopElement(element)">play_arrow</mat-icon>
         </td>
     </ng-container>
-    <ng-container matColumnDef="subTargetId">
+    <ng-container matColumnDef="priority">
         <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{element.data.subTargetId}}
+            {{element.priority}}
         </td>
     </ng-container>
-    <ng-container matColumnDef="subTargetName">
+    <ng-container matColumnDef="targetDetailDescription">
         <th mat-header-cell *matHeaderCellDef>หัวข้อเป้าหมายย่อย</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{element.data.subTargetName}}
+            {{element.targetDetailDescription}}
         </td>
     </ng-container>
-    <ng-container matColumnDef="index">
+    <ng-container matColumnDef="targetIndex">
         <th mat-header-cell *matHeaderCellDef>ดัชนี</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{element.data.index}}
+            {{element.targetIndex}}
         </td>
     </ng-container>
     <ng-container matColumnDef="symbolValue">
         <th mat-header-cell *matHeaderCellDef>ค่าเป้าหมาย</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{ element.data.symbol }}{{ element.data.value }}
+            {{ element.targetOperator }}{{ element.targetValue }}
         </td>
     </ng-container>
-    <ng-container matColumnDef="unit">
+    <ng-container matColumnDef="targetUnit">
         <th mat-header-cell *matHeaderCellDef>หน่วย</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{element.data.unit}}
+            {{element.targetUnit}}
         </td>
     </ng-container>
-    <ng-container matColumnDef="currentValue">
+    <ng-container matColumnDef="currentTarget">
         <th mat-header-cell *matHeaderCellDef>ค่าปัจจุบัน</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{element.data.currentValue}}
+            {{element.currentTarget}}
         </td>
     </ng-container>
     <ng-container matColumnDef="startMonth">
         <th mat-header-cell *matHeaderCellDef>เริ่ม (เดือน)</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{element.data.startMonth | month}}
+            {{element.startMonth | month}}
         </td>
     </ng-container>
     <ng-container matColumnDef="startYear">
         <th mat-header-cell *matHeaderCellDef>เริ่ม (ปี)</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{element.data.startYear}}
+            {{element.startYear}}
         </td>
     </ng-container>
     <ng-container matColumnDef="finishMonth">
         <th mat-header-cell *matHeaderCellDef>เสร็จ (เดือน)</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{element.data.finishMonth | month}}
+            {{element.finishMonth | month}}
         </td>
     </ng-container>
     <ng-container matColumnDef="finishYear">
         <th mat-header-cell *matHeaderCellDef>เสร็จ (ปี)</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{element.data.finishYear}}
+            {{element.finishYear}}
         </td>
     </ng-container>
     <ng-container matColumnDef="editIcon">
@@ -90,15 +90,21 @@
                 <div class="w-full">
                     <app-main-method-table
                         [runningNo]="runningNo"
-                        [targetIndex]="targetIndex"
-                        [subTargetIndex]="i"
-                        [mainMethods]="element.kids.records">
+                        [targetId]="targetId"
+                        [subTargetId]="element.id"
+                        [mainMethods]="[{}]"
+                        [topics]="element?.topics"
+                        [plans]="element?.plans"
+                        [targetOperator]="element?.targetOperator"
+                        [targetValue]="element?.targetValue"  
+                        (markForEdit)="markForEditHandler($event)" 
+                    >
                     </app-main-method-table>
                 </div>
             </div>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="normal-row"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['expandedDetail'];" class="expand-row"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.hidden]="row.markForDelete" class="normal-row"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail'];" [class.hidden]="row.markForDelete" class="expand-row"></tr>
 </table>

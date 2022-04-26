@@ -29,4 +29,16 @@ export class ConfirmationService {
             }
         });
     }
+
+    warning(title: string) {
+        return this._fuseConfirmationService.open({
+            title,
+            message: '',
+            icon: { name: 'heroicons_outline:exclamation', color: 'warning' },
+            actions: {
+                cancel: { show: false },
+                confirm: { show: true, label: 'ตกลง', color: 'accent' }
+            }
+        });
+    }
 }

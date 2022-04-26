@@ -55,8 +55,8 @@ export class OrganizationModalComponent implements OnInit {
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
     this.organization = this.modalData.data;
-    const code = this.isEdit ? this.organization.code : '';
-    const name = this.isEdit ? this.organization.name : '';
+    const code = this.isEdit ? this.organization.organizeCode : '';
+    const name = this.isEdit ? this.organization.organizeName : '';
     const isActive = this.isEdit ? this.organization.isActive : false;
 
     this.organizationForm = this._formBuilder.group({
@@ -72,10 +72,10 @@ export class OrganizationModalComponent implements OnInit {
     this._masterService.getMasters().subscribe({
       next: (masters: Master[]) => {
         // TODO: not sure can load type from api
-        this.businessCodes = masters.filter((master) => master.type == 'BNU').map((master) => ({ title: master.code, value: master.code }));
-        this.subBusinessCodes = masters.filter((master) => master.type == 'SBU').map((master) => ({ title: master.code, value: master.code }));
-        this.plantCodes = masters.filter((master) => master.type == 'PLT').map((master) => ({ title: master.code, value: master.code }));
-        this.divisionCodes = masters.filter((master) => master.type == 'DIV').map((master) => ({ title: master.code, value: master.code }));
+        this.businessCodes = masters.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
+        this.subBusinessCodes = masters.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
+        this.plantCodes = masters.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.code, value: master.code }));
+        this.divisionCodes = masters.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.code, value: master.code }));
         const businessCode = this.isEdit ? this.organization.businessCode : undefined;
         const subBusinessCode = this.isEdit ? this.organization.subBusinessCode : undefined;
         const plantCode = this.isEdit ? this.organization.plantCode : undefined;

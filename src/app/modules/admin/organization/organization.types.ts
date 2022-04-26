@@ -1,7 +1,7 @@
 export interface Organization {
     id: number;
-    code: string;
-    name: string;
+    organizeCode: string;
+    organizeName: string;
     businessCode: string;
     subBusinessCode: string;
     plantCode: string;

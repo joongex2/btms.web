@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
+import { Plan, Topic } from 'app/shared/interfaces/document.interface';
 import { MainMethod, MainMethodRecord } from '../../../target.types';
 import { genMockMainMethodRecord } from '../mock-table-data';
 
@@ -10,15 +11,20 @@ import { genMockMainMethodRecord } from '../mock-table-data';
 })
 export class MainMethodTableComponent implements OnInit {
   @Input() runningNo: string;
-  @Input() targetIndex: string;
-  @Input() subTargetIndex: string;
+  @Input() targetId: number;
+  @Input() subTargetId: number;
   @Input() mainMethods: MainMethodRecord[];
+  @Input() topics: Topic[];
+  @Input() plans: Plan[];
+  @Input() targetOperator: string;
+  @Input() targetValue: string;
+  @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('mainMethodTable') mainMethodTable: MatTable<MainMethod>;
 
   displayedColumns: string[] = [
-    'mainMethodId',
+    // 'mainMethodId',
     'mainMethodDetail',
-    'deleteIcon'
+    // 'deleteIcon'
   ];
 
   constructor() { }
@@ -27,12 +33,16 @@ export class MainMethodTableComponent implements OnInit {
 
   addMainMethod(): void {
     const mockMainMethod = genMockMainMethodRecord();
-    this.mainMethods.push(mockMainMethod);
+    // this.mainMethods.push(mockMainMethod);
     this.mainMethodTable.renderRows();
   }
 
   deleteMainMethod(index: number): void {
-    this.mainMethods.splice(index, 1);
+    // this.mainMethods.splice(index, 1);
     this.mainMethodTable.renderRows();
+  }
+
+  markForEditHandler(subTargetId: number) {
+    this.markForEdit.emit(subTargetId);
   }
 }

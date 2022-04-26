@@ -18,53 +18,53 @@
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
             <mat-label>ลำดับที่</mat-label>
-            <input matInput [formControlName]="'subTargetId'">
+            <input matInput [formControlName]="'priority'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
-            <mat-label>Standard</mat-label>
-            <mat-select>
-                <mat-option *ngFor="let standard of standards" [value]="standard.value">{{standard.title}}</mat-option>
+            <mat-label>ประเภทการวัดผล</mat-label>
+            <mat-select [formControlName]="'measureType'">
+                <mat-option *ngFor="let measureType of measureTypes" [value]="measureType.value">{{measureType.title}}</mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-form-field class="fuse-mat-textarea flex-auto">
             <mat-label>หัวข้อเป้าหมายย่อย</mat-label>
-            <textarea matInput [formControlName]="'subTargetName'" [rows]="3" matTextareaAutosize></textarea>
+            <textarea matInput [formControlName]="'targetDetailDescription'" [rows]="3" matTextareaAutosize></textarea>
         </mat-form-field>
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
             <mat-label>ดัชนี</mat-label>
-            <input matInput [formControlName]="'index'">
+            <input matInput [formControlName]="'targetIndex'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
         <div class="flex flex-col sm:flex-row flex-auto gt-xs:pr-3 gap-4">
             <mat-form-field class="flex-auto">
                 <mat-label>ค่าเป้าหมาย</mat-label>
-                <mat-select [formControlName]="'symbol'">
+                <mat-select [formControlName]="'targetOperator'">
                     <mat-option *ngFor="let symbol of symbols" [value]="symbol.value">{{symbol.title}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field class="flex-auto sm:mt-6">
-                <input matInput [formControlName]="'value'" name="value" appIntegerOnly>
+                <input matInput [formControlName]="'targetValue'" name="targetValue" appIntegerOnly>
                 <div class="copy-fields-toggles" matSuffix></div>
             </mat-form-field>
         </div>
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
             <mat-label>หน่วย</mat-label>
-            <input matInput [formControlName]="'unit'">
+            <input matInput [formControlName]="'targetUnit'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>ค่าปัจจุบัน</mat-label>
-            <input matInput [formControlName]="'currentValue'">
+            <input matInput [formControlName]="'currentTarget'">
             <div class="copy-fields-toggles" matSuffix></div>
             <mat-label>ข้อมูลอ้างอิง</mat-label>
-            <input matInput>
+            <input matInput [formControlName]="'targetReferenceValue'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 

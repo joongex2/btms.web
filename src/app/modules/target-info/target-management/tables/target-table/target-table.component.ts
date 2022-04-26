@@ -1,11 +1,15 @@
-import { Component, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { detailExpandAnimation } from 'app/shared/table-animation';
 import { ModalMode } from '../../modals/modal.type';
 import { TargetModalComponent } from '../../modals/target-modal/target-modal.component';
-import { Target, TargetRecord } from '../../../target.types';
+import { TargetRecord } from '../../../target.types';
 import { SubTargetTableComponent } from '../sub-target-table/sub-target-table.component';
+import { Target } from 'app/shared/interfaces/document.interface';
+import { LookupService } from 'app/shared/services/lookup.service';
+import { Lookup } from 'app/shared/interfaces/lookup.interface';
+import { ConfirmationService } from 'app/shared/services/confirmation.service';
 
 @Component({
   selector: 'app-target-table',
@@ -15,27 +19,47 @@ import { SubTargetTableComponent } from '../sub-target-table/sub-target-table.co
 })
 export class TargetTableComponent implements OnInit {
   @Input() runningNo: string;
-  @Input() targets: TargetRecord[];
-
+  @Input() documentId: number;
+  @Input() targets: Target[] = [];
+  @Input() selectedDocumentType: string;
+  @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChildren(SubTargetTableComponent) subTargetTables: QueryList<SubTargetTableComponent>;
   @ViewChild('targetTable') targetTable: MatTable<Target>;
 
   displayedColumns: string[] = [
     'expandIcon',
-    'targetId',
-    'name',
-    'standard',
-    'relativeTarget',
+    'priority',
+    'targetName',
+    'standardCode',
+    'targetMission',
     'editIcon',
     'deleteIcon'
   ];
-  expandedTargets: TargetRecord[] = [];
+  expandedTargets: Target[] = [];
+
+  standards: any[];
+  kpiMissions: any[];
 
   constructor(
-    private _matDialog: MatDialog
+    private _matDialog: MatDialog,
+    private _lookupService: LookupService,
+    private _confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit(): void {
+    this._lookupService.getLookups('STANDARD', this.selectedDocumentType).subscribe({
+      next: (lookups: Lookup[]) => {
+        this.standards = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+      },
+      error: (e) => console.error(e)
+    });
+
+    this._lookupService.getLookups('KPI_MISSION').subscribe({
+      next: (lookups: Lookup[]) => {
+        this.kpiMissions = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+      },
+      error: (e) => console.error(e)
+    });
   }
 
   checkExpanded(element): boolean {
@@ -61,6 +85,18 @@ export class TargetTableComponent implements OnInit {
     }
   }
 
+  checkExpandAll(): boolean {
+    return this.targets.length > 0 && this.expandedTargets.length == this.targets.length;
+  }
+
+  expandOrCollapseAll() {
+    if (this.checkExpandAll()) {
+      this.collapseAll();
+    } else {
+      this.expandAll();
+    }
+  }
+
   expandAll() {
     for (let target of this.targets) {
       if (this.expandedTargets.indexOf(target) === -1) this.expandedTargets.push(target);
@@ -78,46 +114,84 @@ export class TargetTableComponent implements OnInit {
   }
 
   addTarget(): void {
-    // const mockTarget = genMockTargetRecord();
-    // this.targets.push(mockTarget);
-    // this.targetTable.table.renderRows();
-
+    if (!this.selectedDocumentType) {
+      this._confirmationService.warning('กรุณาเลือก ประเภทเป้าหมายก่อน');
+      return;
+    }
     // Open the dialog
     const dialogRef = this._matDialog.open(TargetModalComponent, {
       data: {
         mode: ModalMode.ADD,
-        data: undefined
+        data: undefined,
+        standards: this.standards,
+        kpiMissions: this.kpiMissions,
+        index: this.targets.length + 1
       }
     });
     dialogRef.afterClosed()
       .subscribe((target: Target) => {
         if (!target) return; // cancel
-        this.targets.push({ data: target, kids: { records: [] } });
+        this.targets.push({
+          id: 0,
+          standardCode: target.standardCode,
+          priority: target.priority,
+          targetName: target.targetName,
+          targetMission: target.targetMission,
+          markForEdit: false,
+          markForDelete: false,
+          details: []
+        });
         this.targetTable.renderRows();
       });
   }
 
   editTarget(index: number): void {
-    // this.targets[index].data.name = 'edit22';
-    // this.targetTable.table.renderRows();
-
     // Open the dialog
     const dialogRef = this._matDialog.open(TargetModalComponent, {
       data: {
         mode: ModalMode.EDIT,
-        data: this.targets[index].data
+        data: this.targets[index],
+        standards: this.standards,
+        kpiMissions: this.kpiMissions
       }
     });
     dialogRef.afterClosed()
       .subscribe((target: Target) => {
         if (!target) return; // cancel
-        this.targets[index].data = target;
+        this.targets[index].standardCode = target.standardCode,
+        this.targets[index].targetName = target.targetName,
+        this.targets[index].targetMission = target.targetMission,
+        this.targets[index].markForEdit = true;
         this.targetTable.renderRows();
+        this.markForEdit.emit(this.documentId);
       });
   }
 
   deleteTarget(index: number): void {
-    this.targets.splice(index, 1);
-    this.targetTable.renderRows();
+    this._confirmationService.delete().afterClosed().subscribe((result) => {
+      if (result == 'confirmed') {
+        if (this.targets[index].id === 0) {
+          this.targets.splice(index, 1);
+        } else {
+          this.targets[index].markForDelete = true;
+        }
+        // reindex
+        let newPriority = 1;
+        for (let target of this.targets) {
+          if (!target.markForDelete) {
+            target.priority = newPriority;
+            newPriority++;
+          }
+        }    
+        this.targetTable.renderRows();
+        this.markForEdit.emit(this.documentId);
+      }
+    });
+  }
+
+  markForEditHandler(targetId: number) {
+    const target = this.targets.find(v => v.id === targetId);
+    if (target) target.markForEdit = true;
+    this.markForEdit.emit(this.documentId);
   }
 }

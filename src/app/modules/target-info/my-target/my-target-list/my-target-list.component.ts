@@ -27,13 +27,13 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
   documents: Document[];
 
   // bind value
-  selectedOrganize: string;
-  selectedBu: string;
-  selectedSubBu: string;
-  selectedPlant: string;
-  selectedDivision: string;
-  selectedStatus: string;
-  selectedDocumentType: string;
+  selectedOrganize: any;
+  selectedBu: any;
+  selectedSubBu: any;
+  selectedPlant: any;
+  selectedDivision: any;
+  selectedStatus: any;
+  selectedDocumentType: any;
   documentNo: string;
   documentYear: string;
 
@@ -45,6 +45,13 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
   divisions: any[] = [];
   statuses: any[] = [];
   documentTypes: any[] = [];
+  filteredOrganizes: any[] = [];
+  filteredBus: any[] = [];
+  filteredSubBus: any[] = [];
+  filteredPlants: any[] = [];
+  filteredDivisions: any[] = [];
+  filteredStatuses: any[] = [];
+  filteredDocumentTypes: any[] = [];
 
   // table setting
   displayedColumns: string[] = [
@@ -88,55 +95,46 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    const organizes = this._activatedRoute.snapshot.data.organizes;
+    const statuses = this._activatedRoute.snapshot.data.statuses;
+    const documentTypes = this._activatedRoute.snapshot.data.documentTypes;
+    const bus = this._activatedRoute.snapshot.data.bus;
+    const subBus = this._activatedRoute.snapshot.data.subBus;
+    const plants = this._activatedRoute.snapshot.data.plants;
+    const divisions = this._activatedRoute.snapshot.data.divisions;
+
+    this.organizes = organizes.map((org) => ({ title: org.organizeName, value: org.organizeCode }));
+    this.filteredOrganizes = organizes.map((org) => ({ title: org.organizeName, value: org.organizeCode }));
+    this.statuses = statuses.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+    this.filteredStatuses = statuses.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+    this.documentTypes = documentTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+    this.filteredDocumentTypes = documentTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+    this.bus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
+    this.filteredBus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
+    this.subBus = subBus.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
+    this.filteredSubBus = subBus.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
+    this.plants = plants.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.name, value: master.code }));
+    this.filteredPlants = plants.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.name, value: master.code }));
+    this.divisions = divisions.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.name, value: master.code }));
+    this.filteredDivisions = divisions.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.name, value: master.code }));
+
     const params = (this._activatedRoute.snapshot.queryParamMap as any).params;
     if (params.expand === 'true') setTimeout(() => this.matExpansionPanel.open());
     const page = params.page ? parseInt(params.page) : 1;
     const size = params.size ? parseInt(params.size) : this.defaultPageSize;
     const sort = params.sort || undefined;
     const order = params.order || undefined;
-    this.selectedOrganize = params.OrganizeCode || '';
-    this.selectedBu = params.BusinessUnitCode || '';
-    this.selectedSubBu = params.SubBusinessUnitCode || '';
-    this.selectedPlant = params.PlantCode || '';
-    this.selectedDivision = params.DivisionCode || '';
+    this.selectedOrganize = this.organizes.find((v) => v.value === params.OrganizeCode) || '';
+    this.selectedBu = this.bus.find((v) => v.value === params.BusinessUnitCode) || '';
+    this.selectedSubBu = this.subBus.find((v) => v.value === params.SubBusinessUnitCode) || '';
+    this.selectedPlant = this.plants.find((v) => v.value === params.PlantCode) || '';
+    this.selectedDivision = this.divisions.find((v) => v.value === params.DivisionCode) || '';
     this.documentNo = params.DocumentNo || undefined;
     this.documentYear = params.DocumentYear || undefined;
-    this.selectedStatus = params.DocumentStatus || '';
-    this.selectedDocumentType = params.DocumentType || '';
+    this.selectedStatus = this.statuses.find((v) => v.value === params.DocumentStatus) || '';
+    this.selectedDocumentType = this.documentTypes.find((v) => v.value === params.DocumentType) || '';
 
     this.loadDocuments(page, size, sort, order, this.getDocumentParams());
-
-    // load select
-    this._organizationService.getOrganizations().subscribe({
-      next: (organizations: Organization[]) => {
-        this.organizes = organizations.map((org) => ({ title: org.code, value: org.code }));
-      },
-      error: (e) => console.log(e)
-    });
-
-    this._masterService.getMasters().subscribe({
-      next: (masters: Master[]) => {
-        this.bus = masters.filter((master) => master.type == 'BNU').map((master) => ({ title: master.name, value: master.code }));
-        this.subBus = masters.filter((master) => master.type == 'SBU').map((master) => ({ title: master.name, value: master.code }));
-        this.plants = masters.filter((master) => master.type == 'PLT').map((master) => ({ title: master.name, value: master.code }));
-        this.divisions = masters.filter((master) => master.type == 'DIV').map((master) => ({ title: master.name, value: master.code }));
-      },
-      error: (e) => console.log(e)
-    });
-
-    this._lookupService.getLookups('STATUS').subscribe({
-      next: (lookups: Lookup[]) => {
-        this.statuses = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
-      },
-      error: (e) => console.error(e)
-    });
-
-    this._lookupService.getLookups('DOCUMENT_TYPE').subscribe({
-      next: (lookups: Lookup[]) => {
-        this.documentTypes = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
-      },
-      error: (e) => console.error(e)
-    });
   }
 
   ngAfterViewInit() {
@@ -156,6 +154,45 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
     });
   }
 
+  organizeFilter(value: any) {
+    const filterValue = typeof value === 'string' ? value : value.title;
+    this.filteredOrganizes = this.organizes.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
+  }
+
+  buFilter(value: any) {
+    const filterValue = typeof value === 'string' ? value : value.title;
+    this.filteredBus = this.bus.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
+  }
+
+  subBuFilter(value: any) {
+    const filterValue = typeof value === 'string' ? value : value.title;
+    this.filteredSubBus = this.subBus.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
+  }
+
+  plantFilter(value: any) {
+    const filterValue = typeof value === 'string' ? value : value.title;
+    this.filteredPlants = this.plants.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
+  }
+
+  divisionFilter(value: any) {
+    const filterValue = typeof value === 'string' ? value : value.title;
+    this.filteredDivisions = this.divisions.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
+  }
+
+  statusFilter(value: any) {
+    const filterValue = typeof value === 'string' ? value : value.title;
+    this.filteredStatuses = this.statuses.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
+  }
+
+  documentTypeFilter(value: any) {
+    const filterValue = typeof value === 'string' ? value : value.title;
+    this.filteredDocumentTypes = this.documentTypes.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
+  }
+
+  displayFn(value: any): string {
+    return value && value.title ? value.title : '';
+  }
+
   search() {
     const documentParams = this.getDocumentParams();
     this.loadDocuments(1, this.paginator.pageSize, this.sort.active, this.sort.direction, documentParams);
@@ -173,16 +210,24 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
 
   getDocumentParams(): DocumentParams {
     const filter = new DocumentParams();
-    filter.OrganizeCode = this.selectedOrganize ? this.selectedOrganize : undefined;
-    filter.BusinessUnitCode = this.selectedBu ? this.selectedBu : undefined;
-    filter.SubBusinessUnitCode = this.selectedSubBu ? this.selectedSubBu : undefined;
-    filter.PlantCode = this.selectedPlant ? this.selectedPlant : undefined;
-    filter.DivisionCode = this.selectedDivision ? this.selectedDivision : undefined;
+    filter.OrganizeCode = this.getOptionValue(this.selectedOrganize);
+    filter.BusinessUnitCode = this.getOptionValue(this.selectedBu);
+    filter.SubBusinessUnitCode = this.getOptionValue(this.selectedSubBu);
+    filter.PlantCode = this.getOptionValue(this.selectedPlant);
+    filter.DivisionCode = this.getOptionValue(this.selectedDivision);
     filter.DocumentNo = this.documentNo ? this.documentNo : undefined;
     filter.DocumentYear = this.documentYear ? this.documentYear : undefined;
-    filter.DocumentStatus = this.selectedStatus ? this.selectedStatus : undefined;
-    filter.DocumentType = this.selectedDocumentType ? this.selectedDocumentType : undefined;
+    filter.DocumentStatus = this.getOptionValue(this.selectedStatus);
+    filter.DocumentType = this.getOptionValue(this.selectedDocumentType);
     return filter;
+  }
+
+  getOptionValue(selectedOption: any) {
+    if (typeof selectedOption === 'string') {
+      return selectedOption ? selectedOption : undefined;
+    } else {
+      return selectedOption.value ? selectedOption.value : undefined;
+    }
   }
 
   getClearDocumentParams(): DocumentParams {

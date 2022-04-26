@@ -11,8 +11,8 @@ export class LookupService {
     constructor(private _httpClient: HttpClient) { }
 
     getLookups(type?: string, code?: string): Observable<any> {
-        const _type = type ? `type=${type}` : '';
-        const _code = code ? `code=${code}` : '';
+        const _type = type ? `lookupType=${type}` : '';
+        const _code = code ? `lookupCode=${code}` : '';
         const queryParams = [_type, _code].filter((q) => q != '');
         let queryString = queryParams.filter((q) => q != '').join('&');
         if (queryString) queryString = `?${queryString}`;

@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { getBaseUrl } from "app/shared/helpers/get-base-url";
 import { ResultMapper } from "app/shared/interfaces/result-mapper.interface";
 import { map, Observable } from "rxjs";
-import { DocumentParams } from "../interfaces/document.interface";
+import { DocumentParams, Target } from "../interfaces/document.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -12,22 +12,26 @@ export class DocumentService {
     constructor(private _httpClient: HttpClient) { }
 
     createDocument(
+        id: number,
         organizeCode: string,
         businessUnitCode: string,
         subBusinessUnitCode: string,
         plantCode: string,
         divisionCode: string,
         documentType: string,
-        documentYear: string
+        documentYear: string,
+        targets: Target[]
     ): Observable<any> {
         return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Documents'), {
+            id,
             organizeCode,
             businessUnitCode,
             subBusinessUnitCode,
             plantCode,
             divisionCode,
             documentType,
-            documentYear
+            documentYear,
+            targets
         });
     }
 

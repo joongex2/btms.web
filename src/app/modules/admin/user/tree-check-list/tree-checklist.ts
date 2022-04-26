@@ -251,9 +251,9 @@ export class TreeChecklistComponent implements OnInit {
     ngOnInit() {
         this._organizationService.getOrganizations().subscribe({
             next: (v: Organization[]) => {
-                this.organizations = v.map((v) => ({ title: v.code, value: v.code }));
+                this.organizations = v.map((v) => ({ title: v.organizeName, value: v.organizeCode }));
                 this.organizeCodeNameMapper = v.reduce((prev, cur) => {
-                    prev[cur.code] = `${cur.code}: ${cur.name}`;
+                    prev[cur.organizeCode] = `${cur.organizeCode}: ${cur.organizeName}`;
                     return prev;
                 }, {});
             },

@@ -15,23 +15,25 @@ export class PlanModalComponent implements OnInit {
   planForm: FormGroup;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public modalData: ModalData,
+    @Inject(MAT_DIALOG_DATA) public modalData: any,
     public matDialogRef: MatDialogRef<PlanModalComponent>,
     private _formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
-    const planName = this.isEdit ? this.modalData.data.planName : genRandomNumberString();
-    const planActualSelect = this.isEdit ? moment(this.modalData.data.planActual, 'YYYY-MM-DD') : moment();
-    const planResource = this.isEdit ? this.modalData.data.planResource : '';
-    const planOwner = this.isEdit ? this.modalData.data.planOwner : '';
+    const priority = this.isEdit ? this.modalData.data.priority : this.modalData.index;
+    const planDescription = this.isEdit ? this.modalData.data.planDescription : '';
+    const planTargetDateSelect = this.isEdit ? moment(this.modalData.data.planTargetDate, 'YYYY-MM-DD') : moment();
+    const resource = this.isEdit ? this.modalData.data.resource : '';
+    const undertaker = this.isEdit ? this.modalData.data.undertaker : '';
 
     this.planForm = this._formBuilder.group({
-      planName: [planName],
-      planActualSelect: [planActualSelect],
-      planResource: [planResource, [Validators.required]],
-      planOwner: [planOwner]
+      priority: [{ value: priority, disabled: true }, [Validators.required]],
+      planDescription: [planDescription],
+      planTargetDateSelect: [planTargetDateSelect],
+      resource: [resource, [Validators.required]],
+      undertaker: [undertaker]
     });
   }
 
@@ -47,7 +49,7 @@ export class PlanModalComponent implements OnInit {
     const planForm = this.planForm.getRawValue();
     this.matDialogRef.close({
       ...planForm,
-      planActual: planForm.planActualSelect.format('YYYY-MM-DD')
+      planTargetDate: planForm.planTargetDateSelect.format('YYYY-MM-DD')
     })
   }
 }

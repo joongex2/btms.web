@@ -18,25 +18,25 @@
 
         <mat-form-field>
             <mat-label>ลำดับที่</mat-label>
-            <input matInput [formControlName]="'targetId'">
+            <input matInput [formControlName]="'priority'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
         <mat-form-field class="fuse-mat-textarea flex-auto">
             <mat-label>หัวข้อเป้าหมาย</mat-label>
-            <textarea matInput [rows]="3" matTextareaAutosize [formControlName]="'name'"></textarea>
+            <textarea matInput [rows]="3" matTextareaAutosize [formControlName]="'targetName'"></textarea>
         </mat-form-field>
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
             <mat-label>Standard</mat-label>
-            <mat-select [formControlName]="'standard'">
+            <mat-select [formControlName]="'standardCode'">
                 <mat-option *ngFor="let standard of standards" [value]="standard.value">{{standard.title}}</mat-option>
             </mat-select>
         </mat-form-field>
         
         <mat-form-field class="flex-auto gt-xs:pr-3">
             <mat-label>พันธะมุ่งหมาย</mat-label>
-            <mat-select [formControlName]="'relativeTarget'">
+            <mat-select [formControlName]="'targetMission'">
                 <mat-option *ngFor="let relativeTarget of relativeTargets" [value]="relativeTarget.value">{{relativeTarget.title}}</mat-option>
             </mat-select>
         </mat-form-field>

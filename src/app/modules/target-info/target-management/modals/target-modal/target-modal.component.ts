@@ -12,35 +12,30 @@ import { ModalData, ModalMode } from '../modal.type';
 export class TargetModalComponent implements OnInit {
   isEdit: boolean = false;
   targetForm: FormGroup;
-  standards: any[] = [
-    { title: 'Standard 1', value: 'standard-1' },
-    { title: 'Standard 2', value: 'standard-2' },
-    { title: 'Standard 3', value: 'standard-3' }
-  ];
-  relativeTargets: any[] = [
-    { title: 'Relative Target-1', value: 'relative-target-1' },
-    { title: 'Relative Target-2', value: 'relative-target-2' },
-    { title: 'Relative Target-3', value: 'relative-target-3' }
-  ];
+  standards: any[];
+  relativeTargets: any[];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public modalData: ModalData,
+    @Inject(MAT_DIALOG_DATA) public modalData: any,
     public matDialogRef: MatDialogRef<TargetModalComponent>,
     private _formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
+    this.standards = this.modalData.standards;
+    this.relativeTargets = this.modalData.kpiMissions;
+
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
-    const targetId = this.isEdit ? this.modalData.data.targetId : genRandomNumberString();
-    const name = this.isEdit ? this.modalData.data.name : '';
-    const standard = this.isEdit ? this.modalData.data.standard : '';
-    const relativeTarget = this.isEdit ? this.modalData.data.relativeTarget : '';
+    const priority = this.isEdit ? this.modalData.data.priority : this.modalData.index;
+    const targetName = this.isEdit ? this.modalData.data.targetName : '';
+    const standardCode = this.isEdit ? this.modalData.data.standardCode : '';
+    const targetMission = this.isEdit ? this.modalData.data.targetMission : '';
 
     this.targetForm = this._formBuilder.group({
-      targetId: [{ value: targetId, disabled: true }, [Validators.required]],
-      name: [name, [Validators.required]],
-      standard: [standard, [Validators.required]],
-      relativeTarget: [relativeTarget, [Validators.required]]
+      priority: [{ value: priority, disabled: true }, [Validators.required]],
+      targetName: [targetName, [Validators.required]],
+      standardCode: [standardCode, [Validators.required]],
+      targetMission: [targetMission, [Validators.required]]
     });
   }
 

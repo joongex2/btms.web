@@ -8,8 +8,10 @@
     <table mat-table [dataSource]="targets" multiTemplateDataRows #targetTable>
         <ng-container matColumnDef="expandIcon">
             <th mat-header-cell *matHeaderCellDef>
-                <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-down" (click)="expandAll()"></mat-icon>
-                <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-up" (click)="collapseAll()"></mat-icon>
+                <mat-icon [class.active]="checkExpandAll()" class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-right"
+                                    (click)="expandOrCollapseAll()"></mat-icon>
+                <!-- <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-down" (click)="expandAll()"></mat-icon>
+                <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-up" (click)="collapseAll()"></mat-icon> -->
             </th>
             <td mat-cell *matCellDef="let element; let i = dataIndex">
                 <div class="flex items-center">
@@ -17,28 +19,28 @@
                 </div>
             </td>
         </ng-container>
-        <ng-container matColumnDef="targetId">
+        <ng-container matColumnDef="priority">
             <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
             <td mat-cell *matCellDef="let element; let i = dataIndex">
-                {{element.data.targetId}}
+                {{element.priority}}
             </td>
         </ng-container>
-        <ng-container matColumnDef="name">
+        <ng-container matColumnDef="targetName">
             <th mat-header-cell *matHeaderCellDef>หัวข้อเป้าหมาย</th>
             <td mat-cell *matCellDef="let element; let i = dataIndex">
-                {{element.data.name}}
+                {{element.targetName}}
             </td>
         </ng-container>
-        <ng-container matColumnDef="standard">
+        <ng-container matColumnDef="standardCode">
             <th mat-header-cell *matHeaderCellDef>Standard</th>
             <td mat-cell *matCellDef="let element; let i = dataIndex">
-                {{element.data.standard}}
+                {{element.standardCode}}
             </td>
         </ng-container>
-        <ng-container matColumnDef="relativeTarget">
+        <ng-container matColumnDef="targetMission">
             <th mat-header-cell *matHeaderCellDef>พันธะมุ่งหมาย</th>
             <td mat-cell *matCellDef="let element; let i = dataIndex">
-                {{element.data.relativeTarget}}
+                {{element.targetMission}}
             </td>
         </ng-container>
         <ng-container matColumnDef="editIcon">
@@ -64,8 +66,9 @@
                     <div class="w-full">
                         <app-sub-target-table
                             [runningNo]="runningNo" 
-                            [targetIndex]="i"
-                            [subTargets]="element.kids.records"
+                            [targetId]="element.id"
+                            [subTargets]="element.details"
+                            (markForEdit)="markForEditHandler($event)" 
                         >
                         </app-sub-target-table>
                     </div>
@@ -73,8 +76,8 @@
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="normal-row"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['expandedDetail'];" class="expand-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.hidden]="row.markForDelete" class="normal-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail'];" [class.hidden]="row.markForDelete" class="expand-row"></tr>
     </table>
 </div>
 

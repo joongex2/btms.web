@@ -16,9 +16,15 @@
         class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
         [formGroup]="planForm">
 
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>ลำดับที่</mat-label>
+            <input matInput [formControlName]="'priority'">
+            <div class="copy-fields-toggles" matSuffix></div>
+        </mat-form-field>
+
         <mat-form-field>
             <mat-label>Plan</mat-label>
-            <input matInput [formControlName]="'planName'">
+            <input matInput [formControlName]="'planDescription'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
@@ -33,7 +39,7 @@
                 matInput
                 [matDatepicker]="planActualDatepicker"
                 datePickerFormat="L"
-                [formControlName]="'planActualSelect'"
+                [formControlName]="'planTargetDateSelect'"
                 [placeholder]="'กำหนดเสร็จ'">
             <mat-datepicker-toggle
                 matSuffix
@@ -45,7 +51,7 @@
 
         <mat-form-field>
             <mat-label>ทรัพยากรที่ต้องการ</mat-label>
-            <input matInput [formControlName]="'planResource'">
+            <input matInput [formControlName]="'resource'">
             <div class="copy-fields-toggles" matSuffix></div>
             <mat-error>
                 ทรัพยากรที่ต้องการ is required
@@ -54,7 +60,7 @@
 
         <mat-form-field>
             <mat-label>ผู้รับผิดชอบ</mat-label>
-            <input matInput [formControlName]="'planOwner'">
+            <input matInput [formControlName]="'undertaker'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 

@@ -22,8 +22,9 @@ export class MasterService {
         }).pipe(map(data => data.model));
     }
 
-    getMasters(): Observable<any> {
-        return this._httpClient.get<ResultMapper>(getBaseUrl('/v1/Masters')).pipe(map(data => data.model));
+    getMasters(masterType?: string): Observable<any> {
+        const queryString = masterType ? `?masterType=${masterType}` : '';
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Masters${queryString}`)).pipe(map(data => data.model));
     }
 
     getMaster(id: number): Observable<any> {

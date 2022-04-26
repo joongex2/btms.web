@@ -19,14 +19,14 @@
         <!-- To -->
         <mat-form-field>
             <mat-label>ลำดับที่</mat-label>
-            <input matInput [formControlName]="'methodId'">
+            <input matInput [formControlName]="'priority'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
         <!-- Subject -->
         <mat-form-field class="fuse-mat-textarea flex-auto">
             <mat-label>แผนงาน/รายละเอียด</mat-label>
-            <textarea matInput [formControlName]="'methodName'" [rows]="5" matTextareaAutosize></textarea>
+            <textarea matInput [formControlName]="'planDescription'" [rows]="5" matTextareaAutosize></textarea>
         </mat-form-field>
 
         <div class="flex flex-0 flex-col sm:flex-row sm:items-center sm:space-x-4 sm:justify-between">
@@ -82,7 +82,7 @@
 
         <mat-form-field>
             <mat-label>ผู้รับผิดชอบ (ตำแหน่งงาน)</mat-label>
-            <input matInput [formControlName]="'owner'">
+            <input matInput [formControlName]="'undertaker'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 

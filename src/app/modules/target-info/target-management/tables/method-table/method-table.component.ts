@@ -1,11 +1,13 @@
-import { ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatTable } from '@angular/material/table';
+import { Plan } from 'app/shared/interfaces/document.interface';
+import { ConfirmationService } from 'app/shared/services/confirmation.service';
+import { TargetService } from '../../../target.service';
+import { Method, ResultRecord } from '../../../target.types';
 import { MethodModalComponent } from '../../modals/method-modal/method-modal.component';
 import { ModalMode } from '../../modals/modal.type';
-import { TargetService } from '../../../target.service';
-import { Method, MethodRecord, ResultRecord, SubTarget } from '../../../target.types';
 
 @Component({
   selector: 'app-method-table',
@@ -14,18 +16,35 @@ import { Method, MethodRecord, ResultRecord, SubTarget } from '../../../target.t
 })
 export class MethodTableComponent implements OnInit {
   @Input() runningNo: string;
-  @Input() targetIndex: string;
-  @Input() subTargetIndex: string;
+  @Input() targetId: number;
+  @Input() subTargetId: number;
   @Input() mainMethodIndex: string;
-  @Input() methods: MethodRecord[];
+  // @Input() methods: Plan[];
+  _methods: Plan[];
+  get methods(): Plan[] {
+    return this._methods;
+  }
+  @Input() set methods(value: Plan[]) {
+    this._methods = value;
+    if (value.length > 0) {
+      this.remappingYear();
+      this.selectedYear = this.years[0];
+      this.yearChange(this.selectedYear);
+    }
+  }
+  @Input() targetOperator: string;
+  @Input() targetValue: string;
+  @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('methodTable') methodTable: MatTable<Method>;
   @ViewChildren('yearSelect') yearSelects: QueryList<MatSelect>;
 
+  selectedYear: number;
+  selectedMethod: Plan[] = [];
   subTargetSymbolValue: string;
 
   displayedColumns: string[] = [
-    'methodName',
-    'year',
+    'planDescription',
+    'planYear',
     'jan',
     'feb',
     'mar',
@@ -38,7 +57,7 @@ export class MethodTableComponent implements OnInit {
     'oct',
     'nov',
     'dec',
-    'owner',
+    'undertaker',
     'editIcon',
     'deleteIcon'
   ];
@@ -56,128 +75,164 @@ export class MethodTableComponent implements OnInit {
     'oct',
     'nov',
     'dec'
-  ]
+  ];
+
+  years: number[];
 
   constructor(
     private cdr: ChangeDetectorRef,
     private _matDialog: MatDialog,
-    private _targetService: TargetService
+    private _targetService: TargetService,
+    private _confirmationService: ConfirmationService
   ) { }
 
-  ngOnInit(): void {
-    this.getCurrentSubTargetSymbolValue();
-  }
+  ngOnInit(): void { }
 
   ngAfterContentChecked(): void {
     this.cdr.detectChanges(); // temp fix ExpressionChangedAfterItHasBeenCheckedError
   }
 
-  getCurrentSubTargetSymbolValue() {
-    const runningNoRec = this._targetService.getRunningNoRecord(this.runningNo);
-    const subTarget: SubTarget = runningNoRec
-      .kids.records[this.targetIndex]
-      .kids.records[this.subTargetIndex]
-      .data;
-    this.subTargetSymbolValue = subTarget.symbol + subTarget.value;
-  }
-
   addMethod(): void {
-    // const mockMethod = genMockMethodRecord();
-    // this.methods.push(mockMethod);
-    // this.methodTable.table.renderRows();
-
     const dialogRef = this._matDialog.open(MethodModalComponent, {
       data: {
         mode: ModalMode.ADD,
-        data: undefined
+        data: this._methods.filter(v => !v.markForDelete)
       }
     });
     dialogRef.afterClosed()
       .subscribe((methodModalData: any) => {
         if (!methodModalData) return; // cancel
-        this.methods.push({ data: this.genMethodFromModal(methodModalData), kids: undefined });
+        this.editMethods(methodModalData);
         this.methodTable.renderRows();
+        this.markForEdit.emit(this.subTargetId);
       });
   }
 
   editMethod(index: number): void {
-    // this.methods[index].data.jan = 'randfkaljds';
-    // this.methodTable.table.renderRows();
-
     // Open the dialog
     const dialogRef = this._matDialog.open(MethodModalComponent, {
       data: {
         mode: ModalMode.EDIT,
-        data: this.methods[index].data
+        data: this._methods.filter(v => !v.markForDelete),
+        selectedYear: this.selectedMethod[0].planYear
       }
     });
     dialogRef.afterClosed()
       .subscribe((methodModalData: any) => {
         if (!methodModalData) return; // cancel
-        this.methods[index].data = this.genMethodFromModal(methodModalData, index);
+        this.editMethods(methodModalData);
         this.methodTable.renderRows();
+        this.markForEdit.emit(this.subTargetId);
       });
   }
 
-  deleteMethod(index: number): void {
-    this.methods.splice(index, 1);
-    this.methodTable.renderRows();
-  }
-
-  genMethodFromModal(methodModalData: any, methodIndex?: any): Method {
-    let resultRecords: ResultRecord[] = [];
-    let realResultRecords: ResultRecord[] = methodIndex != undefined ? this.methods[methodIndex].data.resultRecords : undefined;
-    const yearMonthTags = methodModalData.yearMonthTags;
-    this.getCurrentSubTargetSymbolValue();
-    for (let tag of yearMonthTags) {
-      let resultRecord: ResultRecord;
-      const findResultRecord = resultRecords.find((rec) => rec.year === tag.year);
-      if (findResultRecord) {
-        resultRecord = findResultRecord;
-      } else {
-        resultRecord = {
-          year: tag.year,
-          jan: undefined,
-          feb: undefined,
-          mar: undefined,
-          apr: undefined,
-          may: undefined,
-          jun: undefined,
-          jul: undefined,
-          aug: undefined,
-          sep: undefined,
-          oct: undefined,
-          nov: undefined,
-          dec: undefined
-        };
-        resultRecords.push(resultRecord);
-      }
-      if (realResultRecords) {
-        // edit
-        const realResultRecord = realResultRecords.find((rec) => rec.year === tag.year);
-        if (realResultRecord && realResultRecord[tag.month]) {
-          resultRecord[tag.month] = realResultRecord[tag.month]; // if have use same realResult
+  deleteMethod(): void {
+    this._confirmationService.delete().afterClosed().subscribe((result) => {
+      if (result == 'confirmed') {
+        const index = this._methods.findIndex(v => v.planYear === this.selectedYear);
+        if (this._methods[index].id === 0) {
+          this._methods.splice(index, 1);
         } else {
-          resultRecord[tag.month] = {
-            status: this.subTargetSymbolValue,
-            causeRecords: []
+          this._methods[index].markForDelete = true;
+        }
+        // reindex
+        let newPriority = 1;
+        for (let method of this._methods) {
+          if (!method.markForDelete) {
+            method.priority = newPriority;
+            newPriority++;
           }
         }
-      } else {
-        // add
-        resultRecord[tag.month] = {
-          status: this.subTargetSymbolValue,
-          causeRecords: []
+
+        this.remappingYear();
+        if (this.years.length > 0 && !this.years.includes(this.selectedYear)) {
+          // if delete at select year
+          this.selectedYear = this.years[0];
+          this.yearChange(this.selectedYear);
         }
+        if (this.years.length === 0) {
+          // if not have year left
+          this.selectedYear = undefined;
+          this.selectedMethod = [];
+        }
+        this.methodTable.renderRows();
+        this.markForEdit.emit(this.subTargetId);
+      }
+    });
+  }
+
+  monthIndexMap = {
+    'jan': '1',
+    'feb': '2',
+    'mar': '3',
+    'apr': '4',
+    'may': '5',
+    'jun': '6',
+    'jul': '7',
+    'aug': '8',
+    'sep': '9',
+    'oct': '10',
+    'nov': '11',
+    'dec': '12',
+  }
+
+  editMethods(methodModalData: any): void {
+    for (let tag of methodModalData.yearMonthTags) {
+      let plan: Plan;
+      const findMethod = this._methods.find(v => v.planYear === parseInt(tag.year) && !v.markForDelete);
+      if (findMethod) {
+        // already have year in newPlan
+        findMethod[`useMonth${this.monthIndexMap[tag.month]}`] = true;
+        findMethod[`valueMonth${this.monthIndexMap[tag.month]}`] = this.targetValue;
+        findMethod.markForEdit = true;
+      } else {
+        // not have year in newPlan
+        // const existingPlan = this.methods.find(v => v.planYear === parseInt(tag.year) && !v.markForDelete);
+        plan = {
+          id: 0,
+          priority: this._methods.length + 1,
+          planDescription: methodModalData.form.planDescription,
+          planYear: parseInt(tag.year),
+          useMonth1: false,
+          useMonth2: false,
+          useMonth3: false,
+          useMonth4: false,
+          useMonth5: false,
+          useMonth6: false,
+          useMonth7: false,
+          useMonth8: false,
+          useMonth9: false,
+          useMonth10: false,
+          useMonth11: false,
+          useMonth12: false,
+          valueMonth1: 0,
+          valueMonth2: 0,
+          valueMonth3: 0,
+          valueMonth4: 0,
+          valueMonth5: 0,
+          valueMonth6: 0,
+          valueMonth7: 0,
+          valueMonth8: 0,
+          valueMonth9: 0,
+          valueMonth10: 0,
+          valueMonth11: 0,
+          valueMonth12: 0,
+          undertaker: methodModalData.form.undertaker,
+          markForEdit:  false,
+          markForDelete: false
+        };
+        plan[`useMonth${this.monthIndexMap[tag.month]}`] = true;
+        plan[`valueMonth${this.monthIndexMap[tag.month]}`] = this.targetValue;
+        this._methods.push(plan);
       }
     }
-
-    return {
-      methodId: methodModalData.form.methodId,
-      methodName: methodModalData.form.methodName,
-      owner: methodModalData.form.owner,
-      resultRecords
+    this.remappingYear();
+    if (this._methods.length > 0 && this.selectedMethod.length === 0) {
+      // if never select year before
+      this.selectedYear = this._methods[0].planYear;
     }
+    this.yearChange(this.selectedYear);
+    this.methodTable.renderRows();
   }
 
   getYears(resultRecords: ResultRecord[]) {
@@ -190,6 +245,17 @@ export class MethodTableComponent implements OnInit {
 
   capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  yearChange(year: number) {
+    const method = this._methods.find((v) => v.planYear === year);
+    this.selectedMethod = method ? [method] : [];
+  }
+
+  remappingYear() {
+    this.years = this._methods
+      .filter(v => !v.markForDelete)
+      .map(v => v.planYear);
   }
 
 }

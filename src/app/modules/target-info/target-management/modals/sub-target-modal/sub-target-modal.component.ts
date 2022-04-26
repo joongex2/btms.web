@@ -15,11 +15,6 @@ import { MatDatepicker } from '@angular/material/datepicker';
 export class SubTargetModalComponent implements OnInit {
   isEdit: boolean = false;
   subTargetForm: FormGroup;
-  standards: any[] = [
-    { title: 'Standard 1', value: 'standard-1' },
-    { title: 'Standard 2', value: 'standard-2' },
-    { title: 'Standard 3', value: 'standard-3' }
-  ];
   symbols: any[] = [
     { title: '>', value: '>' },
     { title: '<', value: '<' },
@@ -27,33 +22,41 @@ export class SubTargetModalComponent implements OnInit {
     { title: '<=', value: '<=' },
     { title: '=', value: '=' }
   ];
+  measureTypes: any[] = [
+    { title: 'เชิงปริมาณ', value: '1' },
+    { title: 'เชิงคุณภาพ', value: '2' }
+  ]
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public modalData: ModalData,
+    @Inject(MAT_DIALOG_DATA) public modalData: any,
     public matDialogRef: MatDialogRef<SubTargetModalComponent>,
     private _formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
-    const subTargetId = this.isEdit ? this.modalData.data.subTargetId : genRandomNumberString();
-    const subTargetName = this.isEdit ? this.modalData.data.subTargetName : '';
-    const index = this.isEdit ? this.modalData.data.index : '';
-    const symbol = this.isEdit ? this.modalData.data.symbol : '';
-    const value = this.isEdit ? this.modalData.data.value : '';
-    const unit = this.isEdit ? this.modalData.data.unit : '';
-    const currentValue = this.isEdit ? this.modalData.data.currentValue : '';
+    const priority = this.isEdit ? this.modalData.data.priority : this.modalData.index;
+    const measureType = this.isEdit ? this.modalData.data.measureType : '';
+    const targetDetailDescription = this.isEdit ? this.modalData.data.targetDetailDescription : '';
+    const targetIndex = this.isEdit ? this.modalData.data.targetIndex : '';
+    const targetOperator = this.isEdit ? this.modalData.data.targetOperator : '';
+    const targetValue = this.isEdit ? this.modalData.data.targetValue : '';
+    const targetUnit = this.isEdit ? this.modalData.data.targetUnit : '';
+    const currentTarget = this.isEdit ? this.modalData.data.currentTarget : '';
+    const targetReferenceValue = this.isEdit ? this.modalData.data.targetReferenceValue : '';
     const startDate = this.isEdit ? moment({ y: this.modalData.data.startYear, m: this.modalData.data.startMonth }) : moment();
     const finishDate = this.isEdit ? moment({ y: this.modalData.data.finishYear, m: this.modalData.data.finishMonth }) : moment();
 
     this.subTargetForm = this._formBuilder.group({
-      subTargetId: [{ value: subTargetId, disabled: true }, [Validators.required]],
-      subTargetName: [subTargetName, [Validators.required]],
-      index: [index, [Validators.required]],
-      symbol: [symbol, [Validators.required]],
-      value: [value, [Validators.required]],
-      unit: [unit, [Validators.required]],
-      currentValue: [currentValue, [Validators.required]],
+      priority: [{ value: priority, disabled: true }, [Validators.required]],
+      measureType: [measureType, [Validators.required]],
+      targetDetailDescription: [targetDetailDescription, [Validators.required]],
+      targetIndex: [targetIndex, [Validators.required]],
+      targetOperator: [targetOperator, [Validators.required]],
+      targetValue: [targetValue, [Validators.required]],
+      targetUnit: [targetUnit, [Validators.required]],
+      currentTarget: [currentTarget, [Validators.required]],
+      targetReferenceValue: [targetReferenceValue, [Validators.required]],
       startDate: [startDate, [Validators.required]],
       finishDate: [finishDate, [Validators.required]]
     });

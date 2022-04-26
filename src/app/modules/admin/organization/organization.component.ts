@@ -87,10 +87,10 @@ export class OrganizationComponent implements OnInit {
     this._masterService.getMasters().subscribe({
       next: (masters: Master[]) => {
         // TODO: not sure can load type from api
-        this.businessCodes = masters.filter((master) => master.type == 'BNU').map((master) => ({ title: master.code, value: master.code }));
-        this.subBusinessCodes = masters.filter((master) => master.type == 'SBU').map((master) => ({ title: master.code, value: master.code }));
-        this.plantCodes = masters.filter((master) => master.type == 'PLT').map((master) => ({ title: master.code, value: master.code }));
-        this.divisionCodes = masters.filter((master) => master.type == 'DIV').map((master) => ({ title: master.code, value: master.code }));
+        this.businessCodes = masters.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
+        this.subBusinessCodes = masters.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
+        this.plantCodes = masters.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.code, value: master.code }));
+        this.divisionCodes = masters.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.code, value: master.code }));
       },
       error: (e) => console.log(e)
     });
@@ -106,8 +106,8 @@ export class OrganizationComponent implements OnInit {
   customFilterPredicate() {
     const myFilterPredicate = function (data: Organization, filter: string): boolean {
       let searchString = JSON.parse(filter);
-      return (!searchString.code || data.code.toString().trim().toLowerCase().indexOf(searchString.code.toLowerCase()) !== -1)
-        && (!searchString.name || data.name.toString().trim().toLowerCase().indexOf(searchString.name.toLowerCase()) !== -1)
+      return (!searchString.code || data.organizeCode.toString().trim().toLowerCase().indexOf(searchString.code.toLowerCase()) !== -1)
+        && (!searchString.name || data.organizeName.toString().trim().toLowerCase().indexOf(searchString.name.toLowerCase()) !== -1)
         && (searchString.businessCode == undefined || data.businessCode == searchString.businessCode)
         && (searchString.subBusinessCode == undefined || data.subBusinessCode == searchString.subBusinessCode)
         && (searchString.plantCode == undefined || data.plantCode == searchString.plantCode)

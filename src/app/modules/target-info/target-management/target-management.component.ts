@@ -6,7 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
-import { DocumentDetail } from 'app/shared/interfaces/document.interface';
+import { DocumentDetail, Target } from 'app/shared/interfaces/document.interface';
 import { Lookup } from 'app/shared/interfaces/lookup.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { DocumentService } from 'app/shared/services/document.service';
@@ -26,13 +26,14 @@ import { TargetTableComponent } from './tables/target-table/target-table.compone
   animations: fuseAnimations
 })
 export class TargetManagementComponent implements OnInit {
-  @Input() targets: TargetRecord[];
-  @Input() runningNo: RunningNo;
+  @Input() targets: Target[] = [];
+  @Input() runningNo: string;
   @ViewChild('targetTable') targetTable: TargetTableComponent;
   @ViewChild(NgForm) f: NgForm;
   mode: string;
   document: Partial<DocumentDetail>;
   previousUrl: string;
+  documentId: number;
 
   // bind value
   selectedDocumentType: string;
@@ -112,7 +113,7 @@ export class TargetManagementComponent implements OnInit {
           this.document.userHolder = user.name;
           this.document.documentNo = '';
           this.document.documentStatusDescription = 'New';
-          this.document.revisionNo = 'NONE';
+          this.document.revisionNo = '';
           this.document.modifyNo = '';
           this.document.documentDate = moment().format('YYYY-MM-DDTHH:mm:ss.SSS');
           this.document.dueDate = '';
@@ -122,18 +123,15 @@ export class TargetManagementComponent implements OnInit {
           this.document.subBusinessUnitCode = organize.subBusinessUnitCode;
           this.document.plantCode = organize.plantCode;
           this.document.divisionCode = organize.divisionCode;
+
+          this.targets = [];
         });
     } else {
       // from my-target
       const id = parseInt(this._activatedRoute.snapshot.paramMap.get('id'));
-      this._documentService.getDocument(id).subscribe({
-        next: (documentDetail: DocumentDetail) => {
-          this.document = documentDetail;
-        },
-        error: (e) => console.error(e)
-      });
-      this.runningNo = this._targetService.getRunningNo('OBJ-ENPC-64-02'); // TODO: replace real data
-      this.targets = this._targetService.getTargets('OBJ-ENPC-64-02'); // TODO: replace real data
+      this.loadDocument(id);
+      // this.runningNo = this._targetService.getRunningNo('OBJ-ENPC-64-02'); // TODO: replace real data
+      // this.targets = this._targetService.getTargets('OBJ-ENPC-64-02'); // TODO: replace real data
     }
   }
 
@@ -147,18 +145,27 @@ export class TargetManagementComponent implements OnInit {
         if (result == 'confirmed') {
           try {
             const res = await firstValueFrom(this._documentService.createDocument(
+              this.mode === 'add' ? 0 : this.document.id,
               this.document.organizeCode,
               this.document.businessUnitCode,
               this.document.subBusinessUnitCode,
               this.document.plantCode,
               this.document.divisionCode,
-              this.selectedDocumentType,
-              this.selectedYear
+              this.mode === 'add' ? this.selectedDocumentType : this.document.documentType,
+              this.mode === 'add' ? this.selectedYear : this.document.documentYear,
+              this.targets
             ));
             if (!res.didError) {
-              const id = res?.model?.id;
-              if (id) this._router.navigate([`/target-info/my-target/${id}`]);
-              this._snackBarService.success();
+              const id = res?.model;
+              if (id) {
+                if (this.mode === 'add') {
+                  this._router.navigate([`/target-info/my-target/${id}`]);
+                } else {
+                  // if edit reload
+                  this.loadDocument(id);
+                }
+              }
+              this._snackBarService.success(res.message);
             } else {
               this._snackBarService.error();
               this.showError(res.errorMessage, true);
@@ -174,6 +181,16 @@ export class TargetManagementComponent implements OnInit {
       });
     }
   }
+
+  getDocumentType() {
+    if (this.mode === 'add') {
+      return this.selectedDocumentType;
+    } else {
+      return this.document ? this.document.documentType : undefined;
+    }
+  }
+
+  submit() { }
 
   showError(error: string, hasApiError?: boolean) {
     this.showAlert = true;
@@ -216,5 +233,21 @@ export class TargetManagementComponent implements OnInit {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
+  }
+
+  markForEditHandler(targetId: number) {
+    // TODO: markforedit document
+  }
+
+  loadDocument(id: number) {
+    this._documentService.getDocument(id).subscribe({
+      next: (documentDetail: DocumentDetail) => {
+        this.document = documentDetail;
+        this.runningNo = this.document.documentNo;
+        this.documentId = this.document.id;
+        this.targets = this.document.targets;
+      },
+      error: (e) => console.error(e)
+    });
   }
 }

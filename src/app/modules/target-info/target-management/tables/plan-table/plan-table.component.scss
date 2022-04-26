@@ -31,12 +31,16 @@ p.table-title {
 }
 
 /* column width */
+.mat-column-priority {
+    width: 10%;
+}
+
 .mat-column-planName {
-    width: 38%;
+    width: 33%;
 }
 
 .mat-column-planActual {
-    width: 19%;
+    width: 14%;
 }
 
 .mat-column-planResource {

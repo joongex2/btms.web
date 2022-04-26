@@ -36,11 +36,12 @@ export class MethodEntryTableComponent implements OnInit {
 
   ngOnInit(): void {
     const runningNoRec = this._targetService.getRunningNoRecord(this.runningNo);
-    const subTarget: SubTarget = runningNoRec
-      .kids.records[this.targetIndex]
-      .kids.records[this.subTargetIndex]
-      .data;
-    this.subTargetSymbolValue = subTarget.symbol + subTarget.value;
+    // const subTarget: SubTarget = runningNoRec
+    //   .kids.records[this.targetIndex]
+    //   .kids.records[this.subTargetIndex]
+    //   .data;
+    // this.subTargetSymbolValue = subTarget.symbol + subTarget.value;
+    this.subTargetSymbolValue = '<9';
   }
 
   openTargetEntryModal(year: string, month: string) {
