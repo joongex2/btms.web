@@ -12,6 +12,7 @@ export interface RunningNo {
     site: string;
     division: string;
     department: string;
+    documentType: string;
     targetType: string;
     status: string;
     runningNo: string;

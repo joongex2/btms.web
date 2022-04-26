@@ -39,29 +39,29 @@
                     <form>
                         <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center"
                             style="color: rgb(30, 41, 59)">
-                            <div class="col-span-6 sm:col-span-3 font-medium">Code</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Organize Code</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <input [(ngModel)]="code" name="code" matInput>
+                                    <input [(ngModel)]="organizeCode" name="organizeCode" matInput>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Name</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Organize Name</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <input [(ngModel)]="name" name="name" matInput>
+                                    <input [(ngModel)]="organizeName" name="organizeName" matInput>
                                 </mat-form-field>
                             </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Business Unit Code</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedBusinessCode" name="businessCode"
+                                    <mat-select [(ngModel)]="selectedBusinessUnitCode" name="businessUnitCode"
                                         placeholder="ทั้งหมด">
-                                        <mat-option *ngFor="let businessCode of businessCodes"
-                                            [value]="businessCode.value">
-                                            {{businessCode.title}}
+                                        <mat-option *ngFor="let businessUnitCode of businessUnitCodes"
+                                            [value]="businessUnitCode.value">
+                                            {{businessUnitCode.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
@@ -70,10 +70,10 @@
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedSubBusinessCode" name="subBusinessCode" placeholder="ทั้งหมด">
-                                        <mat-option *ngFor="let subBusinessCode of subBusinessCodes"
-                                            [value]="subBusinessCode.value">
-                                            {{subBusinessCode.title}}
+                                    <mat-select [(ngModel)]="selectedSubBusinessUnitCode" name="subBusinessUnitCode" placeholder="ทั้งหมด">
+                                        <mat-option *ngFor="let subBusinessUnitCode of subBusinessUnitCodes"
+                                            [value]="subBusinessUnitCode.value">
+                                            {{subBusinessUnitCode.title}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>

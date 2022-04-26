@@ -22,6 +22,7 @@ export class TargetTableComponent implements OnInit {
   @Input() documentId: number;
   @Input() targets: Target[] = [];
   @Input() selectedDocumentType: string;
+  @Input() selectedTargetType: string;
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChildren(SubTargetTableComponent) subTargetTables: QueryList<SubTargetTableComponent>;
   @ViewChild('targetTable') targetTable: MatTable<Target>;
@@ -30,7 +31,7 @@ export class TargetTableComponent implements OnInit {
     'expandIcon',
     'priority',
     'targetName',
-    'standardCode',
+    'standard',
     'targetMission',
     'editIcon',
     'deleteIcon'
@@ -133,7 +134,7 @@ export class TargetTableComponent implements OnInit {
         if (!target) return; // cancel
         this.targets.push({
           id: 0,
-          standardCode: target.standardCode,
+          standard: target.standard,
           priority: target.priority,
           targetName: target.targetName,
           targetMission: target.targetMission,
@@ -158,7 +159,7 @@ export class TargetTableComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe((target: Target) => {
         if (!target) return; // cancel
-        this.targets[index].standardCode = target.standardCode,
+        this.targets[index].standard = target.standard,
         this.targets[index].targetName = target.targetName,
         this.targets[index].targetMission = target.targetMission,
         this.targets[index].markForEdit = true;

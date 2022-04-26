@@ -37,10 +37,12 @@ export class TargetManagementComponent implements OnInit {
 
   // bind value
   selectedDocumentType: string;
+  selectedTargetType: string;
   selectedYear: string;
 
   // select option
   documentTypes: any[] = [];
+  targetTypes: any[] = [];
   years: any[] = [];
 
   // alert
@@ -100,6 +102,13 @@ export class TargetManagementComponent implements OnInit {
         error: (e) => console.error(e)
       });
 
+      this._lookupService.getLookups('TARGET_TYPE').subscribe({
+        next: (lookups: Lookup[]) => {
+          this.targetTypes = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+        },
+        error: (e) => console.error(e)
+      });
+
       const organizeCode = this._activatedRoute.snapshot.paramMap.get('organizeCode');
       this._userService.user$
         .pipe((takeUntil(this._unsubscribeAll)))
@@ -152,6 +161,7 @@ export class TargetManagementComponent implements OnInit {
               this.document.plantCode,
               this.document.divisionCode,
               this.mode === 'add' ? this.selectedDocumentType : this.document.documentType,
+              this.mode === 'add' ? this.selectedTargetType : this.document.targetType,
               this.mode === 'add' ? this.selectedYear : this.document.documentYear,
               this.targets
             ));
@@ -187,6 +197,14 @@ export class TargetManagementComponent implements OnInit {
       return this.selectedDocumentType;
     } else {
       return this.document ? this.document.documentType : undefined;
+    }
+  }
+
+  getTargetType() {
+    if (this.mode === 'add') {
+      return this.selectedTargetType;
+    } else {
+      return this.document ? this.document.targetType : undefined;
     }
   }
 

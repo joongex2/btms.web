@@ -13,45 +13,45 @@
 
     <!-- Body -->
     <form class="grid gap-4 grid-cols-12 p-6 sm:p-8 overflow-y-auto items-center" [formGroup]="organizationForm">
-        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Code</div>
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Organize Code</div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
-                <input matInput [formControlName]="'code'">
+                <input matInput [formControlName]="'organizeCode'">
                 <div class="copy-fields-toggles" matSuffix></div>
-                <mat-error>Code is required</mat-error>
+                <mat-error>Organize Code is required</mat-error>
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Name</div>
+        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Organize Name</div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
-                <input matInput [formControlName]="'name'">
+                <input matInput [formControlName]="'organizeName'">
                 <div class="copy-fields-toggles" matSuffix></div>
-                <mat-error>Name is required</mat-error>
+                <mat-error>Organize Name is required</mat-error>
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium">Business Code</div>
+        <div class="col-span-4 font-medium">Business Unit Code</div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
-                <mat-select [formControlName]="'businessCode'" placeholder="Business Code">
-                    <mat-option *ngFor="let businessCode of businessCodes" [value]="businessCode.value">
+                <mat-select [formControlName]="'businessUnitCode'" placeholder="Business Unit Code">
+                    <mat-option *ngFor="let businessCode of businessUnitCodes" [value]="businessCode.value">
                         {{businessCode.title}}
                     </mat-option>
                 </mat-select>
-                <mat-error>Business Code is required</mat-error>
+                <mat-error>Business Unit Code is required</mat-error>
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium">Sub Business Code</div>
+        <div class="col-span-4 font-medium">Sub Business Unit Code</div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
-                <mat-select [formControlName]="'subBusinessCode'" placeholder="Sub Business Code">
-                    <mat-option *ngFor="let subBusinessCode of subBusinessCodes" [value]="subBusinessCode.value">
+                <mat-select [formControlName]="'subBusinessUnitCode'" placeholder="Sub Business UnitCode">
+                    <mat-option *ngFor="let subBusinessCode of subBusinessUnitCodes" [value]="subBusinessCode.value">
                         {{subBusinessCode.title}}
                     </mat-option>
                 </mat-select>
-                <mat-error>Sub Business Code is required</mat-error>
+                <mat-error>Sub Business Unit Code is required</mat-error>
             </mat-form-field>
         </div>
 

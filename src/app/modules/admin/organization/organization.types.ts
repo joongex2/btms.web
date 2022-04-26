@@ -2,8 +2,8 @@ export interface Organization {
     id: number;
     organizeCode: string;
     organizeName: string;
-    businessCode: string;
-    subBusinessCode: string;
+    businessUnitCode: string;
+    subBusinessUnitCode: string;
     plantCode: string;
     divisionCode: string;
     isActive: boolean;

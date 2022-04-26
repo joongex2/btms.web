@@ -25,17 +25,17 @@ export class OrganizationComponent implements OnInit {
 
   // bind value
   dataSource: MatTableDataSource<Organization> = new MatTableDataSource([]);
-  code: string;
-  name: string;
-  selectedBusinessCode: string;
-  selectedSubBusinessCode: string;
+  organizeCode: string;
+  organizeName: string;
+  selectedBusinessUnitCode: string;
+  selectedSubBusinessUnitCode: string;
   selectedPlantCode: string;
   selectedDivisionCode: string;
   selectedIsActive: boolean;
 
   // select option
-  businessCodes: any[];
-  subBusinessCodes: any[];
+  businessUnitCodes: any[];
+  subBusinessUnitCodes: any[];
   plantCodes: any[];
   divisionCodes: any[];
   isActives: any = [
@@ -46,10 +46,10 @@ export class OrganizationComponent implements OnInit {
   // table setting
   displayedColumns: string[] = [
     'index',
-    'code',
-    'name',
-    'businessCode',
-    'subBusinessCode',
+    'organizeCode',
+    'organizeName',
+    'businessUnitCode',
+    'subBusinessUnitCode',
     'plantCode',
     'divisionCode',
     'isActive',
@@ -58,10 +58,10 @@ export class OrganizationComponent implements OnInit {
 
   keyToColumnName: any = {
     'index': 'ลำดับที่',
-    'code': 'Code',
-    'name': 'Name',
-    'businessCode': 'Business Unit Code',
-    'subBusinessCode': 'Sub-Business Unit Code',
+    'organizeCode': 'Organize Code',
+    'organizeName': 'Organize Name',
+    'businessUnitCode': 'Business Unit Code',
+    'subBusinessUnitCode': 'Sub-Business Unit Code',
     'plantCode': 'Plant Code',
     'divisionCode': 'Division Code',
     'isActive': 'Status',
@@ -87,8 +87,8 @@ export class OrganizationComponent implements OnInit {
     this._masterService.getMasters().subscribe({
       next: (masters: Master[]) => {
         // TODO: not sure can load type from api
-        this.businessCodes = masters.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
-        this.subBusinessCodes = masters.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
+        this.businessUnitCodes = masters.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
+        this.subBusinessUnitCodes = masters.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
         this.plantCodes = masters.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.code, value: master.code }));
         this.divisionCodes = masters.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.code, value: master.code }));
       },
@@ -106,10 +106,10 @@ export class OrganizationComponent implements OnInit {
   customFilterPredicate() {
     const myFilterPredicate = function (data: Organization, filter: string): boolean {
       let searchString = JSON.parse(filter);
-      return (!searchString.code || data.organizeCode.toString().trim().toLowerCase().indexOf(searchString.code.toLowerCase()) !== -1)
-        && (!searchString.name || data.organizeName.toString().trim().toLowerCase().indexOf(searchString.name.toLowerCase()) !== -1)
-        && (searchString.businessCode == undefined || data.businessCode == searchString.businessCode)
-        && (searchString.subBusinessCode == undefined || data.subBusinessCode == searchString.subBusinessCode)
+      return (!searchString.organizeCode || data.organizeCode.toString().trim().toLowerCase().indexOf(searchString.organizeCode.toLowerCase()) !== -1)
+        && (!searchString.organizeName || data.organizeName.toString().trim().toLowerCase().indexOf(searchString.organizeName.toLowerCase()) !== -1)
+        && (searchString.businessUnitCode == undefined || data.businessUnitCode == searchString.businessUnitCode)
+        && (searchString.subBusinessUnitCode == undefined || data.subBusinessUnitCode == searchString.subBusinessUnitCode)
         && (searchString.plantCode == undefined || data.plantCode == searchString.plantCode)
         && (searchString.divisionCode == undefined || data.divisionCode == searchString.divisionCode)
         && (searchString.isActive == undefined || data.isActive == searchString.isActive);
@@ -119,10 +119,10 @@ export class OrganizationComponent implements OnInit {
 
   search() {
     const filterValue: any = {
-      code: this.code,
-      name: this.name,
-      businessCode: this.selectedBusinessCode,
-      subBusinessCode: this.selectedSubBusinessCode,
+      organizeCode: this.organizeCode,
+      organizeName: this.organizeName,
+      businessUnitCode: this.selectedBusinessUnitCode,
+      subBusinessUnitCode: this.selectedSubBusinessUnitCode,
       plantCode: this.selectedPlantCode,
       divisionCode: this.selectedDivisionCode,
       isActive: this.selectedIsActive
@@ -132,10 +132,10 @@ export class OrganizationComponent implements OnInit {
 
   clear() {
     this.dataSource.filter = '{}';
-    this.code = '';
-    this.name = '';
-    this.selectedBusinessCode = undefined;
-    this.selectedSubBusinessCode = undefined;
+    this.organizeCode = '';
+    this.organizeName = '';
+    this.selectedBusinessUnitCode = undefined;
+    this.selectedSubBusinessUnitCode = undefined;
     this.selectedPlantCode = undefined;
     this.selectedDivisionCode = undefined;
     this.selectedIsActive = undefined;
@@ -199,5 +199,9 @@ export class OrganizationComponent implements OnInit {
       next: (organizations: Organization[]) => this.dataSource.data = organizations,
       error: (e) => console.log(e)
     });
+  }
+
+  onClick() {
+    return false;
   }
 }

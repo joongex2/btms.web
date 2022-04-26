@@ -24,7 +24,7 @@ export interface DocumentDetail {
     divisionCode: string;
     division: string;
     documentType: string;
-    documentTypeDescription: string;
+    targetType: string;
     documentNo: string;
     documentStatus: string;
     documentStatusDescription: string;
@@ -40,7 +40,7 @@ export interface DocumentDetail {
 
 export interface Target {
     id: number;
-    standardCode: string;
+    standard: string;
     priority: number;
     targetName: string;
     targetMission: string;
@@ -53,6 +53,7 @@ export interface SubTarget {
     id: number;
     priority: number;
     targetDetailDescription: string;
+    targetCondition: string;
     targetIndex: string;
     targetOperator: string;
     targetValue: string;
@@ -64,6 +65,7 @@ export interface SubTarget {
     finishMonth: number;
     finishYear: number;
     measureType: string;
+    isCritical: boolean;
     markForEdit: boolean;
     markForDelete: boolean;
     topics: Topic[];
@@ -125,4 +127,5 @@ export class DocumentParams {
     DocumentYear?: string;
     DocumentStatus?: string;
     DocumentType?: string;
+    TargetType?: string;
 }

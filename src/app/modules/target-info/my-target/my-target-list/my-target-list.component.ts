@@ -282,4 +282,7 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
     });
   }
 
+    onClick() {
+      return false;
+    }
 }

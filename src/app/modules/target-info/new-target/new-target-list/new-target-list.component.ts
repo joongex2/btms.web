@@ -34,13 +34,13 @@ export class NewTargetListComponent implements OnInit {
   ];
 
   keyToColumnName: any = {
-    'index': 'ลำดับที่',
+    'index': 'No.',
     'organizeName': 'Organize',
-    'businessUnit': 'Bu',
-    'subBusinessUnit': 'Sub Bu',
+    'businessUnit': 'Business Unit',
+    'subBusinessUnit': 'Sub Business Unit',
     'plant': 'Plant',
     'division': 'Division/Department',
-    'chooseIcon': 'เลือก'
+    'chooseIcon': 'Select'
   };
 
   notSortColumn: string[] = [

@@ -25,8 +25,8 @@ export class OrganizationModalComponent implements OnInit {
   isEdit: boolean = false;
   organization: Organization;
   organizationForm: FormGroup;
-  businessCodes: any[];
-  subBusinessCodes: any[];
+  businessUnitCodes: any[];
+  subBusinessUnitCodes: any[];
   plantCodes: any[];
   divisionCodes: any[];
   isActives: any[] = [
@@ -55,15 +55,15 @@ export class OrganizationModalComponent implements OnInit {
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
     this.organization = this.modalData.data;
-    const code = this.isEdit ? this.organization.organizeCode : '';
-    const name = this.isEdit ? this.organization.organizeName : '';
+    const organizeCode = this.isEdit ? this.organization.organizeCode : '';
+    const organizeName = this.isEdit ? this.organization.organizeName : '';
     const isActive = this.isEdit ? this.organization.isActive : false;
 
     this.organizationForm = this._formBuilder.group({
-      code: [code, [Validators.required]],
-      name: [name, [Validators.required]],
-      businessCode: [undefined, [Validators.required]],
-      subBusinessCode: [undefined, [Validators.required]],
+      organizeCode: [organizeCode, [Validators.required]],
+      organizeName: [organizeName, [Validators.required]],
+      businessUnitCode: [undefined, [Validators.required]],
+      subBusinessUnitCode: [undefined, [Validators.required]],
       plantCode: [undefined, [Validators.required]],
       divisionCode: [undefined, [Validators.required]],
       isActive: [{ value: isActive, disabled: !this.isEdit }, [Validators.required]]
@@ -72,16 +72,16 @@ export class OrganizationModalComponent implements OnInit {
     this._masterService.getMasters().subscribe({
       next: (masters: Master[]) => {
         // TODO: not sure can load type from api
-        this.businessCodes = masters.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
-        this.subBusinessCodes = masters.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
+        this.businessUnitCodes = masters.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
+        this.subBusinessUnitCodes = masters.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
         this.plantCodes = masters.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.code, value: master.code }));
         this.divisionCodes = masters.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.code, value: master.code }));
-        const businessCode = this.isEdit ? this.organization.businessCode : undefined;
-        const subBusinessCode = this.isEdit ? this.organization.subBusinessCode : undefined;
+        const businessUnitCode = this.isEdit ? this.organization.businessUnitCode : undefined;
+        const subBusinessUnitCode = this.isEdit ? this.organization.subBusinessUnitCode : undefined;
         const plantCode = this.isEdit ? this.organization.plantCode : undefined;
         const divisionCode = this.isEdit ? this.organization.divisionCode : undefined;
-        this.organizationForm.get('businessCode').setValue(businessCode);
-        this.organizationForm.get('subBusinessCode').setValue(subBusinessCode);
+        this.organizationForm.get('businessUnitCode').setValue(businessUnitCode);
+        this.organizationForm.get('subBusinessUnitCode').setValue(subBusinessUnitCode);
         this.organizationForm.get('plantCode').setValue(plantCode);
         this.organizationForm.get('divisionCode').setValue(divisionCode);
       },
@@ -101,10 +101,10 @@ export class OrganizationModalComponent implements OnInit {
             if (this.isEdit) {
               await firstValueFrom(this._organizationService.updateOrganization(
                 this.organization.id,
-                this.organizationForm.get('code').value,
-                this.organizationForm.get('name').value,
-                this.organizationForm.get('businessCode').value,
-                this.organizationForm.get('subBusinessCode').value,
+                this.organizationForm.get('organizeCode').value,
+                this.organizationForm.get('organizeName').value,
+                this.organizationForm.get('businessUnitCode').value,
+                this.organizationForm.get('subBusinessUnitCode').value,
                 this.organizationForm.get('plantCode').value,
                 this.organizationForm.get('divisionCode').value,
                 this.organizationForm.get('isActive').value
@@ -112,10 +112,10 @@ export class OrganizationModalComponent implements OnInit {
             } else {
               // add
               await firstValueFrom(this._organizationService.createOrganization(
-                this.organizationForm.get('code').value,
-                this.organizationForm.get('name').value,
-                this.organizationForm.get('businessCode').value,
-                this.organizationForm.get('subBusinessCode').value,
+                this.organizationForm.get('organizeCode').value,
+                this.organizationForm.get('organizeName').value,
+                this.organizationForm.get('businessUnitCode').value,
+                this.organizationForm.get('subBusinessUnitCode').value,
                 this.organizationForm.get('plantCode').value,
                 this.organizationForm.get('divisionCode').value,
               ));

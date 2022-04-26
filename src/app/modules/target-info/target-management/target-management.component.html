@@ -86,7 +86,7 @@
         
                     <form #f="ngForm">
                         <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
-                            <div class="col-span-6 sm:col-span-3 font-medium">ประเภทเป้าหมาย</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Document Type</div>
                             <ng-container *ngIf="mode === 'edit';else documentTypeSelect">
                                 <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.documentTypeDescription :
                                     '-'}}</span></div>
@@ -103,6 +103,7 @@
                                     </mat-form-field>
                                 </div>
                             </ng-template>
+                            
                             <div class="col-span-6 sm:col-span-3 font-medium">Year</div>
                             <ng-container *ngIf="mode === 'edit';else yearSelect">
                                 <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.documentYear : ''}}</span></div>
@@ -119,28 +120,48 @@
                                     </mat-form-field>
                                 </div>
                             </ng-template>
-                            <div class="col-span-6 sm:col-span-3 font-medium">BU</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.businessUnit : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Target Type</div>
+                            <ng-container *ngIf="mode === 'edit';else targetTypeSelect">
+                                <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.targetType :
+                                    '-'}}</span></div>
+                            </ng-container>
+                            <ng-template #targetTypeSelect>
+                                <div class="col-span-6 sm:col-span-3 flex items-center">
+                                    :
+                                    <mat-form-field class="flex-auto ml-2">
+                                        <mat-select [(ngModel)]="selectedTargetType" name="targetType" placeholder="กรุณาเลือก" required>
+                                            <mat-option *ngFor="let targetType of targetTypes" [value]="targetType.value">
+                                                {{targetType.title}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </ng-template>
+                            
                             <div class="col-span-6 sm:col-span-3 font-medium">Running No.</div>
                             <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.documentNo : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Sub-BU</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.subBusinessUnit : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Business Unit</div>
+                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.businessUnit : ''}}</span></div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Status</div>
                             <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.documentStatusDescription : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Plant</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.plant : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Sub Business Unit</div>
+                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.subBusinessUnit : ''}}</span></div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Revision No.</div>
                             <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.revisionNo : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Division/Department</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.division : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Plant</div>
+                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.plant : ''}}</span></div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Modify No.</div>
                             <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.modifyNo : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Division/Department</div>
+                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.division : ''}}</span></div>
+                           
                             <div class="col-span-6 sm:col-span-3 font-medium">Date Create</div>
                             <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? (document.documentDate | date : 'dd/MM/YYYY') : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Date Due</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? (document.dueDate | date : 'dd/MM/YYYY')  : ''}}</span></div>
+                           
                             <div class="col-span-6 sm:col-span-3 font-medium">Creator</div>
                             <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.userHolder : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Date Due</div>
+                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? (document.dueDate | date : 'dd/MM/YYYY')  : ''}}</span></div>
                             <fuse-alert class="col-span-12 sm:col-start-1" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false"
                                 [type]="alert.type" [@shake]="alert.type === 'error'">
                                 {{alert.message}}
@@ -175,6 +196,7 @@
                     [documentId]="documentId" 
                     [targets]="targets"
                     [selectedDocumentType]="getDocumentType()"
+                    [selectedTargetType]="getTargetType()"
                     (markForEdit)="markForEditHandler($event)" 
                 >
                 </app-target-table>

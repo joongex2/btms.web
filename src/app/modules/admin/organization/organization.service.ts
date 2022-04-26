@@ -11,18 +11,18 @@ export class OrganizationService {
     constructor(private _httpClient: HttpClient) { }
 
     createOrganization(
-        code: string,
-        name: string,
-        businessCode: string,
-        subBusinessCode: string,
+        organizeCode: string,
+        organizeName: string,
+        businessUnitCode: string,
+        subBusinessUnitCode: string,
         plantCode: string,
         divisionCode: string
     ): Observable<any> {
         return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Organizes'), {
-            code,
-            name,
-            businessCode,
-            subBusinessCode,
+            organizeCode,
+            organizeName,
+            businessUnitCode,
+            subBusinessUnitCode,
             plantCode,
             divisionCode
         }).pipe(map(data => data.model));
@@ -38,19 +38,19 @@ export class OrganizationService {
 
     updateOrganization(
         id: number,
-        code: string,
-        name: string,
-        businessCode: string,
-        subBusinessCode: string,
+        organizeCode: string,
+        organizeName: string,
+        businessUnitCode: string,
+        subBusinessUnitCode: string,
         plantCode: string,
         divisionCode: string,
         isActive: boolean
     ): Observable<any> {
         return this._httpClient.put<ResultMapper>(getBaseUrl(`/v1/Organizes/${id}`), {
-            code,
-            name,
-            businessCode,
-            subBusinessCode,
+            organizeCode,
+            organizeName,
+            businessUnitCode,
+            subBusinessUnitCode,
             plantCode,
             divisionCode,
             isActive
