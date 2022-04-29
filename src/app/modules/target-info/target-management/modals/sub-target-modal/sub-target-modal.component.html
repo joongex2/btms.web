@@ -44,51 +44,59 @@
             <mat-error>ดัชนี is required</mat-error>
         </mat-form-field>
 
-        <mat-label class="font-medium mb-1">ค่าเป้าหมาย</mat-label>
-        <div class="flex flex-row flex-auto gt-xs:pr-3 gap-4 items-center mb-4">
-            <mat-radio-group [formControlName]="'targetCondition'">
-                <mat-radio-button value="1">
-                    แบบที่ 1
-                </mat-radio-button>
-                <mat-radio-button class="ml-2" value="2">
-                    แบบที่ 2
-                </mat-radio-button>
-            </mat-radio-group>
-            <button *ngIf="subTargetForm.get('targetCondition').value === '2'" type="button" mat-icon-button (click)="addCondition()">
-                <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-            </button>
-        </div>
-        
-        <div [formArrayName]="'conditions'">
-            <div [formGroupName]="i" *ngFor="let condition of subTargetForm.get('conditions')['controls']; let i = index"
-                class="flex flex-row flex-auto gt-xs:pr-3 gap-4"
-            >
-                <ng-container *ngIf="!condition.get('markForDelete').value">
-                    <mat-form-field class="flex-auto">
-                        <mat-select [formControlName]="'targetOperator'">
-                            <mat-option *ngFor="let symbol of symbols" [value]="symbol.value">{{symbol.title}}</mat-option>
-                        </mat-select>
-                        <mat-error>Target Operator is required</mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="flex-auto">
-                        <input matInput [formControlName]="'targetValue'" appIntegerOnly>
-                        <div class="copy-fields-toggles" matSuffix></div>
-                        <mat-error>Target Value is required</mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="flex-auto">
-                        <mat-select [formControlName]="'resultColor'">
-                            <mat-option *ngFor="let resultColor of resultColors" [value]="resultColor.value">{{resultColor.title}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error>Result Color is required</mat-error>
-                    </mat-form-field>
-                    <button *ngIf="subTargetForm.get('targetCondition').value === '2'" 
-                        type="button" class="mt-1" mat-icon-button (click)="removeCondition(i)">
-                        <mat-icon class="text-current" [svgIcon]="'heroicons_outline:minus'"></mat-icon>
-                    </button>
-                </ng-container>
+        <fieldset class="mb-4">
+            <legend class="font-medium">ค่าเป้าหมาย *</legend>
+            <mat-form-field class="flex-auto gt-xs:pr-3">
+                <input matInput [formControlName]="'targetValue'">
+                <div class="copy-fields-toggles" matSuffix></div>
+                <mat-error>ค่าเป้าหมาย is required</mat-error>
+            </mat-form-field>
+            <div class="flex flex-row flex-auto gt-xs:pr-3 gap-4 items-center mb-4">
+                <mat-radio-group [formControlName]="'targetCondition'">
+                    <mat-radio-button value="1">
+                        แบบที่ 1
+                    </mat-radio-button>
+                    <mat-radio-button class="ml-2" value="2">
+                        แบบที่ 2
+                    </mat-radio-button>
+                </mat-radio-group>
+                <button *ngIf="subTargetForm.get('targetCondition').value === '2'" type="button" mat-icon-button (click)="addCondition()">
+                    <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                </button>
             </div>
-        </div>
+            
+            <div [formArrayName]="'conditions'">
+                <div [formGroupName]="i" *ngFor="let condition of subTargetForm.get('conditions')['controls']; let i = index"
+                    class="flex flex-row flex-auto gt-xs:pr-3 gap-4"
+                >
+                    <ng-container *ngIf="!condition.get('markForDelete').value 
+                        && (condition.get('targetCondition').value === subTargetForm.get('targetCondition').value)">
+                        <mat-form-field class="flex-auto">
+                            <mat-select [formControlName]="'targetOperator'">
+                                <mat-option *ngFor="let symbol of symbols" [value]="symbol.value">{{symbol.title}}</mat-option>
+                            </mat-select>
+                            <mat-error>Target Operator is required</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="flex-auto">
+                            <input matInput [formControlName]="'targetValue'" appIntegerOnly>
+                            <div class="copy-fields-toggles" matSuffix></div>
+                            <mat-error>Target Value is required</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="flex-auto">
+                            <mat-select [formControlName]="'resultColor'">
+                                <mat-option *ngFor="let resultColor of resultColors" [value]="resultColor.value">{{resultColor.title}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>Result Color is required</mat-error>
+                        </mat-form-field>
+                        <button *ngIf="subTargetForm.get('targetCondition').value === '2'" 
+                            type="button" class="mt-1" mat-icon-button (click)="removeCondition(i)">
+                            <mat-icon class="text-current" [svgIcon]="'heroicons_outline:minus'"></mat-icon>
+                        </button>
+                    </ng-container>
+                </div>
+            </div>
+        </fieldset>
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
             <mat-label>หน่วย</mat-label>

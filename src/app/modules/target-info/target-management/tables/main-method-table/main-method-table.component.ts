@@ -16,7 +16,7 @@ export class MainMethodTableComponent implements OnInit {
   @Input() mainMethods: MainMethodRecord[];
   @Input() topics: Topic[];
   @Input() plans: Plan[];
-  @Input() conditions: Condition[];
+  @Input() targetValue: string;
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('mainMethodTable') mainMethodTable: MatTable<MainMethod>;
 

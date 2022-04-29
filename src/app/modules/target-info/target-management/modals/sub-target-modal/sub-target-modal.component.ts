@@ -54,6 +54,7 @@ export class SubTargetModalComponent implements OnInit {
     const measureType = this.isEdit ? this.modalData.data.measureType : '';
     const targetDetailDescription = this.isEdit ? this.modalData.data.targetDetailDescription : '';
     const targetIndex = this.isEdit ? this.modalData.data.targetIndex : '';
+    const targetValue = this.isEdit ? this.modalData.data.targetValue : '';
     const targetCondition = this.isEdit ? this.modalData.data.targetCondition : '1';
     const conditions = this._formBuilder.array([]);
     if (this.isEdit) {
@@ -70,31 +71,25 @@ export class SubTargetModalComponent implements OnInit {
           markForDelete: [tc.markForDelete],
         }));
       }
+      if (targetCondition === '1' && !this.modalData.data.conditions.find(v => v.targetCondition === '1')) {
+        conditions.push(this.newCondition('1'));
+      }
     } else {
-      conditions.push(this._formBuilder.group({
-        id: [0],
-        targetDetailId: [0],
-        targetCondition: ['1'],
-        targetOperator: ['', [Validators.required]],
-        targetValue: ['', [Validators.required]],
-        resultColor: ['', [Validators.required]],
-        isActive: [true],
-        markForEdit: [false],
-        markForDelete: [false],
-      }));
+      conditions.push(this.newCondition('1'));
     }
     const targetUnit = this.isEdit ? this.modalData.data.targetUnit : '';
     const currentTarget = this.isEdit ? this.modalData.data.currentTarget : '';
     const targetReferenceValue = this.isEdit ? this.modalData.data.targetReferenceValue : '';
     const startDate = this.isEdit ? moment({ year: this.modalData.data.startYear, month: this.modalData.data.startMonth }) : moment();
     const finishDate = this.isEdit ? moment({ year: this.modalData.data.finishYear, month: this.modalData.data.finishMonth }) : moment();
-    const isCritical = this.isEdit ? this.modalData.data.isCritical : '';
+    const isCritical = this.isEdit ? this.modalData.data.isCritical : false;
 
     this.subTargetForm = this._formBuilder.group({
       priority: [{ value: priority, disabled: true }, [Validators.required]],
       measureType: [measureType, [Validators.required]],
       targetDetailDescription: [targetDetailDescription, [Validators.required]],
       targetIndex: [targetIndex, [Validators.required]],
+      targetValue: [targetValue, [Validators.required]],
       targetCondition: [targetCondition],
       conditions: conditions,
       targetUnit: [targetUnit, [Validators.required]],
@@ -122,17 +117,7 @@ export class SubTargetModalComponent implements OnInit {
         for (let newCondition of newConditions) {
           conditions.push(newCondition);
         }
-        conditions.push(this._formBuilder.group({
-          id: [0],
-          targetDetailId: [0],
-          targetCondition: ['1'],
-          targetOperator: ['', [Validators.required]],
-          targetValue: ['', [Validators.required]],
-          resultColor: ['', [Validators.required]],
-          isActive: [true],
-          markForEdit: [false],
-          markForDelete: [false],
-        }));
+        conditions.push(this.newCondition('1'));
       } else {
         // remove targetCondition = 1 && id = 0
         const conditions = this.subTargetForm.get('conditions') as FormArray;
@@ -154,23 +139,25 @@ export class SubTargetModalComponent implements OnInit {
   }
 
   addCondition(): void {
-    (this.subTargetForm.get('conditions') as FormArray).push(
-      this._formBuilder.group({
-        id: [0],
-        targetDetailId: [this.isEdit ? this.modalData.data.id : 0],
-        targetCondition: ['2'],
-        targetOperator: ['', [Validators.required]],
-        targetValue: ['', [Validators.required]],
-        resultColor: ['', [Validators.required]],
-        isActive: [true],
-        markForEdit: [false],
-        markForDelete: [false],
-      })
-    );
+    (this.subTargetForm.get('conditions') as FormArray).push(this.newCondition('2'));
   }
 
   removeCondition(index) {
     (this.subTargetForm.get('conditions') as FormArray).at(index).get('markForDelete').setValue(true);
+  }
+
+  newCondition(targetCondition: string): FormGroup {
+    return this._formBuilder.group({
+      id: [0],
+      targetDetailId: [this.isEdit ? this.modalData.data.id : 0],
+      targetCondition: [targetCondition],
+      targetOperator: ['', [Validators.required]],
+      targetValue: ['', [Validators.required]],
+      resultColor: ['', [Validators.required]],
+      isActive: [true],
+      markForEdit: [false],
+      markForDelete: [false],
+    })
   }
 
   chosenYearHandler(normalizedYear: Moment, dateForm: any) {

@@ -32,7 +32,7 @@ export class MethodTableComponent implements OnInit {
       this.yearChange(this.selectedYear);
     }
   }
-  @Input() conditions: Condition[];
+  @Input() targetValue: string;
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('methodTable') methodTable: MatTable<Method>;
   @ViewChildren('yearSelect') yearSelects: QueryList<MatSelect>;
@@ -190,7 +190,7 @@ export class MethodTableComponent implements OnInit {
       if (findMethod) {
         // already have year in _methods
         findMethod[`useMonth${this.monthIndexMap[tag.month]}`] = true;
-        findMethod[`valueMonth${this.monthIndexMap[tag.month]}`] = '0'; // TODO: use from conditions
+        findMethod[`valueMonth${this.monthIndexMap[tag.month]}`] = this.targetValue;
         findMethod.markForEdit = true;
       } else {
         // not have year in _methods
@@ -211,24 +211,24 @@ export class MethodTableComponent implements OnInit {
           useMonth10: false,
           useMonth11: false,
           useMonth12: false,
-          valueMonth1: 0,
-          valueMonth2: 0,
-          valueMonth3: 0,
-          valueMonth4: 0,
-          valueMonth5: 0,
-          valueMonth6: 0,
-          valueMonth7: 0,
-          valueMonth8: 0,
-          valueMonth9: 0,
-          valueMonth10: 0,
-          valueMonth11: 0,
-          valueMonth12: 0,
+          valueMonth1: '',
+          valueMonth2: '',
+          valueMonth3: '',
+          valueMonth4: '',
+          valueMonth5: '',
+          valueMonth6: '',
+          valueMonth7: '',
+          valueMonth8: '',
+          valueMonth9: '',
+          valueMonth10: '',
+          valueMonth11: '',
+          valueMonth12: '',
           undertaker: methodModalData.form.undertaker,
           markForEdit:  false,
           markForDelete: false
         };
         plan[`useMonth${this.monthIndexMap[tag.month]}`] = true;
-        plan[`valueMonth${this.monthIndexMap[tag.month]}`] = '0'; // TODO: use from conditions
+        plan[`valueMonth${this.monthIndexMap[tag.month]}`] = this.targetValue;
         this._methods.push(plan);
       }
     }

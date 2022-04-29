@@ -143,7 +143,7 @@
                                     <mat-error>ไม่พบข้อมูล Sub-BU ในระบบ</mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Year</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">From Document Year</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
@@ -172,7 +172,7 @@
                                     <mat-error>ไม่พบข้อมูล Plant ในระบบ</mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">To Year</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">To Document Year</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
@@ -223,6 +223,11 @@
                                     <mat-error>ไม่พบข้อมูล Document Type ในระบบ</mat-error>
                                 </mat-form-field>
                             </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Critical KPI</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-checkbox class="ml-2" [color]="'primary'" [(ngModel)]="isCritical" name="isCritical"></mat-checkbox>
+                            </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Target Type</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
@@ -244,11 +249,6 @@
                                     </mat-autocomplete>
                                     <mat-error>ไม่พบข้อมูล Target Type ในระบบ</mat-error>
                                 </mat-form-field>
-                            </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Critical KPI</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
-                                :
-                                <mat-checkbox class="ml-2" [color]="'primary'" [(ngModel)]="isCritical" name="isCritical"></mat-checkbox>
                             </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">คำค้นหา</div>
                             <div class="col-span-6 sm:col-span-9 flex items-center">

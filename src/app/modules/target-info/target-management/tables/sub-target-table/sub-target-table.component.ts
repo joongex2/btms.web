@@ -27,7 +27,7 @@ export class SubTargetTableComponent implements OnInit {
     'priority',
     'targetDetailDescription',
     'targetIndex',
-    'symbolValue',
+    'targetValue',
     'targetUnit',
     'currentTarget',
     'startMonth',
@@ -64,6 +64,7 @@ export class SubTargetTableComponent implements OnInit {
           targetDetailDescription: subTarget.targetDetailDescription,
           targetCondition: subTarget.targetCondition,
           targetIndex: subTarget.targetIndex,
+          targetValue: subTarget.targetValue,
           conditions: subTarget.conditions,
           targetReferenceValue: subTarget.targetReferenceValue,
           targetUnit: subTarget.targetUnit,
@@ -97,6 +98,7 @@ export class SubTargetTableComponent implements OnInit {
         this.subTargets[index].measureType = subTarget.measureType;
         this.subTargets[index].targetDetailDescription = subTarget.targetDetailDescription;
         this.subTargets[index].targetIndex = subTarget.targetIndex;
+        this.subTargets[index].targetValue = subTarget.targetValue;
         this.subTargets[index].targetCondition = subTarget.targetCondition;
         this.subTargets[index].conditions = subTarget.conditions;
         this.subTargets[index].targetUnit = subTarget.targetUnit;
