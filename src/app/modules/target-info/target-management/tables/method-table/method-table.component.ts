@@ -189,9 +189,12 @@ export class MethodTableComponent implements OnInit {
       const findMethod = this._methods.find(v => v.planYear === parseInt(tag.year) && !v.markForDelete);
       if (findMethod) {
         // already have year in _methods
-        findMethod[`useMonth${this.monthIndexMap[tag.month]}`] = true;
-        findMethod[`valueMonth${this.monthIndexMap[tag.month]}`] = this.targetValue;
-        findMethod.markForEdit = true;
+        if (!findMethod[`useMonth${this.monthIndexMap[tag.month]}`]) {
+          // add new month
+          findMethod[`useMonth${this.monthIndexMap[tag.month]}`] = true;
+          findMethod[`valueMonth${this.monthIndexMap[tag.month]}`] = this.targetValue;
+          findMethod.markForEdit = true;
+        }
       } else {
         // not have year in _methods
         plan = {
