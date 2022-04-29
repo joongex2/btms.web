@@ -47,6 +47,7 @@ export class TargetManagementComponent implements OnInit {
   documentTypes: any[] = [];
   targetTypes: any[] = [];
   years: any[] = [];
+  standards: any[] = [];
 
   // alert
   showAlert: boolean = false;
@@ -263,6 +264,7 @@ export class TargetManagementComponent implements OnInit {
         for (let role of organize.roles) {
           if (role.roleCode === 'D01') this.canSave = true;
         }
+        this.loadStandards(this.document.documentType);
       },
       error: (e) => console.error(e)
     });
@@ -282,5 +284,19 @@ export class TargetManagementComponent implements OnInit {
       }
     }
     return true;
+  }
+
+  documentTypeChange(documentType: string) {
+    this.loadStandards(documentType);
+  }
+
+  loadStandards(documentType: string) {
+    // load standards use in target-modal
+    this._lookupService.getLookups('STANDARD', documentType).subscribe({
+      next: (lookups: Lookup[]) => {
+        this.standards = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+      },
+      error: (e) => console.error(e)
+    });
   }
 }

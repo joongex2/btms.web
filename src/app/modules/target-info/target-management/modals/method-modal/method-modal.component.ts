@@ -152,7 +152,6 @@ export class MethodModalComponent implements OnInit {
         year,
         month
       });
-      this.yearMonthForm.get('year').reset();
       this.yearMonthForm.get('month').reset();
     }
   }

@@ -23,6 +23,7 @@ export class TargetTableComponent implements OnInit {
   @Input() targets: Target[] = [];
   @Input() selectedDocumentType: string;
   @Input() selectedTargetType: string;
+  @Input() standards: any[];
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChildren(SubTargetTableComponent) subTargetTables: QueryList<SubTargetTableComponent>;
   @ViewChild('targetTable') targetTable: MatTable<Target>;
@@ -38,7 +39,6 @@ export class TargetTableComponent implements OnInit {
   ];
   expandedTargets: Target[] = [];
 
-  standards: any[];
   kpiMissions: any[];
 
   constructor(
@@ -48,13 +48,6 @@ export class TargetTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._lookupService.getLookups('STANDARD', this.selectedDocumentType).subscribe({
-      next: (lookups: Lookup[]) => {
-        this.standards = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
-      },
-      error: (e) => console.error(e)
-    });
-
     this._lookupService.getLookups('KPI_MISSION').subscribe({
       next: (lookups: Lookup[]) => {
         this.kpiMissions = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));

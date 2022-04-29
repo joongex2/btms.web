@@ -95,7 +95,13 @@
                                 <div class="col-span-6 sm:col-span-3 flex items-center">
                                     :
                                     <mat-form-field class="flex-auto ml-2">
-                                        <mat-select [(ngModel)]="selectedDocumentType" name="documentType" placeholder="กรุณาเลือก" required>
+                                        <mat-select 
+                                            [(ngModel)]="selectedDocumentType"
+                                            (ngModelChange)="documentTypeChange($event)"
+                                            name="documentType"
+                                            placeholder="กรุณาเลือก"
+                                            required
+                                        >
                                             <mat-option *ngFor="let documentType of documentTypes" [value]="documentType.value">
                                                 {{documentType.title}}
                                             </mat-option>
@@ -197,6 +203,7 @@
                     [targets]="targets"
                     [selectedDocumentType]="getDocumentType()"
                     [selectedTargetType]="getTargetType()"
+                    [standards]="standards"
                     (markForEdit)="markForEditHandler($event)" 
                 >
                 </app-target-table>
