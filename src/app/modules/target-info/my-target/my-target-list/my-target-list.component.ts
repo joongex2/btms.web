@@ -3,14 +3,8 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MasterService } from 'app/modules/admin/master/master.service';
-import { Master } from 'app/modules/admin/master/master.types';
-import { OrganizationService } from 'app/modules/admin/organization/organization.service';
-import { Organization } from 'app/modules/admin/organization/organization.types';
 import { DocumentParams } from 'app/shared/interfaces/document.interface';
-import { Lookup } from 'app/shared/interfaces/lookup.interface';
 import { DocumentService } from 'app/shared/services/document.service';
-import { LookupService } from 'app/shared/services/lookup.service';
 
 
 @Component({
@@ -34,8 +28,12 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
   selectedDivision: any;
   selectedStatus: any;
   selectedDocumentType: any;
+  selectedTargetType: any;
   documentNo: string;
   documentYear: string;
+  toDocumentYear: string;
+  searchText: string;
+  isCritical: boolean;
 
   // select option
   organizes: any[] = [];
@@ -45,6 +43,7 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
   divisions: any[] = [];
   statuses: any[] = [];
   documentTypes: any[] = [];
+  targetTypes: any[] = [];
   filteredOrganizes: any[] = [];
   filteredBus: any[] = [];
   filteredSubBus: any[] = [];
@@ -52,6 +51,7 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
   filteredDivisions: any[] = [];
   filteredStatuses: any[] = [];
   filteredDocumentTypes: any[] = [];
+  filteredTargetTypes: any[] = [];
 
   // table setting
   displayedColumns: string[] = [
@@ -84,9 +84,6 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
   ];
 
   constructor(
-    private _lookupService: LookupService,
-    private _organizationService: OrganizationService,
-    private _masterService: MasterService,
     private _documentService: DocumentService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute
@@ -98,6 +95,7 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
     const organizes = this._activatedRoute.snapshot.data.organizes;
     const statuses = this._activatedRoute.snapshot.data.statuses;
     const documentTypes = this._activatedRoute.snapshot.data.documentTypes;
+    const targetTypes = this._activatedRoute.snapshot.data.targetTypes;
     const bus = this._activatedRoute.snapshot.data.bus;
     const subBus = this._activatedRoute.snapshot.data.subBus;
     const plants = this._activatedRoute.snapshot.data.plants;
@@ -109,6 +107,8 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
     this.filteredStatuses = statuses.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
     this.documentTypes = documentTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
     this.filteredDocumentTypes = documentTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+    this.targetTypes = targetTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+    this.filteredTargetTypes = targetTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
     this.bus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
     this.filteredBus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
     this.subBus = subBus.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
@@ -131,8 +131,12 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
     this.selectedDivision = this.divisions.find((v) => v.value === params.DivisionCode) || '';
     this.documentNo = params.DocumentNo || undefined;
     this.documentYear = params.DocumentYear || undefined;
+    this.toDocumentYear = params.ToDocumentYear || undefined;
     this.selectedStatus = this.statuses.find((v) => v.value === params.DocumentStatus) || '';
     this.selectedDocumentType = this.documentTypes.find((v) => v.value === params.DocumentType) || '';
+    this.selectedTargetType = this.targetTypes.find((v) => v.value === params.TargetType) || '';
+    this.searchText = params.SearchText || undefined;
+    this.isCritical = params.IsCritical || false;
 
     this.loadDocuments(page, size, sort, order, this.getDocumentParams());
   }
@@ -189,6 +193,11 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
     this.filteredDocumentTypes = this.documentTypes.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
   }
 
+  targetTypeFilter(value: any) {
+    const filterValue = typeof value === 'string' ? value : value.title;
+    this.filteredTargetTypes = this.targetTypes.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
+  }
+
   displayFn(value: any): string {
     return value && value.title ? value.title : '';
   }
@@ -217,8 +226,12 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
     filter.DivisionCode = this.getOptionValue(this.selectedDivision);
     filter.DocumentNo = this.documentNo ? this.documentNo : undefined;
     filter.DocumentYear = this.documentYear ? this.documentYear : undefined;
+    filter.ToDocumentYear = this.toDocumentYear ? this.toDocumentYear : undefined;
     filter.DocumentStatus = this.getOptionValue(this.selectedStatus);
     filter.DocumentType = this.getOptionValue(this.selectedDocumentType);
+    filter.TargetType = this.getOptionValue(this.selectedTargetType);
+    filter.SearchText = this.searchText ? this.searchText : undefined;
+    filter.IsCritical = this.isCritical ? this.isCritical.toString() : undefined;
     return filter;
   }
 
@@ -239,8 +252,12 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
     filter.DivisionCode = undefined;
     filter.DocumentNo = undefined;
     filter.DocumentYear = undefined;
+    filter.ToDocumentYear = undefined;
     filter.DocumentStatus = undefined;
     filter.DocumentType = undefined;
+    filter.TargetType = undefined;
+    filter.SearchText = undefined;
+    filter.IsCritical = undefined;
     return filter;
   }
 
@@ -252,8 +269,20 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
     this.selectedDivision = '';
     this.selectedStatus = '';
     this.selectedDocumentType = '';
+    this.selectedTargetType = '';
+    this.organizeFilter('');
+    this.buFilter('');
+    this.subBuFilter('');
+    this.plantFilter('');
+    this.divisionFilter('');
+    this.statusFilter('');
+    this.documentTypeFilter('');
+    this.targetTypeFilter('');
     this.documentNo = undefined;
     this.documentYear = undefined;
+    this.toDocumentYear = undefined;
+    this.searchText = undefined;
+    this.isCritical = false;
   }
 
   private addQueryParam(param?: object): void {
@@ -282,7 +311,7 @@ export class MyTargetListComponent implements OnInit, AfterViewInit {
     });
   }
 
-    onClick() {
-      return false;
-    }
+  onClick() {
+    return false;
+  }
 }

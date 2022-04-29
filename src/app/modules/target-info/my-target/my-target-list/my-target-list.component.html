@@ -172,26 +172,11 @@
                                     <mat-error>ไม่พบข้อมูล Plant ในระบบ</mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Target Type</div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">To Year</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
-                                <mat-form-field class="flex-auto ml-2" appearance="fill">
-                                    <input type="text" 
-                                        placeholder="Target Type"
-                                        aria-label="documentType"
-                                        matInput 
-                                        [(ngModel)]="selectedDocumentType"
-                                        (ngModelChange)="documentTypeFilter($event)"
-                                        name="documentType"
-                                        [matAutocomplete]="documentTypeOptions"
-                                        requireMatch
-                                    >
-                                    <mat-autocomplete #documentTypeOptions="matAutocomplete" [displayWith]="displayFn">
-                                        <mat-option *ngFor="let documentType of filteredDocumentTypes" [value]="documentType">
-                                            {{documentType.title}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                    <mat-error>ไม่พบข้อมูล Target Type ในระบบ</mat-error>
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="toDocumentYear" name="toDocumentYear" matInput>
                                 </mat-form-field>
                             </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Division/Department</div>
@@ -214,6 +199,62 @@
                                         </mat-option>
                                     </mat-autocomplete>
                                     <mat-error>ไม่พบข้อมูล Division ในระบบ</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Document Type</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2" appearance="fill">
+                                    <input type="text" 
+                                        placeholder="Document Type"
+                                        aria-label="documentType"
+                                        matInput 
+                                        [(ngModel)]="selectedDocumentType"
+                                        (ngModelChange)="documentTypeFilter($event)"
+                                        name="documentType"
+                                        [matAutocomplete]="documentTypeOptions"
+                                        requireMatch
+                                    >
+                                    <mat-autocomplete #documentTypeOptions="matAutocomplete" [displayWith]="displayFn">
+                                        <mat-option *ngFor="let documentType of filteredDocumentTypes" [value]="documentType">
+                                            {{documentType.title}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error>ไม่พบข้อมูล Document Type ในระบบ</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Target Type</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2" appearance="fill">
+                                    <input type="text" 
+                                        placeholder="Target Type"
+                                        aria-label="targetType"
+                                        matInput 
+                                        [(ngModel)]="selectedTargetType"
+                                        (ngModelChange)="targetTypeFilter($event)"
+                                        name="targetType"
+                                        [matAutocomplete]="targetTypeOptions"
+                                        requireMatch
+                                    >
+                                    <mat-autocomplete #targetTypeOptions="matAutocomplete" [displayWith]="displayFn">
+                                        <mat-option *ngFor="let targetType of filteredTargetTypes" [value]="targetType">
+                                            {{targetType.title}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error>ไม่พบข้อมูล Target Type ในระบบ</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Critical KPI</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-checkbox class="ml-2" [color]="'primary'" [(ngModel)]="isCritical" name="isCritical"></mat-checkbox>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">คำค้นหา</div>
+                            <div class="col-span-6 sm:col-span-9 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="searchText" name="searchText" matInput placeholder="หัวข้อหลัก/หัวข้อย่อย">
                                 </mat-form-field>
                             </div>
                         </div>    

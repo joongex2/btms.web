@@ -20,6 +20,7 @@
             <mat-label>ลำดับที่</mat-label>
             <input matInput [formControlName]="'priority'">
             <div class="copy-fields-toggles" matSuffix></div>
+            <mat-error>ลำดับที่ is required</mat-error>
         </mat-form-field>
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
@@ -27,45 +28,87 @@
             <mat-select [formControlName]="'measureType'">
                 <mat-option *ngFor="let measureType of measureTypes" [value]="measureType.value">{{measureType.title}}</mat-option>
             </mat-select>
+            <mat-error>ประเภทการวัดผล is required</mat-error>
         </mat-form-field>
 
         <mat-form-field class="fuse-mat-textarea flex-auto">
             <mat-label>หัวข้อเป้าหมายย่อย</mat-label>
             <textarea matInput [formControlName]="'targetDetailDescription'" [rows]="3" matTextareaAutosize></textarea>
+            <mat-error>หัวข้อเป้าหมายย่อย is required</mat-error>
         </mat-form-field>
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
             <mat-label>ดัชนี</mat-label>
             <input matInput [formControlName]="'targetIndex'">
             <div class="copy-fields-toggles" matSuffix></div>
+            <mat-error>ดัชนี is required</mat-error>
         </mat-form-field>
 
-        <div class="flex flex-col sm:flex-row flex-auto gt-xs:pr-3 gap-4">
-            <mat-form-field class="flex-auto">
-                <mat-label>ค่าเป้าหมาย</mat-label>
-                <mat-select [formControlName]="'targetOperator'">
-                    <mat-option *ngFor="let symbol of symbols" [value]="symbol.value">{{symbol.title}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field class="flex-auto sm:mt-6">
-                <input matInput [formControlName]="'targetValue'" name="targetValue" appIntegerOnly>
-                <div class="copy-fields-toggles" matSuffix></div>
-            </mat-form-field>
+        <mat-label class="font-medium mb-1">ค่าเป้าหมาย</mat-label>
+        <div class="flex flex-row flex-auto gt-xs:pr-3 gap-4 items-center mb-4">
+            <mat-radio-group [formControlName]="'targetCondition'">
+                <mat-radio-button value="1">
+                    แบบที่ 1
+                </mat-radio-button>
+                <mat-radio-button class="ml-2" value="2">
+                    แบบที่ 2
+                </mat-radio-button>
+            </mat-radio-group>
+            <button *ngIf="subTargetForm.get('targetCondition').value === '2'" type="button" mat-icon-button (click)="addCondition()">
+                <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+            </button>
+        </div>
+        
+        <div [formArrayName]="'conditions'">
+            <div [formGroupName]="i" *ngFor="let condition of subTargetForm.get('conditions')['controls']; let i = index"
+                class="flex flex-row flex-auto gt-xs:pr-3 gap-4"
+            >
+                <ng-container *ngIf="!condition.get('markForDelete').value">
+                    <mat-form-field class="flex-auto">
+                        <mat-select [formControlName]="'targetOperator'">
+                            <mat-option *ngFor="let symbol of symbols" [value]="symbol.value">{{symbol.title}}</mat-option>
+                        </mat-select>
+                        <mat-error>Target Operator is required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="flex-auto">
+                        <input matInput [formControlName]="'targetValue'" appIntegerOnly>
+                        <div class="copy-fields-toggles" matSuffix></div>
+                        <mat-error>Target Value is required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="flex-auto">
+                        <mat-select [formControlName]="'resultColor'">
+                            <mat-option *ngFor="let resultColor of resultColors" [value]="resultColor.value">{{resultColor.title}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>Result Color is required</mat-error>
+                    </mat-form-field>
+                    <button *ngIf="subTargetForm.get('targetCondition').value === '2'" 
+                        type="button" class="mt-1" mat-icon-button (click)="removeCondition(i)">
+                        <mat-icon class="text-current" [svgIcon]="'heroicons_outline:minus'"></mat-icon>
+                    </button>
+                </ng-container>
+            </div>
         </div>
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
             <mat-label>หน่วย</mat-label>
             <input matInput [formControlName]="'targetUnit'">
             <div class="copy-fields-toggles" matSuffix></div>
+            <mat-error>หน่วย is required</mat-error>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>ค่าปัจจุบัน</mat-label>
             <input matInput [formControlName]="'currentTarget'">
             <div class="copy-fields-toggles" matSuffix></div>
+            <mat-error>ค่าปัจจุบัน is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
             <mat-label>ข้อมูลอ้างอิง</mat-label>
             <input matInput [formControlName]="'targetReferenceValue'">
             <div class="copy-fields-toggles" matSuffix></div>
+            <mat-error>ข้อมูลอ้างอิง is required</mat-error>
         </mat-form-field>
 
         <!-- <mat-form-field class="flex-auto gt-xs:pr-3">
@@ -99,6 +142,7 @@
                 (monthSelected)="chosenMonthHandler($event, startDatepicker, subTargetForm.get('startDate'))"
             >
             </mat-datepicker>
+            <mat-error>เริ่ม is required</mat-error>
         </mat-form-field>
 
         <!-- <mat-form-field class="flex-auto gt-xs:pr-3">
@@ -131,7 +175,16 @@
                 (yearSelected)="chosenYearHandler($event, subTargetForm.get('finishDate'))"
                 (monthSelected)="chosenMonthHandler($event, finishDatepicker, subTargetForm.get('finishDate'))"    
             ></mat-datepicker>
+            <mat-error>เสร็จ is required</mat-error>
         </mat-form-field>
+
+        <mat-checkbox class="mb-4" [formControlName]="'isCritical'">Critical KPI</mat-checkbox>
+
+        <!-- Alert -->
+        <fuse-alert class="col-span-12" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false" [type]="alert.type"
+            [@shake]="alert.type === 'error'">
+            {{alert.message}}
+        </fuse-alert>
 
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">

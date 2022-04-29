@@ -63,7 +63,7 @@
                 <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
                 &nbsp;<span>Back</span>
             </a>
-            <a (click)="save()" class="flex items-center cursor-pointer ml-3">
+            <a *ngIf="canSave" (click)="save()" class="flex items-center cursor-pointer ml-3">
                 <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
             </a>
             <!-- <a (click)="submit()" class="flex items-center cursor-pointer ml-3">

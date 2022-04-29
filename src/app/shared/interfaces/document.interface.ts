@@ -55,8 +55,7 @@ export interface SubTarget {
     targetDetailDescription: string;
     targetCondition: string;
     targetIndex: string;
-    targetOperator: string;
-    targetValue: string;
+    conditions: Condition[];
     targetReferenceValue: string;
     targetUnit: string;
     currentTarget: string;
@@ -70,6 +69,18 @@ export interface SubTarget {
     markForDelete: boolean;
     topics: Topic[];
     plans: Plan[];
+}
+
+export interface Condition {
+    id: number;
+    targetDetailId: number;
+    targetCondition: string;
+    targetOperator: string;
+    targetValue: number;
+    resultColor: string;
+    isActive: boolean;
+    markForEdit: boolean;
+    markForDelete: boolean;
 }
 
 export interface Topic {
@@ -128,4 +139,7 @@ export class DocumentParams {
     DocumentStatus?: string;
     DocumentType?: string;
     TargetType?: string;
+    ToDocumentYear?: string;
+    SearchText?: string;
+    IsCritical?: string;
 }

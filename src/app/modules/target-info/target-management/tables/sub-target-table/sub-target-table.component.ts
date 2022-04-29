@@ -64,8 +64,7 @@ export class SubTargetTableComponent implements OnInit {
           targetDetailDescription: subTarget.targetDetailDescription,
           targetCondition: subTarget.targetCondition,
           targetIndex: subTarget.targetIndex,
-          targetOperator: subTarget.targetOperator,
-          targetValue: subTarget.targetValue,
+          conditions: subTarget.conditions,
           targetReferenceValue: subTarget.targetReferenceValue,
           targetUnit: subTarget.targetUnit,
           currentTarget: subTarget.currentTarget,
@@ -98,8 +97,8 @@ export class SubTargetTableComponent implements OnInit {
         this.subTargets[index].measureType = subTarget.measureType;
         this.subTargets[index].targetDetailDescription = subTarget.targetDetailDescription;
         this.subTargets[index].targetIndex = subTarget.targetIndex;
-        this.subTargets[index].targetOperator = subTarget.targetOperator;
-        this.subTargets[index].targetValue = subTarget.targetValue;
+        this.subTargets[index].targetCondition = subTarget.targetCondition;
+        this.subTargets[index].conditions = subTarget.conditions;
         this.subTargets[index].targetUnit = subTarget.targetUnit;
         this.subTargets[index].currentTarget = subTarget.currentTarget;
         this.subTargets[index].targetReferenceValue = subTarget.targetReferenceValue;
@@ -107,6 +106,7 @@ export class SubTargetTableComponent implements OnInit {
         this.subTargets[index].startYear = subTarget.startYear;
         this.subTargets[index].finishMonth = subTarget.finishMonth;
         this.subTargets[index].finishYear = subTarget.finishYear;
+        this.subTargets[index].isCritical = subTarget.isCritical;
         this.subTargets[index].markForEdit = true;
         this.subTargetTable.renderRows();
         this.markForEdit.emit(this.targetId);

@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { Plan } from 'app/shared/interfaces/document.interface';
+import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import moment from 'moment';
 import { ModalMode } from '../modal.type';
 
@@ -16,6 +17,7 @@ import { ModalMode } from '../modal.type';
 export class MethodModalComponent implements OnInit {
   isEdit: boolean = false;
   methodForm: FormGroup;
+  yearMonthForm: FormGroup;
   years: any[] = [
     { title: moment().year().toString(), value: moment().year().toString() },
     { title: (moment().year() + 1).toString(), value: (moment().year() + 1).toString() },
@@ -37,12 +39,6 @@ export class MethodModalComponent implements OnInit {
   ];
   yearMonthTags: any[] = [];
   methods: Plan[] = [];
-
-  showAlert: boolean = false;
-  alert: { type: FuseAlertType; message: string } = {
-    type: 'success',
-    message: ''
-  };
 
   monthIndexMap = {
     'jan': 'useMonth1',
@@ -74,10 +70,19 @@ export class MethodModalComponent implements OnInit {
     'dec': 'valueMonth12'
   }
 
+  // alert
+  showAlert: boolean = false;
+  hasApiError: boolean = false;
+  alert: { type: FuseAlertType; message: string } = {
+    type: 'success',
+    message: ''
+  };
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public modalData: any,
     public matDialogRef: MatDialogRef<MethodModalComponent>,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit(): void {
@@ -97,26 +102,21 @@ export class MethodModalComponent implements OnInit {
     }
     const planDescription = this.methods.length > 0 ? this.methods[0].planDescription : '';
     const year = this.isEdit ? this.modalData.selectedYear.toString() : moment().year().toString();
+    const month = this.months[moment().month()].value;
     const undertaker = this.methods.length > 0 ? this.methods[0].undertaker : '';
 
-    // initiate yearMonthTags
-    const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-    for (let plan of this.methods) {
-      // by year
-      for (let month of months) {
-        if (plan[this.monthIndexMap[month]]) this.yearMonthTags.push({ year: plan.planYear.toString(), month });
-      }
-    }
+    this.yearMonthForm = this._formBuilder.group({
+      year: [year, [Validators.required]],
+      month: [month, [Validators.required]],
+    });
 
     this.methodForm = this._formBuilder.group({
       priority: [{ value: priority, disabled: true }, [Validators.required]],
       planDescription: [planDescription, [Validators.required]],
-      year: [year, []],
-      month: ['', []],
       undertaker: [undertaker, [Validators.required]],
     });
 
-    this.methodForm.get('year').valueChanges.subscribe(v => {
+    this.yearMonthForm.get('year').valueChanges.subscribe(v => {
       const year = parseInt(v);
       currentYearPlan = this.methods.find(v => v.planYear === year);
       if (currentYearPlan) {
@@ -127,34 +127,42 @@ export class MethodModalComponent implements OnInit {
       this.methodForm.get('priority').setValue(priority);
     });
 
-    this.alert = {
-      type: 'error',
-      message: 'Wrong email or password'
-    };
+    // initiate yearMonthTags
+    const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+    for (let plan of this.methods) {
+      // by year
+      for (let month of months) {
+        if (plan[this.monthIndexMap[month]]) this.yearMonthTags.push({ year: plan.planYear.toString(), month });
+      }
+    }
   }
 
   addTag(): void {
-    this.showAlert = false;
-    const year = this.methodForm.get('year').value;
-    const month = this.methodForm.get('month').value;
-    if (this.checkDuplicate(year, month)) {
-      this.alert = {
-        type: 'error',
-        message: 'Duplicate year and month.'
-      };
-      this.showAlert = true;
+    if (!this.yearMonthForm.valid) {
+      this.yearMonthForm.markAllAsTouched();
       return;
-    };
-    this.yearMonthTags.push({
-      year,
-      month
-    });
+    } else {
+      const year = this.yearMonthForm.get('year').value;
+      const month = this.yearMonthForm.get('month').value;
+      if (this.checkDuplicate(year, month)) {
+        this._confirmationService.warning('Duplicate year and month.')
+        return;
+      };
+      this.yearMonthTags.push({
+        year,
+        month
+      });
+      this.yearMonthForm.get('year').reset();
+      this.yearMonthForm.get('month').reset();
+    }
   }
 
   deleteTag(i): void {
     const method = this.methods.find(v => v.planYear === parseInt(this.yearMonthTags[i].year));
-    method[this.monthIndexMap[this.yearMonthTags[i].month]] = false;
-    method[this.valueMonthIndexMap[this.yearMonthTags[i].month]] = 0;
+    if (method) {
+      method[this.monthIndexMap[this.yearMonthTags[i].month]] = false;
+      method[this.valueMonthIndexMap[this.yearMonthTags[i].month]] = 0;
+    }
     this.yearMonthTags.splice(i, 1);
   }
 
@@ -167,12 +175,28 @@ export class MethodModalComponent implements OnInit {
   }
 
   saveAndClose(): any {
-    this.matDialogRef.close(
-      {
+    if (!this.methodForm.valid) {
+      this.methodForm.markAllAsTouched();
+      this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
+      return;
+    } else {
+      this.matDialogRef.close({
         form: this.methodForm.getRawValue(),
         yearMonthTags: this.yearMonthTags
-      }
-    );
+      })
+    }
   }
 
+  showError(error: string, hasApiError?: boolean) {
+    this.showAlert = true;
+    this.alert = {
+      type: 'error',
+      message: error
+    };
+    if (hasApiError) this.hasApiError = true;
+  }
+
+  isShowError() {
+    return (this.showAlert && !this.methodForm.valid) || this.hasApiError;
+  }
 }

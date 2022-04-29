@@ -14,9 +14,8 @@ import { LookupService } from 'app/shared/services/lookup.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { UrlService } from 'app/shared/services/url.service';
 import * as moment from 'moment';
-import { firstValueFrom, Subject, takeUntil } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { TargetService } from '../target.service';
-import { RunningNo, TargetRecord } from '../target.types';
 import { TargetTableComponent } from './tables/target-table/target-table.component';
 
 @Component({
@@ -30,10 +29,14 @@ export class TargetManagementComponent implements OnInit {
   @Input() runningNo: string;
   @ViewChild('targetTable') targetTable: TargetTableComponent;
   @ViewChild(NgForm) f: NgForm;
+  user: User;
   mode: string;
   document: Partial<DocumentDetail>;
   previousUrl: string;
   documentId: number;
+  
+  // privillege
+  canSave: boolean = false;
 
   // bind value
   selectedDocumentType: string;
@@ -53,8 +56,6 @@ export class TargetManagementComponent implements OnInit {
     message: ''
   };
 
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
-
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _targetService: TargetService,
@@ -71,6 +72,8 @@ export class TargetManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.user = this._activatedRoute.snapshot.data.user;
+
     this._urlService.previousUrl$.subscribe((previousUrl: string) => {
       this.previousUrl = previousUrl;
     });
@@ -110,31 +113,27 @@ export class TargetManagementComponent implements OnInit {
       });
 
       const organizeCode = this._activatedRoute.snapshot.paramMap.get('organizeCode');
-      this._userService.user$
-        .pipe((takeUntil(this._unsubscribeAll)))
-        .subscribe((user: User) => {
-          const organize = user.organizes.find((v) => v.organizeCode === organizeCode);
-          this.document = {};
-          this.document.businessUnit = organize.businessUnit;
-          this.document.subBusinessUnit = organize.subBusinessUnit;
-          this.document.plant = organize.plant;
-          this.document.division = organize.division;
-          this.document.userHolder = user.name;
-          this.document.documentNo = '';
-          this.document.documentStatusDescription = 'New';
-          this.document.revisionNo = '';
-          this.document.modifyNo = '';
-          this.document.documentDate = moment().format('YYYY-MM-DDTHH:mm:ss.SSS');
-          this.document.dueDate = '';
+      const organize = this.user.organizes.find((v) => v.organizeCode === organizeCode);
+      this.document = {};
+      this.document.businessUnit = organize.businessUnit;
+      this.document.subBusinessUnit = organize.subBusinessUnit;
+      this.document.plant = organize.plant;
+      this.document.division = organize.division;
+      this.document.userHolder = this.user.name;
+      this.document.documentNo = '';
+      this.document.documentStatusDescription = 'New';
+      this.document.revisionNo = '';
+      this.document.modifyNo = '';
+      this.document.documentDate = moment().format('YYYY-MM-DDTHH:mm:ss.SSS');
+      this.document.dueDate = '';
 
-          this.document.organizeCode = organize.organizeCode;
-          this.document.businessUnitCode = organize.businessUnitCode;
-          this.document.subBusinessUnitCode = organize.subBusinessUnitCode;
-          this.document.plantCode = organize.plantCode;
-          this.document.divisionCode = organize.divisionCode;
+      this.document.organizeCode = organize.organizeCode;
+      this.document.businessUnitCode = organize.businessUnitCode;
+      this.document.subBusinessUnitCode = organize.subBusinessUnitCode;
+      this.document.plantCode = organize.plantCode;
+      this.document.divisionCode = organize.divisionCode;
 
-          this.targets = [];
-        });
+      this.targets = [];
     } else {
       // from my-target
       const id = parseInt(this._activatedRoute.snapshot.paramMap.get('id'));
@@ -149,6 +148,8 @@ export class TargetManagementComponent implements OnInit {
       this.f.control.markAllAsTouched();
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
+    } else if (!this.checkAtLeastOneEach()) {
+      this.showError('แต่ละ document ต้องมี 1 ขั้นต่ำเป้าหมายหลักที่มี 1 ขึ้นต่ำเป้าหมายย่อยที่มี 1 ขั้นต่ำ แผนงานและรายละเอียด', true);
     } else {
       this._confirmationService.save().afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {
@@ -221,6 +222,7 @@ export class TargetManagementComponent implements OnInit {
 
   hideError() {
     this.showAlert = false;
+    this.hasApiError = false;
     this.alert = {
       type: 'success',
       message: ''
@@ -244,15 +246,6 @@ export class TargetManagementComponent implements OnInit {
     }
   }
 
-  /**
-     * On destroy
-     */
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next(null);
-    this._unsubscribeAll.complete();
-  }
-
   markForEditHandler(targetId: number) {
     // TODO: markforedit document
   }
@@ -264,8 +257,30 @@ export class TargetManagementComponent implements OnInit {
         this.runningNo = this.document.documentNo;
         this.documentId = this.document.id;
         this.targets = this.document.targets;
+        // check privillege
+        const organizes = this.user.organizes;
+        const organize = organizes.find((v) => v.organizeCode === this.document.organizeCode);
+        for (let role of organize.roles) {
+          if (role.roleCode === 'D01') this.canSave = true;
+        }
       },
       error: (e) => console.error(e)
     });
+  }
+
+  checkAtLeastOneEach(): boolean {
+    const targets = this.targets.filter((v) => !v.markForDelete);
+    if (targets.length === 0) return false;
+    for (let target of targets) {
+      const subTargets = target.details.filter((v) => !v.markForDelete);
+      if (subTargets.length === 0) return false;
+      for (let subTarget of subTargets) {
+        const topics = subTarget.topics.filter((v) => !v.markForDelete);
+        const plans = subTarget.plans.filter((v) => !v.markForDelete);
+        if (topics.length === 0) return false;
+        if (plans.length === 0) return false;
+      }
+    }
+    return true;
   }
 }

@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
+import { UserService } from "app/core/user/user.service";
 import { MasterService } from "app/modules/admin/master/master.service";
 import { OrganizationService } from "app/modules/admin/organization/organization.service";
 import { LookupService } from "app/shared/services/lookup.service";
-import { Observable } from "rxjs";
+import { Observable, take } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -41,6 +42,17 @@ export class DocumentTypesResolver implements Resolve<any>
     }
 }
 
+@Injectable({
+    providedIn: 'root'
+})
+export class TargetTypesResolver implements Resolve<any>
+{
+    constructor(private _lookupService: LookupService) { }
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        return this._lookupService.getLookups('TARGET_TYPE');
+    }
+}
 
 @Injectable({
     providedIn: 'root'
@@ -87,5 +99,18 @@ export class DivisionsResolver implements Resolve<any>
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
         return this._masterService.getMasters('DIVISION');
+    }
+}
+
+
+@Injectable({
+    providedIn: 'root'
+})
+export class UserResolver implements Resolve<any>
+{
+    constructor(private _userService: UserService) { }
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        return this._userService.user$.pipe(take(1));;
     }
 }

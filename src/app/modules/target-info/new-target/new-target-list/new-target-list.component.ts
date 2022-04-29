@@ -69,7 +69,7 @@ export class NewTargetListComponent implements OnInit {
         for (let org of this.organizes) {
           org.canCreate = false;
           for (let role of org.roles) {
-            if (role.roleId === 2) org.canCreate = true;
+            if (role.roleCode === 'D01') org.canCreate = true;
           }
         }
         this.dataSource.data = this.organizes;

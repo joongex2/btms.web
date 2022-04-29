@@ -20,11 +20,13 @@
             <mat-label>ลำดับที่</mat-label>
             <input matInput [formControlName]="'priority'">
             <div class="copy-fields-toggles" matSuffix></div>
+            <mat-error>ลำดับที่ is required</mat-error>
         </mat-form-field>
 
         <mat-form-field class="fuse-mat-textarea flex-auto">
             <mat-label>หัวข้อเป้าหมาย</mat-label>
             <textarea matInput [rows]="3" matTextareaAutosize [formControlName]="'targetName'"></textarea>
+            <mat-error>หัวข้อเป้าหมาย is required</mat-error>
         </mat-form-field>
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
@@ -32,6 +34,7 @@
             <mat-select [formControlName]="'standard'">
                 <mat-option *ngFor="let standard of standards" [value]="standard.value">{{standard.title}}</mat-option>
             </mat-select>
+            <mat-error>Standard is required</mat-error>
         </mat-form-field>
         
         <mat-form-field class="flex-auto gt-xs:pr-3">
@@ -39,12 +42,20 @@
             <mat-select [formControlName]="'targetMission'">
                 <mat-option *ngFor="let relativeTarget of relativeTargets" [value]="relativeTarget.value">{{relativeTarget.title}}</mat-option>
             </mat-select>
+            <mat-error>พันธะมุ่งหมาย is required</mat-error>
         </mat-form-field>
+
+        <!-- Alert -->
+        <fuse-alert class="col-span-12" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false" [type]="alert.type"
+            [@shake]="alert.type === 'error'">
+            {{alert.message}}
+        </fuse-alert>
 
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
             <div class="flex-none flex items-center cursor-pointer"
-                [mat-dialog-close]="targetForm.getRawValue()">
+                (click)="saveAndClose()"    
+            >
                 <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>ตกลง</span>
             </div>
             <div class="flex-none sm:ml-2 flex items-center cursor-pointer"

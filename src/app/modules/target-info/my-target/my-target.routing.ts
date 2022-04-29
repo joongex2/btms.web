@@ -3,7 +3,7 @@ import { MenuGuard } from 'app/core/auth/guards/menu.guard';
 import { TargetManagementComponent } from '../target-management/target-management.component';
 import { MyTargetListComponent } from './my-target-list/my-target-list.component';
 import { MyTargetComponent } from './my-target.component';
-import { BusResolver, DivisionsResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, StatusesResolver, SubBusResolver } from './my-target.resolver';
+import { BusResolver, DivisionsResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, StatusesResolver, SubBusResolver, TargetTypesResolver, UserResolver } from '../../../shared/resolver';
 
 export const myTargetRoutes: Route[] = [
     {
@@ -18,6 +18,7 @@ export const myTargetRoutes: Route[] = [
                     organizes: OrganizesResolver,
                     statuses: StatusesResolver,
                     documentTypes: DocumentTypesResolver,
+                    targetTypes: TargetTypesResolver,
                     bus: BusResolver,
                     subBus: SubBusResolver,
                     plants: PlantsResolver,
@@ -27,7 +28,10 @@ export const myTargetRoutes: Route[] = [
             {
                 path: ':id',
                 component: TargetManagementComponent,
-                data: { mode: 'edit' }
+                data: { mode: 'edit' },
+                resolve: {
+                    user: UserResolver
+                }
             }
         ]
     }

@@ -20,6 +20,7 @@
             <mat-label>ลำดับที่</mat-label>
             <input matInput [formControlName]="'priority'">
             <div class="copy-fields-toggles" matSuffix></div>
+            <mat-error>ลำดับที่ is required</mat-error>
         </mat-form-field>
 
         <mat-form-field>
@@ -53,9 +54,7 @@
             <mat-label>ทรัพยากรที่ต้องการ</mat-label>
             <input matInput [formControlName]="'resource'">
             <div class="copy-fields-toggles" matSuffix></div>
-            <mat-error>
-                ทรัพยากรที่ต้องการ is required
-            </mat-error>
+            <mat-error>ทรัพยากรที่ต้องการ is required</mat-error>
         </mat-form-field>
 
         <mat-form-field>
@@ -63,6 +62,12 @@
             <input matInput [formControlName]="'undertaker'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
+
+        <!-- Alert -->
+        <fuse-alert class="col-span-12" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false" [type]="alert.type"
+            [@shake]="alert.type === 'error'">
+            {{alert.message}}
+        </fuse-alert>
 
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">

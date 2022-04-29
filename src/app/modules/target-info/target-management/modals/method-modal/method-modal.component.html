@@ -21,41 +21,35 @@
             <mat-label>ลำดับที่</mat-label>
             <input matInput [formControlName]="'priority'">
             <div class="copy-fields-toggles" matSuffix></div>
+            <mat-error>ลำดับที่ is required</mat-error>
         </mat-form-field>
 
         <!-- Subject -->
         <mat-form-field class="fuse-mat-textarea flex-auto">
             <mat-label>แผนงาน/รายละเอียด</mat-label>
             <textarea matInput [formControlName]="'planDescription'" [rows]="5" matTextareaAutosize></textarea>
+            <mat-error>แผนงาน/รายละเอียด is required</mat-error>
         </mat-form-field>
 
-        <div class="flex flex-0 flex-col sm:flex-row sm:items-center sm:space-x-4 sm:justify-between">
+        <div [formGroup]="yearMonthForm" class="flex flex-0 flex-col sm:flex-row sm:items-center sm:space-x-4 sm:justify-between">
             <mat-form-field class="flex-auto gt-xs:pr-3">
                 <mat-label>ปี</mat-label>
                 <mat-select [formControlName]="'year'">
                     <mat-option *ngFor="let year of years" [value]="year.value">{{year.title}}</mat-option>
                 </mat-select>
+                <mat-error>ปี</mat-error>
             </mat-form-field>
             <mat-form-field class="flex-auto gt-xs:pr-3">
                 <mat-label>เดือน</mat-label>
                 <mat-select [formControlName]="'month'">
                     <mat-option *ngFor="let month of months" [value]="month.value">{{month.title}}</mat-option>
                 </mat-select>
+                <mat-error>เดือน</mat-error>
             </mat-form-field>
-            <button mat-icon-button (click)="addTag()">
+            <button type="button" mat-icon-button (click)="addTag()">
                 <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
             </button>
         </div>
-
-        <fuse-alert
-            class="mb-4"
-            *ngIf="showAlert"
-            [appearance]="'outline'"
-            [showIcon]="false"
-            [type]="alert.type"
-            [@shake]="alert.type === 'error'">
-            {{alert.message}}
-        </fuse-alert>
 
         <div *ngIf="yearMonthTags.length > 0" class="flex flex-row flex-wrap gap-5 mb-4 items-center">
             <div *ngFor="let yearMonthTag of yearMonthTags; let i = index" class="tag-box">
@@ -65,26 +59,19 @@
                 </button>                
             </div>
         </div>
-        <!-- <section class="example-section mb-2">
-            <mat-checkbox class="example-margin">ม.ค.</mat-checkbox>
-            <mat-checkbox class="example-margin">ก.พ.</mat-checkbox>
-            <mat-checkbox class="example-margin">มี.ค.</mat-checkbox>
-            <mat-checkbox class="example-margin">เม.ย.</mat-checkbox>
-            <mat-checkbox class="example-margin">พ.ค.</mat-checkbox>
-            <mat-checkbox class="example-margin">มิ.ย.</mat-checkbox>
-            <mat-checkbox class="example-margin">ก.ค.</mat-checkbox>
-            <mat-checkbox class="example-margin">ส.ค.</mat-checkbox>
-            <mat-checkbox class="example-margin">ก.ย.</mat-checkbox>
-            <mat-checkbox class="example-margin">ต.ค.</mat-checkbox>
-            <mat-checkbox class="example-margin">พ.ย.</mat-checkbox>
-            <mat-checkbox class="example-margin">ธ.ค.</mat-checkbox>
-        </section> -->
 
         <mat-form-field>
             <mat-label>ผู้รับผิดชอบ (ตำแหน่งงาน)</mat-label>
             <input matInput [formControlName]="'undertaker'">
             <div class="copy-fields-toggles" matSuffix></div>
+            <mat-error>ผู้รับผิดชอบ (ตำแหน่งงาน) is required</mat-error>
         </mat-form-field>
+
+        <!-- Alert -->
+        <fuse-alert class="col-span-12" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false" [type]="alert.type"
+            [@shake]="alert.type === 'error'">
+            {{alert.message}}
+        </fuse-alert>
 
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">

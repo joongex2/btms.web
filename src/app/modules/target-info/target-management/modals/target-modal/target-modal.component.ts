@@ -1,19 +1,29 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { genRandomNumberString } from '../../tables/mock-table-data';
-import { ModalData, ModalMode } from '../modal.type';
+import { fuseAnimations } from '@fuse/animations';
+import { FuseAlertType } from '@fuse/components/alert';
+import { ModalMode } from '../modal.type';
 
 @Component({
   selector: 'app-target-modal',
   templateUrl: './target-modal.component.html',
-  styleUrls: ['./target-modal.component.scss']
+  styleUrls: ['./target-modal.component.scss'],
+  animations: [fuseAnimations]
 })
 export class TargetModalComponent implements OnInit {
   isEdit: boolean = false;
   targetForm: FormGroup;
   standards: any[];
   relativeTargets: any[];
+
+  // alert
+  showAlert: boolean = false;
+  hasApiError: boolean = false;
+  alert: { type: FuseAlertType; message: string } = {
+    type: 'success',
+    message: ''
+  };
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public modalData: any,
@@ -41,5 +51,28 @@ export class TargetModalComponent implements OnInit {
 
   close(): void {
     this.matDialogRef.close();
+  }
+
+  saveAndClose(): void {
+    if (!this.targetForm.valid) {
+      this.targetForm.markAllAsTouched();
+      this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
+      return;
+    } else {
+      this.matDialogRef.close(this.targetForm.getRawValue());
+    }
+  }
+
+  showError(error: string, hasApiError?: boolean) {
+    this.showAlert = true;
+    this.alert = {
+      type: 'error',
+      message: error
+    };
+    if (hasApiError) this.hasApiError = true;
+  }
+
+  isShowError() {
+    return (this.showAlert && !this.targetForm.valid) || this.hasApiError;
   }
 }

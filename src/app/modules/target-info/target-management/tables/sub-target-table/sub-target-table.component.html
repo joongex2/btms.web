@@ -32,7 +32,11 @@
     <ng-container matColumnDef="symbolValue">
         <th mat-header-cell *matHeaderCellDef>ค่าเป้าหมาย</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{ element.targetOperator }}{{ element.targetValue }}
+            <ng-container *ngFor="let condition of element.conditions; let i = index">
+                {{ condition.targetOperator }}{{ condition.targetValue }}
+                <ng-container *ngIf="i !== element.conditions.length - 1"><br></ng-container>
+            </ng-container> 
+            
         </td>
     </ng-container>
     <ng-container matColumnDef="targetUnit">
@@ -95,8 +99,7 @@
                         [mainMethods]="[{}]"
                         [topics]="element?.topics"
                         [plans]="element?.plans"
-                        [targetOperator]="element?.targetOperator"
-                        [targetValue]="element?.targetValue"  
+                        [conditions]="element?.conditions"
                         (markForEdit)="markForEditHandler($event)" 
                     >
                     </app-main-method-table>

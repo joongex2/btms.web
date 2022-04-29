@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
-import { Plan, Topic } from 'app/shared/interfaces/document.interface';
+import { Condition, Plan, Topic } from 'app/shared/interfaces/document.interface';
 import { MainMethod, MainMethodRecord } from '../../../target.types';
 import { genMockMainMethodRecord } from '../mock-table-data';
 
@@ -16,8 +16,7 @@ export class MainMethodTableComponent implements OnInit {
   @Input() mainMethods: MainMethodRecord[];
   @Input() topics: Topic[];
   @Input() plans: Plan[];
-  @Input() targetOperator: string;
-  @Input() targetValue: string;
+  @Input() conditions: Condition[];
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('mainMethodTable') mainMethodTable: MatTable<MainMethod>;
 

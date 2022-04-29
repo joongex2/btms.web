@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, Quer
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatTable } from '@angular/material/table';
-import { Plan } from 'app/shared/interfaces/document.interface';
+import { Condition, Plan } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { TargetService } from '../../../target.service';
 import { Method, ResultRecord } from '../../../target.types';
@@ -32,8 +32,7 @@ export class MethodTableComponent implements OnInit {
       this.yearChange(this.selectedYear);
     }
   }
-  @Input() targetOperator: string;
-  @Input() targetValue: string;
+  @Input() conditions: Condition[];
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('methodTable') methodTable: MatTable<Method>;
   @ViewChildren('yearSelect') yearSelects: QueryList<MatSelect>;
@@ -177,17 +176,24 @@ export class MethodTableComponent implements OnInit {
   }
 
   editMethods(methodModalData: any): void {
+    for (let method of this._methods) {
+      if (!method.markForDelete) {
+        method.planDescription = methodModalData.form.planDescription;
+        method.undertaker = methodModalData.form.undertaker;
+        method.markForEdit = true;
+      }
+    }
+
     for (let tag of methodModalData.yearMonthTags) {
       let plan: Plan;
       const findMethod = this._methods.find(v => v.planYear === parseInt(tag.year) && !v.markForDelete);
       if (findMethod) {
-        // already have year in newPlan
+        // already have year in _methods
         findMethod[`useMonth${this.monthIndexMap[tag.month]}`] = true;
-        findMethod[`valueMonth${this.monthIndexMap[tag.month]}`] = this.targetValue;
+        findMethod[`valueMonth${this.monthIndexMap[tag.month]}`] = '0'; // TODO: use from conditions
         findMethod.markForEdit = true;
       } else {
-        // not have year in newPlan
-        // const existingPlan = this.methods.find(v => v.planYear === parseInt(tag.year) && !v.markForDelete);
+        // not have year in _methods
         plan = {
           id: 0,
           priority: this._methods.length + 1,
@@ -222,7 +228,7 @@ export class MethodTableComponent implements OnInit {
           markForDelete: false
         };
         plan[`useMonth${this.monthIndexMap[tag.month]}`] = true;
-        plan[`valueMonth${this.monthIndexMap[tag.month]}`] = this.targetValue;
+        plan[`valueMonth${this.monthIndexMap[tag.month]}`] = '0'; // TODO: use from conditions
         this._methods.push(plan);
       }
     }
