@@ -12,7 +12,7 @@
         </td>
     </ng-container>
     <ng-container matColumnDef="planYear">
-        <th mat-header-cell *matHeaderCellDef>ปี</th>
+        <th mat-header-cell *matHeaderCellDef class="text-center">ปี</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
             <div class="w-full p-1">
                 <mat-form-field class="w-full year-select">
@@ -37,7 +37,7 @@
             <span class="w-full">
                 <ng-container *ngIf="element['useMonth' + (colI + 1)]">
                     <div class="flex flex-col items-center">
-                        <div class="underline">{{element['valueMonth' + (colI + 1)]}}</div>
+                        <div>{{element['valueMonth' + (colI + 1)]}}</div>
                         <mat-icon class="w-5 min-w-5" [svgIcon]="'heroicons_solid:check'"></mat-icon>
                     </div>
                     <!-- {{getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value) ? 
@@ -50,7 +50,7 @@
         </td>
     </ng-container>
     <ng-container matColumnDef="undertaker">
-        <th mat-header-cell *matHeaderCellDef>ผู้รับผิดชอบ</th>
+        <th mat-header-cell *matHeaderCellDef class="text-center">ผู้รับผิดชอบ</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
             {{element.undertaker}}
         </td>

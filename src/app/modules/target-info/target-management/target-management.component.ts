@@ -135,6 +135,7 @@ export class TargetManagementComponent implements OnInit {
       this.document.divisionCode = organize.divisionCode;
 
       this.targets = [];
+      this.checkCanSave();
     } else {
       // from my-target
       const id = parseInt(this._activatedRoute.snapshot.paramMap.get('id'));
@@ -259,15 +260,19 @@ export class TargetManagementComponent implements OnInit {
         this.documentId = this.document.id;
         this.targets = this.document.targets;
         // check privillege
-        const organizes = this.user.organizes;
-        const organize = organizes.find((v) => v.organizeCode === this.document.organizeCode);
-        for (let role of organize.roles) {
-          if (role.roleCode === 'D01') this.canSave = true;
-        }
+        this.checkCanSave();
         this.loadStandards(this.document.documentType);
       },
       error: (e) => console.error(e)
     });
+  }
+
+  checkCanSave() {
+    const organizes = this.user.organizes;
+    const organize = organizes.find((v) => v.organizeCode === this.document.organizeCode);
+    for (let role of organize.roles) {
+      if (role.roleCode === 'D01') this.canSave = true;
+    }
   }
 
   checkAtLeastOneEach(): boolean {

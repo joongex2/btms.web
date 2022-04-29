@@ -58,7 +58,7 @@
             </div>
         </div>
         <!-- Actions -->
-        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 self-end">
             <a (click)="goBack()" class="flex items-center cursor-pointer">
                 <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
                 &nbsp;<span>Back</span>
@@ -85,14 +85,14 @@
                     </mat-expansion-panel-header>
         
                     <form #f="ngForm">
-                        <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
-                            <div class="col-span-6 sm:col-span-3 font-medium">Document Type</div>
+                        <div class="grid gap-x-4 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
+                            <div class="col-span-6 sm:col-span-2 font-medium">Document Type</div>
                             <ng-container *ngIf="mode === 'edit';else documentTypeSelect">
-                                <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.documentTypeDescription :
+                                <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentTypeDescription :
                                     '-'}}</span></div>
                             </ng-container>
                             <ng-template #documentTypeSelect>
-                                <div class="col-span-6 sm:col-span-3 flex items-center">
+                                <div class="col-span-6 sm:col-span-4 flex items-center">
                                     :
                                     <mat-form-field class="flex-auto ml-2">
                                         <mat-select 
@@ -110,12 +110,12 @@
                                 </div>
                             </ng-template>
                             
-                            <div class="col-span-6 sm:col-span-3 font-medium">Year</div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Year</div>
                             <ng-container *ngIf="mode === 'edit';else yearSelect">
-                                <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.documentYear : ''}}</span></div>
+                                <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentYear : ''}}</span></div>
                             </ng-container>
                             <ng-template #yearSelect>
-                                <div class="col-span-6 sm:col-span-3 flex items-center">
+                                <div class="col-span-6 sm:col-span-4 flex items-center">
                                     :
                                     <mat-form-field class="flex-auto ml-2">
                                         <mat-select [(ngModel)]="selectedYear" name="year" required>
@@ -126,13 +126,13 @@
                                     </mat-form-field>
                                 </div>
                             </ng-template>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Target Type</div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Target Type</div>
                             <ng-container *ngIf="mode === 'edit';else targetTypeSelect">
-                                <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.targetType :
+                                <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.targetType :
                                     '-'}}</span></div>
                             </ng-container>
                             <ng-template #targetTypeSelect>
-                                <div class="col-span-6 sm:col-span-3 flex items-center">
+                                <div class="col-span-6 sm:col-span-4 flex items-center">
                                     :
                                     <mat-form-field class="flex-auto ml-2">
                                         <mat-select [(ngModel)]="selectedTargetType" name="targetType" placeholder="กรุณาเลือก" required>
@@ -144,30 +144,30 @@
                                 </div>
                             </ng-template>
                             
-                            <div class="col-span-6 sm:col-span-3 font-medium">Running No.</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.documentNo : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Business Unit</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.businessUnit : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Status</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.documentStatusDescription : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Sub Business Unit</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.subBusinessUnit : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Revision No.</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.revisionNo : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Plant</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.plant : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Modify No.</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.modifyNo : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Division/Department</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.division : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Running No.</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentNo : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Business Unit</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.businessUnit : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Status</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentStatusDescription : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Sub Business Unit</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.subBusinessUnit : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Revision No.</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.revisionNo : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Plant</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.plant : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Modify No.</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.modifyNo : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Division/Department</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.division : ''}}</span></div>
                            
-                            <div class="col-span-6 sm:col-span-3 font-medium">Date Create</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? (document.documentDate | date : 'dd/MM/YYYY') : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Date Create</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? (document.documentDate | date : 'dd/MM/YYYY') : ''}}</span></div>
                            
-                            <div class="col-span-6 sm:col-span-3 font-medium">Creator</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? document.userHolder : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Date Due</div>
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{document ? (document.dueDate | date : 'dd/MM/YYYY')  : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Creator</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.userHolder : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Date Due</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? (document.dueDate | date : 'dd/MM/YYYY')  : ''}}</span></div>
                             <fuse-alert class="col-span-12 sm:col-start-1" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false"
                                 [type]="alert.type" [@shake]="alert.type === 'error'">
                                 {{alert.message}}
