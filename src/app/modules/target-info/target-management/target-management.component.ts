@@ -294,7 +294,9 @@ export class TargetManagementComponent implements OnInit {
     // load standards use in target-modal
     this._lookupService.getLookups('STANDARD', documentType).subscribe({
       next: (lookups: Lookup[]) => {
-        this.standards = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+        this.standards = lookups
+          .filter((v) => v.lookupType === 'STANDARD')
+          .map((v) => ({ title: v.lookupDescription, value: v.lookupDescription }));
       },
       error: (e) => console.error(e)
     });

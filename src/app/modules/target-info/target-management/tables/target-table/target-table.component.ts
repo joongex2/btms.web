@@ -50,7 +50,7 @@ export class TargetTableComponent implements OnInit {
   ngOnInit(): void {
     this._lookupService.getLookups('KPI_MISSION').subscribe({
       next: (lookups: Lookup[]) => {
-        this.kpiMissions = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+        this.kpiMissions = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupDescription }));
       },
       error: (e) => console.error(e)
     });
@@ -108,8 +108,8 @@ export class TargetTableComponent implements OnInit {
   }
 
   addTarget(): void {
-    if (!this.selectedDocumentType) {
-      this._confirmationService.warning('กรุณาเลือก ประเภทเป้าหมายก่อน');
+    if (!this.selectedDocumentType || !this.selectedTargetType) {
+      this._confirmationService.warning('กรุณาเลือก Document Type และ Target Type ก่อน');
       return;
     }
     // Open the dialog

@@ -73,6 +73,8 @@ export class SubTargetModalComponent implements OnInit {
       }
       if (targetCondition === '1' && !this.modalData.data.conditions.find(v => v.targetCondition === '1')) {
         conditions.push(this.newCondition('1'));
+      } else if (targetCondition === '2' && this.modalData.data.conditions.filter(v => v.targetCondition === '2').length === 0) {
+        conditions.push(this.newCondition('2'));
       }
     } else {
       conditions.push(this.newCondition('1'));
@@ -134,6 +136,7 @@ export class SubTargetModalComponent implements OnInit {
         for (let newCondition of newConditions) {
           conditions.push(newCondition);
         }
+        conditions.push(this.newCondition('2'));
       }
     });
   }
@@ -143,7 +146,13 @@ export class SubTargetModalComponent implements OnInit {
   }
 
   removeCondition(index) {
-    (this.subTargetForm.get('conditions') as FormArray).at(index).get('markForDelete').setValue(true);
+    const conditions = (this.subTargetForm.get('conditions') as FormArray);
+    const condition = conditions.at(index);
+    if (condition.get('id').value === 0) {
+      conditions.removeAt(index);
+    } else {
+      condition.get('markForDelete').setValue(true);
+    } 
   }
 
   newCondition(targetCondition: string): FormGroup {
