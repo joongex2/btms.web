@@ -24,3 +24,20 @@ $base-dark-color: #0b2642;
       }
     }
 }
+
+.tag-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 24px;
+    border-radius: 150px;
+    padding: 0 16px;
+    border-width: 1px;
+    --tw-border-opacity: 1 !important;
+    border-color: rgb(203 213 225 / var(--tw-border-opacity))!important;
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity))!important;
+    --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05) !important;
+    --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color) !important;
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)!important;
+}

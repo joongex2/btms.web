@@ -1,0 +1,52 @@
+<p class="table-title flex flex-row justify-between items-center">
+    <span>แผนงาน</span>
+    <span *ngIf="isEdit" class="flex items-center cursor-pointer" (click)="addTopic();">
+        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มแผนงาน
+    </span>
+</p>
+<table mat-table [dataSource]="topics" multiTemplateDataRows #topicTable>
+    <ng-container matColumnDef="priority">
+        <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.priority}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="planDescription">
+        <th mat-header-cell *matHeaderCellDef>Plan</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.planDescription}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="planTargetDate">
+        <th mat-header-cell *matHeaderCellDef>กำหนดเสร็จ</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.planTargetDate | date: 'dd/MM/yyyy'}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="resource">
+        <th mat-header-cell *matHeaderCellDef>ทรัพยากร</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.resource}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="undertaker">
+        <th mat-header-cell *matHeaderCellDef>ผู้รับผิดชอบ</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.undertaker}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="editIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <mat-icon *ngIf="isEdit" (click)="editTopic(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขแผนงาน"></mat-icon>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="deleteIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <mat-icon *ngIf="isEdit" (click)="deleteTopic(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบแผนงาน"></mat-icon>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.hidden]="row.markForDelete" class="normal-row"></tr>
+</table>

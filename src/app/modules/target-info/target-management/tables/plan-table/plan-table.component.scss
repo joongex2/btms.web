@@ -31,24 +31,64 @@ p.table-title {
 }
 
 /* column width */
-.mat-column-priority {
-    width: 10%;
+.mat-column-methodName {
+    width: 17.5%;
 }
 
-.mat-column-planDescription {
-    width: 41%;
+.mat-column-year {
+    width: 12.5%;
 }
 
-.mat-column-planTargetDate {
-    width: 14%;
+.mat-column-jan {
+    width: 5%;
 }
 
-.mat-column-resource {
-    width: 15%;
+.mat-column-feb {
+    width: 5%;
 }
 
-.mat-column-undertaker {
-    width: 15%;
+.mat-column-mar {
+    width: 5%;
+}
+
+.mat-column-apr {
+    width: 5%;
+}
+
+.mat-column-may {
+    width: 5%;
+}
+
+.mat-column-jun {
+    width: 5%;
+}
+
+.mat-column-jul {
+    width: 5%;
+}
+
+.mat-column-aug {
+    width: 5%;
+}
+
+.mat-column-sep {
+    width: 5%;
+}
+
+.mat-column-oct {
+    width: 5%;
+}
+
+.mat-column-nov {
+    width: 5%;
+}
+
+.mat-column-dec {
+    width: 5%;
+}
+
+.mat-column-owner {
+    width: 5%;
 }
 
 .mat-column-editIcon {
@@ -57,4 +97,14 @@ p.table-title {
 
 .mat-column-deleteIcon {
     width: 2.5%;
+}
+
+:host ::ng-deep .year-select .mat-form-field-wrapper {
+    padding: 4px 1px 0 1px !important;
+    font-size: 12px !important;
+}
+
+:host ::ng-deep .year-select .mat-form-field-flex {
+    min-height: 40px !important;
+    padding: 0 8px 0 8px !important;
 }

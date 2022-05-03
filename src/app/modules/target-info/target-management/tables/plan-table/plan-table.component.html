@@ -1,36 +1,56 @@
 <p class="table-title flex flex-row justify-between items-center">
-    <span>แผนงาน</span>
+    <span>รายละเอียด</span>
     <span *ngIf="isEdit" class="flex items-center cursor-pointer" (click)="addPlan();">
-        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มแผนงาน
+        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มรายละเอียด
     </span>
 </p>
-<table mat-table [dataSource]="plans" multiTemplateDataRows #planTable>
-    <ng-container matColumnDef="priority">
-        <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
-        <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{element.priority}}
-        </td>
-    </ng-container>
+<table mat-table [dataSource]="selectedPlan" multiTemplateDataRows #planTable>
     <ng-container matColumnDef="planDescription">
-        <th mat-header-cell *matHeaderCellDef>Plan</th>
+        <th mat-header-cell *matHeaderCellDef>รายละเอียด</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
             {{element.planDescription}}
         </td>
     </ng-container>
-    <ng-container matColumnDef="planTargetDate">
-        <th mat-header-cell *matHeaderCellDef>กำหนดเสร็จ</th>
+    <ng-container matColumnDef="planYear">
+        <th mat-header-cell *matHeaderCellDef class="text-center">ปี</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{element.planTargetDate | date: 'dd/MM/yyyy'}}
+            <div class="w-full p-1">
+                <mat-form-field class="w-full year-select">
+                    <mat-select 
+                        #yearSelect 
+                        name="yearSelect" 
+                        id="yearSelect" 
+                        [(ngModel)]="selectedYear"
+                        (ngModelChange)="yearChange($event)"
+                    >
+                        <mat-option *ngFor="let year of years" [value]="year">
+                            {{year}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
         </td>
     </ng-container>
-    <ng-container matColumnDef="resource">
-        <th mat-header-cell *matHeaderCellDef>ทรัพยากร</th>
-        <td mat-cell *matCellDef="let element; let i = dataIndex">
-            {{element.resource}}
+    <ng-container *ngFor="let col of monthColumns; let colI = index" [matColumnDef]="col">
+        <th mat-header-cell *matHeaderCellDef class="text-center">{{capitalizeFirstLetter(col)}}</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+            <span class="w-full">
+                <ng-container *ngIf="element['useMonth' + (colI + 1)]">
+                    <div class="flex flex-col items-center">
+                        <div>{{element['valueMonth' + (colI + 1)]}}</div>
+                        <mat-icon class="w-5 min-w-5" [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                    </div>
+                    <!-- {{getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value) ? 
+                        getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value)[col] ?
+                            getResultRecord(element.data.resultRecords, yearSelects.toArray()[i]?.value)[col].status 
+                            : '-'
+                        : '-'}} -->
+                </ng-container>
+            </span>
         </td>
     </ng-container>
     <ng-container matColumnDef="undertaker">
-        <th mat-header-cell *matHeaderCellDef>ผู้รับผิดชอบ</th>
+        <th mat-header-cell *matHeaderCellDef class="text-center">ผู้รับผิดชอบ</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
             {{element.undertaker}}
         </td>
@@ -38,13 +58,13 @@
     <ng-container matColumnDef="editIcon">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <mat-icon *ngIf="isEdit" (click)="editPlan(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขแผนงาน"></mat-icon>
+            <mat-icon *ngIf="isEdit" (click)="editPlan(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขรายละเอียด"></mat-icon>
         </td>
     </ng-container>
     <ng-container matColumnDef="deleteIcon">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <mat-icon *ngIf="isEdit" (click)="deletePlan(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบแผนงาน"></mat-icon>
+            <mat-icon *ngIf="isEdit" (click)="deletePlan(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบรายละเอียด"></mat-icon>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

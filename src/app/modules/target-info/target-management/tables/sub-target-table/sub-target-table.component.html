@@ -88,18 +88,27 @@
             <div class="expand-element"
             [@detailExpand]="checkExpanded(element) ? 'expanded' : 'collapsed'">
                 <div class="w-full">
-                    <app-main-method-table
+                    <p class="table-title topic-plan-title flex flex-row justify-between items-center">
+                        <span>แผนงาน/รายละเอียด</span>
+                    </p>
+                    <app-topic-table 
                         [runningNo]="runningNo"
                         [targetId]="targetId"
                         [subTargetId]="element.id"
-                        [mainMethods]="[{}]"
-                        [topics]="element?.topics"
-                        [plans]="element?.plans"
-                        [targetValue]="element?.targetValue"
+                        [topics]="element.topics"
                         [isEdit]="isEdit"
-                        (markForEdit)="markForEditHandler($event)" 
-                    >
-                    </app-main-method-table>
+                        (markForEdit)="markForEditHandler($event)"
+                        >
+                    </app-topic-table>
+                    <app-plan-table
+                        [runningNo]="runningNo"
+                        [targetId]="targetId"
+                        [subTargetId]="element.id"
+                        [plans]="element.plans"
+                        [targetValue]="element.targetValue"
+                        [isEdit]="isEdit"
+                        (markForEdit)="markForEditHandler($event)"
+                    ></app-plan-table>
                 </div>
             </div>
         </td>

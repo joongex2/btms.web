@@ -1,0 +1,60 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+  
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
+}
+
+.mat-header-cell {
+    color: white !important;
+}
+
+/* color */
+p.table-title {
+    font-size: 12px;
+    font-weight: bold;
+    border-bottom: 1px solid white;
+    padding: 10px;
+    background-color: rgb(15, 55, 97);
+    color: white !important;
+}
+
+.mat-header-row {
+    background-color: rgb(23, 78, 136) !important;
+}
+
+.mat-row {
+    background-color: rgb(187, 211, 236) !important;
+}
+
+/* column width */
+.mat-column-priority {
+    width: 10%;
+}
+
+.mat-column-planDescription {
+    width: 41%;
+}
+
+.mat-column-planTargetDate {
+    width: 14%;
+}
+
+.mat-column-resource {
+    width: 15%;
+}
+
+.mat-column-undertaker {
+    width: 15%;
+}
+
+.mat-column-editIcon {
+    width: 2.5%;
+}
+
+.mat-column-deleteIcon {
+    width: 2.5%;
+}

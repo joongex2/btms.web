@@ -3,19 +3,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
+import * as moment from 'moment';
 import { ModalMode } from '../modal.type';
 
 @Component({
-  selector: 'app-target-modal',
-  templateUrl: './target-modal.component.html',
-  styleUrls: ['./target-modal.component.scss'],
+  selector: 'app-topic-modal',
+  templateUrl: './topic-modal.component.html',
+  styleUrls: ['./topic-modal.component.scss'],
   animations: fuseAnimations
 })
-export class TargetModalComponent implements OnInit {
+export class TopicModalComponent implements OnInit {
   isEdit: boolean = false;
-  targetForm: FormGroup;
-  standards: any[];
-  relativeTargets: any[];
+  topicForm: FormGroup;
 
   // alert
   showAlert: boolean = false;
@@ -27,25 +26,24 @@ export class TargetModalComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public modalData: any,
-    public matDialogRef: MatDialogRef<TargetModalComponent>,
+    public matDialogRef: MatDialogRef<TopicModalComponent>,
     private _formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
-    this.standards = this.modalData.standards;
-    this.relativeTargets = this.modalData.kpiMissions;
-
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
     const priority = this.isEdit ? this.modalData.data.priority : this.modalData.index;
-    const targetName = this.isEdit ? this.modalData.data.targetName : '';
-    const standard = this.isEdit ? this.modalData.data.standard : '';
-    const targetMission = this.isEdit ? this.modalData.data.targetMission : '';
+    const planDescription = this.isEdit ? this.modalData.data.planDescription : '';
+    const planTargetDateSelect = this.isEdit ? moment(this.modalData.data.planTargetDate, 'YYYY-MM-DD') : moment();
+    const resource = this.isEdit ? this.modalData.data.resource : '';
+    const undertaker = this.isEdit ? this.modalData.data.undertaker : '';
 
-    this.targetForm = this._formBuilder.group({
+    this.topicForm = this._formBuilder.group({
       priority: [{ value: priority, disabled: true }, [Validators.required]],
-      targetName: [targetName, [Validators.required]],
-      standard: [standard, [Validators.required]],
-      targetMission: [targetMission, [Validators.required]]
+      planDescription: [planDescription],
+      planTargetDateSelect: [planTargetDateSelect],
+      resource: [resource, [Validators.required]],
+      undertaker: [undertaker]
     });
   }
 
@@ -54,12 +52,16 @@ export class TargetModalComponent implements OnInit {
   }
 
   saveAndClose(): void {
-    if (!this.targetForm.valid) {
-      this.targetForm.markAllAsTouched();
+    if (!this.topicForm.valid) {
+      this.topicForm.markAllAsTouched();
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
     } else {
-      this.matDialogRef.close(this.targetForm.getRawValue());
+      const topicForm = this.topicForm.getRawValue();
+      this.matDialogRef.close({
+        ...topicForm,
+        planTargetDate: topicForm.planTargetDateSelect.format('YYYY-MM-DD')
+      })
     }
   }
 
@@ -73,6 +75,6 @@ export class TargetModalComponent implements OnInit {
   }
 
   isShowError() {
-    return (this.showAlert && !this.targetForm.valid) || this.hasApiError;
+    return (this.showAlert && !this.topicForm.valid) || this.hasApiError;
   }
 }

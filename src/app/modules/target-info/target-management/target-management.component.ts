@@ -178,8 +178,8 @@ export class TargetManagementComponent implements OnInit {
               const id = res?.model;
               if (id) {
                 this.loadDocument(id);
-                this.isEdit = false;
                 if (this.mode === 'add') {
+                  this.isEdit = false;
                   this._newTargetService.documentId = id;
                   this._newTargetService.newTargetStatus = NewTargetStatus.SUBMITTED;
                 }
@@ -260,13 +260,18 @@ export class TargetManagementComponent implements OnInit {
 
   goBack() {
     this._newTargetService.clear();
-    if (
-      !this.previousUrl
+    if (!this.previousUrl 
       || this.previousUrl.includes('redirectURL')
-      || !this.previousUrl.includes('/target-info/new-target')
-      || !this.previousUrl.includes('/target-info/my-target')
-    ) {
-      // e.g. from confirmation
+      || (!this.previousUrl.includes('/target-info/new-target')
+      && !this.previousUrl.includes('/target-info/my-target')
+      && !this.previousUrl.includes('/confirmation'))) {
+      // if from refresh/ redirect or other page -> check from current url
+      if (this._router.url.includes('/target-info/new-target')) {
+        this._router.navigate(['/target-info/new-target']);
+      } else {
+        this._router.navigate(['/target-info/my-target']);
+      }
+    } else if (this.previousUrl.includes('/confirmation')) {
       this._router.navigate(['/target-info/new-target']);
     } else {
       this._location.back();

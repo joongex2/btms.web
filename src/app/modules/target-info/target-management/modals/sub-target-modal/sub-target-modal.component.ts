@@ -12,7 +12,7 @@ import { ModalMode } from '../modal.type';
   selector: 'app-sub-target-modal',
   templateUrl: './sub-target-modal.component.html',
   styleUrls: ['./sub-target-modal.component.scss'],
-  animations: [fuseAnimations]
+  animations: fuseAnimations
 })
 export class SubTargetModalComponent implements OnInit {
   isEdit: boolean = false;
