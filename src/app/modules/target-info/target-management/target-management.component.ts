@@ -15,6 +15,8 @@ import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { UrlService } from 'app/shared/services/url.service';
 import * as moment from 'moment';
 import { firstValueFrom } from 'rxjs';
+import { NewTargetStatus } from '../new-target/new-target.interface';
+import { NewTargetService } from '../new-target/new-target.service';
 import { TargetService } from '../target.service';
 import { TargetTableComponent } from './tables/target-table/target-table.component';
 
@@ -34,9 +36,7 @@ export class TargetManagementComponent implements OnInit {
   document: Partial<DocumentDetail>;
   previousUrl: string;
   documentId: number;
-  
-  // privillege
-  canSave: boolean = false;
+  isEdit: boolean = true;
 
   // bind value
   selectedDocumentType: string;
@@ -67,7 +67,8 @@ export class TargetManagementComponent implements OnInit {
     private _documentService: DocumentService,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
-    private _urlService: UrlService
+    private _urlService: UrlService,
+    private _newTargetService: NewTargetService
   ) {
     this.mode = _activatedRoute.snapshot.data['mode'];
   }
@@ -80,7 +81,38 @@ export class TargetManagementComponent implements OnInit {
     });
 
     if (this.mode === 'add') {
-      // from new-target
+      const newTargetStatus = this._newTargetService.newTargetStatus;
+      const id = this._newTargetService.documentId;
+      if (newTargetStatus === NewTargetStatus.SUBMITTED && id) {
+        // from confirmation
+        this.loadDocument(parseInt(id));
+        this.isEdit = false;
+      } else {
+        // from new-target-list
+        const organizeCode = this._activatedRoute.snapshot.paramMap.get('organizeCode');
+        const organize = this.user.organizes.find((v) => v.organizeCode === organizeCode);
+        this.document = {};
+        this.document.businessUnit = organize.businessUnit;
+        this.document.subBusinessUnit = organize.subBusinessUnit;
+        this.document.plant = organize.plant;
+        this.document.division = organize.division;
+        this.document.userHolder = this.user.name;
+        this.document.documentNo = '';
+        this.document.documentStatusDescription = 'New';
+        this.document.revisionNo = '';
+        this.document.modifyNo = '';
+        this.document.documentDate = moment().format('YYYY-MM-DDTHH:mm:ss.SSS');
+        this.document.dueDate = '';
+
+        this.document.organizeCode = organize.organizeCode;
+        this.document.businessUnitCode = organize.businessUnitCode;
+        this.document.subBusinessUnitCode = organize.subBusinessUnitCode;
+        this.document.plantCode = organize.plantCode;
+        this.document.divisionCode = organize.divisionCode;
+
+        this.targets = [];
+      }
+
       this.selectedDocumentType = undefined;
       this.selectedYear = moment().year().toString();
 
@@ -112,40 +144,14 @@ export class TargetManagementComponent implements OnInit {
         },
         error: (e) => console.error(e)
       });
-
-      const organizeCode = this._activatedRoute.snapshot.paramMap.get('organizeCode');
-      const organize = this.user.organizes.find((v) => v.organizeCode === organizeCode);
-      this.document = {};
-      this.document.businessUnit = organize.businessUnit;
-      this.document.subBusinessUnit = organize.subBusinessUnit;
-      this.document.plant = organize.plant;
-      this.document.division = organize.division;
-      this.document.userHolder = this.user.name;
-      this.document.documentNo = '';
-      this.document.documentStatusDescription = 'New';
-      this.document.revisionNo = '';
-      this.document.modifyNo = '';
-      this.document.documentDate = moment().format('YYYY-MM-DDTHH:mm:ss.SSS');
-      this.document.dueDate = '';
-
-      this.document.organizeCode = organize.organizeCode;
-      this.document.businessUnitCode = organize.businessUnitCode;
-      this.document.subBusinessUnitCode = organize.subBusinessUnitCode;
-      this.document.plantCode = organize.plantCode;
-      this.document.divisionCode = organize.divisionCode;
-
-      this.targets = [];
-      this.checkCanSave();
     } else {
       // from my-target
       const id = parseInt(this._activatedRoute.snapshot.paramMap.get('id'));
       this.loadDocument(id);
-      // this.runningNo = this._targetService.getRunningNo('OBJ-ENPC-64-02'); // TODO: replace real data
-      // this.targets = this._targetService.getTargets('OBJ-ENPC-64-02'); // TODO: replace real data
     }
   }
 
-  save() {
+  submit() {
     if (!this.f.valid) {
       this.f.control.markAllAsTouched();
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
@@ -171,11 +177,11 @@ export class TargetManagementComponent implements OnInit {
             if (!res.didError) {
               const id = res?.model;
               if (id) {
+                this.loadDocument(id);
+                this.isEdit = false;
                 if (this.mode === 'add') {
-                  this._router.navigate([`/target-info/my-target/${id}`]);
-                } else {
-                  // if edit reload
-                  this.loadDocument(id);
+                  this._newTargetService.documentId = id;
+                  this._newTargetService.newTargetStatus = NewTargetStatus.SUBMITTED;
                 }
               }
               this._snackBarService.success(res.message);
@@ -195,6 +201,25 @@ export class TargetManagementComponent implements OnInit {
     }
   }
 
+  edit() {
+    this.isEdit = true;
+    this._newTargetService.newTargetStatus = NewTargetStatus.EDIT;
+  }
+
+  print() {
+    console.log('print');
+  }
+
+  nextStep() {
+    this._newTargetService.newTargetStatus = NewTargetStatus.CONFIRM;
+    this._router.navigate(['confirmation'], { relativeTo: this._activatedRoute });
+  }
+
+  reject() {
+    this._newTargetService.newTargetStatus = NewTargetStatus.REJECT;
+    this._router.navigate(['confirmation'], { relativeTo: this._activatedRoute });
+  }
+
   getDocumentType() {
     if (this.mode === 'add') {
       return this.selectedDocumentType;
@@ -210,8 +235,6 @@ export class TargetManagementComponent implements OnInit {
       return this.document ? this.document.targetType : undefined;
     }
   }
-
-  submit() { }
 
   showError(error: string, hasApiError?: boolean) {
     this.showAlert = true;
@@ -236,13 +259,15 @@ export class TargetManagementComponent implements OnInit {
   }
 
   goBack() {
+    this._newTargetService.clear();
     if (
       !this.previousUrl
       || this.previousUrl.includes('redirectURL')
-      || (this.mode === 'edit' && this.previousUrl.includes('/target-info/new-target'))
+      || !this.previousUrl.includes('/target-info/new-target')
+      || !this.previousUrl.includes('/target-info/my-target')
     ) {
-      // if come from or refresh/redirect/new-target (when create) need to back to my-target
-      this._router.navigate(['/target-info/my-target']);
+      // e.g. from confirmation
+      this._router.navigate(['/target-info/new-target']);
     } else {
       this._location.back();
     }
@@ -259,20 +284,44 @@ export class TargetManagementComponent implements OnInit {
         this.runningNo = this.document.documentNo;
         this.documentId = this.document.id;
         this.targets = this.document.targets;
+
+        this.selectedDocumentType = this.document.documentType;
+        this.selectedYear = this.document.documentYear;
+        this.selectedTargetType = this.document.targetType;
         // check privillege
-        this.checkCanSave();
         this.loadStandards(this.document.documentType);
+        // console.log(this.document)
       },
       error: (e) => console.error(e)
     });
   }
 
-  checkCanSave() {
-    const organizes = this.user.organizes;
-    const organize = organizes.find((v) => v.organizeCode === this.document.organizeCode);
-    for (let role of organize.roles) {
-      if (role.roleCode === 'D01') this.canSave = true;
+  canSubmit() {
+    if (this.user && this.user.organizes && this.document) {
+      const organize = this.user.organizes.find((v) => v.organizeCode === this.document.organizeCode);
+      let canSubmit = false;
+      for (let role of organize.roles) {
+        if (role.roleCode === 'D01') canSubmit = true;
+      }
+      return canSubmit && this.isEdit;
     }
+    return false;
+  }
+
+  canEdit() {
+    return !this.isEdit && (this.document && this.document.documentStatus === 'DOCUMENT_DRAFT');
+  }
+
+  canPrint() {
+    return !this.isEdit && (this.document && this.document.documentStatus === 'DOCUMENT_DRAFT');
+  }
+
+  canNextStep() {
+    return !this.isEdit && (this.document && this.document.documentStatus === 'DOCUMENT_DRAFT');
+  }
+
+  canReject() {
+    return !this.isEdit && (this.document && this.document.documentStatus === 'DOCUMENT_DRAFT');
   }
 
   checkAtLeastOneEach(): boolean {

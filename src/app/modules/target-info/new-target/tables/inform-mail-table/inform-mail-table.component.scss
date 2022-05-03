@@ -1,0 +1,51 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+    // min-width: 800px;
+}
+
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
+}
+
+.mat-header-cell {
+    color: white !important
+}
+
+:host ::ng-deep .mat-sort-header-arrow {
+    color: white !important;
+}
+
+/* color */
+.mat-header-row {
+    background-color: rgb(132, 189, 0) !important; // important because replace by sticky
+}
+
+.mat-row:nth-child(even) {
+    background-color: rgb(206, 230, 150);
+}
+
+.mat-row:nth-child(odd) {
+    background-color: rgb(229, 240, 203);
+}
+
+/* column width */
+.mat-column-select {
+    width: 13%;
+}
+
+.mat-column-name {
+    width: 40%;
+}
+
+.mat-column-email {
+    width: 47%;
+}
+
+td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: unset;
+}

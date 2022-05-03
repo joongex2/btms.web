@@ -71,9 +71,9 @@ export class SubTargetModalComponent implements OnInit {
           markForDelete: [tc.markForDelete],
         }));
       }
-      if (targetCondition === '1' && !this.modalData.data.conditions.find(v => v.targetCondition === '1')) {
+      if (targetCondition === '1' && !this.modalData.data.conditions.find(v => v.targetCondition === '1' && !v.markForDelete)) {
         conditions.push(this.newCondition('1'));
-      } else if (targetCondition === '2' && this.modalData.data.conditions.filter(v => v.targetCondition === '2').length === 0) {
+      } else if (targetCondition === '2' && this.modalData.data.conditions.filter(v => v.targetCondition === '2' && !v.markForDelete).length === 0) {
         conditions.push(this.newCondition('2'));
       }
     } else {
@@ -82,8 +82,8 @@ export class SubTargetModalComponent implements OnInit {
     const targetUnit = this.isEdit ? this.modalData.data.targetUnit : '';
     const currentTarget = this.isEdit ? this.modalData.data.currentTarget : '';
     const targetReferenceValue = this.isEdit ? this.modalData.data.targetReferenceValue : '';
-    const startDate = this.isEdit ? moment({ year: this.modalData.data.startYear, month: this.modalData.data.startMonth }) : moment();
-    const finishDate = this.isEdit ? moment({ year: this.modalData.data.finishYear, month: this.modalData.data.finishMonth }) : moment();
+    const startDate = this.isEdit ? moment({ year: this.modalData.data.startYear, month: this.modalData.data.startMonth - 1 }) : moment();
+    const finishDate = this.isEdit ? moment({ year: this.modalData.data.finishYear, month: this.modalData.data.finishMonth - 1 }) : moment();
     const isCritical = this.isEdit ? this.modalData.data.isCritical : false;
 
     this.subTargetForm = this._formBuilder.group({
@@ -152,7 +152,7 @@ export class SubTargetModalComponent implements OnInit {
       conditions.removeAt(index);
     } else {
       condition.get('markForDelete').setValue(true);
-    } 
+    }
   }
 
   newCondition(targetCondition: string): FormGroup {
@@ -171,8 +171,12 @@ export class SubTargetModalComponent implements OnInit {
 
   chosenYearHandler(normalizedYear: Moment, dateForm: any) {
     const ctrlValue = dateForm.value;
-    ctrlValue.year(normalizedYear.year());
-    dateForm.setValue(ctrlValue);
+    if (ctrlValue && ctrlValue.isValid()) {
+      ctrlValue.year(normalizedYear.year());
+      dateForm.setValue(ctrlValue);
+    } else {
+      dateForm.setValue(normalizedYear);
+    }
   }
 
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>, dateForm: any) {
@@ -199,9 +203,9 @@ export class SubTargetModalComponent implements OnInit {
       const subTargetForm = this.subTargetForm.getRawValue();
       this.matDialogRef.close({
         ...subTargetForm,
-        startMonth: subTargetForm.startDate.month(),
+        startMonth: subTargetForm.startDate.month() + 1,
         startYear: subTargetForm.startDate.year(),
-        finishMonth: subTargetForm.finishDate.month(),
+        finishMonth: subTargetForm.finishDate.month() + 1,
         finishYear: subTargetForm.finishDate.year()
       });
     }

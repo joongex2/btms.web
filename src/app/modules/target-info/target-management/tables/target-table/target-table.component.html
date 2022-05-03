@@ -1,6 +1,6 @@
 <p class="table-title flex flex-row justify-between items-center">
     <span>เป้าหมายหลัก</span>
-    <span class="flex items-center cursor-pointer" (click)="addTarget();">
+    <span *ngIf="isEdit" class="flex items-center cursor-pointer" (click)="addTarget();">
         <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มเป้าหมายหลัก
     </span>
 </p>
@@ -46,7 +46,7 @@
         <ng-container matColumnDef="editIcon">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element; let i = dataIndex">
-                <div class="flex items-center">
+                <div *ngIf="isEdit" class="flex items-center">
                     <mat-icon (click)="editTarget(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขหมายหลัก"></mat-icon>
                 </div>
             </td>
@@ -54,7 +54,7 @@
         <ng-container matColumnDef="deleteIcon">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element; let i = dataIndex">
-                <div class="flex items-center">
+                <div *ngIf="isEdit" class="flex items-center">
                     <mat-icon (click)="deleteTarget(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบเป้าหมายหลัก"></mat-icon>
                 </div>
             </td>
@@ -68,6 +68,7 @@
                             [runningNo]="runningNo" 
                             [targetId]="element.id"
                             [subTargets]="element.details"
+                            [isEdit]="isEdit"
                             (markForEdit)="markForEditHandler($event)" 
                         >
                         </app-sub-target-table>

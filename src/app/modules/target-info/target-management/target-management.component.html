@@ -63,8 +63,20 @@
                 <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
                 &nbsp;<span>Back</span>
             </a>
-            <a *ngIf="canSave" (click)="save()" class="flex items-center cursor-pointer ml-3">
-                <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
+            <a *ngIf="canSubmit()" (click)="submit()" class="flex items-center cursor-pointer ml-3">
+                <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Submit</span>
+            </a>
+            <a *ngIf="canEdit()" (click)="edit()" class="flex items-center cursor-pointer ml-3">
+                <mat-icon svgIcon="heroicons_outline:pencil"></mat-icon>&nbsp;<span>Edit</span>
+            </a>
+            <a *ngIf="canPrint()" (click)="print()" class="flex items-center cursor-pointer ml-3">
+                <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
+            </a>
+            <a *ngIf="canNextStep()" (click)="nextStep()" class="flex items-center cursor-pointer ml-3">
+                <mat-icon svgIcon="heroicons_outline:arrow-circle-right"></mat-icon>&nbsp;<span>Next Step</span>
+            </a>
+            <a *ngIf="canReject()" (click)="reject()" class="flex items-center cursor-pointer ml-3">
+                <mat-icon svgIcon="heroicons_outline:x"></mat-icon>&nbsp;<span>Reject</span>
             </a>
             <!-- <a (click)="submit()" class="flex items-center cursor-pointer ml-3">
                 <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span>
@@ -101,6 +113,7 @@
                                             name="documentType"
                                             placeholder="กรุณาเลือก"
                                             required
+                                            [disabled]="!isEdit"
                                         >
                                             <mat-option *ngFor="let documentType of documentTypes" [value]="documentType.value">
                                                 {{documentType.title}}
@@ -118,7 +131,7 @@
                                 <div class="col-span-6 sm:col-span-4 flex items-center">
                                     :
                                     <mat-form-field class="flex-auto ml-2">
-                                        <mat-select [(ngModel)]="selectedYear" name="year" required>
+                                        <mat-select [(ngModel)]="selectedYear" name="year" required [disabled]="!isEdit">
                                             <mat-option *ngFor="let year of years" [value]="year.value">
                                                 {{year.title}}
                                             </mat-option>
@@ -135,7 +148,7 @@
                                 <div class="col-span-6 sm:col-span-4 flex items-center">
                                     :
                                     <mat-form-field class="flex-auto ml-2">
-                                        <mat-select [(ngModel)]="selectedTargetType" name="targetType" placeholder="กรุณาเลือก" required>
+                                        <mat-select [(ngModel)]="selectedTargetType" name="targetType" placeholder="กรุณาเลือก" required [disabled]="!isEdit">
                                             <mat-option *ngFor="let targetType of targetTypes" [value]="targetType.value">
                                                 {{targetType.title}}
                                             </mat-option>
@@ -204,6 +217,7 @@
                     [selectedDocumentType]="getDocumentType()"
                     [selectedTargetType]="getTargetType()"
                     [standards]="standards"
+                    [isEdit]="isEdit"
                     (markForEdit)="markForEditHandler($event)" 
                 >
                 </app-target-table>

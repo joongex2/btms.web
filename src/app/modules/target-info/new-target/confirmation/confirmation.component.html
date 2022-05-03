@@ -1,0 +1,71 @@
+<div class="absolute inset-0 overflow-hidden flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-4 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div>
+                        <a class="whitespace-nowrap text-primary-500">ข้อมูลเป้าหมาย</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <span class="ml-1 text-secondary">สร้างเป้าหมายใหม่</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <div style="display: flex; align-items: center;">
+                        <mat-icon svgIcon="heroicons_outline:clipboard-list" class="w-10 min-w-10 mr-2"></mat-icon>
+                        <ng-container *ngIf="newTargetStatus === NewTargetStatus.CONFIRM">ยืนยันการส่งตรวจทานเป้าหมายใหม่</ng-container>
+                        <ng-container *ngIf="newTargetStatus === NewTargetStatus.REJECT">ยกเลิกการสร้างเป้าหมายใหม่</ng-container>
+                    </div>
+                </h2>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 self-end">
+            <a (click)="goBack()" class="flex items-center cursor-pointer">
+                <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>&nbsp;<span>Back</span>
+            </a>
+            <a (click)="send()" class="flex items-center cursor-pointer ml-3">
+                <mat-icon svgIcon="heroicons_outline:arrow-circle-right"></mat-icon>&nbsp;<span>Send</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto p-6 overflow-y-auto">
+        <div class="flex-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="sm:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6 sm:p-8">
+                <div class="text-lg font-medium tracking-tight leading-6 mb-4">Please Insert Comment</div>
+                <div class="grid gap-2 grid-cols-12 items-center" style="color: rgb(30, 41, 59)">
+                    <div class="col-span-6 sm:col-span-2 font-medium">From</div>
+                    <div class="col-span-6 sm:col-span-10">:<span class="ml-2">Thanawan Sankum</span></div>
+                    <div class="col-span-6 sm:col-span-2 font-medium">Due Date</div>
+                    <div class="col-span-6 sm:col-span-10">:<span class="ml-2">25/06/2013</span></div>
+                    <div class="col-span-6 sm:col-span-2 font-medium h-full align-top">Comment</div>
+                    <div class="col-span-6 sm:col-span-10 flex align-top">:
+                        <mat-form-field class="fuse-mat-textarea flex-auto ml-2">
+                            <textarea matInput [rows]="3" matTextareaAutosize></textarea>
+                            <mat-error>Comment is required</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6 sm:p-8">
+                <div class="text-lg font-medium tracking-tight leading-6 mb-4">List of Users Receive Mail</div>
+                <app-receive-mail-table></app-receive-mail-table>
+            </div>
+            <div class="flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6 sm:p-8">
+                <div class="text-lg font-medium tracking-tight leading-6 mb-4">List of Users Inform Mail</div>
+                <app-inform-mail-table></app-inform-mail-table>
+            </div>
+        </div>
+    </div>
+</div>

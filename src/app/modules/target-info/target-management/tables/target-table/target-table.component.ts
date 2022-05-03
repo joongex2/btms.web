@@ -24,6 +24,7 @@ export class TargetTableComponent implements OnInit {
   @Input() selectedDocumentType: string;
   @Input() selectedTargetType: string;
   @Input() standards: any[];
+  @Input() isEdit: boolean;
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChildren(SubTargetTableComponent) subTargetTables: QueryList<SubTargetTableComponent>;
   @ViewChild('targetTable') targetTable: MatTable<Target>;
@@ -109,7 +110,7 @@ export class TargetTableComponent implements OnInit {
 
   addTarget(): void {
     if (!this.selectedDocumentType || !this.selectedTargetType) {
-      this._confirmationService.warning('กรุณาเลือก Document Type และ Target Type ก่อน');
+      this._confirmationService.warning('กรุณาเลือก Document Type และ Target Type');
       return;
     }
     // Open the dialog

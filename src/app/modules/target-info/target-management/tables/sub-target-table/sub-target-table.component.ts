@@ -17,6 +17,7 @@ export class SubTargetTableComponent implements OnInit {
   @Input() runningNo: string;
   @Input() targetId: number;
   @Input() subTargets: SubTarget[];
+  @Input() isEdit: boolean;
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('subTargetTable') subTargetTable: MatTable<SubTarget>;
 

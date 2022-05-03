@@ -19,6 +19,7 @@
                     [subTargetId]="subTargetId"
                     [mainMethodIndex]="i"
                     [plans]="topics"
+                    [isEdit]="isEdit"
                     (markForEdit)="markForEditHandler($event)"
                     >
                 </app-plan-table>
@@ -29,6 +30,7 @@
                     [mainMethodIndex]="i"
                     [methods]="plans"
                     [targetValue]="targetValue"
+                    [isEdit]="isEdit"
                     (markForEdit)="markForEditHandler($event)"
                 ></app-method-table>    
             </div>

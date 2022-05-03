@@ -1,6 +1,6 @@
 <p class="table-title flex flex-row justify-between items-center">
     <span>แผนงาน</span>
-    <span class="flex items-center cursor-pointer" (click)="addPlan();">
+    <span *ngIf="isEdit" class="flex items-center cursor-pointer" (click)="addPlan();">
         <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มแผนงาน
     </span>
 </p>
@@ -38,13 +38,13 @@
     <ng-container matColumnDef="editIcon">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <mat-icon (click)="editPlan(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขแผนงาน"></mat-icon>
+            <mat-icon *ngIf="isEdit" (click)="editPlan(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขแผนงาน"></mat-icon>
         </td>
     </ng-container>
     <ng-container matColumnDef="deleteIcon">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <mat-icon (click)="deletePlan(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบแผนงาน"></mat-icon>
+            <mat-icon *ngIf="isEdit" (click)="deletePlan(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบแผนงาน"></mat-icon>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

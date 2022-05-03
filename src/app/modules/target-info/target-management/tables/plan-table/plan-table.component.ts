@@ -17,6 +17,7 @@ export class PlanTableComponent implements OnInit {
   @Input() subTargetId: number;
   @Input() mainMethodIndex: string;
   @Input() plans: Topic[];
+  @Input() isEdit: boolean;
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('planTable') planTable: MatTable<Topic>;
 

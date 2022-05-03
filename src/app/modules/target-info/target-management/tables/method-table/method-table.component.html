@@ -1,6 +1,6 @@
 <p class="table-title flex flex-row justify-between items-center">
     <span>รายละเอียด</span>
-    <span class="flex items-center cursor-pointer" (click)="addMethod();">
+    <span *ngIf="isEdit" class="flex items-center cursor-pointer" (click)="addMethod();">
         <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มรายละเอียด
     </span>
 </p>
@@ -58,13 +58,13 @@
     <ng-container matColumnDef="editIcon">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <mat-icon (click)="editMethod(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขรายละเอียด"></mat-icon>
+            <mat-icon *ngIf="isEdit" (click)="editMethod(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขรายละเอียด"></mat-icon>
         </td>
     </ng-container>
     <ng-container matColumnDef="deleteIcon">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <mat-icon (click)="deleteMethod(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบรายละเอียด"></mat-icon>
+            <mat-icon *ngIf="isEdit" (click)="deleteMethod(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบรายละเอียด"></mat-icon>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

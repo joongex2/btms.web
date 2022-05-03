@@ -33,6 +33,7 @@ export class MethodTableComponent implements OnInit {
     }
   }
   @Input() targetValue: string;
+  @Input() isEdit: boolean;
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('methodTable') methodTable: MatTable<Method>;
   @ViewChildren('yearSelect') yearSelects: QueryList<MatSelect>;

@@ -2,6 +2,7 @@ import { Route } from '@angular/router';
 import { MenuGuard } from 'app/core/auth/guards/menu.guard';
 import { UserResolver } from '../../../shared/resolver';
 import { TargetManagementComponent } from '../target-management/target-management.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { NewTargetListComponent } from './new-target-list/new-target-list.component';
 import { NewTargetComponent } from './new-target.component';
 
@@ -22,6 +23,10 @@ export const newTargetRoutes: Route[] = [
                 resolve: {
                     user: UserResolver
                 }
+            },
+            {
+                path: ':organizeCode/confirmation',
+                component: ConfirmationComponent
             }
         ]
     }
