@@ -15,22 +15,16 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'app/shared/shared.module';
 import { TargetManagementModule } from '../target-management/target-management.module';
-import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { NewTargetListComponent } from './new-target-list/new-target-list.component';
 import { NewTargetComponent } from './new-target.component';
 import { newTargetRoutes } from './new-target.routing';
-import { InformMailTable } from './tables/inform-mail-table/inform-mail-table.component';
-import { ReceiveMailTableComponent } from './tables/receive-mail-table/receive-mail-table.component';
 
 
 
 @NgModule({
   declarations: [
     NewTargetComponent,
-    NewTargetListComponent,
-    ConfirmationComponent,
-    ReceiveMailTableComponent,
-    InformMailTable
+    NewTargetListComponent
   ],
   imports: [
     RouterModule.forChild(newTargetRoutes),

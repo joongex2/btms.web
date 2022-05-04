@@ -10,7 +10,7 @@
                     <div>
                         <a class="whitespace-nowrap text-primary-500">ข้อมูลเป้าหมาย</a>
                     </div>
-                    <ng-container *ngIf="mode === 'edit';else newTargetLabelBc">
+                    <ng-container *ngIf="isMyTargetUrl;else newTargetLabelBc">
                         <div class="flex items-center ml-1 whitespace-nowrap">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
@@ -51,7 +51,7 @@
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    <ng-container *ngIf="mode === 'edit';else newTargetLabel">ข้อมูลเป้าหมายของฉัน {{ document ? document.documentNo : '' }}
+                    <ng-container *ngIf="isMyTargetUrl;else newTargetLabel">ข้อมูลเป้าหมายของฉัน {{ document ? document.documentNo : '' }}
                     </ng-container>
                     <ng-template #newTargetLabel>สร้างเป้าหมายใหม่ {{ document ? document.organizeCode : '' }}</ng-template>
                 </h2>
@@ -63,19 +63,19 @@
                 <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
                 &nbsp;<span>Back</span>
             </a>
-            <a *ngIf="canSubmit()" (click)="submit()" class="flex items-center cursor-pointer ml-3">
+            <a *ngIf="canSubmit" (click)="submit()" class="flex items-center cursor-pointer ml-3">
                 <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Submit</span>
             </a>
-            <a *ngIf="canEdit()" (click)="edit()" class="flex items-center cursor-pointer ml-3">
+            <a *ngIf="canEdit" (click)="edit()" class="flex items-center cursor-pointer ml-3">
                 <mat-icon svgIcon="heroicons_outline:pencil"></mat-icon>&nbsp;<span>Edit</span>
             </a>
-            <a *ngIf="canPrint()" (click)="print()" class="flex items-center cursor-pointer ml-3">
+            <a *ngIf="canPrint" (click)="print()" class="flex items-center cursor-pointer ml-3">
                 <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
             </a>
-            <a *ngIf="canNextStep()" (click)="nextStep()" class="flex items-center cursor-pointer ml-3">
+            <a *ngIf="canNextStep" (click)="nextStep()" class="flex items-center cursor-pointer ml-3">
                 <mat-icon svgIcon="heroicons_outline:arrow-circle-right"></mat-icon>&nbsp;<span>Next Step</span>
             </a>
-            <a *ngIf="canReject()" (click)="reject()" class="flex items-center cursor-pointer ml-3">
+            <a *ngIf="canReject" (click)="reject()" class="flex items-center cursor-pointer ml-3">
                 <mat-icon svgIcon="heroicons_outline:x"></mat-icon>&nbsp;<span>Reject</span>
             </a>
             <!-- <a (click)="submit()" class="flex items-center cursor-pointer ml-3">
@@ -113,7 +113,6 @@
                                             name="documentType"
                                             placeholder="กรุณาเลือก"
                                             required
-                                            [disabled]="!isEdit"
                                         >
                                             <mat-option *ngFor="let documentType of documentTypes" [value]="documentType.value">
                                                 {{documentType.title}}
@@ -131,7 +130,7 @@
                                 <div class="col-span-6 sm:col-span-4 flex items-center">
                                     :
                                     <mat-form-field class="flex-auto ml-2">
-                                        <mat-select [(ngModel)]="selectedYear" name="year" required [disabled]="!isEdit">
+                                        <mat-select [(ngModel)]="selectedYear" name="year" required>
                                             <mat-option *ngFor="let year of years" [value]="year.value">
                                                 {{year.title}}
                                             </mat-option>
@@ -148,7 +147,7 @@
                                 <div class="col-span-6 sm:col-span-4 flex items-center">
                                     :
                                     <mat-form-field class="flex-auto ml-2">
-                                        <mat-select [(ngModel)]="selectedTargetType" name="targetType" placeholder="กรุณาเลือก" required [disabled]="!isEdit">
+                                        <mat-select [(ngModel)]="selectedTargetType" name="targetType" placeholder="กรุณาเลือก" required>
                                             <mat-option *ngFor="let targetType of targetTypes" [value]="targetType.value">
                                                 {{targetType.title}}
                                             </mat-option>

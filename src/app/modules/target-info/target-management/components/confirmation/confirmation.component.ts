@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'app/core/user/user.service';
 import { Organize, User } from 'app/core/user/user.types';
 import { Subject, takeUntil } from 'rxjs';
-import { NewTargetStatus } from '../new-target.interface';
-import { NewTargetService } from '../new-target.service';
+import { TargetManagementStatus } from '../../target-management.interface';
+import { TargetManagementService } from '../../target-management.service';
 
 @Component({
   selector: 'confirmation',
@@ -14,8 +14,9 @@ import { NewTargetService } from '../new-target.service';
 export class ConfirmationComponent implements OnInit {
   organizes: Organize[];
   documentId: string;
-  newTargetStatus: NewTargetStatus;
-  NewTargetStatus = NewTargetStatus;
+  targetManagementStatus: TargetManagementStatus;
+  TargetManagementStatus = TargetManagementStatus;
+  isMyTargetUrl: boolean = false;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -23,12 +24,15 @@ export class ConfirmationComponent implements OnInit {
     private _userService: UserService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
-    private _newTargetService: NewTargetService
+    private _targetManagementService: TargetManagementService
   ) { }
 
   ngOnInit(): void {
-    this.documentId = this._newTargetService.documentId;
-    this.newTargetStatus = this._newTargetService.newTargetStatus;
+    if (this._router.url.includes('/target-info/my-target')) {
+      this.isMyTargetUrl = true;
+    }
+    this.documentId = this._targetManagementService.documentId;
+    this.targetManagementStatus = this._targetManagementService.targetManagementStatus;
     // Subscribe to user changes
     this._userService.user$
       .pipe(takeUntil(this._unsubscribeAll))
@@ -52,7 +56,7 @@ export class ConfirmationComponent implements OnInit {
   }
 
   goBack() {
-    this._newTargetService.newTargetStatus = NewTargetStatus.SUBMITTED;
+    this._targetManagementService.targetManagementStatus = TargetManagementStatus.SUBMITTED;
     this._router.navigate(['../'], { relativeTo: this._activatedRoute });
   }
 

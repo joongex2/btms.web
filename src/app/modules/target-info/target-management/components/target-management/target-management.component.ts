@@ -6,6 +6,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
+import { TargetManagementStatus } from 'app/modules/target-info/target-management/target-management.interface';
+import { TargetService } from 'app/modules/target-info/target.service';
 import { DocumentDetail, Target } from 'app/shared/interfaces/document.interface';
 import { Lookup } from 'app/shared/interfaces/lookup.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
@@ -15,10 +17,9 @@ import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { UrlService } from 'app/shared/services/url.service';
 import * as moment from 'moment';
 import { firstValueFrom } from 'rxjs';
-import { NewTargetStatus } from '../new-target/new-target.interface';
-import { NewTargetService } from '../new-target/new-target.service';
-import { TargetService } from '../target.service';
-import { TargetTableComponent } from './tables/target-table/target-table.component';
+import { TargetTableComponent } from '../../tables/target-table/target-table.component';
+import { TargetManagementService } from '../../target-management.service';
+
 
 @Component({
   selector: 'target-management',
@@ -36,7 +37,15 @@ export class TargetManagementComponent implements OnInit {
   document: Partial<DocumentDetail>;
   previousUrl: string;
   documentId: number;
-  isEdit: boolean = true;
+  isEdit: boolean = false; // true when press edit button
+  isMyTargetUrl: boolean = false;
+
+  // check privillege
+  canSubmit: boolean = false;
+  canEdit: boolean = false;
+  canPrint: boolean = false;
+  canNextStep: boolean = false;
+  canReject: boolean = false;
 
   // bind value
   selectedDocumentType: string;
@@ -68,7 +77,7 @@ export class TargetManagementComponent implements OnInit {
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
     private _urlService: UrlService,
-    private _newTargetService: NewTargetService
+    private _targetManagementService: TargetManagementService
   ) {
     this.mode = _activatedRoute.snapshot.data['mode'];
   }
@@ -81,12 +90,11 @@ export class TargetManagementComponent implements OnInit {
     });
 
     if (this.mode === 'add') {
-      const newTargetStatus = this._newTargetService.newTargetStatus;
-      const id = this._newTargetService.documentId;
-      if (newTargetStatus === NewTargetStatus.SUBMITTED && id) {
+      const id = this._targetManagementService.documentId;
+      if (id) {
         // from confirmation
         this.loadDocument(parseInt(id));
-        this.isEdit = false;
+        this.mode = 'edit';
       } else {
         // from new-target-list
         const organizeCode = this._activatedRoute.snapshot.paramMap.get('organizeCode');
@@ -111,6 +119,10 @@ export class TargetManagementComponent implements OnInit {
         this.document.divisionCode = organize.divisionCode;
 
         this.targets = [];
+
+        this.isEdit = true;
+        this.checkPrivillege();
+        this._targetManagementService.targetManagementStatus = TargetManagementStatus.NEW;
       }
 
       this.selectedDocumentType = undefined;
@@ -145,9 +157,12 @@ export class TargetManagementComponent implements OnInit {
         error: (e) => console.error(e)
       });
     } else {
-      // from my-target
+      this.isMyTargetUrl = true;
+      // from my-target or confirmation
       const id = parseInt(this._activatedRoute.snapshot.paramMap.get('id'));
       this.loadDocument(id);
+      this._targetManagementService.documentId = id.toString();
+      this._targetManagementService.targetManagementStatus = TargetManagementStatus.SUBMITTED;
     }
   }
 
@@ -162,27 +177,35 @@ export class TargetManagementComponent implements OnInit {
       this._confirmationService.save().afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {
           try {
-            const res = await firstValueFrom(this._documentService.createDocument(
-              this.mode === 'add' ? 0 : this.document.id,
-              this.document.organizeCode,
-              this.document.businessUnitCode,
-              this.document.subBusinessUnitCode,
-              this.document.plantCode,
-              this.document.divisionCode,
-              this.mode === 'add' ? this.selectedDocumentType : this.document.documentType,
-              this.mode === 'add' ? this.selectedTargetType : this.document.targetType,
-              this.mode === 'add' ? this.selectedYear : this.document.documentYear,
-              this.targets
-            ));
+            let res;
+            if (this.mode === 'add') {
+              res = await firstValueFrom(this._documentService.createDocument(
+                0,
+                this.document.organizeCode,
+                this.document.businessUnitCode,
+                this.document.subBusinessUnitCode,
+                this.document.plantCode,
+                this.document.divisionCode,
+                this.selectedDocumentType,
+                this.selectedTargetType,
+                this.selectedYear,
+                this.targets
+              ));
+            } else {
+              // edit
+              res = await firstValueFrom(this._documentService.editDocument(
+                this.document.id,
+                this.document.documentStatus,
+                this.targets
+              ));
+            }
             if (!res.didError) {
               const id = res?.model;
               if (id) {
+                this.isEdit = false;
+                this._targetManagementService.documentId = id;
+                this._targetManagementService.targetManagementStatus = TargetManagementStatus.SUBMITTED;
                 this.loadDocument(id);
-                if (this.mode === 'add') {
-                  this.isEdit = false;
-                  this._newTargetService.documentId = id;
-                  this._newTargetService.newTargetStatus = NewTargetStatus.SUBMITTED;
-                }
               }
               this._snackBarService.success(res.message);
             } else {
@@ -203,7 +226,8 @@ export class TargetManagementComponent implements OnInit {
 
   edit() {
     this.isEdit = true;
-    this._newTargetService.newTargetStatus = NewTargetStatus.EDIT;
+    this._targetManagementService.targetManagementStatus = TargetManagementStatus.EDIT;
+    this.checkPrivillege();
   }
 
   print() {
@@ -211,12 +235,12 @@ export class TargetManagementComponent implements OnInit {
   }
 
   nextStep() {
-    this._newTargetService.newTargetStatus = NewTargetStatus.CONFIRM;
+    this._targetManagementService.targetManagementStatus = TargetManagementStatus.CONFIRM;
     this._router.navigate(['confirmation'], { relativeTo: this._activatedRoute });
   }
 
   reject() {
-    this._newTargetService.newTargetStatus = NewTargetStatus.REJECT;
+    this._targetManagementService.targetManagementStatus = TargetManagementStatus.REJECT;
     this._router.navigate(['confirmation'], { relativeTo: this._activatedRoute });
   }
 
@@ -259,22 +283,25 @@ export class TargetManagementComponent implements OnInit {
   }
 
   goBack() {
-    this._newTargetService.clear();
-    if (!this.previousUrl 
+    this._targetManagementService.clear();
+    if (!this.previousUrl
       || this.previousUrl.includes('redirectURL')
       || (!this.previousUrl.includes('/target-info/new-target')
-      && !this.previousUrl.includes('/target-info/my-target')
-      && !this.previousUrl.includes('/confirmation'))) {
+        && !this.previousUrl.includes('/target-info/my-target')
+        )
+      || this.previousUrl.includes('/confirmation')) {
       // if from refresh/ redirect or other page -> check from current url
-      if (this._router.url.includes('/target-info/new-target')) {
-        this._router.navigate(['/target-info/new-target']);
-      } else {
-        this._router.navigate(['/target-info/my-target']);
-      }
-    } else if (this.previousUrl.includes('/confirmation')) {
-      this._router.navigate(['/target-info/new-target']);
+      this.navigateByCurrentUrl();
     } else {
       this._location.back();
+    }
+  }
+
+  navigateByCurrentUrl() {
+    if (this._router.url.includes('/target-info/new-target')) {
+      this._router.navigate(['/target-info/new-target']);
+    } else {
+      this._router.navigate(['/target-info/my-target']);
     }
   }
 
@@ -293,40 +320,33 @@ export class TargetManagementComponent implements OnInit {
         this.selectedDocumentType = this.document.documentType;
         this.selectedYear = this.document.documentYear;
         this.selectedTargetType = this.document.targetType;
-        // check privillege
+
         this.loadStandards(this.document.documentType);
-        // console.log(this.document)
+        this.checkPrivillege();
       },
       error: (e) => console.error(e)
     });
   }
 
-  canSubmit() {
+  checkPrivillege() {
     if (this.user && this.user.organizes && this.document) {
+      let haveD01 = false;
       const organize = this.user.organizes.find((v) => v.organizeCode === this.document.organizeCode);
-      let canSubmit = false;
       for (let role of organize.roles) {
-        if (role.roleCode === 'D01') canSubmit = true;
+        if (role.roleCode === 'D01') haveD01 = true;
       }
-      return canSubmit && this.isEdit;
+      this.canSubmit = this.isEdit && haveD01;
+      this.canEdit = !this.isEdit && this.document && this.document.documentStatus === 'DOCUMENT_DRAFT';
+      this.canPrint = !this.isEdit && this.document && this.document.documentStatus === 'DOCUMENT_DRAFT';
+      this.canNextStep = !this.isEdit && this.document && this.document.documentStatus === 'DOCUMENT_DRAFT';
+      this.canReject = !this.isEdit && this.document && this.document.documentStatus === 'DOCUMENT_DRAFT';
+    } else {
+      this.canSubmit = false;
+      this.canEdit = false;
+      this.canPrint = false;
+      this.canNextStep = false;
+      this.canReject = false;
     }
-    return false;
-  }
-
-  canEdit() {
-    return !this.isEdit && (this.document && this.document.documentStatus === 'DOCUMENT_DRAFT');
-  }
-
-  canPrint() {
-    return !this.isEdit && (this.document && this.document.documentStatus === 'DOCUMENT_DRAFT');
-  }
-
-  canNextStep() {
-    return !this.isEdit && (this.document && this.document.documentStatus === 'DOCUMENT_DRAFT');
-  }
-
-  canReject() {
-    return !this.isEdit && (this.document && this.document.documentStatus === 'DOCUMENT_DRAFT');
   }
 
   checkAtLeastOneEach(): boolean {

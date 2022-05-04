@@ -37,6 +37,18 @@ export class DocumentService {
         });
     }
 
+    editDocument(
+        id: number,
+        documentStatus: string,
+        targets: Target[]
+    ): Observable<any> {
+        return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Documents'), {
+            id,
+            documentStatus,
+            targets
+        });
+    }
+
     getDocuments(
         page?: number,
         size?: number,

@@ -12,7 +12,8 @@
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
-                        <span class="ml-1 text-secondary">สร้างเป้าหมายใหม่</span>
+                        <span *ngIf="isMyTargetUrl;else newTargetLabel" class="ml-1 text-secondary">เป้าหมายของฉัน</span>
+                        <ng-template #newTargetLabel>สร้างเป้าหมายใหม่</ng-template>
                     </div>
                 </div>
             </div>
@@ -21,8 +22,8 @@
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                     <div style="display: flex; align-items: center;">
                         <mat-icon svgIcon="heroicons_outline:clipboard-list" class="w-10 min-w-10 mr-2"></mat-icon>
-                        <ng-container *ngIf="newTargetStatus === NewTargetStatus.CONFIRM">ยืนยันการส่งตรวจทานเป้าหมายใหม่</ng-container>
-                        <ng-container *ngIf="newTargetStatus === NewTargetStatus.REJECT">ยกเลิกการสร้างเป้าหมายใหม่</ng-container>
+                        <ng-container *ngIf="targetManagementStatus === TargetManagementStatus.CONFIRM">ยืนยันการส่งตรวจทานเป้าหมายใหม่</ng-container>
+                        <ng-container *ngIf="targetManagementStatus === TargetManagementStatus.REJECT">ยกเลิกการสร้างเป้าหมายใหม่</ng-container>
                     </div>
                 </h2>
             </div>

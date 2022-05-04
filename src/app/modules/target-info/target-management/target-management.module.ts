@@ -21,27 +21,34 @@ import { FuseAlertModule } from "@fuse/components/alert";
 import { DatePickerFormatDirectiveModule } from "app/shared/directives/date-picker-format.module";
 import { IntegerOnlyModule } from "app/shared/directives/integer-only.module";
 import { SharedModule } from "app/shared/shared.module";
+import { ConfirmationComponent } from "./components/confirmation/confirmation.component";
+import { TargetManagementComponent } from "./components/target-management/target-management.component";
 import { PlanModalComponent } from './modals/plan-modal/plan-modal.component';
 import { SubTargetModalComponent } from './modals/sub-target-modal/sub-target-modal.component';
 import { TargetModalComponent } from './modals/target-modal/target-modal.component';
 import { TopicModalComponent } from "./modals/topic-modal/topic-modal.component";
+import { InformMailTable } from "./tables/inform-mail-table/inform-mail-table.component";
 import { PlanTableComponent } from "./tables/plan-table/plan-table.component";
+import { ReceiveMailTableComponent } from "./tables/receive-mail-table/receive-mail-table.component";
 import { SubTargetTableComponent } from "./tables/sub-target-table/sub-target-table.component";
 import { TargetTableComponent } from "./tables/target-table/target-table.component";
 import { TopicTableComponent } from "./tables/topic-table/topic-table.component";
-import { TargetManagementComponent } from "./target-management.component";
+
 
 @NgModule({
   declarations: [
+    TargetManagementComponent,
     TargetTableComponent,
     SubTargetTableComponent,
     PlanTableComponent,
     TopicTableComponent,
-    TargetManagementComponent,
     TargetModalComponent,
     SubTargetModalComponent,
     PlanModalComponent,
-    TopicModalComponent
+    TopicModalComponent,
+    ConfirmationComponent,
+    ReceiveMailTableComponent,
+    InformMailTable
   ],
   imports: [
     RouterModule,
@@ -68,7 +75,8 @@ import { TargetManagementComponent } from "./target-management.component";
     SharedModule
   ],
   exports: [
-    TargetManagementComponent
+    TargetManagementComponent,
+    ConfirmationComponent
   ]
 })
 export class TargetManagementModule { }
