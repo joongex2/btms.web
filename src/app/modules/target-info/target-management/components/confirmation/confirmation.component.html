@@ -10,10 +10,20 @@
                         <a class="whitespace-nowrap text-primary-500">ข้อมูลเป้าหมาย</a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-primary-500" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <span *ngIf="isMyTargetUrl;else newTargetLabel" class="ml-1 text-primary-500">ข้อมูลเป้าหมายของฉัน</span>
+                        <ng-template #newTargetLabel>สร้างเป้าหมายใหม่</ng-template>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-primary-500" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a (click)="goBack()" class="ml-1 text-primary-500 cursor-pointer">เอกสารเป้าหมาย</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
-                        <span *ngIf="isMyTargetUrl;else newTargetLabel" class="ml-1 text-secondary">เป้าหมายของฉัน</span>
-                        <ng-template #newTargetLabel>สร้างเป้าหมายใหม่</ng-template>
+                        <a class="ml-1 text-secondary">ยืนยันเปลี่ยนสถานะ</a>
                     </div>
                 </div>
             </div>
@@ -21,7 +31,7 @@
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                     <div style="display: flex; align-items: center;">
-                        <mat-icon svgIcon="heroicons_outline:clipboard-list" class="w-10 min-w-10 mr-2"></mat-icon>
+                        <!-- <mat-icon svgIcon="heroicons_outline:clipboard-list" class="w-10 min-w-10 mr-2"></mat-icon> -->
                         <!-- <ng-container *ngIf="targetManagementStatus === TargetManagementStatus.CONFIRM">ยืนยันการส่งตรวจทานเป้าหมายใหม่</ng-container>
                         <ng-container *ngIf="targetManagementStatus === TargetManagementStatus.REJECT">ยกเลิกการสร้างเป้าหมายใหม่</ng-container> -->
                         <ng-container>{{title ? title: ''}}</ng-container>
@@ -46,7 +56,7 @@
         <div class="flex-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
             <ng-container *ngIf="!isSend">
                 <div class="sm:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6 sm:p-8">
-                    <div class="text-lg font-medium tracking-tight leading-6 mb-4">Please Insert Comment</div>
+                    <!-- <div class="text-lg font-medium tracking-tight leading-6 mb-4">Please Insert Comment</div> -->
                     <form #f="ngForm">
                         <div class="grid gap-2 grid-cols-12 items-center" style="color: rgb(30, 41, 59)">
                             <div class="col-span-6 sm:col-span-2 font-medium">From</div>
@@ -56,8 +66,8 @@
                             <div class="col-span-6 sm:col-span-2 font-medium h-full align-top">Comment</div>
                             <div class="col-span-6 sm:col-span-10 flex align-top">:
                                 <mat-form-field class="fuse-mat-textarea flex-auto ml-2">
-                                    <textarea matInput [(ngModel)]="comment" name="comment" [rows]="3" matTextareaAutosize required></textarea>
-                                    <mat-error>Comment is required</mat-error>
+                                    <textarea matInput [(ngModel)]="comment" name="comment" [rows]="3" matTextareaAutosize ></textarea>
+                                    <!-- <mat-error>Comment is required</mat-error> -->
                                 </mat-form-field>
                             </div>
                         </div>

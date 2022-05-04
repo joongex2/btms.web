@@ -109,11 +109,11 @@ export class ConfirmationComponent implements OnInit {
       this.f.control.markAllAsTouched();
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
-    } else if (this.receiveMailTable.selection.selected.length === 0
-      || this.informMailTable.selection.selected.length === 0) {
+    } else if (this.receiveMailTable.selection.selected.length === 0) //|| this.informMailTable.selection.selected.length === 0
+     {
       this.showError('users receive mail, list of users inform mail must have atleast 1 email checked', true);
     } else {
-      this._confirmationService.save().afterClosed().subscribe(async (result) => {
+      this._confirmationService.send('ต้องการ' + this.title + 'ใช่หรือไม่').afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {
           try {
             let res;

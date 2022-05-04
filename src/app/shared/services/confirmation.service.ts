@@ -6,6 +6,18 @@ import { FuseConfirmationService } from "@fuse/services/confirmation";
 export class ConfirmationService {
     constructor(private _fuseConfirmationService: FuseConfirmationService) { }
 
+    send(title: string) {
+        return this._fuseConfirmationService.open({
+            title: title,
+            message: '',
+            icon: { name: 'heroicons_outline:question-mark-circle', color: 'primary' },
+            actions: {
+                cancel: { show: true, label: 'ยกเลิก' },
+                confirm: { show: true, label: 'ตกลง', color: 'primary' }
+            }
+        });
+    }
+
     save() {
         return this._fuseConfirmationService.open({
             title: 'ต้องการบันทึกข้อมูลใช่หรือไม่',

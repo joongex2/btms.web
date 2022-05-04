@@ -15,14 +15,21 @@
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
                             <a (click)="goBack()" class="cursor-pointer">
-                                <span class="ml-1 text-secondary">ข้อมูลเป้าหมายของฉัน</span>
+                                <span class="ml-1 text-primary-500">ข้อมูลเป้าหมายของฉัน</span>
                             </a>
                         </div>
                         <div class="flex items-center ml-1 whitespace-nowrap">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
-                            <span class="ml-1 text-secondary">{{ document ? document.documentNo : '' }}</span>
+                            <!-- <a (click)="goBack()" class="cursor-pointer"> -->
+                                <span class="ml-1 text-secondary">เอกสารเป้าหมาย</span>
+                            <!-- </a> -->
                         </div>
+                        <!-- <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <span class="ml-1 text-secondary">{{ document ? document.documentNo : '' }}</span>
+                        </div> -->
                     </ng-container>
                     <ng-template #newTargetLabelBc>
                         <div class="flex items-center ml-1 whitespace-nowrap">
@@ -35,7 +42,7 @@
                         <div class="flex items-center ml-1 whitespace-nowrap">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
-                            <span class="ml-1 text-secondary">{{ document ? document.organizeCode : '' }}</span>
+                            <span class="ml-1 text-secondary">เอกสารเป้าหมาย</span>
                         </div>
                     </ng-template>
                 </div>
@@ -50,8 +57,8 @@
             </div>
             <!-- Title -->
             <div class="mt-2">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    <ng-container *ngIf="isMyTargetUrl;else newTargetLabel">ข้อมูลเป้าหมายของฉัน {{ document ? document.documentNo : '' }}
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"> <!--{{ document ? document.documentNo : '' }}-->
+                    <ng-container *ngIf="isMyTargetUrl;else newTargetLabel">เอกสารเป้าหมาย
                     </ng-container>
                     <ng-template #newTargetLabel>สร้างเป้าหมายใหม่ {{ document ? document.organizeCode : '' }}</ng-template>
                 </h2>
@@ -74,19 +81,19 @@
                     <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
                 </a>
                 <a *ngIf="canNextStep" (click)="nextStep()" class="flex items-center cursor-pointer ml-3">
-                    <mat-icon svgIcon="heroicons_outline:arrow-circle-right"></mat-icon>&nbsp;<span>Next Step</span>
+                    <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Approve</span>
                 </a>
                 <a *ngIf="canReject" (click)="reject()" class="flex items-center cursor-pointer ml-3">
-                    <mat-icon svgIcon="heroicons_outline:x"></mat-icon>&nbsp;<span>Reject</span>
+                    <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Reject</span>
                 </a>
                 <!-- <a (click)="submit()" class="flex items-center cursor-pointer ml-3">
                     <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span>
                 </a> -->
             </div>
-            <div *ngIf="mode === 'edit'"class="flex flex-row sm:justify-end mt-1">
+            <!-- <div *ngIf="mode === 'edit'"class="flex flex-row sm:justify-end mt-1">
                 <span class="text-red-600">Last Comment:&nbsp;&nbsp;</span>
                 <a href="#" onClick="return false;" (click)="openLastComment()" class="underline text-blue-600">More Detail</a>
-            </div>
+            </div> -->
         </div>
         
     </div>
@@ -164,7 +171,7 @@
                             </ng-template>
                             
                             <div class="col-span-6 sm:col-span-2 font-medium">Running No.</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentNo : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2"><a href="#" onClick="return false;" (click)="openLastComment()" class="underline text-blue-600">{{document ? document.documentNo : ''}}</a></span></div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Business Unit</div>
                             <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.businessUnit : ''}}</span></div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Status</div>
