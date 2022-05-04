@@ -39,11 +39,11 @@
                                 <span class="ml-1 text-secondary">สร้างเป้าหมายใหม่</span>
                             </a>
                         </div>
-                        <div class="flex items-center ml-1 whitespace-nowrap">
+                        <!-- <div class="flex items-center ml-1 whitespace-nowrap">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
                             <span class="ml-1 text-secondary">เอกสารเป้าหมาย</span>
-                        </div>
+                        </div> -->
                     </ng-template>
                 </div>
                 <div class="flex sm:hidden">
@@ -57,10 +57,10 @@
             </div>
             <!-- Title -->
             <div class="mt-2">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"> <!--{{ document ? document.documentNo : '' }}-->
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"> <!--{{ document ? document.organizeCode : '' }}{{ document ? document.documentNo : '' }}-->
                     <ng-container *ngIf="isMyTargetUrl;else newTargetLabel">เอกสารเป้าหมาย
                     </ng-container>
-                    <ng-template #newTargetLabel>สร้างเป้าหมายใหม่ {{ document ? document.organizeCode : '' }}</ng-template>
+                    <ng-template #newTargetLabel>สร้างเป้าหมายใหม่</ng-template>
                 </h2>
             </div>
         </div>
