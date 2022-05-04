@@ -27,7 +27,7 @@ import { PlanModalComponent } from './modals/plan-modal/plan-modal.component';
 import { SubTargetModalComponent } from './modals/sub-target-modal/sub-target-modal.component';
 import { TargetModalComponent } from './modals/target-modal/target-modal.component';
 import { TopicModalComponent } from "./modals/topic-modal/topic-modal.component";
-import { InformMailTable } from "./tables/inform-mail-table/inform-mail-table.component";
+import { InformMailTableComponent } from "./tables/inform-mail-table/inform-mail-table.component";
 import { PlanTableComponent } from "./tables/plan-table/plan-table.component";
 import { ReceiveMailTableComponent } from "./tables/receive-mail-table/receive-mail-table.component";
 import { SubTargetTableComponent } from "./tables/sub-target-table/sub-target-table.component";
@@ -48,7 +48,7 @@ import { TopicTableComponent } from "./tables/topic-table/topic-table.component"
     TopicModalComponent,
     ConfirmationComponent,
     ReceiveMailTableComponent,
-    InformMailTable
+    InformMailTableComponent
   ],
   imports: [
     RouterModule,

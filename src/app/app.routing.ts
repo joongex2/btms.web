@@ -93,6 +93,7 @@ export const appRoutes: Route[] = [
                 {path: 'organization', loadChildren: () => import('app/modules/admin/organization/organization.module').then(m => m.OrganizationModule)},
                 {path: 'document-control', loadChildren: () => import('app/modules/admin/document-control/document-control.module').then(m => m.DocumentControlModule)},
                 {path: 'user', loadChildren: () => import('app/modules/admin/user/user.module').then(m => m.UserModule)},
+                {path: 'lookup', loadChildren: () => import('app/modules/admin/lookup/lookup.module').then(m => m.LookupModule)},
             ]},
             {path: 'super-admin', children: [
                 {path: 'user-group', loadChildren: () => import('app/modules/super-admin/user-group/user-group.module').then(m => m.UserGroupModule)},

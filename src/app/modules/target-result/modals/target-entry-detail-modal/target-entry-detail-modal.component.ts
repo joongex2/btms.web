@@ -4,7 +4,7 @@ import { TargetService } from 'app/modules/target-info/target.service';
 import { CauseRecord, Method, ResultDetail, SubTarget, Target } from 'app/modules/target-info/target.types';
 import { TargetResultService } from '../../target-result.service';
 import { FileUpload } from '../../target-result.types';
-import { LastCommentModalComponent } from '../last-comment-modal/last-comment-modal.component';
+import { LastCommentModalComponent } from '../../../../shared/components/last-comment-modal/last-comment-modal.component';
 
 @Component({
   selector: 'app-target-entry-detail-modal',

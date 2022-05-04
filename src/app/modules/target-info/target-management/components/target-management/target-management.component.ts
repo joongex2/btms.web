@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
@@ -8,6 +9,7 @@ import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import { TargetManagementStatus } from 'app/modules/target-info/target-management/target-management.interface';
 import { TargetService } from 'app/modules/target-info/target.service';
+import { LastCommentModalComponent } from 'app/shared/components/last-comment-modal/last-comment-modal.component';
 import { DocumentDetail, Target } from 'app/shared/interfaces/document.interface';
 import { Lookup } from 'app/shared/interfaces/lookup.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
@@ -77,7 +79,8 @@ export class TargetManagementComponent implements OnInit {
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
     private _urlService: UrlService,
-    private _targetManagementService: TargetManagementService
+    private _targetManagementService: TargetManagementService,
+    private _matDialog: MatDialog
   ) {
     this.mode = _activatedRoute.snapshot.data['mode'];
   }
@@ -202,6 +205,7 @@ export class TargetManagementComponent implements OnInit {
             if (!res.didError) {
               const id = res?.model;
               if (id) {
+                this.mode = 'edit';
                 this.isEdit = false;
                 this._targetManagementService.documentId = id;
                 this._targetManagementService.targetManagementStatus = TargetManagementStatus.SUBMITTED;
@@ -379,5 +383,17 @@ export class TargetManagementComponent implements OnInit {
       },
       error: (e) => console.error(e)
     });
+  }
+
+  openLastComment() {
+    const dialogRef = this._matDialog.open(LastCommentModalComponent, {
+      data: {
+        comments: this.document.comments
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe((result: any) => {
+
+      });
   }
 }

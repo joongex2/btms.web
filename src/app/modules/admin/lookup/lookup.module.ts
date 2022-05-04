@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,20 +11,19 @@ import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { SharedModule } from 'app/shared/shared.module';
-import { OrganizationModalComponent } from './modals/organization-modal/organization-modal.component';
-import { OrganizationComponent } from './organization.component';
-import { organizationRoutes } from './organization.routing';
-
+import { LookupComponent } from './lookup.component';
+import { lookupRoutes } from './lookup.routing';
+import { LookupModalComponent } from './modals/lookup-modal/lookup-modal.component';
 
 
 
 @NgModule({
   declarations: [
-    OrganizationComponent,
-    OrganizationModalComponent
+    LookupComponent,
+    LookupModalComponent
   ],
   imports: [
-    RouterModule.forChild(organizationRoutes),
+    RouterModule.forChild(lookupRoutes),
     MatIconModule,
     MatSelectModule,
     MatFormFieldModule,
@@ -35,9 +33,8 @@ import { organizationRoutes } from './organization.routing';
     MatSortModule,
     MatPaginatorModule,
     MatDialogModule,
-    MatAutocompleteModule,
     FuseAlertModule,
     SharedModule
   ]
 })
-export class OrganizationModule { }
+export class LookupModule { }

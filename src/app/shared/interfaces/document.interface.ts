@@ -36,6 +36,16 @@ export interface DocumentDetail {
     issuedDate: string;
     effectiveDate: string;
     targets: Target[];
+    comments: Comment[];
+}
+
+export interface Comment {
+    id: number;
+    documentId: number;
+    comment: string;
+    commentBy: string;
+    documentStatus: string;
+    commentDate: string;
 }
 
 export interface Target {
@@ -143,4 +153,24 @@ export class DocumentParams {
     ToDocumentYear?: string;
     SearchText?: string;
     IsCritical?: string;
+}
+
+export interface DocumentConfirm {
+    title: string;
+    from: string;
+    dueDate: string;
+    emails: InformEmail[] | ReceiveEmail[];
+}
+
+export interface InformEmail {
+    type: string;
+    name: string;
+    email: string;
+}
+
+export interface ReceiveEmail {
+    type: string;
+    role: string;
+    name: string;
+    email: string;
 }

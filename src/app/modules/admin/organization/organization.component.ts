@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 import { ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
@@ -27,17 +28,25 @@ export class OrganizationComponent implements OnInit {
   dataSource: MatTableDataSource<Organization> = new MatTableDataSource([]);
   organizeCode: string;
   organizeName: string;
-  selectedBusinessUnitCode: string;
-  selectedSubBusinessUnitCode: string;
-  selectedPlantCode: string;
-  selectedDivisionCode: string;
+  selectedBu: string;
+  selectedSubBu: string;
+  selectedPlant: string;
+  selectedDivision: string;
   selectedIsActive: boolean;
 
   // select option
-  businessUnitCodes: any[];
-  subBusinessUnitCodes: any[];
-  plantCodes: any[];
-  divisionCodes: any[];
+  // businessUnitCodes: any[];
+  // subBusinessUnitCodes: any[];
+  // plantCodes: any[];
+  // divisionCodes: any[];
+  bus: any[] = [];
+  subBus: any[] = [];
+  plants: any[] = [];
+  divisions: any[] = [];
+  filteredBus: any[] = [];
+  filteredSubBus: any[] = [];
+  filteredPlants: any[] = [];
+  filteredDivisions: any[] = [];
   isActives: any = [
     { title: 'Active', value: true },
     { title: 'Inactive', value: false }
@@ -78,22 +87,35 @@ export class OrganizationComponent implements OnInit {
     private _organizationService: OrganizationService,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
-    private _matDialog: MatDialog
+    private _matDialog: MatDialog,
+    private _activatedRoute: ActivatedRoute
   ) {
     this.loadOrganizations();
   }
 
   ngOnInit(): void {
-    this._masterService.getMasters().subscribe({
-      next: (masters: Master[]) => {
-        // TODO: not sure can load type from api
-        this.businessUnitCodes = masters.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
-        this.subBusinessUnitCodes = masters.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
-        this.plantCodes = masters.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.code, value: master.code }));
-        this.divisionCodes = masters.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.code, value: master.code }));
-      },
-      error: (e) => console.log(e)
-    });
+    // this._masterService.getMasters().subscribe({
+    //   next: (masters: Master[]) => {
+    //     // TODO: not sure can load type from api
+    //     this.businessUnitCodes = masters.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
+    //     this.subBusinessUnitCodes = masters.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
+    //     this.plantCodes = masters.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.code, value: master.code }));
+    //     this.divisionCodes = masters.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.code, value: master.code }));
+    //   },
+    //   error: (e) => console.log(e)
+    // });
+    const bus = this._activatedRoute.snapshot.data.bus;
+    const subBus = this._activatedRoute.snapshot.data.subBus;
+    const plants = this._activatedRoute.snapshot.data.plants;
+    const divisions = this._activatedRoute.snapshot.data.divisions;
+    this.bus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
+    this.filteredBus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
+    this.subBus = subBus.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
+    this.filteredSubBus = subBus.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
+    this.plants = plants.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.name, value: master.code }));
+    this.filteredPlants = plants.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.name, value: master.code }));
+    this.divisions = divisions.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.name, value: master.code }));
+    this.filteredDivisions = divisions.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.name, value: master.code }));
     // default
     this.dataSource.filterPredicate = this.customFilterPredicate();
   }
@@ -117,14 +139,34 @@ export class OrganizationComponent implements OnInit {
     return myFilterPredicate;
   }
 
+  buFilter(value: any) {
+    const filterValue = typeof value === 'string' ? value : value.title;
+    this.filteredBus = this.bus.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
+  }
+
+  subBuFilter(value: any) {
+    const filterValue = typeof value === 'string' ? value : value.title;
+    this.filteredSubBus = this.subBus.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
+  }
+
+  plantFilter(value: any) {
+    const filterValue = typeof value === 'string' ? value : value.title;
+    this.filteredPlants = this.plants.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
+  }
+
+  divisionFilter(value: any) {
+    const filterValue = typeof value === 'string' ? value : value.title;
+    this.filteredDivisions = this.divisions.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
+  }
+
   search() {
     const filterValue: any = {
       organizeCode: this.organizeCode,
       organizeName: this.organizeName,
-      businessUnitCode: this.selectedBusinessUnitCode,
-      subBusinessUnitCode: this.selectedSubBusinessUnitCode,
-      plantCode: this.selectedPlantCode,
-      divisionCode: this.selectedDivisionCode,
+      businessUnitCode: this.selectedBu,
+      subBusinessUnitCode: this.selectedSubBu,
+      plantCode: this.selectedPlant,
+      divisionCode: this.selectedDivision,
       isActive: this.selectedIsActive
     }
     this.dataSource.filter = JSON.stringify(filterValue);
@@ -134,10 +176,10 @@ export class OrganizationComponent implements OnInit {
     this.dataSource.filter = '{}';
     this.organizeCode = '';
     this.organizeName = '';
-    this.selectedBusinessUnitCode = undefined;
-    this.selectedSubBusinessUnitCode = undefined;
-    this.selectedPlantCode = undefined;
-    this.selectedDivisionCode = undefined;
+    this.selectedBu = undefined;
+    this.selectedSubBu = undefined;
+    this.selectedPlant = undefined;
+    this.selectedDivision = undefined;
     this.selectedIsActive = undefined;
   }
 
@@ -203,5 +245,9 @@ export class OrganizationComponent implements OnInit {
 
   onClick() {
     return false;
+  }
+
+  displayFn(value: any): string {
+    return value && value.title ? value.title : '';
   }
 }

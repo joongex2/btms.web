@@ -1,11 +1,10 @@
-import { OnInit, Inject, Component, ViewChild } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Component, Inject, OnInit, ViewChild } from "@angular/core";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { ModalData } from "app/modules/target-info/target-management/modals/modal.type";
-import { TargetResultService } from "../../target-result.service";
-import { LastComment } from "../../target-result.types";
+import { Comment } from "app/shared/interfaces/document.interface";
+import { TargetResultService } from "../../../modules/target-result/target-result.service";
 
 @Component({
     selector: 'app-last-comment-modal',
@@ -17,23 +16,25 @@ export class LastCommentModalComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     dataColumns = [
         'comment',
-        'from',
-        'date'
+        'commentBy',
+        'documentStatus',
+        'commentDate'
     ];
-    lastComments: LastComment[];
+    comments: Comment[];
 
     //bind value
-    dataSource: MatTableDataSource<LastComment>;
-    
+    dataSource: MatTableDataSource<Comment>;
+
     constructor(
-        @Inject(MAT_DIALOG_DATA) public modalData: ModalData,
+        @Inject(MAT_DIALOG_DATA) public modalData: any,
         public matDialogRef: MatDialogRef<LastCommentModalComponent>,
         private _targetResultService: TargetResultService
     ) { }
 
     ngOnInit(): void {
-        this.lastComments = this._targetResultService.getLastComments();
-        this.dataSource = new MatTableDataSource(this.lastComments);
+        // this.lastComments = this._targetResultService.getLastComments();
+        this.comments = this.modalData.comments;
+        this.dataSource = new MatTableDataSource(this.comments);
     }
 
     ngAfterViewInit() {

@@ -82,4 +82,30 @@ export class DocumentService {
     getDocument(id: number): Observable<any> {
         return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Documents/${id}`)).pipe(map(data => data.model));
     }
+
+    getSubmitEmail(id: number): Observable<any> {
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Documents/${id}/submit`)).pipe(map(data => data.model));
+    }
+
+    getRejectEmail(id: number): Observable<any> {
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Documents/${id}/reject`)).pipe(map(data => data.model));
+    }
+
+    patchSubmitEmail(id: number, comment: string, informEmails: string[], receiveEmails: string[]): Observable<any> {
+        return this._httpClient.patch(getBaseUrl(`/v1/Documents/${id}/submit`), {
+            id,
+            comment,
+            informEmails,
+            receiveEmails
+        });
+    }
+
+    patchRejectEmail(id: number, comment: string, informEmails: string[], receiveEmails: string[]): Observable<any> {
+        return this._httpClient.patch(getBaseUrl(`/v1/Documents/${id}/reject`), {
+            id,
+            comment,
+            informEmails,
+            receiveEmails
+        });
+    }
 }

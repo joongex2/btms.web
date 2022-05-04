@@ -22,7 +22,7 @@ import { IntegerOnlyModule } from 'app/shared/directives/integer-only.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { CauseModalComponent } from '../modals/cause-modal/cause-modal.component';
 import { FixModalComponent } from '../modals/fix-modal/fix-modal.component';
-import { LastCommentModalComponent } from '../modals/last-comment-modal/last-comment-modal.component';
+import { LastCommentModalComponent } from '../../../shared/components/last-comment-modal/last-comment-modal.component';
 import { ProtectModalComponent } from '../modals/protect-modal/protect-modal.component';
 import { TargetEntryDetailModalComponent } from '../modals/target-entry-detail-modal/target-entry-detail-modal.component';
 import { TargetEntryDetailComponent } from './target-entry-detail.component';
@@ -46,7 +46,6 @@ import { FileUploadTableComponent } from '../tables/file-upload-table/file-uploa
 @NgModule({
   declarations: [
     TargetEntryDetailComponent,
-    LastCommentModalComponent,
     TargetEntryDetailModalComponent,
     CauseModalComponent,
     FixModalComponent,

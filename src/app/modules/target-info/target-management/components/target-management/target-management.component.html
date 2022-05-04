@@ -58,30 +58,37 @@
             </div>
         </div>
         <!-- Actions -->
-        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 self-end">
-            <a (click)="goBack()" class="flex items-center cursor-pointer">
-                <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
-                &nbsp;<span>Back</span>
-            </a>
-            <a *ngIf="canSubmit" (click)="submit()" class="flex items-center cursor-pointer ml-3">
-                <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Submit</span>
-            </a>
-            <a *ngIf="canEdit" (click)="edit()" class="flex items-center cursor-pointer ml-3">
-                <mat-icon svgIcon="heroicons_outline:pencil"></mat-icon>&nbsp;<span>Edit</span>
-            </a>
-            <a *ngIf="canPrint" (click)="print()" class="flex items-center cursor-pointer ml-3">
-                <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
-            </a>
-            <a *ngIf="canNextStep" (click)="nextStep()" class="flex items-center cursor-pointer ml-3">
-                <mat-icon svgIcon="heroicons_outline:arrow-circle-right"></mat-icon>&nbsp;<span>Next Step</span>
-            </a>
-            <a *ngIf="canReject" (click)="reject()" class="flex items-center cursor-pointer ml-3">
-                <mat-icon svgIcon="heroicons_outline:x"></mat-icon>&nbsp;<span>Reject</span>
-            </a>
-            <!-- <a (click)="submit()" class="flex items-center cursor-pointer ml-3">
-                <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span>
-            </a> -->
-        </div> 
+        <div class="flex flex-col self-end">
+            <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 justify-end">
+                <a (click)="goBack()" class="flex items-center cursor-pointer">
+                    <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
+                    &nbsp;<span>Back</span>
+                </a>
+                <a *ngIf="canSubmit" (click)="submit()" class="flex items-center cursor-pointer ml-3">
+                    <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Submit</span>
+                </a>
+                <a *ngIf="canEdit" (click)="edit()" class="flex items-center cursor-pointer ml-3">
+                    <mat-icon svgIcon="heroicons_outline:pencil"></mat-icon>&nbsp;<span>Edit</span>
+                </a>
+                <a *ngIf="canPrint" (click)="print()" class="flex items-center cursor-pointer ml-3">
+                    <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
+                </a>
+                <a *ngIf="canNextStep" (click)="nextStep()" class="flex items-center cursor-pointer ml-3">
+                    <mat-icon svgIcon="heroicons_outline:arrow-circle-right"></mat-icon>&nbsp;<span>Next Step</span>
+                </a>
+                <a *ngIf="canReject" (click)="reject()" class="flex items-center cursor-pointer ml-3">
+                    <mat-icon svgIcon="heroicons_outline:x"></mat-icon>&nbsp;<span>Reject</span>
+                </a>
+                <!-- <a (click)="submit()" class="flex items-center cursor-pointer ml-3">
+                    <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span>
+                </a> -->
+            </div>
+            <div *ngIf="mode === 'edit'"class="flex flex-row sm:justify-end mt-1">
+                <span class="text-red-600">Last Comment:&nbsp;&nbsp;</span>
+                <a href="#" onClick="return false;" (click)="openLastComment()" class="underline text-blue-600">More Detail</a>
+            </div>
+        </div>
+        
     </div>
 
     <!-- Main -->

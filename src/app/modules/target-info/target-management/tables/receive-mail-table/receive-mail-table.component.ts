@@ -1,21 +1,9 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { ReceiveEmail } from 'app/shared/interfaces/document.interface';
 import { detailExpandAnimation } from 'app/shared/table-animation';
-
-export interface ReceiveMail {
-  id: number;
-  role: string;
-  name: string;
-  email: string;
-}
-
-const receiveMails: ReceiveMail[] = [
-  { id: 1, role: 'ผู้สร้างเป้าหมาย', name: 'Nawapat Prasong', email: 'thanawans@betagro.com' },
-  { id: 2, role: 'ผู้สร้างเป้าหมาย', name: 'Thanawan Sankum', email: 'thanawans@betagro.com' },
-  { id: 3, role: 'ผู้สร้างเป้าหมาย', name: 'Matsupa Luesat', email: 'thanawans@betagro.com' }
-];
 
 @Component({
   selector: 'app-receive-mail-table',
@@ -24,9 +12,19 @@ const receiveMails: ReceiveMail[] = [
   animations: [detailExpandAnimation],
 })
 export class ReceiveMailTableComponent implements OnInit {
+  dataSource = new MatTableDataSource<ReceiveEmail>([]);
+  _receiveEmails: ReceiveEmail[];
+  get receiveEmails(): ReceiveEmail[] {
+    return this._receiveEmails;
+  }
+  @Input() set receiveEmails(value: ReceiveEmail[]) {
+    this._receiveEmails = value;
+    if (this._receiveEmails) {
+      this.dataSource.data = this._receiveEmails;
+    }
+  }
   displayedColumns: string[] = ['select', 'role', 'name', 'email'];
-  dataSource = new MatTableDataSource<ReceiveMail>(receiveMails);
-  selection = new SelectionModel<ReceiveMail>(true, []);
+  selection = new SelectionModel<ReceiveEmail>(true, []);
 
   constructor(
     private _matDialog: MatDialog,
@@ -53,10 +51,10 @@ export class ReceiveMailTableComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: ReceiveMail): string {
+  checkboxLabel(index: number, row?: ReceiveEmail): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${index + 1}`;
   }
 }

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TargetService } from 'app/modules/target-info/target.service';
 import { RunningNo, TargetRecord } from 'app/modules/target-info/target.types';
-import { LastCommentModalComponent } from '../modals/last-comment-modal/last-comment-modal.component';
+import { LastCommentModalComponent } from '../../../shared/components/last-comment-modal/last-comment-modal.component';
 import { TargetEntryTableComponent } from '../tables/target-entry-table/target-entry-table.component';
 
 @Component({

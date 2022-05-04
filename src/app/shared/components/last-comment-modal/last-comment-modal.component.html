@@ -18,16 +18,22 @@
                         {{element.comment}}
                     </td>
                 </ng-container>
-                <ng-container matColumnDef="from">
+                <ng-container matColumnDef="commentBy">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>From</th>
                     <td mat-cell *matCellDef="let element">
-                        {{element.from}}
+                        {{element.commentBy}}
                     </td>
                 </ng-container>
-                <ng-container matColumnDef="date">
+                <ng-container matColumnDef="documentStatus">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.documentStatus}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="commentDate">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
                     <td mat-cell *matCellDef="let element">
-                        {{element.date}}
+                        {{element.commentDate | date : 'dd/MM/YYYY'}}
                     </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>

@@ -44,3 +44,27 @@ td.mat-footer-cell {
 // :host ::ng-deep .mat-sort-header-container {
 //     justify-content: center;
 // }
+
+/* column width */
+.mat-column-comment {
+    width: 50%;
+}
+  
+.mat-column-commentBy {
+    width: 20%;
+}
+
+.mat-column-documentStatus {
+    width: 15%;
+}
+
+.mat-column-commentDate {
+    width: 15%;
+}
+
+td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: unset;
+}
