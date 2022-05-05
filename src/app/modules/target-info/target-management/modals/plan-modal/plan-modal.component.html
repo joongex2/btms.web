@@ -31,33 +31,35 @@
             <mat-error>แผนงาน/รายละเอียด is required</mat-error>
         </mat-form-field>
 
-        <div [formGroup]="yearMonthForm" class="flex flex-0 flex-col sm:flex-row sm:items-center sm:space-x-4 sm:justify-between">
+        <div [formGroup]="planForm" class="flex flex-0 flex-col sm:flex-row sm:items-center sm:space-x-4 sm:justify-between">
             <mat-form-field class="flex-auto gt-xs:pr-3">
                 <mat-label>ปี</mat-label>
-                <mat-select [formControlName]="'year'">
-                    <mat-option *ngFor="let year of years" [value]="year.value">{{year.title}}</mat-option>
+                <mat-select [formControlName]="'planYear'">
+                    <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
                 </mat-select>
-                <mat-error>ปี</mat-error>
+                <mat-error>ปี is required</mat-error>
             </mat-form-field>
             <mat-form-field class="flex-auto gt-xs:pr-3">
                 <mat-label>เดือน</mat-label>
-                <mat-select [formControlName]="'month'">
+                <mat-select [formControl]="month">
                     <mat-option *ngFor="let month of months" [value]="month.value">{{month.title}}</mat-option>
                 </mat-select>
-                <mat-error>เดือน</mat-error>
+                <mat-error>เดือน is required</mat-error>
             </mat-form-field>
             <button type="button" mat-icon-button (click)="addTag()">
-                <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                <mat-icon class="text-current mt-1" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
             </button>
         </div>
 
-        <div *ngIf="yearMonthTags.length > 0" class="flex flex-row flex-wrap gap-5 mb-4 items-center">
-            <div *ngFor="let yearMonthTag of yearMonthTags; let i = index" class="tag-box">
-                <span>{{yearMonthTag.year}}/{{yearMonthTag.month}}</span>
-                <button mat-icon-button matSuffix (click)="deleteTag(i)">
-                    <mat-icon class="icon-size-5 ml-1" [svgIcon]="'heroicons_solid:trash'"></mat-icon>
-                </button>                
-            </div>
+        <div class="flex flex-row flex-wrap gap-5 mb-4 items-center">
+            <ng-container *ngFor="let monthIndex of monthIndexes; let i = index">
+                <div *ngIf="planForm.get('useMonth' + monthIndex).value" class="tag-box">
+                    <span>{{planForm.get('planYear').value}}/{{monthShortMap[monthIndex]}}</span>
+                    <button type="button" mat-icon-button matSuffix (click)="deleteTag(monthIndex)">
+                        <mat-icon class="icon-size-5 ml-1" [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                    </button>
+                </div>         
+            </ng-container>
         </div>
 
         <mat-form-field>

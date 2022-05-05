@@ -166,6 +166,7 @@ export interface InformEmail {
     type: string;
     name: string;
     email: string;
+    selected: boolean;
 }
 
 export interface ReceiveEmail {
@@ -173,4 +174,5 @@ export interface ReceiveEmail {
     role: string;
     name: string;
     email: string;
+    selected: boolean;
 }

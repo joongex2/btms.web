@@ -4,8 +4,8 @@ import { MatSelect } from '@angular/material/select';
 import { MatTable } from '@angular/material/table';
 import { Plan } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
+import moment from 'moment';
 import { TargetService } from '../../../target.service';
-import { ResultRecord } from '../../../target.types';
 import { ModalMode } from '../../modals/modal.type';
 import { PlanModalComponent } from '../../modals/plan-modal/plan-modal.component';
 
@@ -28,6 +28,7 @@ export class PlanTableComponent implements OnInit {
       this.remappingYear();
       this.selectedYear = this.years[0];
       this.yearChange(this.selectedYear);
+      this.findLeftYears();
     }
   }
   @Input() targetValue: string;
@@ -38,7 +39,6 @@ export class PlanTableComponent implements OnInit {
 
   selectedYear: number;
   selectedPlan: Plan[] = [];
-  subTargetSymbolValue: string;
 
   displayedColumns: string[] = [
     'planDescription',
@@ -76,6 +76,7 @@ export class PlanTableComponent implements OnInit {
   ];
 
   years: number[];
+  leftYears: number[] = [moment().year(), moment().year() + 1, moment().year() + 2]; // year which can add
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -94,13 +95,54 @@ export class PlanTableComponent implements OnInit {
     const dialogRef = this._matDialog.open(PlanModalComponent, {
       data: {
         mode: ModalMode.ADD,
-        data: this._plans.filter(v => !v.markForDelete)
+        data: undefined,
+        targetValue: this.targetValue,
+        index: this._plans.filter(v => !v.markForDelete).length + 1,
+        leftYears: this.leftYears
       }
     });
     dialogRef.afterClosed()
-      .subscribe((planModalData: any) => {
-        if (!planModalData) return; // cancel
-        this.editPlans(planModalData);
+      .subscribe((plan: Plan) => {
+        if (!plan) return; // cancel
+        this._plans.push({
+          id: 0,
+          priority: plan.priority,
+          planDescription: plan.planDescription,
+          planYear: plan.planYear,
+          useMonth1: plan.useMonth1,
+          useMonth2: plan.useMonth2,
+          useMonth3: plan.useMonth3,
+          useMonth4: plan.useMonth4,
+          useMonth5: plan.useMonth5,
+          useMonth6: plan.useMonth6,
+          useMonth7: plan.useMonth7,
+          useMonth8: plan.useMonth8,
+          useMonth9: plan.useMonth9,
+          useMonth10: plan.useMonth10,
+          useMonth11: plan.useMonth11,
+          useMonth12: plan.useMonth12,
+          valueMonth1: plan.valueMonth1,
+          valueMonth2: plan.valueMonth2,
+          valueMonth3: plan.valueMonth3,
+          valueMonth4: plan.valueMonth4,
+          valueMonth5: plan.valueMonth5,
+          valueMonth6: plan.valueMonth6,
+          valueMonth7: plan.valueMonth7,
+          valueMonth8: plan.valueMonth8,
+          valueMonth9: plan.valueMonth9,
+          valueMonth10: plan.valueMonth10,
+          valueMonth11: plan.valueMonth11,
+          valueMonth12: plan.valueMonth12,
+          undertaker: plan.undertaker,
+          markForEdit: false,
+          markForDelete: false
+        })
+        // recalculate year
+        this.remappingYear();
+        this.selectedYear = plan.planYear;
+        this.yearChange(this.selectedYear);
+        this.findLeftYears();
+
         this.planTable.renderRows();
         this.markForEdit.emit(this.subTargetId);
       });
@@ -111,14 +153,41 @@ export class PlanTableComponent implements OnInit {
     const dialogRef = this._matDialog.open(PlanModalComponent, {
       data: {
         mode: ModalMode.EDIT,
-        data: this._plans.filter(v => !v.markForDelete),
-        selectedYear: this.selectedPlan[0].planYear
+        data: this.selectedPlan[0],
+        targetValue: this.targetValue
       }
     });
     dialogRef.afterClosed()
-      .subscribe((planModalData: any) => {
-        if (!planModalData) return; // cancel
-        this.editPlans(planModalData);
+      .subscribe((plan: Plan) => {
+        if (!plan) return; // cancel
+        this.selectedPlan[0].planDescription = plan.planDescription;
+        this.selectedPlan[0].planYear = plan.planYear;
+        this.selectedPlan[0].useMonth1 = plan.useMonth1;
+        this.selectedPlan[0].useMonth2 = plan.useMonth2;
+        this.selectedPlan[0].useMonth3 = plan.useMonth3;
+        this.selectedPlan[0].useMonth4 = plan.useMonth4;
+        this.selectedPlan[0].useMonth5 = plan.useMonth5;
+        this.selectedPlan[0].useMonth6 = plan.useMonth6;
+        this.selectedPlan[0].useMonth7 = plan.useMonth7;
+        this.selectedPlan[0].useMonth8 = plan.useMonth8;
+        this.selectedPlan[0].useMonth9 = plan.useMonth9;
+        this.selectedPlan[0].useMonth10 = plan.useMonth10;
+        this.selectedPlan[0].useMonth11 = plan.useMonth11;
+        this.selectedPlan[0].useMonth12 = plan.useMonth12;
+        this.selectedPlan[0].valueMonth1 = plan.valueMonth1;
+        this.selectedPlan[0].valueMonth2 = plan.valueMonth2;
+        this.selectedPlan[0].valueMonth3 = plan.valueMonth3;
+        this.selectedPlan[0].valueMonth4 = plan.valueMonth4;
+        this.selectedPlan[0].valueMonth5 = plan.valueMonth5;
+        this.selectedPlan[0].valueMonth6 = plan.valueMonth6;
+        this.selectedPlan[0].valueMonth7 = plan.valueMonth7;
+        this.selectedPlan[0].valueMonth8 = plan.valueMonth8;
+        this.selectedPlan[0].valueMonth9 = plan.valueMonth9;
+        this.selectedPlan[0].valueMonth10 = plan.valueMonth10;
+        this.selectedPlan[0].valueMonth11 = plan.valueMonth11;
+        this.selectedPlan[0].valueMonth12 = plan.valueMonth12;
+        this.selectedPlan[0].undertaker = plan.undertaker;
+        this.selectedPlan[0].markForEdit = true;
         this.planTable.renderRows();
         this.markForEdit.emit(this.subTargetId);
       });
@@ -137,7 +206,10 @@ export class PlanTableComponent implements OnInit {
         let newPriority = 1;
         for (let plan of this._plans) {
           if (!plan.markForDelete) {
-            plan.priority = newPriority;
+            if (plan.priority !== newPriority) {
+              plan.priority = newPriority;
+              plan.markForEdit = true;
+            }
             newPriority++;
           }
         }
@@ -153,102 +225,11 @@ export class PlanTableComponent implements OnInit {
           this.selectedYear = undefined;
           this.selectedPlan = [];
         }
+        this.findLeftYears();
         this.planTable.renderRows();
         this.markForEdit.emit(this.subTargetId);
       }
     });
-  }
-
-  monthIndexMap = {
-    'jan': '1',
-    'feb': '2',
-    'mar': '3',
-    'apr': '4',
-    'may': '5',
-    'jun': '6',
-    'jul': '7',
-    'aug': '8',
-    'sep': '9',
-    'oct': '10',
-    'nov': '11',
-    'dec': '12',
-  }
-
-  editPlans(planModalData: any): void {
-    for (let plan of this._plans) {
-      if (!plan.markForDelete) {
-        plan.planDescription = planModalData.form.planDescription;
-        plan.undertaker = planModalData.form.undertaker;
-        plan.markForEdit = true;
-      }
-    }
-
-    for (let tag of planModalData.yearMonthTags) {
-      let plan: Plan;
-      const findPlan = this._plans.find(v => v.planYear === parseInt(tag.year) && !v.markForDelete);
-      if (findPlan) {
-        // already have year in _plans
-        if (!findPlan[`useMonth${this.monthIndexMap[tag.month]}`]) {
-          // add new month
-          findPlan[`useMonth${this.monthIndexMap[tag.month]}`] = true;
-          findPlan[`valueMonth${this.monthIndexMap[tag.month]}`] = this.targetValue;
-          findPlan.markForEdit = true;
-        }
-      } else {
-        // not have year in _plans
-        plan = {
-          id: 0,
-          priority: this._plans.length + 1,
-          planDescription: planModalData.form.planDescription,
-          planYear: parseInt(tag.year),
-          useMonth1: false,
-          useMonth2: false,
-          useMonth3: false,
-          useMonth4: false,
-          useMonth5: false,
-          useMonth6: false,
-          useMonth7: false,
-          useMonth8: false,
-          useMonth9: false,
-          useMonth10: false,
-          useMonth11: false,
-          useMonth12: false,
-          valueMonth1: '',
-          valueMonth2: '',
-          valueMonth3: '',
-          valueMonth4: '',
-          valueMonth5: '',
-          valueMonth6: '',
-          valueMonth7: '',
-          valueMonth8: '',
-          valueMonth9: '',
-          valueMonth10: '',
-          valueMonth11: '',
-          valueMonth12: '',
-          undertaker: planModalData.form.undertaker,
-          markForEdit: false,
-          markForDelete: false
-        };
-        plan[`useMonth${this.monthIndexMap[tag.month]}`] = true;
-        plan[`valueMonth${this.monthIndexMap[tag.month]}`] = this.targetValue;
-        this._plans.push(plan);
-      }
-    }
-    this.remappingYear();
-    if (this._plans.length > 0 && this.selectedPlan.length === 0) {
-      // if never select year before
-      this.selectedYear = this._plans[0].planYear;
-    }
-    this.yearChange(this.selectedYear);
-    this.planTable.renderRows();
-  }
-
-  getYears(resultRecords: ResultRecord[]) {
-    return resultRecords.map(res => res.year);
-  }
-
-  getResultRecord(resultRecords: ResultRecord[], year: string): ResultRecord {
-    return resultRecords.find((res) => res.year == year);
   }
 
   capitalizeFirstLetter(string) {
@@ -256,14 +237,21 @@ export class PlanTableComponent implements OnInit {
   }
 
   yearChange(year: number) {
-    const plan = this._plans.find((v) => v.planYear === year);
+    const plan = this._plans.find((v) => v.planYear === year && !v.markForDelete);
     this.selectedPlan = plan ? [plan] : [];
   }
 
   remappingYear() {
     this.years = this._plans
       .filter(v => !v.markForDelete)
-      .map(v => v.planYear);
+      .map(v => v.planYear)
+      .sort((a, b) => a - b);
+  }
+
+  findLeftYears() {
+    const leftYears = [moment().year(), moment().year() + 1, moment().year() + 2];
+    const existYears = this._plans.filter(v => !v.markForDelete).map(v => v.planYear);
+    this.leftYears = leftYears.filter(v => !existYears.includes(v));
   }
 
 }

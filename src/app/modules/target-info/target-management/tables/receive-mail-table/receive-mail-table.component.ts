@@ -21,6 +21,9 @@ export class ReceiveMailTableComponent implements OnInit {
     this._receiveEmails = value;
     if (this._receiveEmails) {
       this.dataSource.data = this._receiveEmails;
+      for (let email of this._receiveEmails) {
+        if (email.selected) this.selection.select(email);
+      }
     }
   }
   displayedColumns: string[] = ['select', 'role', 'name', 'email'];
@@ -56,5 +59,12 @@ export class ReceiveMailTableComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${index + 1}`;
+  }
+
+  tick(row: ReceiveEmail, event: any) {
+    if (event) {
+      this.selection.toggle(row);
+      row.selected = !row.selected;
+    }
   }
 }

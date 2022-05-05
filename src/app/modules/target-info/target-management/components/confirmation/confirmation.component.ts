@@ -28,7 +28,6 @@ export class ConfirmationComponent implements OnInit {
   targetManagementStatus: TargetManagementStatus;
   TargetManagementStatus = TargetManagementStatus;
   isMyTargetUrl: boolean = false;
-  isSend: boolean = false;
 
   // bind value
   title: string;
@@ -37,7 +36,6 @@ export class ConfirmationComponent implements OnInit {
   comment: string;
   informEmails: InformEmail[];
   receiveEmails: ReceiveEmail[];
-  successMessage: string;
 
   // alert
   showAlert: boolean = false;
@@ -91,17 +89,8 @@ export class ConfirmationComponent implements OnInit {
   ngAfterViewInit() { }
 
   goBack() {
-    if (!this.isSend) {
-      this._targetManagementService.targetManagementStatus = TargetManagementStatus.SUBMITTED;
-      this._router.navigate(['../'], { relativeTo: this._activatedRoute });
-    } else {
-      // send success back to list
-      if (this._router.url.includes('/target-info/new-target')) {
-        this._router.navigate(['/target-info/new-target']);
-      } else {
-        this._router.navigate(['/target-info/my-target']);
-      }
-    }
+    this._targetManagementService.targetManagementStatus = TargetManagementStatus.SUBMITTED;
+    this._router.navigate(['../'], { relativeTo: this._activatedRoute });
   }
 
   send() {
@@ -110,7 +99,7 @@ export class ConfirmationComponent implements OnInit {
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
     } else if (this.receiveMailTable.selection.selected.length === 0) //|| this.informMailTable.selection.selected.length === 0
-     {
+    {
       this.showError('users receive mail, list of users inform mail must have atleast 1 email checked', true);
     } else {
       this._confirmationService.send('ต้องการ' + this.title + 'ใช่หรือไม่').afterClosed().subscribe(async (result) => {
@@ -134,11 +123,8 @@ export class ConfirmationComponent implements OnInit {
               ));
             }
             if (!res.didError) {
-              this.isSend = true;
-              this._targetManagementService.clear();
               this._snackBarService.success(res.message);
-              this.successMessage = res.message;
-
+              this.goBack();
             } else {
               this._snackBarService.error();
               this.showError(res.errorMessage, true);

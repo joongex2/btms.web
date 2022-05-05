@@ -43,7 +43,7 @@ export class TopicTableComponent implements OnInit {
       data: {
         mode: ModalMode.ADD,
         data: undefined,
-        index: this.topics.length + 1
+        index: this.topics.filter(v => !v.markForDelete).length + 1
       }
     });
     dialogRef.afterClosed()
@@ -97,7 +97,10 @@ export class TopicTableComponent implements OnInit {
         let newPriority = 1;
         for (let topic of this.topics) {
           if (!topic.markForDelete) {
-            topic.priority = newPriority;
+            if (topic.priority !== newPriority) {
+              topic.priority = newPriority;
+              topic.markForEdit = true;
+            }
             newPriority++;
           }
         }

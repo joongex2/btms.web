@@ -10,3 +10,15 @@
     }
   }
 }
+
+
+.mat-table .mat-icon {
+  &.arrow-icon {
+    margin-left: -3px;
+  }
+  &.active {
+    &.arrow-icon {
+      margin-left: -11px;
+    }
+  }
+}

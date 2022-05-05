@@ -111,7 +111,7 @@
                     </mat-expansion-panel-header>
         
                     <form #f="ngForm">
-                        <div class="grid gap-x-4 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
+                        <div class="grid gap-x-4 sm:gap-x-8 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
                             <div class="col-span-6 sm:col-span-2 font-medium">Document Type</div>
                             <ng-container *ngIf="mode === 'edit';else documentTypeSelect">
                                 <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentTypeDescription :

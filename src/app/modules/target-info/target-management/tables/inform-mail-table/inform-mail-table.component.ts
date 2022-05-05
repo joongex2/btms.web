@@ -21,6 +21,9 @@ export class InformMailTableComponent implements OnInit {
       this._informEmails = value;
       if (this._informEmails) {
         this.dataSource.data = this._informEmails;
+        for (let email of this._informEmails) {
+          if (email.selected) this.selection.select(email);
+        }
       }
   }
   displayedColumns: string[] = ['select', 'name', 'email'];
@@ -56,5 +59,12 @@ export class InformMailTableComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${index + 1}`;
+  }
+
+  tick(row: InformEmail, event: any) {
+    if (event) {
+      this.selection.toggle(row);
+      row.selected = !row.selected;
+    }
   }
 }

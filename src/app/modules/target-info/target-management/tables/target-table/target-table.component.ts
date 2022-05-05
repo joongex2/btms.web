@@ -120,7 +120,7 @@ export class TargetTableComponent implements OnInit {
         data: undefined,
         standards: this.standards,
         kpiMissions: this.kpiMissions,
-        index: this.targets.length + 1
+        index: this.targets.filter(v => !v.markForDelete).length + 1
       }
     });
     dialogRef.afterClosed()
@@ -174,7 +174,10 @@ export class TargetTableComponent implements OnInit {
         let newPriority = 1;
         for (let target of this.targets) {
           if (!target.markForDelete) {
-            target.priority = newPriority;
+            if (target.priority !== newPriority) {
+              target.priority = newPriority;
+              target.markForEdit = true;
+            }
             newPriority++;
           }
         }    

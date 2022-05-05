@@ -45,7 +45,7 @@
             <a (click)="goBack()" class="flex items-center cursor-pointer">
                 <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>&nbsp;<span>Back</span>
             </a>
-            <a *ngIf="!isSend" (click)="send()" class="flex items-center cursor-pointer ml-3">
+            <a (click)="send()" class="flex items-center cursor-pointer ml-3">
                 <mat-icon svgIcon="heroicons_outline:arrow-circle-right"></mat-icon>&nbsp;<span>Send</span>
             </a>
         </div>
@@ -54,43 +54,36 @@
     <!-- Main -->
     <div class="flex-auto p-6 overflow-y-auto">
         <div class="flex-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <ng-container *ngIf="!isSend">
-                <div class="sm:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6 sm:p-8">
-                    <!-- <div class="text-lg font-medium tracking-tight leading-6 mb-4">Please Insert Comment</div> -->
-                    <form #f="ngForm">
-                        <div class="grid gap-2 grid-cols-12 items-center" style="color: rgb(30, 41, 59)">
-                            <div class="col-span-6 sm:col-span-2 font-medium">From</div>
-                            <div class="col-span-6 sm:col-span-10">:<span class="ml-2">{{from ? from : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Due Date</div>
-                            <div class="col-span-6 sm:col-span-10">:<span class="ml-2">{{dueDate ? (dueDate | date: 'dd/MM/YYYY'): ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium h-full align-top">Comment</div>
-                            <div class="col-span-6 sm:col-span-10 flex align-top">:
-                                <mat-form-field class="fuse-mat-textarea flex-auto ml-2">
-                                    <textarea matInput [(ngModel)]="comment" name="comment" [rows]="3" matTextareaAutosize ></textarea>
-                                    <!-- <mat-error>Comment is required</mat-error> -->
-                                </mat-form-field>
-                            </div>
+            <div class="sm:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6 sm:p-8">
+                <!-- <div class="text-lg font-medium tracking-tight leading-6 mb-4">Please Insert Comment</div> -->
+                <form #f="ngForm">
+                    <div class="grid gap-2 grid-cols-12 items-center" style="color: rgb(30, 41, 59)">
+                        <div class="col-span-6 sm:col-span-1 font-medium">From</div>
+                        <div class="col-span-6 sm:col-span-11 sm:pl-6">:<span class="ml-2">{{from ? from : ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-1 font-medium">Due Date</div>
+                        <div class="col-span-6 sm:col-span-11 sm:pl-6">:<span class="ml-2">{{dueDate ? (dueDate | date: 'dd/MM/YYYY'): ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-1 font-medium h-full align-top">Comment</div>
+                        <div class="col-span-6 sm:col-span-11 sm:pl-6 flex align-top">:
+                            <mat-form-field class="fuse-mat-textarea flex-auto ml-2">
+                                <textarea matInput [(ngModel)]="comment" name="comment" [rows]="3" matTextareaAutosize ></textarea>
+                                <!-- <mat-error>Comment is required</mat-error> -->
+                            </mat-form-field>
                         </div>
-                    </form>
-                </div>
-                <div class="flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6 sm:p-8">
-                    <div class="text-lg font-medium tracking-tight leading-6 mb-4">List of Users Receive Mail</div>
-                    <app-receive-mail-table [receiveEmails]="receiveEmails"></app-receive-mail-table>
-                </div>
-                <div class="flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6 sm:p-8">
-                    <div class="text-lg font-medium tracking-tight leading-6 mb-4">List of Users Inform Mail</div>
-                    <app-inform-mail-table [informEmails]="informEmails"></app-inform-mail-table>
-                </div>
-                <fuse-alert class="sm:col-span-2 flex-auto" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false" [type]="alert.type"
-                    [@shake]="alert.type === 'error'">
-                    {{alert.message}}
-                </fuse-alert>
-            </ng-container>
-            <ng-container *ngIf="isSend">
-                <div class="sm:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6 sm:p-8">
-                    <div class="text-lg font-medium tracking-tight leading-6">Send Successfully</div>
-                </div>
-            </ng-container>
+                    </div>
+                </form>
+            </div>
+            <div class="flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6 sm:p-8">
+                <div class="text-lg font-medium tracking-tight leading-6 mb-4">List of Users Receive Mail</div>
+                <app-receive-mail-table [receiveEmails]="receiveEmails"></app-receive-mail-table>
+            </div>
+            <div class="flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6 sm:p-8">
+                <div class="text-lg font-medium tracking-tight leading-6 mb-4">List of Users Inform Mail</div>
+                <app-inform-mail-table [informEmails]="informEmails"></app-inform-mail-table>
+            </div>
+            <fuse-alert class="sm:col-span-2 flex-auto" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false" [type]="alert.type"
+                [@shake]="alert.type === 'error'">
+                {{alert.message}}
+            </fuse-alert>
         </div>
     </div>
 </div>

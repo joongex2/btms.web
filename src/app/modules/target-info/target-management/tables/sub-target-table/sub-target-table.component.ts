@@ -52,7 +52,7 @@ export class SubTargetTableComponent implements OnInit {
       data: {
         mode: ModalMode.ADD,
         data: undefined,
-        index: this.subTargets.length + 1
+        index: this.subTargets.filter(v => !v.markForDelete).length + 1
       }
     });
     dialogRef.afterClosed()
@@ -128,7 +128,10 @@ export class SubTargetTableComponent implements OnInit {
         let newPriority = 1;
         for (let subTarget of this.subTargets) {
           if (!subTarget.markForDelete) {
-            subTarget.priority = newPriority;
+            if (subTarget.priority !== newPriority) {
+              subTarget.priority = newPriority;
+              subTarget.markForEdit = true;
+            }
             newPriority++;
           }
         }

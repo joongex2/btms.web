@@ -46,9 +46,9 @@
                     </mat-expansion-panel-header>
                     <!-- CONTENT GOES HERE -->
                     <form>
-                        <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
-                            <div class="col-span-6 sm:col-span-3 font-medium">Organize</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                        <div class="grid gap-x-4 sm:gap-x-8 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
+                            <div class="col-span-6 sm:col-span-2 font-medium">Organize</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2" appearance="fill">
                                     <input type="text" 
@@ -69,8 +69,8 @@
                                     <mat-error>ไม่พบข้อมูล organize ในระบบ</mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Status</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                            <div class="col-span-6 sm:col-span-2 font-medium">Status</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2" appearance="fill">
                                     <input type="text" 
@@ -92,12 +92,12 @@
                                 </mat-form-field>
                             </div>
                             
-                            <div class="col-span-6 sm:col-span-3 font-medium">BU</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                            <div class="col-span-6 sm:col-span-2 font-medium">Business Unit</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2" appearance="fill">
                                     <input type="text" 
-                                        placeholder="BU Code"
+                                        placeholder="Business Unit"
                                         aria-label="bu"
                                         matInput 
                                         [(ngModel)]="selectedBu"
@@ -111,22 +111,22 @@
                                             {{bu.title}}
                                         </mat-option>
                                     </mat-autocomplete>
-                                    <mat-error>ไม่พบข้อมูล BU ในระบบ</mat-error>
+                                    <mat-error>ไม่พบข้อมูล Business Unit ในระบบ</mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Running No.</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                            <div class="col-span-6 sm:col-span-2 font-medium">Running No.</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
                                     <input [(ngModel)]="documentNo" name="documentNo" matInput>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Sub-BU</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                            <div class="col-span-6 sm:col-span-2 font-medium">Sub Business Unit</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2" appearance="fill">
                                     <input type="text" 
-                                        placeholder="Sub-BU Code"
+                                        placeholder="Sub Business Unit"
                                         aria-label="subBu"
                                         matInput 
                                         [(ngModel)]="selectedSubBu"
@@ -140,18 +140,18 @@
                                             {{subBus.title}}
                                         </mat-option>
                                     </mat-autocomplete>
-                                    <mat-error>ไม่พบข้อมูล Sub-BU ในระบบ</mat-error>
+                                    <mat-error>ไม่พบข้อมูล Sub Business Unit ในระบบ</mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">From Document Year</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                            <div class="col-span-6 sm:col-span-2 font-medium">From Document Year</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
                                     <input [(ngModel)]="documentYear" name="documentYear" matInput>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Plant</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                            <div class="col-span-6 sm:col-span-2 font-medium">Plant</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2" appearance="fill">
                                     <input type="text" 
@@ -172,15 +172,15 @@
                                     <mat-error>ไม่พบข้อมูล Plant ในระบบ</mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">To Document Year</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                            <div class="col-span-6 sm:col-span-2 font-medium">To Document Year</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
                                     <input [(ngModel)]="toDocumentYear" name="toDocumentYear" matInput>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Division/Department</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                            <div class="col-span-6 sm:col-span-2 font-medium">Division/Department</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2" appearance="fill">
                                     <input type="text" 
@@ -201,8 +201,8 @@
                                     <mat-error>ไม่พบข้อมูล Division ในระบบ</mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Document Type</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                            <div class="col-span-6 sm:col-span-2 font-medium">Document Type</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2" appearance="fill">
                                     <input type="text" 
@@ -223,13 +223,13 @@
                                     <mat-error>ไม่พบข้อมูล Document Type ในระบบ</mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Critical KPI</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                            <div class="col-span-6 sm:col-span-2 font-medium">Critical KPI</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :
                                 <mat-checkbox class="ml-2" [color]="'primary'" [(ngModel)]="isCritical" name="isCritical"></mat-checkbox>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Target Type</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                            <div class="col-span-6 sm:col-span-2 font-medium">Target Type</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2" appearance="fill">
                                     <input type="text" 
@@ -250,11 +250,11 @@
                                     <mat-error>ไม่พบข้อมูล Target Type ในระบบ</mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">คำค้นหา</div>
-                            <div class="col-span-6 sm:col-span-9 flex items-center">
+                            <div class="col-span-6 sm:col-span-2 font-medium">คำค้นหา</div>
+                            <div class="col-span-6 sm:col-span-10 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <input [(ngModel)]="searchText" name="searchText" matInput placeholder="หัวข้อหลัก/หัวข้อย่อย">
+                                    <input [(ngModel)]="searchText" name="searchText" matInput placeholder="หัวข้อเป้าหมายหลัก/หัวข้อเป้าหมายย่อย">
                                 </mat-form-field>
                             </div>
                         </div>    

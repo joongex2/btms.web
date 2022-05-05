@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
@@ -17,58 +17,40 @@ import { ModalMode } from '../modal.type';
 export class PlanModalComponent implements OnInit {
   isEdit: boolean = false;
   planForm: FormGroup;
-  yearMonthForm: FormGroup;
-  years: any[] = [
-    { title: moment().year().toString(), value: moment().year().toString() },
-    { title: (moment().year() + 1).toString(), value: (moment().year() + 1).toString() },
-    { title: (moment().year() + 2).toString(), value: (moment().year() + 2).toString() }
-  ];
+  month: FormControl;
+  plan: Plan;
+  targetValue: string;
+
+  years: any[] = [];
   months: any[] = [
-    { title: 'January', value: 'jan' },
-    { title: 'February', value: 'feb' },
-    { title: 'March', value: 'mar' },
-    { title: 'April', value: 'apr' },
-    { title: 'May', value: 'may' },
-    { title: 'June', value: 'jun' },
-    { title: 'July', value: 'jul' },
-    { title: 'August', value: 'aug' },
-    { title: 'September', value: 'sep' },
-    { title: 'October', value: 'oct' },
-    { title: 'November', value: 'nov' },
-    { title: 'December', value: 'dec' },
+    { title: 'January', value: 1 },
+    { title: 'February', value: 2 },
+    { title: 'March', value: 3 },
+    { title: 'April', value: 4 },
+    { title: 'May', value: 5 },
+    { title: 'June', value: 6 },
+    { title: 'July', value: 7 },
+    { title: 'August', value: 8 },
+    { title: 'September', value: 9 },
+    { title: 'October', value: 10 },
+    { title: 'November', value: 11 },
+    { title: 'December', value: 12 },
   ];
-  yearMonthTags: any[] = [];
-  plans: Plan[] = [];
-
-  monthIndexMap = {
-    'jan': 'useMonth1',
-    'feb': 'useMonth2',
-    'mar': 'useMonth3',
-    'apr': 'useMonth4',
-    'may': 'useMonth5',
-    'jun': 'useMonth6',
-    'jul': 'useMonth7',
-    'aug': 'useMonth8',
-    'sep': 'useMonth9',
-    'oct': 'useMonth10',
-    'nov': 'useMonth11',
-    'dec': 'useMonth12'
-  }
-
-  valueMonthIndexMap = {
-    'jan': 'valueMonth1',
-    'feb': 'valueMonth2',
-    'mar': 'valueMonth3',
-    'apr': 'valueMonth4',
-    'may': 'valueMonth5',
-    'jun': 'valueMonth6',
-    'jul': 'valueMonth7',
-    'aug': 'valueMonth8',
-    'sep': 'valueMonth9',
-    'oct': 'valueMonth10',
-    'nov': 'valueMonth11',
-    'dec': 'valueMonth12'
-  }
+  monthIndexes: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  monthShortMap = {
+    1: 'jan',
+    2: 'feb',
+    3: 'mar',
+    4: 'apr',
+    5: 'may',
+    6: 'jun',
+    7: 'jul',
+    8: 'aug',
+    9: 'sep',
+    10: 'oct',
+    11: 'nov',
+    12: 'dec',
+  };
 
   // alert
   showAlert: boolean = false;
@@ -86,87 +68,92 @@ export class PlanModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.plans = this.modalData.data;
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
-    let currentYearPlan;
-    let priority;
+    this.plan = this.modalData.data;
+    this.targetValue = this.modalData.targetValue;
+    const priority = this.isEdit ? this.plan.priority : this.modalData.index;
+    const planDescription = this.isEdit ? this.plan.planDescription : '';
+    const month = moment().month() + 1;
+    const undertaker = this.isEdit ? this.plan.undertaker : '';
+
+    // year select option
+    this.years = this.isEdit ? [this.plan.planYear] : this.modalData.leftYears;
+    let planYear;
     if (this.isEdit) {
-      currentYearPlan = this.plans.find(v => v.planYear === this.modalData.selectedYear);
+      planYear = this.plan.planYear;
     } else {
-      currentYearPlan = this.plans.find(v => v.planYear === moment().year());
+      planYear = this.years.length > 0 ? this.years[0] : undefined;
     }
-    if (currentYearPlan) {
-      priority = currentYearPlan.priority;
-    } else {
-      priority = this.plans.length + 1;
-    }
-    const planDescription = this.plans.length > 0 ? this.plans[0].planDescription : '';
-    const year = this.isEdit ? this.modalData.selectedYear.toString() : moment().year().toString();
-    const month = this.months[moment().month()].value;
-    const undertaker = this.plans.length > 0 ? this.plans[0].undertaker : '';
 
-    this.yearMonthForm = this._formBuilder.group({
-      year: [year, [Validators.required]],
-      month: [month, [Validators.required]],
-    });
-
+    this.month = new FormControl(month, [Validators.required]);
     this.planForm = this._formBuilder.group({
       priority: [{ value: priority, disabled: true }, [Validators.required]],
       planDescription: [planDescription, [Validators.required]],
+      planYear: [{ value: planYear, disabled: this.isEdit }, [Validators.required]],
+      useMonth1: false,
+      useMonth2: false,
+      useMonth3: false,
+      useMonth4: false,
+      useMonth5: false,
+      useMonth6: false,
+      useMonth7: false,
+      useMonth8: false,
+      useMonth9: false,
+      useMonth10: false,
+      useMonth11: false,
+      useMonth12: false,
+      valueMonth1: '',
+      valueMonth2: '',
+      valueMonth3: '',
+      valueMonth4: '',
+      valueMonth5: '',
+      valueMonth6: '',
+      valueMonth7: '',
+      valueMonth8: '',
+      valueMonth9: '',
+      valueMonth10: '',
+      valueMonth11: '',
+      valueMonth12: '',
       undertaker: [undertaker, [Validators.required]],
     });
 
-    this.yearMonthForm.get('year').valueChanges.subscribe(v => {
-      const year = parseInt(v);
-      currentYearPlan = this.plans.find(v => v.planYear === year);
-      if (currentYearPlan) {
-        priority = currentYearPlan.priority;
-      } else {
-        priority = this.plans.length + 1;
-      }
-      this.planForm.get('priority').setValue(priority);
-    });
-
-    // initiate yearMonthTags
-    const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-    for (let plan of this.plans) {
-      // by year
-      for (let month of months) {
-        if (plan[this.monthIndexMap[month]]) this.yearMonthTags.push({ year: plan.planYear.toString(), month });
+    if (this.isEdit) {
+      for (let i = 1; i <= 12; i++) {
+        if (this.plan[`useMonth${i}`]) {
+          this.planForm.get(`useMonth${i}`).setValue(true);
+          this.planForm.get(`valueMonth${i}`).setValue(this.plan[`valueMonth${i}`]);
+        }
       }
     }
+
+    this.planForm.get('planYear').valueChanges.subscribe(v => {
+      // reset
+      for (let i = 1; i <= 12; i++) {
+        this.planForm.get(`useMonth${i}`).setValue(false);
+        this.planForm.get(`valueMonth${i}`).setValue('');
+      }
+    });
   }
 
   addTag(): void {
-    if (!this.yearMonthForm.valid) {
-      this.yearMonthForm.markAllAsTouched();
+    if (!this.month.valid) {
+      this.month.markAsTouched();
       return;
     } else {
-      const year = this.yearMonthForm.get('year').value;
-      const month = this.yearMonthForm.get('month').value;
-      if (this.checkDuplicate(year, month)) {
-        this._confirmationService.warning('Duplicate year and month.')
+      const month = this.month.value;
+      if (this.planForm.get(`useMonth${month}`).value) {
+        this._confirmationService.warning('Duplicate month.');
         return;
       };
-      this.yearMonthTags.push({
-        year,
-        month
-      });
-      this.yearMonthForm.get('month').reset();
+      this.planForm.get(`useMonth${month}`).setValue(true);
+      this.planForm.get(`valueMonth${month}`).setValue(this.targetValue);
+      this.month.reset();
     }
   }
 
-  deleteTag(i): void {
-    const plan = this.plans.find(v => v.planYear === parseInt(this.yearMonthTags[i].year));
-    if (plan) {
-      plan[this.monthIndexMap[this.yearMonthTags[i].month]] = false;
-      plan[this.valueMonthIndexMap[this.yearMonthTags[i].month]] = 0;
-    }
-    this.yearMonthTags.splice(i, 1);
-  }
-
-  checkDuplicate(year: string, month: string): boolean {
-    return this.yearMonthTags.find((tag) => tag.year == year && tag.month == month) !== undefined;
+  deleteTag(month: number): void {
+    this.planForm.get(`useMonth${month}`).setValue(false);
+    this.planForm.get(`valueMonth${month}`).setValue('');
   }
 
   close(): void {
@@ -179,10 +166,7 @@ export class PlanModalComponent implements OnInit {
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
     } else {
-      this.matDialogRef.close({
-        form: this.planForm.getRawValue(),
-        yearMonthTags: this.yearMonthTags
-      })
+      this.matDialogRef.close(this.planForm.getRawValue());
     }
   }
 

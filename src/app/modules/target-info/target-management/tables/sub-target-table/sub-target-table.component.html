@@ -8,7 +8,9 @@
     <ng-container matColumnDef="expandIcon">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <mat-icon [class.active]="checkExpanded(element)" (click)="pushPopElement(element)">play_arrow</mat-icon>
+            <div class="flex items-center">
+                <mat-icon class="arrow-icon" [class.active]="checkExpanded(element)" (click)="pushPopElement(element)">play_arrow</mat-icon>
+            </div>
         </td>
     </ng-container>
     <ng-container matColumnDef="priority">
