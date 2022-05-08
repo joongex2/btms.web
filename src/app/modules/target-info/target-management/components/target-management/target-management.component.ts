@@ -131,7 +131,7 @@ export class TargetManagementComponent implements OnInit {
       this.selectedDocumentType = undefined;
       this.selectedYear = moment().year().toString();
 
-      this._lookupService.getLookups('DOCUMENT_TYPE', 'DEFAULT').subscribe({
+      this._lookupService.getLookups('DOCUMENT_YEAR', 'DEFAULT').subscribe({
         next: (lookups: Lookup[]) => {
           const defaultYear = parseInt(lookups.find((v) => v.lookupCode === 'DEFAULT').lookupDescription);
           const currentYear = moment().year();
