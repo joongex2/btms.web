@@ -14,7 +14,7 @@
     <!-- Body -->
     <form class="grid gap-4 grid-cols-12 p-6 sm:p-8 overflow-y-auto items-center" [formGroup]="lookupForm">
 
-        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Type</div>
+        <div class="col-span-4 font-medium">Type<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
                 <mat-select [formControlName]="'lookupType'" placeholder="Type">
@@ -25,7 +25,7 @@
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Code</div>
+        <div class="col-span-4 font-medium">Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
                 <input matInput [formControlName]="'lookupCode'">
@@ -34,7 +34,7 @@
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Description</div>
+        <div class="col-span-4 font-medium">Description<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
                 <input matInput [formControlName]="'lookupDescription'">
@@ -43,7 +43,7 @@
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Sequence</div>
+        <div class="col-span-4 font-medium">Sequence<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
                 <input matInput [formControlName]="'lookupSequence'">
@@ -53,7 +53,7 @@
         </div>
 
         <ng-container>
-            <div class="col-span-4 font-medium">Status</div>
+            <div class="col-span-4 font-medium">Status<span class="text-warn">*</span></div>
             <div class="col-span-8 flex items-center">
                 <mat-form-field class="flex-auto">
                     <mat-select [formControlName]="'isActive'" placeholder="Status">

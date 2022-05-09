@@ -13,7 +13,7 @@
 
     <!-- Body -->
     <form class="grid gap-4 grid-cols-12 p-6 sm:p-8 overflow-y-auto items-center" [formGroup]="organizationForm">
-        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Organize Code</div>
+        <div class="col-span-4 font-medium">Organize Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
                 <input matInput [formControlName]="'organizeCode'">
@@ -22,7 +22,7 @@
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium"><span class="text-warn">*</span>Organize Name</div>
+        <div class="col-span-4 font-medium">Organize Name<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
                 <input matInput [formControlName]="'organizeName'">
@@ -31,7 +31,7 @@
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium">Business Unit Code</div>
+        <div class="col-span-4 font-medium">Business Unit Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
                 <mat-select [formControlName]="'businessUnitCode'" placeholder="Business Unit Code">
@@ -43,7 +43,7 @@
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium">Sub Business Unit Code</div>
+        <div class="col-span-4 font-medium">Sub Business Unit Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
                 <mat-select [formControlName]="'subBusinessUnitCode'" placeholder="Sub Business UnitCode">
@@ -55,7 +55,7 @@
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium">Plant Code</div>
+        <div class="col-span-4 font-medium">Plant Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
                 <mat-select [formControlName]="'plantCode'" placeholder="Plant Code">
@@ -66,7 +66,7 @@
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium">Division Code</div>
+        <div class="col-span-4 font-medium">Division Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
                 <mat-select [formControlName]="'divisionCode'" placeholder="Division Code">
@@ -79,7 +79,7 @@
         </div>
 
         <ng-container *ngIf="isEdit">
-            <div class="col-span-4 font-medium">Status</div>
+            <div class="col-span-4 font-medium">Status<span class="text-warn">*</span></div>
             <div class="col-span-8 flex items-center">
                 <mat-form-field class="flex-auto">
                     <mat-select [formControlName]="'isActive'" placeholder="Status">
