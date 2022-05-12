@@ -1,6 +1,6 @@
 <ng-container *ngIf="!readonly">
     <input (change)="uploadFile(uploadFileInput.files)" type="file" id="myfile" name="myfile" class="mb-2" #uploadFileInput>
-    <a href="#" onClick="return false;" (click)="uploadFileClick()" class="flex items-center mb-2">
+    <a (click)="uploadFileClick()" class="flex items-center mb-2 cursor-pointer">
         <mat-icon svgIcon="heroicons_outline:upload"></mat-icon>&nbsp;<span>Upload File</span>
     </a>
 </ng-container>

@@ -52,21 +52,21 @@
         <div class="flex flex-col self-end">
             <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
                 <ng-container *ngIf="mode == 'saveResult';else unarchiveMenu">
-                    <a href="#" onClick="return false;" (click)="backToDetail()" class="flex items-center">
+                    <a (click)="backToDetail()" class="flex items-center cursor-pointer">
                         <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
                         &nbsp;<span>Back</span>
                     </a>
                 </ng-container>
                 <ng-template #unarchiveMenu>
-                    <a href="#" onClick="return false;" (click)="backToArchive()" class="flex items-center">
+                    <a (click)="backToArchive()" class="flex items-center cursor-pointer">
                         <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
                         &nbsp;<span>Back</span>
                     </a>
                     <ng-container *ngIf="!readonly">
-                        <a href="#" onClick="return false;" class="flex items-center ml-3">
+                        <a class="flex items-center ml-3 cursor-pointer">
                             <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
                         </a>
-                        <a href="#" onClick="return false;" class="flex items-center ml-3">
+                        <a class="flex items-center ml-3 cursor-pointer">
                             <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Save</span>
                         </a>
                     </ng-container>
@@ -158,8 +158,7 @@
                             </ng-container>
                             <ng-container *ngIf="showRefDocument">
                                 <div class="col-span-4 font-medium">เอกสารอ้างอิง</div>
-                                <div class="col-span-8">:<a class="ml-2 underline text-blue-600" href="#"
-                                        onClick="return false" (click)="mode='causeAndFix'">SOV-TEST-99-05</a></div>
+                                <div class="col-span-8">:<a class="ml-2 underline text-blue-600 cursor-pointer" (click)="mode='causeAndFix'">SOV-TEST-99-05</a></div>
                             </ng-container>
                         </ng-container>
                         <ng-template #targetResultText>

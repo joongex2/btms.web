@@ -79,7 +79,7 @@
                             <div class="col-span-6 sm:col-span-2 font-medium">Target Type</div>
                             <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.targetType : '-'}}</span></div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Running No.</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2"><a href="#" onClick="return false;" (click)="openLastComment()" class="underline text-blue-600">{{document ? document.documentNo : ''}}</a></span></div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2"><a (click)="openLastComment()" class="underline text-blue-600 cursor-pointer">{{document ? document.documentNo : ''}}</a></span></div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Business Unit</div>
                             <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.businessUnit : ''}}</span></div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Status</div>
