@@ -1,3 +1,5 @@
+import { PlanFlow } from "app/modules/target-result/target-result.interface";
+
 export interface Document {
     id: number;
     documentNo: string;
@@ -25,6 +27,7 @@ export interface DocumentDetail {
     division: string;
     documentType: string;
     targetType: string;
+    documentTypeDescription: string;
     documentNo: string;
     documentStatus: string;
     documentStatusDescription: string;
@@ -137,6 +140,20 @@ export interface Plan {
     undertaker: string;
     markForEdit: boolean;
     markForDelete: boolean;
+
+    // use for target-result flow
+    flowMonth1?: PlanFlow;
+    flowMonth2?: PlanFlow;
+    flowMonth3?: PlanFlow;
+    flowMonth4?: PlanFlow;
+    flowMonth5?: PlanFlow;
+    flowMonth6?: PlanFlow;
+    flowMonth7?: PlanFlow;
+    flowMonth8?: PlanFlow;
+    flowMonth9?: PlanFlow;
+    flowMonth10?: PlanFlow;
+    flowMonth11?: PlanFlow;
+    flowMonth12?: PlanFlow;
 }
 
 export class DocumentParams {

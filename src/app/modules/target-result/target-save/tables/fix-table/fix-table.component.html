@@ -1,0 +1,60 @@
+<p class="fix-header table-title flex flex-row justify-between items-center">
+    <span>การแก้ไข</span>
+    <span *ngIf="!readonly" class="flex items-center cursor-pointer" (click)="addFix();">
+        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มการแก้ไข
+    </span>
+</p>
+<table mat-table [dataSource]="fixs" multiTemplateDataRows #fixTable>
+    <ng-container matColumnDef="fixNo">
+        <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.fixNo}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="fixDetail">
+        <th mat-header-cell *matHeaderCellDef>รายละเอียดการแก้ไข</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.fixDetail}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="fixOwner">
+        <th mat-header-cell *matHeaderCellDef>ผู้รับผิดชอบ</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.fixOwner}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="fixDueDate">
+        <th mat-header-cell *matHeaderCellDef>กำหนดเสร็จ</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.fixDueDate | date: 'dd/MM/yyyy'}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="fixFollow">
+        <th mat-header-cell *matHeaderCellDef>การติดตามการแก้ไข</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.fixFollow}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="fixStartDate">
+        <th mat-header-cell *matHeaderCellDef>วันที่ดำเนินการ</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.fixStartDate | date: 'dd/MM/yyyy'}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="editIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <mat-icon *ngIf="!readonly" (click)="editFix(i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer"
+                title="แก้ไขการแก้ไข"></mat-icon>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="deleteIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <mat-icon *ngIf="!readonly" (click)="deleteFix(i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer"
+                title="ลบการแก้ไข"></mat-icon>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: dataColumns"></tr>
+</table>

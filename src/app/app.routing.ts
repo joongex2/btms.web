@@ -86,7 +86,7 @@ export const appRoutes: Route[] = [
             ]},
             {path: 'target-result', children: [
                 {path: 'target-entry', loadChildren: () => import('app/modules/target-result/target-entry/target-entry.module').then(m=>m.TargetEntryModule)},
-                {path: 'target-entry/:runningNo', loadChildren: () => import('app/modules/target-result/target-entry-detail/target-entry-detail.module').then(m=>m.TargetEntryDetailModule)}
+                {path: 'result-info', loadChildren: () => import('app/modules/target-result/result-info/result-info.module').then(m=>m.ResultInfoModule)},
             ]},
             {path: 'admin', children: [
                 {path: 'master', loadChildren: () => import('app/modules/admin/master/master.module').then(m => m.MasterModule)},

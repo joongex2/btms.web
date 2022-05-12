@@ -1,0 +1,49 @@
+<table mat-table [dataSource]="targets" class="mat-elevation-z8 target-entry" style="min-width: 500px;"
+    multiTemplateDataRows>
+    <ng-container matColumnDef="expandIcon">
+        <th mat-header-cell *matHeaderCellDef>
+            <mat-icon [class.active]="checkExpandAll()" class="chevron-icon icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-right"
+                                    (click)="expandOrCollapseAll()"></mat-icon>
+            <!-- <div class="flex flex-row">
+                <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-down" (click)="expandAll()"></mat-icon>
+                <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-up" (click)="collapseAll()"></mat-icon>
+            </div> -->
+        </th>
+        <td mat-cell *matCellDef="let element">
+            <div class="flex items-center">
+                <mat-icon class="arrow-icon" [class.active]="checkExpanded(element)" (click)="pushPopElement(element)">play_arrow</mat-icon>
+            </div>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="priority">
+        <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.priority}}</td>
+    </ng-container>
+    <ng-container matColumnDef="targetName">
+        <th mat-header-cell *matHeaderCellDef>หัวข้อเป้าหมาย</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-left">{{element.targetName}}</td>
+    </ng-container>
+    <ng-container matColumnDef="standard">
+        <th mat-header-cell *matHeaderCellDef>Standard</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.standard}}</td>
+    </ng-container>
+    <ng-container matColumnDef="targetMission">
+        <th mat-header-cell *matHeaderCellDef>พันธะมุ่งหมาย</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.targetMission}}</td>
+    </ng-container>
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.colspan]="5" style="border-top: none">
+            <div class="expand-element" [@detailExpand]="checkExpanded(element) ? 'expanded' : 'collapsed'">
+                <app-sub-target-entry-table 
+                    [subTargets]="element.details"
+                    [documentId]="documentId"
+                    [targetId]="element.id"
+                    [document]="document">
+                </app-sub-target-entry-table>
+            </div>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="targetHeader"></tr>
+    <tr mat-row class="normal-row" *matRowDef="let element;let row; columns: targetRow1"></tr>
+    <tr mat-row *matRowDef="let row; columns: targetRow2" class="expand-row"></tr>
+</table>

@@ -1,0 +1,73 @@
+<p class="cause-header table-title flex flex-row justify-between items-center">
+    <span>สาเหตุ</span>
+    <span *ngIf="!readonly" class="flex items-center cursor-pointer" (click)="addCause();">
+        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มสาเหตุ
+    </span>
+</p>
+<table [dataSource]="causes" mat-table style="min-width: 500px;" multiTemplateDataRows #causeTable>
+    <ng-container matColumnDef="expandIcon">
+        <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-down"
+                (click)="expandAll()"></mat-icon>
+            <mat-icon class="icon-size-5 text-white" svgIcon="heroicons_solid:chevron-double-up"
+                (click)="collapseAll()"></mat-icon>
+        </th>
+        <td mat-cell *matCellDef="let element">
+            <mat-icon [class.active]="checkExpanded(element)"
+                (click)="pushPopElement(element)">play_arrow
+            </mat-icon>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="causeNo">
+        <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.causeNo}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="causeDetail">
+        <th mat-header-cell *matHeaderCellDef>รายละเอียด</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.causeDetail}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="causeNote">
+        <th mat-header-cell *matHeaderCellDef>หมายเหตุ</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.causeNote}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="causeStatus">
+        <th mat-header-cell *matHeaderCellDef>สถานะ</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.causeStatus}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="editIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <mat-icon *ngIf="!readonly" (click)="editCause(i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer"
+                title="แก้ไขสาเหตุุ"></mat-icon>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="deleteIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <mat-icon *ngIf="!readonly" (click)="deleteCause(i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer"
+                title="ลบสาเหตุ"></mat-icon>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.colspan]="7" style="border-top: none">
+            <div class="expand-element"
+                [@detailExpand]="checkExpanded(element) ? 'expanded' : 'collapsed'">
+                <div class="flex flex-col w-full">
+                    <app-fix-table [readonly]="readonly" [fixs]="element.kids.fixRecords"></app-fix-table>
+                    <app-protect-table [readonly]="readonly" [protects]="element.kids.protectRecords"></app-protect-table>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
+    <tr mat-row *matRowDef="let element; let row; columns: dataColumns" class="normal-row"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="expand-row"></tr>
+</table>

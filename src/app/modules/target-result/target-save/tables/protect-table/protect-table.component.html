@@ -1,0 +1,60 @@
+<p class="protect-header table-title flex flex-row justify-between items-center">
+    <span>การป้องกันการเกิดซ้ำ</span>
+    <span *ngIf="!readonly" class="flex items-center cursor-pointer" (click)="addProtect();">
+        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มการป้องกันการเกิดซ้ำ
+    </span>
+</p>
+<table mat-table [dataSource]="protects" multiTemplateDataRows #protectTable>
+    <ng-container matColumnDef="protectNo">
+        <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.protectNo}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="protectDetail">
+        <th mat-header-cell *matHeaderCellDef>รายละเอียดการแก้ไข</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.protectDetail}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="protectOwner">
+        <th mat-header-cell *matHeaderCellDef>ผู้รับผิดชอบ</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.protectOwner}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="protectDueDate">
+        <th mat-header-cell *matHeaderCellDef>กำหนดเสร็จ</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.protectDueDate | date: 'dd/MM/yyyy'}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="protectFollow">
+        <th mat-header-cell *matHeaderCellDef>การติดตามการป้องกัน</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.protectFollow}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="protectStartDate">
+        <th mat-header-cell *matHeaderCellDef>วันที่ดำเนินการ</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.data.protectStartDate | date: 'dd/MM/yyyy'}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="editIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <mat-icon *ngIf="!readonly" (click)="editProtect(i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer"
+                title="แก้ไขการป้องกันการเกิดซ้ำ"></mat-icon>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="deleteIcon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            <mat-icon *ngIf="!readonly" (click)="deleteProtect(i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer"
+                title="ลบการป้องกันการเกิดซ้ำ"></mat-icon>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
+    <tr mat-row *matRowDef="let element; let row; columns: dataColumns"></tr>
+</table>

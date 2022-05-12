@@ -1,0 +1,61 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
+}
+
+.mat-header-cell {
+    color: white !important
+}
+
+// th.mat-header-cell,
+// td.mat-cell {
+//     text-align: center;
+// }
+
+tr.expand-row {
+    height: 0;
+}
+
+tr.normal-row td {
+    border-bottom-width: 0 !important;
+}
+
+.expand-element {
+    overflow: hidden;
+    display: flex;
+}
+
+/* color */
+.mat-header-row {
+    background-color: rgb(132, 189, 0) !important;
+}
+
+.mat-row {
+    background-color: rgb(218, 235, 180) !important;
+}
+
+/* column width */
+.mat-column-expandIcon {
+    width: 5%;
+}
+  
+.mat-column-priority {
+    width: 10%;
+}
+
+.mat-column-targetName {
+    width: 60%;
+}
+
+.mat-column-standard {
+    width: 15%;
+}
+
+.mat-column-targetMission {
+    width: 10%;
+}

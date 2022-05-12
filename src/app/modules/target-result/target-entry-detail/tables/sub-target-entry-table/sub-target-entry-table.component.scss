@@ -1,0 +1,85 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.mat-header-cell,
+.mat-cell {
+    border-bottom-color: white !important;
+}
+
+.mat-header-cell {
+    color: white !important
+}
+
+// th.mat-header-cell,
+// td.mat-cell {
+//     text-align: center;
+// }
+
+tr.expand-row {
+    height: 0;
+}
+
+tr.normal-row td {
+    border-bottom-width: 0 !important;
+}
+
+.expand-element {
+    overflow: hidden;
+    display: flex;
+}
+
+/* color */
+.mat-header-row {
+    background-color: rgb(137, 129, 61) !important;
+}
+
+.mat-row {
+    background-color: rgb(219, 215, 177) !important;
+}
+
+/* column width */
+.mat-column-expandIcon {
+    width: 5%;
+}
+
+.mat-column-priority {
+    width: 5%;
+}
+
+.mat-column-targetDetailDescription {
+    width: 20%;
+}
+
+.mat-column-targetIndex {
+    width: 10%;
+}
+
+.mat-column-targetValue {
+    width: 10%;
+}
+
+.mat-column-targetUnit {
+    width: 10%;
+}
+
+.mat-column-currentTarget {
+    width: 10%;
+}
+
+.mat-column-startMonth {
+    width: 7.5%;
+}
+
+.mat-column-startYear {
+    width: 7.5%;
+}
+
+.mat-column-finishMonth {
+    width: 7.5%;
+}
+
+.mat-column-finishYear {
+    width: 7.5%;
+}

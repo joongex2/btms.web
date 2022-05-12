@@ -42,7 +42,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     }, {
         id      : 'target-result',
-        title   : 'ผลการดำเนินการตามเป้าหมาย',
+        title   : 'ผลการดำเนินงานตามเป้าหมาย',
         type    : 'collapsable',
         icon    : 'heroicons_outline:presentation-chart-bar',
         children: [

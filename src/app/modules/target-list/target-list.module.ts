@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
@@ -15,25 +16,37 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
-import { TargetListModule } from 'app/modules/target-list/target-list.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { TargetEntryDetailModule } from '../target-entry-detail/target-entry-detail.module';
-import { TargetSaveModule } from '../target-save/target-save.module';
-import { TargetEntryComponent } from './target-entry.component';
-import { targetEntryRoutes } from './target-entry.routing';
+import { TargetListComponent } from './target-list.component';
 
 
 
 @NgModule({
-  declarations: [
-    TargetEntryComponent
-  ],
-  imports: [
-    RouterModule.forChild(targetEntryRoutes),
-    TargetListModule,
-    TargetEntryDetailModule,
-    TargetSaveModule,
-    SharedModule
-  ]
+    declarations: [
+        TargetListComponent
+    ],
+    imports: [
+        RouterModule,
+        MatCheckboxModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatSidenavModule,
+        MatTabsModule,
+        MatRadioModule,
+        MatFormFieldModule,
+        MatDividerModule,
+        MatSelectModule,
+        MatInputModule,
+        MatTableModule,
+        MatExpansionModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatAutocompleteModule,
+        SharedModule
+    ],
+    exports: [
+        TargetListComponent
+    ]
 })
-export class TargetEntryModule { }
+export class TargetListModule { }

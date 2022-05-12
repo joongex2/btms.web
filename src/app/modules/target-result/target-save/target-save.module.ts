@@ -24,21 +24,27 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { IntegerOnlyModule } from 'app/shared/directives/integer-only.module';
 import { SharedModule } from 'app/shared/shared.module';
 import * as moment from 'moment';
-import { PlanEntryTableComponent } from './tables/plan-entry-table/plan-entry-table.component';
-import { SubTargetEntryTableComponent } from './tables/sub-target-entry-table/sub-target-entry-table.component';
-import { TargetEntryTableComponent } from './tables/target-entry-table/target-entry-table.component';
-import { TargetEntryDetailComponent } from './target-entry-detail.component';
-
-
+import { CauseModalComponent } from './modals/cause-modal/cause-modal.component';
+import { FixModalComponent } from './modals/fix-modal/fix-modal.component';
+import { ProtectModalComponent } from './modals/protect-modal/protect-modal.component';
+import { CauseTableComponent } from './tables/cause-table/cause-table.component';
+import { FileUploadTableComponent } from './tables/file-upload-table/file-upload-table.component';
+import { FixTableComponent } from './tables/fix-table/fix-table.component';
+import { ProtectTableComponent } from './tables/protect-table/protect-table.component';
+import { TargetSaveComponent } from './target-save.component';
 
 
 
 @NgModule({
   declarations: [
-    TargetEntryDetailComponent,
-    SubTargetEntryTableComponent,
-    TargetEntryTableComponent,
-    PlanEntryTableComponent
+    CauseModalComponent,
+    FixModalComponent,
+    ProtectModalComponent,
+    FixTableComponent,
+    ProtectTableComponent,
+    CauseTableComponent,
+    FileUploadTableComponent,
+    TargetSaveComponent
   ],
   imports: [
     RouterModule,
@@ -82,4 +88,4 @@ import { TargetEntryDetailComponent } from './target-entry-detail.component';
     }
   ]
 })
-export class TargetEntryDetailModule { }
+export class TargetSaveModule { }

@@ -1,36 +1,29 @@
-
 <div class="absolute inset-0 overflow-hidden flex flex-col flex-auto min-w-0">
     <!-- Header -->
     <div
-    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-4 border-b bg-card dark:bg-transparent">
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-4 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
             <div>
                 <div class="hidden sm:flex flex-wrap items-center font-medium">
                     <div>
-                        <a class="whitespace-nowrap text-primary-500">ผลการดำเนินการตามเป้าหมาย</a>
+                        <a class="whitespace-nowrap text-primary-500">ผลการดำเนินงานตามเป้าหมาย</a>
                     </div>
-                    <ng-container *ngIf="runningNo;else newTargetLabelBc">
-                        <div class="flex items-center ml-1 whitespace-nowrap">
-                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                            </mat-icon>
-                            <a href="/target-result/target-entry">
-                                <span class="ml-1 text-secondary">บันทึกผลการดำเนินงาน</span>
-                            </a>
-                        </div>
-                        <div class="flex items-center ml-1 whitespace-nowrap">
-                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                            </mat-icon>
-                            <span class="ml-1 text-secondary">{{runningNo.runningNo}}</span>
-                        </div>
-                    </ng-container>
-                    <ng-template #newTargetLabelBc>
-                        <div class="flex items-center ml-1 whitespace-nowrap">
-                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                            </mat-icon>
-                            <span class="ml-1 text-secondary">บันทึกผลการดำเนินงาน</span>
-                        </div>
-                    </ng-template>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a [routerLink]="'./..'">
+                            <span class="ml-1 text-primary-500">
+                                <ng-container *ngIf="!readonly">บันทึกผลการดำเนินงาน</ng-container>
+                                <ng-container *ngIf="readonly">ข้อมูลผลการดำเนินงาน</ng-container>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <span class="ml-1 text-secondary">การรายงานผลการดำเนินงานตามเป้าหมาย</span>
+                    </div>
                 </div>
                 <div class="flex sm:hidden">
                     <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'./..'">
@@ -43,27 +36,25 @@
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    บันทึกผลการดำเนินงาน {{runningNo.runningNo}}
+                    การรายงานผลการดำเนินงานตามเป้าหมาย
                 </h2>
             </div>
         </div>
         <!-- Action -->
-        <div class="flex flex-col">
+        <div class="flex flex-col self-end">
             <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-                <a href="#" onClick="return false;" class="flex items-center">
+                <a [routerLink]="'./..'" class="flex items-center">
                     <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
                     &nbsp;<span>Back</span>
                 </a>
-                <a href="#" onClick="return false;" class="flex items-center ml-3">
-                    <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
-                </a>
-                <a href="#" onClick="return false;" class="flex items-center ml-3">
-                    <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span>
-                </a>
-            </div>
-            <div class="flex flex-row sm:justify-end mt-2">
-                <span class="text-red-600">Last Comment:&nbsp;&nbsp;</span>
-                <a href="#" onClick="return false;" (click)="openLastComment()" class="underline text-blue-600">More Detail</a>
+                <ng-container *ngIf="!readonly">
+                    <a class="flex items-center ml-3">
+                        <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
+                    </a>
+                    <a class="flex items-center ml-3">
+                        <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span>
+                    </a>
+                </ng-container>
             </div>
         </div>
     </div>
@@ -79,68 +70,36 @@
                             <mat-icon [svgIcon]="'heroicons_outline:information-circle'"></mat-icon>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
-                        <div class="col-span-6 sm:col-span-3 font-medium">Target Type</div>
-                        <ng-container *ngIf="runningNo;else targetTypeSelect">
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.targetType :
-                                '-'}}</span></div>
-                        </ng-container>
-                        <ng-template #targetTypeSelect>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedTargetType" name="targetType">
-                                        <mat-option *ngFor="let targetType of targetTypes" [value]="targetType.value">
-                                            {{targetType.title}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                        </ng-template>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Running No.</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.runningNo : '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">BU</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.bu : '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Sub-BU</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.subBu : '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Plant</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.plant : '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Site</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.site : '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Division/Department</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.division + '/' + runningNo.department : '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Status</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.status : 'New'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Revision No.</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.revisionNo :
-                            'NONE'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Modify No.</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.modifyNo : '-'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Year</div>
-                        <ng-container *ngIf="runningNo;else yearSelect">
-                            <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.year : '-'}}</span></div>
-                        </ng-container>
-                        <ng-template #yearSelect>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedYear" name="targetType">
-                                        <mat-option *ngFor="let year of years" [value]="year.value">
-                                            {{year.title}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                        </ng-template>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Create Date</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.createDate :
-                            '22/06/2013'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Creator</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.creator :
-                            'Thanawan Sankum'}}</span></div>
-                        <div class="col-span-6 sm:col-span-3 font-medium">Issued Date</div>
-                        <div class="col-span-6 sm:col-span-3">:<span class="ml-2">{{runningNo ? runningNo.issuedDate :
-                            '-'}}</span></div>
+                    <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center"
+                        style="color: rgb(30, 41, 59)">
+                        <div class="col-span-6 sm:col-span-2 font-medium">Document Type</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentTypeDescription : '-'}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Year</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentYear : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Target Type</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.targetType : '-'}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Running No.</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2"><a href="#" onClick="return false;" (click)="openLastComment()" class="underline text-blue-600">{{document ? document.documentNo : ''}}</a></span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Business Unit</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.businessUnit : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Status</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentStatusDescription : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Sub Business Unit</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.subBusinessUnit : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Revision No.</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.revisionNo : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Plant</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.plant : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Modify No.</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.modifyNo : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Division/Department</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.division : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Date Create</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? (document.documentDate | date : 'dd/MM/YYYY') : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Creator</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.userHolder : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Date Due</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? (document.dueDate | date : 'dd/MM/YYYY')  : ''}}</span></div>
                     </div>
                 </mat-expansion-panel>
             </mat-accordion>
@@ -148,15 +107,13 @@
             <form class="mt-6 flex flex-col px-8 pt-10 bg-card shadow rounded overflow-hidden">
                 <div class="flex flex-col gt-xs:flex-row gt-xs:items-start">
                     <div class="gt-xs:max-w-80 gt-xs:pr-12 flex flex-col sm:flex-row sm:justify-between">
-                        <p class="text-lg font-medium mb-6">ผลการดำเนินการตามเป้าหมาย</p>
+                        <p class="text-lg font-medium mb-6">ผลการดำเนินงานตามเป้าหมาย</p>
                     </div>
 
                     <!-- Table -->
                     <div class="flex-auto overflow-x-auto mb-5 md:mb-9 bg-card shadow rounded overflow-hidden">
-                        <app-target-entry-table
-                            [targets]="targets"
-                            [runningNo]="runningNoParam"
-                        ></app-target-entry-table>
+                        <app-target-entry-table [targets]="targets" [documentId]="document?.id" [document]="document">
+                        </app-target-entry-table>
                     </div>
                 </div>
 

@@ -4,13 +4,13 @@ import { TargetListComponent } from 'app/modules/target-list/target-list.compone
 import { BusResolver, DivisionsResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, StatusesResolver, SubBusResolver, TargetTypesResolver } from 'app/shared/resolver';
 import { TargetEntryDetailComponent } from '../target-entry-detail/target-entry-detail.component';
 import { TargetSaveComponent } from '../target-save/target-save.component';
-import { TargetEntryComponent } from './target-entry.component';
+import { ResultInfoComponent } from './result-info.component';
 
-export const targetEntryRoutes: Route[] = [
+export const resultInfoRoutes: Route[] = [
     {
         path: '',
         canActivate: [MenuGuard],
-        component: TargetEntryComponent,
+        component: ResultInfoComponent,
         children: [
             {
                 path: '',
@@ -28,11 +28,13 @@ export const targetEntryRoutes: Route[] = [
             },
             {
                 path: ':id',
-                component: TargetEntryDetailComponent
+                component: TargetEntryDetailComponent,
+                data: { readonly: true }
             },
             {
                 path: ':id/save',
-                component: TargetSaveComponent
+                component: TargetSaveComponent,
+                data: { readonly: true }
             },
         ]
     }
