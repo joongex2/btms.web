@@ -98,6 +98,7 @@ export const appRoutes: Route[] = [
             {path: 'super-admin', children: [
                 {path: 'user-group', loadChildren: () => import('app/modules/super-admin/user-group/user-group.module').then(m => m.UserGroupModule)},
                 {path: 'role', loadChildren: () => import('app/modules/super-admin/role/role.module').then(m => m.RoleModule)},
+                {path: 'admin-user', loadChildren: () => import('app/modules/super-admin/admin-user/admin-user.module').then(m => m.AdminUserModule)},
             ]},
 
             {path: '403-forbidden', loadChildren: () => import('app/modules/error/error-403/error-403.module').then(m => m.Error403Module)},

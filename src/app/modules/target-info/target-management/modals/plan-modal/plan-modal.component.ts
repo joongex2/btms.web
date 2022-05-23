@@ -17,7 +17,6 @@ import { ModalMode } from '../modal.type';
 export class PlanModalComponent implements OnInit {
   isEdit: boolean = false;
   planForm: FormGroup;
-  month: FormControl;
   plan: Plan;
   targetValue: string;
   years: any[] = [];
@@ -70,7 +69,6 @@ export class PlanModalComponent implements OnInit {
       planYear = this.years.length > 0 ? this.years[0] : undefined;
     }
 
-    this.month = new FormControl(month, [Validators.required]);
     this.planForm = this._formBuilder.group({
       priority: [{ value: priority, disabled: true }, [Validators.required]],
       planDescription: [planDescription, [Validators.required]],

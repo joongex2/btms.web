@@ -1,0 +1,163 @@
+<div class="absolute inset-0 overflow-hidden flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-4 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div>
+                        <a class="whitespace-nowrap text-primary-500">Super Admin</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <span class="ml-1 text-secondary">Admin User Management</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Admin User Management
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto p-6 overflow-y-auto">
+        <div class="flex-auto">
+            <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <!-- CONTENT GOES HERE -->
+                    <form>
+                        <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
+                            <div class="col-span-6 sm:col-span-3 font-medium">Username</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="username" name="username" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Group</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedUserGroup" name="userGroup" placeholder="ทั้งหมด" disabled>
+                                        <mat-option *ngFor="let userGroup of userGroups" [value]="userGroup.value">
+                                            {{userGroup.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Email</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="email" name="email" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Organization</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedOrganization" name="organization" placeholder="ทั้งหมด">
+                                        <mat-option *ngFor="let organization of organizations" [value]="organization.value">
+                                            {{organization.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 sm:col-start-1 font-medium">Name</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="name" name="name" matInput>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Role</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedRole" name="role" placeholder="ทั้งหมด">
+                                        <mat-option *ngFor="let role of roles" [value]="role.value">
+                                            {{role.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            
+                            <div class="col-span-6 sm:col-span-3 sm:col-start-1 font-medium">Status</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedIsActive" name="isActive" placeholder="ทั้งหมด">
+                                        <mat-option *ngFor="let isActive of isActives" [value]="isActive.value">
+                                            {{isActive.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+    
+                        <div
+                            class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                            <div class="flex-none" (click)="search()">
+                                <a class="flex items-center cursor-pointer">
+                                    <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Search</span>
+                                </a>
+                            </div>
+                            <div class="flex-none ml-2" (click)="clear()">
+                                <a class="flex items-center cursor-pointer">
+                                    <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Clear</span>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </mat-expansion-panel>
+            </mat-accordion>
+    
+            <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
+                <p class="table-title flex flex-row justify-between cursor-pointer">
+                    <span>ยูสเซอร์</span>
+                    <span class="flex items-center" [routerLink]="'./add-user'">
+                        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มยูสเซอร์
+                    </span>
+                </p>
+                <div class="overflow-x-auto">
+                    <table mat-table #userTable [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
+                    matSort>
+                        <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
+                            <ng-container *ngIf="notSortColumn.includes(key)">
+                                <th mat-header-cell *matHeaderCellDef [ngClass]="{ 'text-center' : key == 'detailIcon' }">{{ keyToColumnName[key] }}</th>
+                            </ng-container>
+                            <ng-container *ngIf="!notSortColumn.includes(key)">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ keyToColumnName[key] }}</th>
+                            </ng-container>
+                            <td mat-cell *matCellDef="let element; let i = index">
+                                <ng-container *ngIf="key == 'index'">{{ (paginator.pageIndex*paginator.pageSize) + (i+1) }}</ng-container>
+                                <ng-container *ngIf="key == 'isActive'">{{ element[key] | isActive }}</ng-container>
+                                <ng-container *ngIf="key == 'detailIcon'">
+                                    <a class="flex items-center justify-center" [routerLink]="'./'+element.id">
+                                        <mat-icon svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5"></mat-icon>
+                                    </a>
+                                </ng-container>
+                                <ng-container *ngIf="key != 'index' && key != 'isActive' && key != 'detailIcon'">{{ element[key] }}</ng-container>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
