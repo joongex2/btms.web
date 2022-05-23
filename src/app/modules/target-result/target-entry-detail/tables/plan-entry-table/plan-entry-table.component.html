@@ -1,6 +1,6 @@
 <table mat-table [dataSource]="plans" class="mat-elevation-z8 plan-entry" multiTemplateDataRows>
     <ng-container matColumnDef="planDescription">
-        <th mat-header-cell *matHeaderCellDef>รายละเอียด</th>
+        <th mat-header-cell *matHeaderCellDef>การวัดผลเป้าหมาย</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.rowspan]="2" class="text-left"
             style="padding-left: 15px !important;">
             {{element.planDescription}}

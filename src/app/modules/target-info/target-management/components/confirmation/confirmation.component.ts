@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { UserService } from 'app/core/user/user.service';
-import { DocumentConfirm, InformEmail, ReceiveEmail } from 'app/shared/interfaces/document.interface';
+import { DocumentConfirm, DocumentDetail, InformEmail, ReceiveEmail } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { DocumentService } from 'app/shared/services/document.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
@@ -25,6 +25,7 @@ export class ConfirmationComponent implements OnInit {
   @ViewChild(InformMailTableComponent) informMailTable: InformMailTableComponent;
   @ViewChild(NgForm) f: NgForm;
   documentId: number;
+  document: DocumentDetail;
   targetManagementStatus: TargetManagementStatus;
   TargetManagementStatus = TargetManagementStatus;
   isMyTargetUrl: boolean = false;
@@ -60,6 +61,7 @@ export class ConfirmationComponent implements OnInit {
       this.isMyTargetUrl = true;
     }
     this.documentId = parseInt(this._targetManagementService.documentId);
+    this.loadDocument(this.documentId);
     this.targetManagementStatus = this._targetManagementService.targetManagementStatus;
     if (this.targetManagementStatus === TargetManagementStatus.CONFIRM) {
       this._documentService.getSubmitEmail(this.documentId).subscribe({
@@ -139,6 +141,15 @@ export class ConfirmationComponent implements OnInit {
         }
       });
     }
+  }
+
+  loadDocument(id: number) {
+    this._documentService.getDocument(id).subscribe({
+      next: (documentDetail: DocumentDetail) => {
+        this.document = documentDetail;
+      },
+      error: (e) => console.error(e)
+    });
   }
 
   showError(error: string, hasApiError?: boolean) {

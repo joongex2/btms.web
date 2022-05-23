@@ -16,12 +16,21 @@
         <div class="col-span-4 font-medium">Organize Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
-                <mat-select [formControlName]="'organizeCode'" placeholder="Organize Code">
-                    <mat-option *ngFor="let organizeCode of organizeCodes" [value]="organizeCode.value">
+                <input type="text" 
+                    placeholder="Organize Code"
+                    aria-label="organizeCode"
+                    matInput
+                    [formControlName]="'organizeCode'"
+                    [matAutocomplete]="organizeCodeOptions"
+                    #organizeCodeTrigger="matAutocompleteTrigger"
+                >
+                <mat-autocomplete #organizeCodeOptions="matAutocomplete" [displayWith]="displayOrganizeCodeFn">
+                    <mat-option *ngFor="let organizeCode of filteredOrganizeCodeOptions | async" [value]="organizeCode">
                         {{organizeCode.title}}
                     </mat-option>
-                </mat-select>
-                <mat-error>Organize Code is required</mat-error>
+                </mat-autocomplete>
+                <mat-error *ngIf="documentControlForm.get('organizeCode').hasError('required')">Organize Code is required</mat-error>
+                <mat-error *ngIf="documentControlForm.get('organizeCode').hasError('requireMatch')">ไม่พบข้อมูลต้นสังกัดในระบบ</mat-error>
             </mat-form-field>
         </div>
 
@@ -55,14 +64,14 @@
             </mat-form-field>
         </div>
 
-        <div class="col-span-4 font-medium">Suffix<span class="text-warn">*</span></div>
+        <!-- <div class="col-span-4 font-medium">Suffix<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
             <mat-form-field class="flex-auto">
                 <input matInput [formControlName]="'suffix'">
                 <div class="copy-fields-toggles" matSuffix></div>
                 <mat-error>Suffix is required</mat-error>
             </mat-form-field>
-        </div>
+        </div> -->
 
         <div class="col-span-4 font-medium">Length of Running No.<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">

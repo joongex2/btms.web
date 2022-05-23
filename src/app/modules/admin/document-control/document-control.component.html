@@ -74,13 +74,13 @@
                                     <input [(ngModel)]="prefix" name="prefix" matInput>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Suffix</div>
+                            <!-- <div class="col-span-6 sm:col-span-3 font-medium">Suffix</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
                                     <input [(ngModel)]="suffix" name="suffix" matInput>
                                 </mat-form-field>
-                            </div>
+                            </div> -->
                             <div class="col-span-6 sm:col-span-3 font-medium">Length of Running No.</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
@@ -162,7 +162,7 @@
                                             <mat-icon (click)="editDocumentControl(element)" svgIcon="heroicons_outline:pencil"
                                                 class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไข DocumentControl"></mat-icon>
                                             <mat-icon (click)="deleteDocumentControl(element)" svgIcon="heroicons_outline:x"
-                                                class="w-5 min-w-5 cursor-pointer" title="ลบ DocumentControl"></mat-icon>
+                                                class="w-5 min-w-5 cursor-pointer ml-[8px]" title="ลบ DocumentControl"></mat-icon>
                                         </div>
                                     </ng-container>
                                     <ng-container

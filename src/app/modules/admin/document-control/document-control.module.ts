@@ -14,6 +14,7 @@ import { DocumentControlModalComponent } from './modals/document-control-modal/d
 import { DocumentControlComponent } from './document-control.component';
 import { documentControlRoutes } from './document-control.routing';
 import { FuseAlertModule } from '@fuse/components/alert';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 
@@ -33,6 +34,7 @@ import { FuseAlertModule } from '@fuse/components/alert';
     MatSortModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatAutocompleteModule,
     FuseAlertModule,
     SharedModule
   ]

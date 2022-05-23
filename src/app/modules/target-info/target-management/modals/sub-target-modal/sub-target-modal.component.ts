@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
@@ -28,11 +28,7 @@ export class SubTargetModalComponent implements OnInit {
     { title: 'เชิงปริมาณ', value: '1' },
     { title: 'เชิงคุณภาพ', value: '2' }
   ];
-  resultColors: any[] = [
-    { title: 'RED', value: 'RED' },
-    { title: 'YELLOW', value: 'YELLOW' },
-    { title: 'GREEN', value: 'GREEN' },
-  ];
+  resultColors: any[] = [];
 
   // alert
   showAlert: boolean = false;
@@ -71,14 +67,22 @@ export class SubTargetModalComponent implements OnInit {
           markForDelete: [tc.markForDelete],
         }));
       }
-      if (targetCondition === '1' && !this.modalData.data.conditions.find(v => v.targetCondition === '1' && !v.markForDelete)) {
-        conditions.push(this.newCondition('1'));
-      } else if (targetCondition === '2' && this.modalData.data.conditions.filter(v => v.targetCondition === '2' && !v.markForDelete).length === 0) {
-        conditions.push(this.newCondition('2'));
+      if (targetCondition === '1') {
+        this.resultColors = [{ title: 'GREEN', value: 'GREEN' }];
+        if (!this.modalData.data.conditions.find(v => v.targetCondition === '1' && !v.markForDelete)) {
+          conditions.push(this.newCondition('1'));
+        }
+      } else if (targetCondition === '2') {
+        this.resultColors = [{ title: 'RED', value: 'RED' }, { title: 'YELLOW', value: 'YELLOW' }];
+        if (this.modalData.data.conditions.filter(v => v.targetCondition === '2' && !v.markForDelete).length === 0) {
+          conditions.push(this.newCondition('2'));
+        }
       }
     } else {
+      this.resultColors = [{ title: 'GREEN', value: 'GREEN' }];
       conditions.push(this.newCondition('1'));
     }
+
     const targetUnit = this.isEdit ? this.modalData.data.targetUnit : '';
     const currentTarget = this.isEdit ? this.modalData.data.currentTarget : '';
     const targetReferenceValue = this.isEdit ? this.modalData.data.targetReferenceValue : '';
@@ -96,7 +100,7 @@ export class SubTargetModalComponent implements OnInit {
       conditions: conditions,
       targetUnit: [targetUnit, [Validators.required]],
       currentTarget: [currentTarget, [Validators.required]],
-      targetReferenceValue: [targetReferenceValue, [Validators.required]],
+      targetReferenceValue: [targetReferenceValue],
       startDate: [startDate, [Validators.required]],
       finishDate: [finishDate, [Validators.required]],
       isCritical: [isCritical]
@@ -104,6 +108,8 @@ export class SubTargetModalComponent implements OnInit {
 
     this.subTargetForm.get('targetCondition').valueChanges.subscribe(value => {
       if (value === '1') {
+        this.resultColors = [{ title: 'GREEN', value: 'GREEN' }];
+
         // remove targetCondition = 2 && id = 0
         const conditions = this.subTargetForm.get('conditions') as FormArray;
         const newConditions = [];
@@ -121,6 +127,10 @@ export class SubTargetModalComponent implements OnInit {
         }
         conditions.push(this.newCondition('1'));
       } else {
+        this.resultColors = [{ title: 'RED', value: 'RED' }, { title: 'YELLOW', value: 'YELLOW' }];
+
+        this.subTargetForm.get('targetValue').setValue('');
+
         // remove targetCondition = 1 && id = 0
         const conditions = this.subTargetForm.get('conditions') as FormArray;
         const newConditions = [];
@@ -139,6 +149,12 @@ export class SubTargetModalComponent implements OnInit {
         conditions.push(this.newCondition('2'));
       }
     });
+
+    if (targetCondition === '1') {
+      const conditionIndex = (conditions as FormArray).controls.findIndex((control) => !control.get('markForDelete').value);
+      const condition = (conditions as FormArray).at(conditionIndex);
+      this.setTargetValueSubscribe(condition);
+    }
   }
 
   addCondition(): void {
@@ -156,17 +172,33 @@ export class SubTargetModalComponent implements OnInit {
   }
 
   newCondition(targetCondition: string): FormGroup {
-    return this._formBuilder.group({
+    const resultColor = targetCondition === '1' ? 'GREEN' : '';
+    const newCondition = this._formBuilder.group({
       id: [0],
       targetDetailId: [this.isEdit ? this.modalData.data.id : 0],
       targetCondition: [targetCondition],
       targetOperator: ['', [Validators.required]],
       targetValue: ['', [Validators.required]],
-      resultColor: ['', [Validators.required]],
+      resultColor: [resultColor, [Validators.required]],
       isActive: [true],
       markForEdit: [false],
       markForDelete: [false],
     })
+
+    if (targetCondition === '1') {
+      this.setTargetValueSubscribe(newCondition);
+    }
+
+    return newCondition;
+  }
+
+  setTargetValueSubscribe(condition: AbstractControl) {
+    condition.get('targetOperator').valueChanges.subscribe((v) => {
+      this.subTargetForm.get('targetValue').setValue(v + condition.get('targetValue').value);
+    });
+    condition.get('targetValue').valueChanges.subscribe((v) => {
+      this.subTargetForm.get('targetValue').setValue(condition.get('targetOperator').value + v);
+    });
   }
 
   chosenYearHandler(normalizedYear: Moment, dateForm: any) {

@@ -34,7 +34,7 @@ export class TargetTableComponent implements OnInit {
     'priority',
     'targetName',
     'standard',
-    'targetMission',
+    // 'targetMission',
     'editIcon',
     'deleteIcon'
   ];
@@ -131,7 +131,7 @@ export class TargetTableComponent implements OnInit {
           standard: target.standard,
           priority: target.priority,
           targetName: target.targetName,
-          targetMission: target.targetMission,
+          targetMission: null,
           markForEdit: false,
           markForDelete: false,
           details: []
@@ -155,7 +155,7 @@ export class TargetTableComponent implements OnInit {
         if (!target) return; // cancel
         this.targets[index].standard = target.standard,
         this.targets[index].targetName = target.targetName,
-        this.targets[index].targetMission = target.targetMission,
+        this.targets[index].targetMission = null,
         this.targets[index].markForEdit = true;
         this.targetTable.renderRows();
         this.markForEdit.emit(this.documentId);

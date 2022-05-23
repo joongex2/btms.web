@@ -26,7 +26,7 @@
             </td>
         </ng-container>
         <ng-container matColumnDef="targetName">
-            <th mat-header-cell *matHeaderCellDef>หัวข้อเป้าหมาย</th>
+            <th mat-header-cell *matHeaderCellDef>หัวข้อเป้าหมายหลัก</th>
             <td mat-cell *matCellDef="let element; let i = dataIndex">
                 {{element.targetName}}
             </td>
@@ -37,12 +37,12 @@
                 {{element.standard}}
             </td>
         </ng-container>
-        <ng-container matColumnDef="targetMission">
+        <!-- <ng-container matColumnDef="targetMission">
             <th mat-header-cell *matHeaderCellDef>พันธะมุ่งหมาย</th>
             <td mat-cell *matCellDef="let element; let i = dataIndex">
                 {{element.targetMission}}
             </td>
-        </ng-container>
+        </ng-container> -->
         <ng-container matColumnDef="editIcon">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element; let i = dataIndex">

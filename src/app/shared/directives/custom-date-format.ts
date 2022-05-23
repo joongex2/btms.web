@@ -7,12 +7,12 @@ export type DateDisplay = DateParse & {
 };
 export class CustomDateFormat {
     private _parse: DateParse = {
-        dateInput: moment.ISO_8601
+        dateInput: 'DD/MM/YYYY'
     };
     private _display: DateDisplay = {
-        dateInput: 'YYYY/MM/DD',
+        dateInput: 'DD/MM/YYYY',
         monthYearLabel: 'MMM YYYY',
-        dateA11yLabel: 'MMM YYYY',
+        dateA11yLabel: 'DD/MM/YYYY',
         monthYearA11yLabel: 'MMMM YYYY'
     };
 
@@ -32,7 +32,8 @@ export class CustomDateFormat {
         return this._display;
     }
 
-    updateDateFormat(parse: DateParse) {
-        this.display = parse;
+    updateDateFormat(format: string) {
+        this.parse = { dateInput: format };
+        this.display = { dateInput: format, dateA11yLabel: format };
     }
 }

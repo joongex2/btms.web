@@ -40,7 +40,7 @@ export class DocumentControlComponent implements OnInit {
   documentCode: string;
   selectedDocumentType: string;
   prefix: string;
-  suffix: string;
+  // suffix: string;
   lengthOfRunningNo: string;
   lastDocumentNo: string;
   lastRunningNo: string;
@@ -53,7 +53,7 @@ export class DocumentControlComponent implements OnInit {
     'documentCode',
     'documentType',
     'prefix',
-    'suffix',
+    // 'suffix',
     'lengthOfRunningNo',
     'lastDocumentNo',
     'lastRunningNo',
@@ -67,7 +67,7 @@ export class DocumentControlComponent implements OnInit {
     'documentCode': 'Document Code',
     'documentType': 'Document Type',
     'prefix': 'Prefix',
-    'suffix': 'Suffix',
+    // 'suffix': 'Suffix',
     'lengthOfRunningNo': 'Length of Running No.',
     'lastDocumentNo': 'Last Document No.',
     'lastRunningNo': 'Last Running No.',
@@ -109,7 +109,7 @@ export class DocumentControlComponent implements OnInit {
       let searchString = JSON.parse(filter);
       return (!searchString.documentCode || data.documentCode.toString().trim().toLowerCase().indexOf(searchString.documentType.toLowerCase()) !== -1)
         && (!searchString.prefix || data.prefix.toString().trim().toLowerCase().indexOf(searchString.prefix.toLowerCase()) !== -1)
-        && (!searchString.suffix || data.suffix.toString().trim().toLowerCase().indexOf(searchString.suffix.toLowerCase()) !== -1)
+        // && (!searchString.suffix || data.suffix.toString().trim().toLowerCase().indexOf(searchString.suffix.toLowerCase()) !== -1)
         && (!searchString.lengthOfRunningNo || data.lengthOfRunningNo.toString().trim().toLowerCase().indexOf(searchString.lengthOfRunningNo.toLowerCase()) !== -1)
         && (!searchString.lastDocumentNo || data.lastDocumentNo.toString().trim().toLowerCase().indexOf(searchString.lastDocumentNo.toLowerCase()) !== -1)
         && (!searchString.lastRunningNo || data.lastRunningNo.toString().trim().toLowerCase().indexOf(searchString.lastRunningNo.toLowerCase()) !== -1)
@@ -126,7 +126,7 @@ export class DocumentControlComponent implements OnInit {
       documentCode: this.documentCode,
       documentType: this.selectedDocumentType,
       prefix: this.prefix,
-      suffix: this.suffix,
+      // suffix: this.suffix,
       lengthOfRunningNo: this.lengthOfRunningNo,
       lastDocumentNo: this.lastDocumentNo,
       lastRunningNo: this.lastRunningNo,
@@ -141,7 +141,7 @@ export class DocumentControlComponent implements OnInit {
     this.documentCode = '';
     this.selectedDocumentType = undefined;
     this.prefix = '';
-    this.suffix = '';
+    // this.suffix = '';
     this.lengthOfRunningNo = '';
     this.lastDocumentNo = '';
     this.lastRunningNo = '';

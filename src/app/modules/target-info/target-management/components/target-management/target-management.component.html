@@ -81,7 +81,11 @@
                     <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
                 </a>
                 <a *ngIf="canNextStep" (click)="nextStep()" class="flex items-center cursor-pointer ml-3">
-                    <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Approve</span>
+                    <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;
+                    <span>
+                        <ng-container *ngIf="!document.documentStatus || document.documentStatus === 'DOCUMENT_DRAFT'; else statusOtherLabel">Sent</ng-container>
+                        <ng-template #statusOtherLabel>Approve</ng-template>
+                    </span>
                 </a>
                 <a *ngIf="canReject" (click)="reject()" class="flex items-center cursor-pointer ml-3">
                     <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Reject</span>

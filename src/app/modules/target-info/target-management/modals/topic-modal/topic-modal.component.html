@@ -24,7 +24,7 @@
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Plan</mat-label>
+            <mat-label>แผนงาน</mat-label>
             <input matInput [formControlName]="'planDescription'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
@@ -39,7 +39,7 @@
             <input
                 matInput
                 [matDatepicker]="planActualDatepicker"
-                datePickerFormat="L"
+                datePickerFormat="DD/MM/YYYY"
                 [formControlName]="'planTargetDateSelect'"
                 [placeholder]="'กำหนดเสร็จ'">
             <mat-datepicker-toggle
@@ -58,7 +58,7 @@
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>ผู้รับผิดชอบ</mat-label>
+            <mat-label>ผู้รับผิดชอบ (ตำแหน่งงาน)</mat-label>
             <input matInput [formControlName]="'undertaker'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>

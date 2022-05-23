@@ -39,13 +39,13 @@ export class TargetModalComponent implements OnInit {
     const priority = this.isEdit ? this.modalData.data.priority : this.modalData.index;
     const targetName = this.isEdit ? this.modalData.data.targetName : '';
     const standard = this.isEdit ? this.modalData.data.standard : '';
-    const targetMission = this.isEdit ? this.modalData.data.targetMission : '';
+    // const targetMission = this.isEdit ? this.modalData.data.targetMission : '';
 
     this.targetForm = this._formBuilder.group({
       priority: [{ value: priority, disabled: true }, [Validators.required]],
       targetName: [targetName, [Validators.required]],
       standard: [standard, [Validators.required]],
-      targetMission: [targetMission, [Validators.required]]
+      // targetMission: [targetMission, [Validators.required]]
     });
   }
 

@@ -34,7 +34,7 @@ export class TopicModalComponent implements OnInit {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
     const priority = this.isEdit ? this.modalData.data.priority : this.modalData.index;
     const planDescription = this.isEdit ? this.modalData.data.planDescription : '';
-    const planTargetDateSelect = this.isEdit ? moment(this.modalData.data.planTargetDate, 'YYYY-MM-DD') : moment();
+    const planTargetDateSelect = this.isEdit ? (this.modalData.data.planTargetDate ? moment(this.modalData.data.planTargetDate, 'YYYY-MM-DD') : null) : moment();
     const resource = this.isEdit ? this.modalData.data.resource : '';
     const undertaker = this.isEdit ? this.modalData.data.undertaker : '';
 
@@ -60,7 +60,7 @@ export class TopicModalComponent implements OnInit {
       const topicForm = this.topicForm.getRawValue();
       this.matDialogRef.close({
         ...topicForm,
-        planTargetDate: topicForm.planTargetDateSelect.format('YYYY-MM-DD')
+        planTargetDate: topicForm.planTargetDateSelect ? topicForm.planTargetDateSelect.format('YYYY-MM-DD'): null
       })
     }
   }

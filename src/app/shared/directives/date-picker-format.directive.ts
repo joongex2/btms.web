@@ -20,8 +20,9 @@ import { CustomDateFormat } from './custom-date-format';
 export class DatePickerFormatDirective {
     @Input('datePickerFormat')
     set datePickerFormat(format: string) {
-        this.matDateFormat.updateDateFormat({ dateInput: format });
+        this.matDateFormat.updateDateFormat(format);
 
+        // Need this for the first time to tell component change new format
         const value = this.ngControl.value;
         this.ngControl.valueAccessor?.writeValue(value);
     }

@@ -24,9 +24,9 @@
         </mat-form-field>
 
         <mat-form-field class="fuse-mat-textarea flex-auto">
-            <mat-label>หัวข้อเป้าหมาย</mat-label>
+            <mat-label>หัวข้อเป้าหมายหลัก</mat-label>
             <textarea matInput [rows]="3" matTextareaAutosize [formControlName]="'targetName'"></textarea>
-            <mat-error>หัวข้อเป้าหมาย is required</mat-error>
+            <mat-error>หัวข้อเป้าหมายหลัก is required</mat-error>
         </mat-form-field>
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
@@ -37,13 +37,13 @@
             <mat-error>Standard is required</mat-error>
         </mat-form-field>
         
-        <mat-form-field class="flex-auto gt-xs:pr-3">
+        <!-- <mat-form-field class="flex-auto gt-xs:pr-3">
             <mat-label>พันธะมุ่งหมาย</mat-label>
             <mat-select [formControlName]="'targetMission'">
                 <mat-option *ngFor="let relativeTarget of relativeTargets" [value]="relativeTarget.value">{{relativeTarget.title}}</mat-option>
             </mat-select>
             <mat-error>พันธะมุ่งหมาย is required</mat-error>
-        </mat-form-field>
+        </mat-form-field> -->
 
         <!-- Alert -->
         <fuse-alert class="col-span-12" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false" [type]="alert.type"

@@ -1,9 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Injectable, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Injectable, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTree, MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { RoleService } from 'app/modules/super-admin/role/role.service';
 import { Role } from 'app/modules/super-admin/role/role.types';
+import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { BehaviorSubject } from 'rxjs';
 import { OrganizationService } from '../../organization/organization.service';
 import { Organization } from '../../organization/organization.types';
@@ -92,6 +93,7 @@ export class ChecklistDatabase {
     }
 
     prepareInput(organizations: any): { organizeTree: any, selected: TodoItemFlatNode[] } {
+        // console.log('organizations: ', organizations);
         const organizeTree = {};
         const selected: TodoItemFlatNode[] = [];
         for (let org of organizations) {
@@ -104,6 +106,8 @@ export class ChecklistDatabase {
                 if (role.isActive) selected.push({ item: role.roleCode, level: 1, expandable: false});
             }
         }
+        // console.log('organizeTree: ', organizeTree);
+        // console.log('selected: ', selected);
         return { organizeTree, selected };
     }
 
@@ -232,7 +236,8 @@ export class TreeChecklistComponent implements OnInit {
     constructor(
         public _database: ChecklistDatabase,
         private _organizationService: OrganizationService,
-        private _roleService: RoleService
+        private _roleService: RoleService,
+        private _confirmationService: ConfirmationService
     ) {
         this.treeFlattener = new MatTreeFlattener(
             this.transformer,
@@ -245,6 +250,11 @@ export class TreeChecklistComponent implements OnInit {
 
         _database.dataChange.subscribe(data => {
             this.dataSource.data = data;
+
+            // fix tree not rerender
+            let _data = this.dataSource.data;
+            this.dataSource.data = [];
+            this.dataSource.data = _data;
         });
     }
 
@@ -287,11 +297,8 @@ export class TreeChecklistComponent implements OnInit {
      */
     transformer = (node: TodoItemNode, level: number) => {
         const existingNode = this.nestedNodeMap.get(node);
-        const flatNode =
-            (existingNode
-                && existingNode.item === node.item
-                && existingNode.expandable === !!node.children?.length)
-                ? existingNode : new TodoItemFlatNode();
+        const flatNode = 
+            existingNode && existingNode.item === node.item ? existingNode : new TodoItemFlatNode();
         flatNode.item = node.item;
         flatNode.level = level;
         flatNode.expandable = !!node.children?.length;
@@ -325,6 +332,10 @@ export class TreeChecklistComponent implements OnInit {
             const result = descendants.every(child => child.item == '');
             return result;
         }
+    }
+
+    todoItemSelectionToggleOnlySelf(node: TodoItemFlatNode): void {
+        this.checklistSelection.toggle(node);
     }
 
     /** Toggle the to-do item selection. Select/deselect all the descendants node */
@@ -397,19 +408,26 @@ export class TreeChecklistComponent implements OnInit {
 
     /** Select the category so we can insert the new item. */
     addNewItem(node: TodoItemFlatNode) {
-        const parentNode = this.flatNodeMap.get(node);
-        this._database.insertItem(parentNode!, '');
+        const nestedNode = this.flatNodeMap.get(node);
+        this._database.insertItem(nestedNode!, '');
+        // this.matTree.renderNodeChanges(this._database.data); // force update ui
         this.treeControl.expand(node);
     }
 
     /** Save the node to database */
     saveNode(node: TodoItemFlatNode, itemValue: string) {
+        // check empty
+        if (!itemValue) {
+            this._confirmationService.warning('Please select!');
+            return;
+        }
+
         // check duplicate
         const parentNode = this.flatNodeMap.get(this.getParentNode(node));
         const siblingNodes = parentNode ? parentNode.children : this._database.data;
         for (let siblingNode of siblingNodes) {
             if (siblingNode.item == itemValue) {
-                alert('Duplicate value!');
+                this._confirmationService.warning('Duplicate value!');
                 return;
             }
         }
@@ -426,12 +444,12 @@ export class TreeChecklistComponent implements OnInit {
     }
 
     deleteNode(node: TodoItemFlatNode) {
-        if (!node.expandable) {
-            // if node have children
-            this.todoItemSelectionToggle(node);
-        } else {
-            this.todoLeafItemSelectionToggle(node);
-        }
+        // if (!node.expandable) {
+        //     // if node have children
+        //     this.todoItemSelectionToggle(node);
+        // } else {
+        //     this.todoLeafItemSelectionToggle(node);
+        // }
 
         const _node = this.flatNodeMap.get(node);
         const parentNode = this.flatNodeMap.get(this.getParentNode(node));

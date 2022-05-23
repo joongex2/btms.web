@@ -20,22 +20,7 @@ export class PlanModalComponent implements OnInit {
   month: FormControl;
   plan: Plan;
   targetValue: string;
-
   years: any[] = [];
-  months: any[] = [
-    { title: 'January', value: 1 },
-    { title: 'February', value: 2 },
-    { title: 'March', value: 3 },
-    { title: 'April', value: 4 },
-    { title: 'May', value: 5 },
-    { title: 'June', value: 6 },
-    { title: 'July', value: 7 },
-    { title: 'August', value: 8 },
-    { title: 'September', value: 9 },
-    { title: 'October', value: 10 },
-    { title: 'November', value: 11 },
-    { title: 'December', value: 12 },
-  ];
   monthIndexes: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   monthShortMap = {
     1: 'jan',
@@ -133,27 +118,20 @@ export class PlanModalComponent implements OnInit {
         this.planForm.get(`valueMonth${i}`).setValue('');
       }
     });
-  }
 
-  addTag(): void {
-    if (!this.month.valid) {
-      this.month.markAsTouched();
-      return;
-    } else {
-      const month = this.month.value;
-      if (this.planForm.get(`useMonth${month}`).value) {
-        this._confirmationService.warning('Duplicate month.');
-        return;
-      };
-      this.planForm.get(`useMonth${month}`).setValue(true);
-      this.planForm.get(`valueMonth${month}`).setValue(this.targetValue);
-      this.month.reset();
+    for (let i = 1; i <= 12; i++) {
+      this.planForm.get(`useMonth${i}`).valueChanges.subscribe(v => {
+        if (v) {
+          this.planForm.get(`valueMonth${i}`).setValue(this.targetValue);
+        } else {
+          this.planForm.get(`valueMonth${i}`).setValue('');
+        }
+      });
     }
   }
 
-  deleteTag(month: number): void {
-    this.planForm.get(`useMonth${month}`).setValue(false);
-    this.planForm.get(`valueMonth${month}`).setValue('');
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   close(): void {

@@ -106,7 +106,7 @@
                                     <ng-container *ngIf="key == 'editDeleteIcon'">
                                         <div class="flex items-center justify-center">
                                             <mat-icon (click)="editRole(element)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขหน้าที่"></mat-icon>
-                                            <mat-icon *ngIf="false" (click)="deleteRole(element)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบหน้าที่"></mat-icon>
+                                            <mat-icon *ngIf="false" (click)="deleteRole(element)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer ml-[8px]" title="ลบหน้าที่"></mat-icon>
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="key != 'index' && key != 'isActive' && key != 'editDeleteIcon'">{{ element[key] }}</ng-container>
