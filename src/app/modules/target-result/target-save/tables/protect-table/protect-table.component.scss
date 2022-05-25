@@ -29,3 +29,36 @@ p.protect-header {
 .mat-row {
     background-color: rgb(219, 215, 177) !important;
 }
+
+/* column width */
+.mat-column-protectNo {
+    width: 15%;
+}
+
+.mat-column-protectDetail {
+    width: 20%;
+}
+
+.mat-column-protectOwner {
+    width: 20%;
+}
+
+.mat-column-protectDueDate {
+    width: 12.5%;
+}
+
+.mat-column-protectFollow {
+    width: 15%;
+}
+
+.mat-column-protectStartDate {
+    width: 12.5%;
+}
+
+.mat-column-editIcon {
+    width: 2.5%;
+}
+
+.mat-column-deleteIcon {
+    width: 2.5%;
+}

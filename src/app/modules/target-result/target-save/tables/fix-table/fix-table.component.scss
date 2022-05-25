@@ -29,3 +29,36 @@ p.fix-header {
 .mat-row {
     background-color: rgb(219, 215, 177) !important;
 }
+
+/* column width */
+.mat-column-fixNo {
+    width: 15%;
+}
+
+.mat-column-fixDetail {
+    width: 20%;
+}
+
+.mat-column-fixOwner {
+    width: 20%;
+}
+
+.mat-column-fixDueDate {
+    width: 12.5%;
+}
+
+.mat-column-fixFollow {
+    width: 15%;
+}
+
+.mat-column-fixStartDate {
+    width: 12.5%;
+}
+
+.mat-column-editIcon {
+    width: 2.5%;
+}
+
+.mat-column-deleteIcon {
+    width: 2.5%;
+}

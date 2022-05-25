@@ -41,7 +41,9 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
+            <span class="flex items-center cursor-pointer" (click)="saveNode(node, itemValue.value)">
+                <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
+            </span>
         </ng-container>
         <ng-template #roleSelect>
             <mat-form-field class="mb-2">
@@ -51,10 +53,12 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
+            <span class="flex items-center cursor-pointer" (click)="saveNode(node, itemValue.value)">
+                <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
+            </span>
         </ng-template>
         <span class="ml-2 flex items-center cursor-pointer" (click)="deleteNode(node)">
-            <mat-icon>delete</mat-icon>
+            <mat-icon>delete</mat-icon>&nbsp;<span>Delete</span>
         </span>
     </mat-tree-node>
 

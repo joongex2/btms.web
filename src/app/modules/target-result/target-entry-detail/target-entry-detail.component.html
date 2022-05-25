@@ -64,7 +64,7 @@
         <div class="flex-auto">
             <!-- CONTENT GOES HERE -->
             <mat-accordion class="example-headers-align" multi>
-                <mat-expansion-panel>
+                <mat-expansion-panel [expanded]="true">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <mat-icon [svgIcon]="'heroicons_outline:information-circle'"></mat-icon>
@@ -104,22 +104,13 @@
                 </mat-expansion-panel>
             </mat-accordion>
 
-            <form class="mt-6 flex flex-col px-8 pt-10 bg-card shadow rounded overflow-hidden">
+            <div class="mt-6 flex-auto overflow-x-auto bg-card shadow rounded overflow-hidden">
+                <app-target-entry-table [targets]="targets" [documentId]="document?.id" [document]="document">
+                </app-target-entry-table>
+            </div>
+
+            <div class="mt-6 flex flex-col px-8 py-4 bg-card shadow rounded overflow-hidden">
                 <div class="flex flex-col gt-xs:flex-row gt-xs:items-start">
-                    <div class="gt-xs:max-w-80 gt-xs:pr-12 flex flex-col sm:flex-row sm:justify-between">
-                        <p class="text-lg font-medium mb-6">ผลการดำเนินงานตามเป้าหมาย</p>
-                    </div>
-
-                    <!-- Table -->
-                    <div class="flex-auto overflow-x-auto mb-5 md:mb-9 bg-card shadow rounded overflow-hidden">
-                        <app-target-entry-table [targets]="targets" [documentId]="document?.id" [document]="document">
-                        </app-target-entry-table>
-                    </div>
-                </div>
-
-                <mat-divider class="mt-4 mb-12"></mat-divider>
-
-                <div class="flex flex-col gt-xs:flex-row gt-xs:items-start mb-5 md:mb-9">
                     <div class="gt-xs:max-w-80 gt-xs:pr-12">
                         <p class="text-lg font-medium mb-6">หมายเหตุ:</p>
                     </div>
@@ -183,7 +174,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

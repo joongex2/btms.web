@@ -43,7 +43,7 @@ export class TopicModalComponent implements OnInit {
       planDescription: [planDescription],
       planTargetDateSelect: [planTargetDateSelect],
       resource: [resource, [Validators.required]],
-      undertaker: [undertaker]
+      undertaker: [undertaker, [Validators.required]]
     });
   }
 

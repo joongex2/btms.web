@@ -95,13 +95,13 @@
                                 <div (click)="openLastComment()" class="underline text-blue-600 cursor-pointer">More Detail</div>
                             </div>
                         </div>
-
-                        <mat-divider class="mt-4 mb-2"></mat-divider>
                     </ng-container>
 
                     <div class="gt-xs:max-w-80 gt-xs:pr-12">
-                        <p class="text-lg font-medium mb-6">ข้อมูลเป้าหมาย</p>
+                        <p class="text-lg font-medium">ข้อมูลเป้าหมาย</p>
                     </div>
+
+                    <mat-divider class="mb-4"></mat-divider>
 
                     <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4">
                         <div class="col-span-4 font-medium">เป้าหมายหลัก</div>
@@ -120,11 +120,11 @@
                         <div class="col-span-8">:<span class="ml-2">{{document?.documentStatusDescription}}</span></div>
                     </div>
 
-                    <mat-divider class="mt-4 mb-2"></mat-divider>
-
                     <div class="gt-xs:max-w-80 gt-xs:pr-12">
-                        <p class="text-lg font-medium mb-6">ข้อมูลการรายงานผล</p>
+                        <p class="text-lg font-medium">ข้อมูลการรายงานผล</p>
                     </div>
+
+                    <mat-divider class="mb-4"></mat-divider>
 
                     <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center">
                         <div class="col-span-4 font-medium">ผู้รายงานผล</div>
@@ -166,13 +166,12 @@
                         </ng-template>
                     </div>
 
-                    <mat-divider class="mt-4 mb-2"></mat-divider>
-
                     <!-- 'saveResult' mode  -->
                     <ng-container *ngIf="mode == 'saveResult';else causeAndFix">
                         <div class="gt-xs:max-w-80 gt-xs:pr-12">
-                            <p class="text-lg font-medium mb-6">เอกสารแนบ</p>
+                            <p class="text-lg font-medium">เอกสารแนบ</p>
                         </div>
+                        <mat-divider class="mb-4"></mat-divider>
             
                         <div class="mb-4">
                             <app-file-upload-table [readonly]="readonly" [fileUploads]="saveResultFileUploads">
@@ -181,8 +180,9 @@
                     </ng-container>
                     <ng-template #causeAndFix>
                         <div class="gt-xs:max-w-80 gt-xs:pr-12">
-                            <p class="text-lg font-medium mb-6">ข้อมูลสาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</p>
+                            <p class="text-lg font-medium">ข้อมูลสาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</p>
                         </div>
+                        <mat-divider class="mb-4"></mat-divider>
 
                         <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center">
                             <div class="col-span-3 font-medium">เลขที่เอกสาร</div>
@@ -200,11 +200,11 @@
                             <app-cause-table [readonly]="readonly" [causes]="causes"></app-cause-table>
                         </div>
 
-                        <mat-divider class="mt-4 mb-2"></mat-divider>
-
                         <div class="gt-xs:max-w-80 gt-xs:pr-12">
-                            <p class="text-lg font-medium mb-6">เอกสารแนบ</p>
+                            <p class="text-lg font-medium">เอกสารแนบ</p>
                         </div>
+
+                        <mat-divider class="mb-4"></mat-divider>
             
                         <div class="mb-4">
                             <app-file-upload-table [readonly]="readonly" [fileUploads]="causeAndFixFileUploads">

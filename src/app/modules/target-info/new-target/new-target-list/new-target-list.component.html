@@ -44,12 +44,17 @@
                                 </ng-container>
                                 <td mat-cell *matCellDef="let element; let i = index">
                                     <ng-container *ngIf="key == 'index'">{{ (paginator.pageIndex * paginator.pageSize) + (i + 1) }}</ng-container>
+                                    <ng-container *ngIf="key == 'organizeName'">
+                                        <a [routerLink]="'./'+element.organizeCode">
+                                            {{ element[key] }}
+                                        </a>
+                                    </ng-container>
                                     <ng-container *ngIf="key == 'chooseIcon'">
                                         <a class="flex items-center justify-center" [routerLink]="'./'+element.organizeCode">
                                             <mat-icon *ngIf="element.canCreate" svgIcon="heroicons_outline:check" class="w-4 min-w-4 cursor-pointer" title="เลือกหน่วยงานสำหรับสร้างเป้าหมาย"></mat-icon>
                                         </a>
                                     </ng-container>
-                                    <ng-container *ngIf="key != 'index' && key != 'chooseIcon'">{{ element[key] }}</ng-container>
+                                    <ng-container *ngIf="key != 'index' && key != 'organizeName' && key != 'chooseIcon'">{{ element[key] }}</ng-container>
                                 </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

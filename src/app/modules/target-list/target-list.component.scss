@@ -58,12 +58,16 @@ table {
 }
 
 /* column width */
+.mat-column-organizeCode {
+  width: 15%;
+}
+
 .mat-column-documentNo {
-  width: 20%;
+  width: 10%;
 }
 
 .mat-column-revisionNo {
-  width: 15%;
+  width: 10%;
 }
 
 .mat-column-createDate {

@@ -2,6 +2,7 @@ import { PlanFlow } from "app/modules/target-result/target-result.interface";
 
 export interface Document {
     id: number;
+    organizeCode: string;
     documentNo: string;
     revisionNo: string;
     modifyNo: string;

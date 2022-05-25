@@ -56,6 +56,7 @@ export class TargetListComponent implements OnInit, AfterViewInit {
 
   // table setting
   displayedColumns: string[] = [
+    'organizeCode',
     'documentNo',
     'revisionNo',
     'createDate',
@@ -67,6 +68,7 @@ export class TargetListComponent implements OnInit, AfterViewInit {
   ];
 
   keyToColumnName: any = {
+    'organizeCode': 'Organize Code',
     'documentNo': 'Running No.',
     'revisionNo': 'Revision No.',
     'createDate': 'Create Date',
