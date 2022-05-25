@@ -17,6 +17,7 @@ import { ModalMode } from '../modal.type';
 export class PlanModalComponent implements OnInit {
   isEdit: boolean = false;
   planForm: FormGroup;
+  checkAll: FormControl;
   plan: Plan;
   targetValue: string;
   years: any[] = [];
@@ -100,6 +101,8 @@ export class PlanModalComponent implements OnInit {
       undertaker: [undertaker, [Validators.required]],
     });
 
+    this.checkAll = new FormControl(false);
+
     if (this.isEdit) {
       for (let i = 1; i <= 12; i++) {
         if (this.plan[`useMonth${i}`]) {
@@ -111,9 +114,11 @@ export class PlanModalComponent implements OnInit {
 
     this.planForm.get('planYear').valueChanges.subscribe(v => {
       // reset
+      this.checkAll.setValue(false, { emitEvent: false });
       for (let i = 1; i <= 12; i++) {
         this.planForm.get(`useMonth${i}`).setValue(false);
         this.planForm.get(`valueMonth${i}`).setValue('');
+        this.planForm.get(`useMonth${i}`).enable();
       }
     });
 
@@ -126,6 +131,20 @@ export class PlanModalComponent implements OnInit {
         }
       });
     }
+
+    this.checkAll.valueChanges.subscribe(v => {
+      if (v) {
+        for (let i = 1; i <= 12; i++) {
+          this.planForm.get(`useMonth${i}`).setValue(true);
+          this.planForm.get(`valueMonth${i}`).setValue(this.targetValue);
+          this.planForm.get(`useMonth${i}`).disable();
+        }
+      } else {
+        for (let i = 1; i <= 12; i++) {
+          this.planForm.get(`useMonth${i}`).enable();
+        }
+      }
+    })
   }
 
   capitalizeFirstLetter(string) {

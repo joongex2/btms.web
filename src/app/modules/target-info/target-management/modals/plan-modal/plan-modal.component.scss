@@ -41,3 +41,40 @@ $base-dark-color: #0b2642;
     --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color) !important;
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)!important;
 }
+
+.year-month-table {
+    border-collapse: unset !important;
+    border: 1px rgb(203 213 225) solid;
+    overflow: hidden;
+    width: 100%;
+    border-spacing: 0;
+    border-radius: 15px;
+    margin: 1em 0;
+}
+
+.row-1 {
+    padding: 10px;
+    border-bottom: 1px rgb(203 213 225) solid;
+}
+
+.row-2 {
+    padding: 10px;
+}
+
+:host ::ng-deep .plan-year .mat-form-field-wrapper {
+    margin-bottom: 0 !important;
+}
+
+.month-box {
+    padding-left: 10%;
+    background-color: whitesmoke;
+    flex-basis: calc(33.333333% - 4px) !important;
+}
+
+:host ::ng-deep .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-primary .mat-checkbox-background {
+    background-color: $base-color !important;
+}
+
+:host ::ng-deep .mat-ripple-element {
+    background-color: $base-color !important;
+}

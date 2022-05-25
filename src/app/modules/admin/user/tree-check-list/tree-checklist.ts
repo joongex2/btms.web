@@ -403,12 +403,20 @@ export class TreeChecklistComponent implements OnInit {
     }
 
     addNewRootItem() {
+        if (this._database.data.find(v => v.item === '')) {
+            this._confirmationService.warning('Please save first!');
+            return;
+        }
         this._database.insertRootItem();
     }
 
     /** Select the category so we can insert the new item. */
     addNewItem(node: TodoItemFlatNode) {
         const nestedNode = this.flatNodeMap.get(node);
+        if (nestedNode.children.find(v => v.item === '')) {
+            this._confirmationService.warning('Please save first!');
+            return;
+        }
         this._database.insertItem(nestedNode!, '');
         // this.matTree.renderNodeChanges(this._database.data); // force update ui
         this.treeControl.expand(node);

@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { MenuGuard } from 'app/core/auth/guards/menu.guard';
 import { TargetListComponent } from 'app/modules/target-list/target-list.component';
-import { BusResolver, DivisionsResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, StatusesResolver, SubBusResolver, TargetTypesResolver } from 'app/shared/resolver';
+import { BusResolver, DivisionsResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, StatusesResolver, SubBusResolver, TargetTypesResolver, UserResolver } from 'app/shared/resolver';
 import { TargetEntryDetailComponent } from '../target-entry-detail/target-entry-detail.component';
 import { TargetSaveComponent } from '../target-save/target-save.component';
 import { TargetEntryComponent } from './target-entry.component';
@@ -32,7 +32,10 @@ export const targetEntryRoutes: Route[] = [
             },
             {
                 path: ':id/save',
-                component: TargetSaveComponent
+                component: TargetSaveComponent,
+                resolve: {
+                    user: UserResolver
+                }
             },
         ]
     }

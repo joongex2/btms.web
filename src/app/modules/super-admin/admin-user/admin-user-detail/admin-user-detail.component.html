@@ -115,7 +115,7 @@
             </mat-accordion>
     
             <div class="mt-6 grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6 items-center">
-                <div class="col-span-4 sm:col-span-2 font-medium">Add Organize</div>
+                <div class="col-span-4 sm:col-span-2 font-medium">Organize</div>
                 <div class="col-span-6 sm:col-span-4 flex items-center">
                     <mat-form-field class="flex-auto ml-2" appearance="fill">
                         <input type="text" placeholder="Organize Code" aria-label="organize" matInput [(ngModel)]="selectedOrganize"
@@ -128,13 +128,13 @@
                         <mat-error>ไม่พบข้อมูล organize ในระบบ</mat-error>
                     </mat-form-field>
                 </div>
-                <span class="col-span-2 sm:col-span-1 flex items-center cursor-pointer" (click)="addOrganize()">
-                    <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                <span class="col-span-2 sm:col-span-3 flex items-center cursor-pointer" (click)="addOrganize()">
+                    <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>&nbsp;<span>Add Organize</span>
                 </span>
                 <ng-container *ngFor="let org of organizeForm['controls']; let i = index">
                     <div class="col-span-10 sm:col-span-2 sm:col-start-1">{{org.get('organizeCode').value}}</div>
-                    <span class="col-span-2 sm:col-span-1 flex items-center cursor-pointer" (click)="removeOrganize(i)">
-                        <mat-icon class="text-current" [svgIcon]="'heroicons_outline:minus'"></mat-icon>
+                    <span class="col-span-2 sm:col-span-3 flex items-center cursor-pointer" (click)="removeOrganize(i)">
+                        <mat-icon class="text-current" [svgIcon]="'heroicons_outline:minus'"></mat-icon>&nbsp;<span>Delete Organize</span>
                     </span>
                 </ng-container>
             </div>

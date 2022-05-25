@@ -31,22 +31,32 @@
             <mat-error>การวัดผลเป้าหมาย is required</mat-error>
         </mat-form-field>
 
-        <div class="flex flex-0 flex-col sm:flex-row sm:items-center sm:space-x-4 sm:justify-between">
-            <mat-form-field class="flex-auto gt-xs:pr-3">
-                <mat-label>ปี</mat-label>
-                <mat-select [formControlName]="'planYear'">
-                    <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
-                </mat-select>
-                <mat-error>ปี is required</mat-error>
-            </mat-form-field>
-        </div>
-
-        <div class="font-medium mb-[1.5px]">เดือน</div>
-        <div class="flex flex-wrap mb-4">
-            <div class="basis-1/3" *ngFor="let monthIndex of monthIndexes; let i = index">
-                <mat-checkbox  [color]="'primary'" [formControlName]="'useMonth' + monthIndex">{{capitalizeFirstLetter(monthShortMap[monthIndex])}}</mat-checkbox>
-            </div>
-        </div>
+        <!-- <div class="flex flex-0 flex-col sm:flex-row sm:items-center sm:space-x-4 sm:justify-between"> -->
+        <table class="year-month-table">
+            <tr>
+                <td class="row-1">
+                    <mat-form-field class="flex-auto gt-xs:pr-3 plan-year">
+                        <mat-label>ปี</mat-label>
+                        <mat-select [formControlName]="'planYear'">
+                            <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+                        </mat-select>
+                        <mat-error>ปี is required</mat-error>
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td class="row-2">
+                    <mat-checkbox class="mb-2" [color]="'primary'" [formControl]="checkAll">เลือกทั้งหมด</mat-checkbox>
+                    <div class="flex flex-wrap gap-[4px]">
+                        <div class="month-box" *ngFor="let monthIndex of monthIndexes; let i = index">
+                            <mat-checkbox  [color]="'primary'" [formControlName]="'useMonth' + monthIndex">{{capitalizeFirstLetter(monthShortMap[monthIndex])}}</mat-checkbox>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table> 
+            
+        <!-- </div> -->
 
         <mat-form-field>
             <mat-label>ผู้รับผิดชอบ (ตำแหน่งงาน)</mat-label>

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { User } from 'app/core/user/user.types';
 import { CauseRecord, ResultDetail } from 'app/modules/target-info/target.types';
 import { LastCommentModalComponent } from 'app/shared/components/last-comment-modal/last-comment-modal.component';
 import { monthToNumber } from 'app/shared/helpers/month-convert';
 import { DocumentDetail, Plan, SubTarget, Target } from 'app/shared/interfaces/document.interface';
-import { CookieService } from 'app/shared/services/cookie.service';
 import { DocumentService } from 'app/shared/services/document.service';
 import { PlanFlow, TargetSaveData } from '../target-result.interface';
 import { TargetResultService } from '../target-result.service';
@@ -18,6 +18,7 @@ import { FileUpload } from '../target-result.types';
   styleUrls: ['./target-save.component.scss']
 })
 export class TargetSaveComponent implements OnInit {
+  user: User;
   saveResultFileUploads: FileUpload[];
   causes: CauseRecord[];
   causeAndFixFileUploads: FileUpload[];
@@ -27,13 +28,17 @@ export class TargetSaveComponent implements OnInit {
   //bind value
   targetResult: string;
   naCheckBox: boolean;
-  choice: string;
+  // choice: string;
 
   document: Partial<DocumentDetail>;
   target: Target;
   subTarget: SubTarget;
   plan: Plan;
   month: string;
+
+  // privillege
+  canAcceptReject: boolean;
+  canSave: boolean;
 
   // page status
   /*
@@ -54,6 +59,8 @@ export class TargetSaveComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.user = this._activatedRoute.snapshot.data.user;
+    this.checkPrivillege();
     this.saveResultFileUploads = this._targetResultService.getSaveResultFileUploads();
     this.causeAndFixFileUploads = this._targetResultService.getCauseAndFixFileUploads();
   }
@@ -66,6 +73,7 @@ export class TargetSaveComponent implements OnInit {
     this._documentService.getDocument(documentId).subscribe({
       next: (documentDetail: DocumentDetail) => {
         this.document = documentDetail;
+        this.checkPrivillege();
         this.target = documentDetail.targets.find(v => v.id === targetId);
         if (this.target) {
           this.subTarget = this.target.details.find(v => v.id === subTargetId);
@@ -124,7 +132,7 @@ export class TargetSaveComponent implements OnInit {
   setPlanVisited() {
     let planStatuses = this._targetResultService.PlanStatuses;
     planStatuses = planStatuses ? planStatuses : [];
-    const planStatus = planStatuses.find(v => 
+    const planStatus = planStatuses.find(v =>
       v.documentId === this.document.id &&
       v.targetId === this.target.id &&
       v.subTargetId === this.subTarget.id &&
@@ -134,13 +142,13 @@ export class TargetSaveComponent implements OnInit {
     if (planStatus) {
       planStatus.flow = PlanFlow.VISITED;
     } else {
-      planStatuses.push({ 
+      planStatuses.push({
         documentId: this.document.id,
         targetId: this.target.id,
         subTargetId: this.subTarget.id,
         planId: this.plan.id,
         month: monthToNumber(this.month),
-        flow: PlanFlow.VISITED 
+        flow: PlanFlow.VISITED
       });
     }
     this._targetResultService.PlanStatuses = planStatuses;
@@ -176,6 +184,24 @@ export class TargetSaveComponent implements OnInit {
 
   backToArchive(): void {
     this.mode = 'saveResult';
+  }
+
+  checkPrivillege() {
+    if (this.user && this.user.organizes && this.document) {
+      let haveT01 = false;
+      let haveT02 = false;
+      let haveT03 = false;
+      let haveT04 = false;
+      const organize = this.user.organizes.find((v) => v.organizeCode === this.document.organizeCode);
+      for (let role of organize.roles) {
+        if (role.roleCode === 'T01') haveT01 = true;
+        if (role.roleCode === 'T02') haveT02 = true;
+        if (role.roleCode === 'T03') haveT03 = true;
+        if (role.roleCode === 'T04') haveT04 = true;
+      }
+      if (haveT01) this.canSave = true;
+      if (haveT02 || haveT03 || haveT04) this.canAcceptReject = true;
+    }
   }
 
   ngOnDestroy(): void {

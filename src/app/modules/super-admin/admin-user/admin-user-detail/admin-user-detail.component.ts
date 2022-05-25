@@ -81,7 +81,7 @@ export class AdminUserDetailComponent implements OnInit {
       this.email = '';
       this.selectedUserGroup = undefined;
       this.selectedIsActive = true;
-      this.organizes = [];
+      // this.organizes = [];
     }
 
     this._userGroupService.getUserGroups().subscribe({
@@ -197,7 +197,7 @@ export class AdminUserDetailComponent implements OnInit {
         this.email = this.user.email;
         this.selectedUserGroup = this.user.groupId;
         this.selectedIsActive = this.user.isActive;
-        this.organizes = this.user.organizes;
+        // this.organizes = this.user.organizes;
         // this.tcl.setOrganizes(this.organizes);
       },
       error: (e) => console.error(e)
