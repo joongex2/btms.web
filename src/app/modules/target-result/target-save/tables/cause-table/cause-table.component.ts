@@ -55,9 +55,21 @@ export class CauseTableComponent implements OnInit {
     }
   }
 
+  checkExpandAll(): boolean {
+    return this.causes.length > 0 && this.expandedCauses.length == this.causes.length;
+  }
+
+  expandOrCollapseAll() {
+    if (this.checkExpandAll()) {
+      this.collapseAll();
+    } else {
+      this.expandAll();
+    }
+  }
+
   expandAll() {
     for (let cause of this.causes) {
-      this.expandedCauses.push(cause);
+      if (this.expandedCauses.indexOf(cause) === -1) this.expandedCauses.push(cause);
     }
   }
 
