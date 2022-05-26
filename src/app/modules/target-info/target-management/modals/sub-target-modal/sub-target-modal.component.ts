@@ -69,8 +69,13 @@ export class SubTargetModalComponent implements OnInit {
       }
       if (targetCondition === '1') {
         this.resultColors = [{ title: 'GREEN', value: 'GREEN' }];
-        if (!this.modalData.data.conditions.find(v => v.targetCondition === '1' && !v.markForDelete)) {
+        const condition = (conditions as FormArray).controls.find((v => v.get('targetCondition').value === '1' && !v.get('markForDelete').value));
+        if (!condition) {
           conditions.push(this.newCondition('1'));
+        } else {
+          if (condition.get('resultColor').value !== 'GREEN') {
+            condition.get('resultColor').setValue('GREEN');
+          }
         }
       } else if (targetCondition === '2') {
         this.resultColors = [{ title: 'RED', value: 'RED' }, { title: 'YELLOW', value: 'YELLOW' }];

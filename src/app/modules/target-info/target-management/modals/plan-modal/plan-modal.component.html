@@ -34,19 +34,19 @@
         <!-- <div class="flex flex-0 flex-col sm:flex-row sm:items-center sm:space-x-4 sm:justify-between"> -->
         <table class="year-month-table">
             <tr>
-                <td class="row-1">
-                    <mat-form-field class="flex-auto gt-xs:pr-3 plan-year">
-                        <mat-label>ปี</mat-label>
+                <td class="row-1 flex items-center">
+                    <div class="font-medium">ปี</div>
+                    <mat-form-field class="gt-xs:pr-3 plan-year ml-2" style="width: 122px !important">
                         <mat-select [formControlName]="'planYear'">
                             <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
                         </mat-select>
                         <mat-error>ปี is required</mat-error>
                     </mat-form-field>
+                    <mat-checkbox class="ml-2" [color]="'primary'" [formControl]="checkAll">เลือกทุกเดือน</mat-checkbox>
                 </td>
             </tr>
             <tr>
                 <td class="row-2">
-                    <mat-checkbox class="mb-2" [color]="'primary'" [formControl]="checkAll">เลือกทั้งหมด</mat-checkbox>
                     <div class="flex flex-wrap gap-[4px]">
                         <div class="month-box" *ngFor="let monthIndex of monthIndexes; let i = index">
                             <mat-checkbox  [color]="'primary'" [formControlName]="'useMonth' + monthIndex">{{capitalizeFirstLetter(monthShortMap[monthIndex])}}</mat-checkbox>

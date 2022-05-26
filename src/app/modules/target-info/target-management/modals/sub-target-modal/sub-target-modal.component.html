@@ -55,10 +55,10 @@
             <div class="flex flex-row flex-auto gt-xs:pr-3 gap-4 items-center mb-4">
                 <mat-radio-group [formControlName]="'targetCondition'">
                     <mat-radio-button value="1">
-                        แบบที่ 1
+                        แบบเดี่ยว
                     </mat-radio-button>
                     <mat-radio-button class="ml-2" value="2">
-                        แบบที่ 2
+                        แบบช่วง
                     </mat-radio-button>
                 </mat-radio-group>
                 <button *ngIf="subTargetForm.get('targetCondition').value === '2'" type="button" mat-icon-button (click)="addCondition()">
