@@ -13,7 +13,7 @@
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
                         <a class="cursor-pointer" (click)="back()">
-                            <span class="ml-1 text-secondary cursor-pointer text-primary-500">Admin User Management</span>
+                            <span class="ml-1 text-secondary cursor-pointer text-primary-500">Organization Administrator Management</span>
                         </a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
@@ -26,7 +26,7 @@
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    Admin User Master Management Details
+                    Organization Administrator Management Details
                 </h2>
             </div>
         </div>
@@ -114,29 +114,114 @@
                 </mat-expansion-panel>
             </mat-accordion>
     
-            <div class="mt-6 grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6 items-center">
-                <div class="col-span-4 sm:col-span-2 font-medium">Organize</div>
-                <div class="col-span-6 sm:col-span-4 flex items-center">
-                    <mat-form-field class="flex-auto ml-2" appearance="fill">
-                        <input type="text" placeholder="Organize Code" aria-label="organize" matInput [(ngModel)]="selectedOrganize"
-                            (ngModelChange)="organizeFilter($event)" name="organize" [matAutocomplete]="organizeOptions" requireMatch>
-                        <mat-autocomplete #organizeOptions="matAutocomplete" [displayWith]="displayFn">
-                            <mat-option *ngFor="let organize of filteredOrganizes" [value]="organize">
-                                {{organize.title}}
-                            </mat-option>
-                        </mat-autocomplete>
-                        <mat-error>ไม่พบข้อมูล organize ในระบบ</mat-error>
-                    </mat-form-field>
-                </div>
-                <span class="col-span-2 sm:col-span-3 flex items-center cursor-pointer" (click)="addOrganize()">
-                    <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>&nbsp;<span>Add Organize</span>
-                </span>
-                <ng-container *ngFor="let org of organizeForm['controls']; let i = index">
-                    <div class="col-span-10 sm:col-span-2 sm:col-start-1">{{org.get('organizeCode').value}}</div>
-                    <span class="col-span-2 sm:col-span-3 flex items-center cursor-pointer" (click)="removeOrganize(i)">
-                        <mat-icon class="text-current" [svgIcon]="'heroicons_outline:minus'"></mat-icon>&nbsp;<span>Delete Organize</span>
+            <div class="mt-6 flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6">
+                <form #adminPermissionForm="ngForm" class="grid gap-x-4 gap-y-4 grid-cols-12 items-center">
+                    <div class="col-span-6 md:col-span-1 font-medium">Business Unit</div>
+                    <div class="col-span-6 md:col-span-2 flex items-center">
+                        :
+                        <mat-form-field class="flex-auto ml-2" appearance="fill">
+                            <input type="text" 
+                                placeholder="Business Unit"
+                                aria-label="bu"
+                                matInput 
+                                [(ngModel)]="selectedBu"
+                                (ngModelChange)="buFilter($event)"
+                                name="bu"
+                                [matAutocomplete]="buOptions"
+                                required
+                                requireMatch
+                                #bu="ngModel"
+                            >
+                            <mat-autocomplete #buOptions="matAutocomplete" [displayWith]="displayFn">
+                                <mat-option *ngFor="let bu of filteredBus" [value]="bu">
+                                    {{bu.title}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error>ไม่พบข้อมูล BU ในระบบ</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-span-6 md:col-span-2 font-medium">Sub Business Unit</div>
+                    <div class="col-span-6 md:col-span-2 flex items-center">
+                        :
+                        <mat-form-field class="flex-auto ml-2" appearance="fill">
+                            <input type="text" 
+                                placeholder="Sub Business Unit"
+                                aria-label="subBu"
+                                matInput 
+                                [(ngModel)]="selectedSubBu"
+                                (ngModelChange)="subBuFilter($event)"
+                                name="subBu"
+                                [matAutocomplete]="subBuOptions"
+                                requireMatch
+                                #subBu="ngModel"
+                            >
+                            <mat-autocomplete #subBuOptions="matAutocomplete" [displayWith]="displayFn">
+                                <mat-option *ngFor="let subBus of filteredSubBus" [value]="subBus">
+                                    {{subBus.title}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error>ไม่พบข้อมูล Sub-BU ในระบบ</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-span-6 md:col-span-1 font-medium">Plant</div>
+                    <div class="col-span-6 md:col-span-2 flex items-center">
+                        :
+                        <mat-form-field class="flex-auto ml-2" appearance="fill">
+                            <input type="text" 
+                                placeholder="Plant"
+                                aria-label="plant"
+                                matInput 
+                                [(ngModel)]="selectedPlant"
+                                (ngModelChange)="plantFilter($event)"
+                                name="plant"
+                                [matAutocomplete]="plantOptions"
+                                requireMatch
+                                #plant="ngModel"
+                            >
+                            <mat-autocomplete #plantOptions="matAutocomplete" [displayWith]="displayFn">
+                                <mat-option *ngFor="let plant of filteredPlants" [value]="plant">
+                                    {{plant.title}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error>ไม่พบข้อมูล Plant ในระบบ</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <span class="col-span-6 md:col-span-2 flex items-center cursor-pointer" (click)="addPermission()">
+                        <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>&nbsp;<span>Add Permission</span>
                     </span>
-                </ng-container>
+                </form>
+                <div class="overflow-x-auto mt-6">
+                    <table mat-table #permissionTable [dataSource]="dataSource" class="my-target-table mat-elevation-z8" style="width:100%"
+                    matSort>
+                        <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
+                            <ng-container *ngIf="notSortColumn.includes(key)">
+                                <th mat-header-cell *matHeaderCellDef [ngClass]="{ 'text-center' : key == 'editDeleteIcon' }">{{ keyToColumnName[key] }}</th>
+                            </ng-container>
+                            <ng-container *ngIf="!notSortColumn.includes(key)">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ keyToColumnName[key] }}</th>
+                            </ng-container>
+                            <td mat-cell *matCellDef="let element; let i = index">
+                                <ng-container *ngIf="key == 'businessUnit'">{{ element[key] | titleValue:bus }}</ng-container>
+                                <ng-container *ngIf="key == 'subBusinessUnit'">{{ element[key] | titleValue:subBus }}</ng-container>
+                                <ng-container *ngIf="key == 'plant'">{{ element[key] | titleValue:plants }}</ng-container>
+                                <ng-container *ngIf="key == 'editIcon'">
+                                    <div class="flex items-center justify-center">
+                                        <mat-icon (click)="editPermission(element, i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไข Permission"></mat-icon>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="key == 'deleteIcon'">
+                                    <div class="flex items-center justify-center">
+                                        <mat-icon (click)="deletePermission(element, i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบ Permission"></mat-icon>
+                                    </div>
+                                </ng-container>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+                </mat-paginator>
             </div>
         </div>
     </div>

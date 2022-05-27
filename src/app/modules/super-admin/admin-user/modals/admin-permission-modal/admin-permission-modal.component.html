@@ -1,0 +1,72 @@
+<div class="flex flex-col w-80v md:w-160 max-h-80v -m-6">
+
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium text-white">แก้ไข Permission</div>
+        <button mat-icon-button (click)="close()" [tabIndex]="-1">
+            <mat-icon class="text-current text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <!-- Body -->
+    <form class="grid gap-4 grid-cols-12 p-6 sm:p-8 overflow-y-auto items-center" #f="ngForm">
+        <div class="col-span-4 font-medium">Business Unit</div>
+        <div class="col-span-8 flex items-center">
+            :
+            <mat-form-field class="flex-auto ml-2" appearance="fill">
+                <input type="text" placeholder="Business Unit" aria-label="bu" matInput [(ngModel)]="selectedBu"
+                    (ngModelChange)="buFilter($event)" name="bu" [matAutocomplete]="buOptions" #buTrigger="matAutocompleteTrigger" requireMatch required>
+                <mat-autocomplete #buOptions="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let bu of filteredBus" [value]="bu">
+                        {{bu.title}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error>ไม่พบข้อมูล BU ในระบบ</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-span-4 font-medium">Sub Business Unit</div>
+        <div class="col-span-8 flex items-center">
+            :
+            <mat-form-field class="flex-auto ml-2" appearance="fill">
+                <input type="text" placeholder="Sub Business Unit" aria-label="subBu" matInput [(ngModel)]="selectedSubBu"
+                    (ngModelChange)="subBuFilter($event)" name="subBu" [matAutocomplete]="subBuOptions" requireMatch>
+                <mat-autocomplete #subBuOptions="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let subBus of filteredSubBus" [value]="subBus">
+                        {{subBus.title}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error>ไม่พบข้อมูล Sub-BU ในระบบ</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-span-4 font-medium">Plant</div>
+        <div class="col-span-8 flex items-center">
+            :
+            <mat-form-field class="flex-auto ml-2" appearance="fill">
+                <input type="text" placeholder="Plant" aria-label="plant" matInput [(ngModel)]="selectedPlant"
+                    (ngModelChange)="plantFilter($event)" name="plant" [matAutocomplete]="plantOptions" requireMatch>
+                <mat-autocomplete #plantOptions="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let plant of filteredPlants" [value]="plant">
+                        {{plant.title}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error>ไม่พบข้อมูล Plant ในระบบ</mat-error>
+            </mat-form-field>
+        </div>
+
+        <!-- Alert -->
+        <fuse-alert class="col-span-12" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false"
+            [type]="alert.type" [@shake]="alert.type === 'error'">
+            {{alert.message}}
+        </fuse-alert>
+
+        <!-- Actions -->
+        <div class="col-span-12 flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
+            <div class="flex-none flex items-center cursor-pointer" (click)="saveAndClose()">
+                <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>ตกลง</span>
+            </div>
+            <div class="flex-none sm:ml-2 flex items-center cursor-pointer" (click)="close()">
+                <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>ยกเลิก</span>
+            </div>
+        </div>
+    </form>
+</div>

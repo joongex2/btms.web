@@ -18,6 +18,7 @@ import { AdminUserDetailComponent } from './admin-user-detail/admin-user-detail.
 import { AdminUserListComponent } from './admin-user-list/admin-user-list.component';
 import { AdminUserComponent } from './admin-user.component';
 import { userRoutes } from './admin-user.routing';
+import { AdminPermissionModalComponent } from './modals/admin-permission-modal/admin-permission-modal.component';
 
 
 
@@ -26,7 +27,8 @@ import { userRoutes } from './admin-user.routing';
   declarations: [
     AdminUserComponent,
     AdminUserListComponent,
-    AdminUserDetailComponent
+    AdminUserDetailComponent,
+    AdminPermissionModalComponent
   ],
   imports: [
     RouterModule.forChild(userRoutes),

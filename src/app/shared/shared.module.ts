@@ -10,6 +10,7 @@ import { IntegerOnlyModule } from './directives/integer-only.module';
 import { RequireMatchDirective } from './directives/require-match.directive';
 import { IsActivePipe } from './pipes/is-active.pipe';
 import { PipeModule } from './pipes/pipe.module';
+import { TitleValuePipe } from './pipes/title-value.pipe';
 import { ConfirmationService } from './services/confirmation.service';
 import { SnackBarService } from './services/snack-bar.service';
 
@@ -17,6 +18,7 @@ import { SnackBarService } from './services/snack-bar.service';
     declarations: [
         LastCommentModalComponent,
         IsActivePipe,
+        TitleValuePipe,
         RequireMatchDirective
     ],
     imports: [
@@ -36,6 +38,7 @@ import { SnackBarService } from './services/snack-bar.service';
         ReactiveFormsModule,
         PipeModule,
         IsActivePipe,
+        TitleValuePipe,
         IntegerOnlyModule,
         RequireMatchDirective,
         LastCommentModalComponent
