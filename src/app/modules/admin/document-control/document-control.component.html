@@ -39,15 +39,8 @@
                     <form>
                         <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
                             <div class="col-span-6 sm:col-span-3 font-medium">Organization Code</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedOrganizeCode" name="organizeCode" placeholder="ทั้งหมด">
-                                        <mat-option *ngFor="let organizeCode of organizeCodes" [value]="organizeCode.value">
-                                            {{organizeCode.title}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                            <div class="col-span-6 sm:col-span-3">
+                                <autocomplete label="Organization Code" name="organizeCode" [options]="organizes" [required]="false" [(value)]="selectedOrganizeCode"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Document Code</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">

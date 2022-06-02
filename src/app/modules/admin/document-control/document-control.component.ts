@@ -3,11 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 import { ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
-import { OrganizationService } from '../organization/organization.service';
-import { Organization } from '../organization/organization.types';
 import { DocumentControlService } from './document-control.service';
 import { DocumentControl } from './document-control.types';
 import { DocumentControlModalComponent } from './modals/document-control-modal/document-control-modal.component';
@@ -23,7 +22,7 @@ import { DocumentControlModalComponent } from './modals/document-control-modal/d
 export class DocumentControlComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  organizeCodes: any[];
+  organizes: any[];
   documentTypes: any[] = [
     'BTMS_01',
     'BTMS_02',
@@ -36,7 +35,7 @@ export class DocumentControlComponent implements OnInit {
 
   // bind value
   dataSource: MatTableDataSource<DocumentControl> = new MatTableDataSource([]);
-  selectedOrganizeCode: string;
+  selectedOrganizeCode: string | any;
   documentCode: string;
   selectedDocumentType: string;
   prefix: string;
@@ -81,8 +80,8 @@ export class DocumentControlComponent implements OnInit {
   ];
 
   constructor(
+    private _activatedRoute: ActivatedRoute,
     private _documentControlService: DocumentControlService,
-    private _organizationService: OrganizationService,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
     private _matDialog: MatDialog
@@ -91,10 +90,8 @@ export class DocumentControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._organizationService.getOrganizations().subscribe({
-      next: (v: Organization[]) => { this.organizeCodes = v.map((v) => ({ title: v.organizeName, value: v.organizeCode })) },
-      error: (e) => console.error(e)
-    });
+    const organizes = this._activatedRoute.snapshot.data.organizes;
+    this.organizes = organizes.map((v) => ({ title: v.organizeName, value: v.organizeCode }))
 
     this.dataSource.filterPredicate = this.customFilterPredicate();
   }
@@ -122,7 +119,7 @@ export class DocumentControlComponent implements OnInit {
 
   search() {
     const filterValue: any = {
-      organizeCode: this.selectedOrganizeCode,
+      organizeCode: typeof this.selectedOrganizeCode === 'string' ? this.selectedOrganizeCode : this.selectedOrganizeCode?.value,
       documentCode: this.documentCode,
       documentType: this.selectedDocumentType,
       prefix: this.prefix,
@@ -152,8 +149,10 @@ export class DocumentControlComponent implements OnInit {
     const dialogRef = this._matDialog.open(DocumentControlModalComponent, {
       data: {
         mode: ModalMode.ADD,
-        data: undefined
-      }
+        data: undefined,
+        organizes: this.organizes
+      },
+      autoFocus: false
     });
     dialogRef.afterClosed()
       .subscribe((dc: DocumentControl) => {
@@ -168,8 +167,10 @@ export class DocumentControlComponent implements OnInit {
         const dialogRef = this._matDialog.open(DocumentControlModalComponent, {
           data: {
             mode: ModalMode.EDIT,
-            data: documentControl
-          }
+            data: documentControl,
+            organizes: this.organizes
+          },
+          autoFocus: false
         });
         dialogRef.afterClosed()
           .subscribe((documentControl: DocumentControl) => {

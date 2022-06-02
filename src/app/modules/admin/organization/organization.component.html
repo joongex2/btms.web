@@ -53,93 +53,22 @@
                                     <input [(ngModel)]="organizeName" name="organizeName" matInput>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Business Unit Code</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2" appearance="fill">
-                                    <input type="text" 
-                                        placeholder="BU Code"
-                                        aria-label="bu"
-                                        matInput 
-                                        [(ngModel)]="selectedBu"
-                                        (ngModelChange)="buFilter($event)"
-                                        name="bu"
-                                        [matAutocomplete]="buOptions"
-                                        requireMatch
-                                    >
-                                    <mat-autocomplete #buOptions="matAutocomplete" [displayWith]="displayFn">
-                                        <mat-option *ngFor="let bu of filteredBus" [value]="bu">
-                                            {{bu.title}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                    <mat-error>ไม่พบข้อมูล BU ในระบบ</mat-error>
-                                </mat-form-field>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Business Unit</div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <autocomplete label="Business Unit" name="bu" [options]="bus" [(value)]="selectedBu"></autocomplete>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Sub-Business Unit Code</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2" appearance="fill">
-                                    <input type="text" 
-                                        placeholder="Sub-BU Code"
-                                        aria-label="subBu"
-                                        matInput 
-                                        [(ngModel)]="selectedSubBu"
-                                        (ngModelChange)="subBuFilter($event)"
-                                        name="subBu"
-                                        [matAutocomplete]="subBuOptions"
-                                        requireMatch
-                                    >
-                                    <mat-autocomplete #subBuOptions="matAutocomplete" [displayWith]="displayFn">
-                                        <mat-option *ngFor="let subBus of filteredSubBus" [value]="subBus">
-                                            {{subBus.title}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                    <mat-error>ไม่พบข้อมูล Sub-BU ในระบบ</mat-error>
-                                </mat-form-field>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Sub Business Unit</div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu"></autocomplete>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Plant Code</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2" appearance="fill">
-                                    <input type="text" 
-                                        placeholder="Plant Code"
-                                        aria-label="plant"
-                                        matInput 
-                                        [(ngModel)]="selectedPlant"
-                                        (ngModelChange)="plantFilter($event)"
-                                        name="plant"
-                                        [matAutocomplete]="plantOptions"
-                                        requireMatch
-                                    >
-                                    <mat-autocomplete #plantOptions="matAutocomplete" [displayWith]="displayFn">
-                                        <mat-option *ngFor="let plant of filteredPlants" [value]="plant">
-                                            {{plant.title}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                    <mat-error>ไม่พบข้อมูล Plant ในระบบ</mat-error>
-                                </mat-form-field>
+                            <div class="col-span-6 sm:col-span-3 font-medium">Plant</div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <autocomplete label="Plant" name="plant" [options]="plants" [(value)]="selectedPlant"></autocomplete>
                             </div>
-                            <div class="col-span-6 sm:col-span-3 font-medium">Division Code</div>
-                            <div class="col-span-6 sm:col-span-3 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2" appearance="fill">
-                                    <input type="text" 
-                                        placeholder="Division/Department"
-                                        aria-label="division"
-                                        matInput 
-                                        [(ngModel)]="selectedDivision"
-                                        (ngModelChange)="divisionFilter($event)"
-                                        name="division"
-                                        [matAutocomplete]="divisionOptions"
-                                        requireMatch
-                                    >
-                                    <mat-autocomplete #divisionOptions="matAutocomplete" [displayWith]="displayFn">
-                                        <mat-option *ngFor="let division of filteredDivisions" [value]="division">
-                                            {{division.title}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                    <mat-error>ไม่พบข้อมูล Division ในระบบ</mat-error>
-                                </mat-form-field>
+                            
+                            <div class="col-span-6 sm:col-span-3 font-medium">Division</div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <autocomplete label="Division" name="division" [options]="divisions" [(value)]="selectedDivision"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Status</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">

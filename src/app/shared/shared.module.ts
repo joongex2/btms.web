@@ -1,10 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { AutocompleteFormComponent } from './components/autocomplete-form/autocomplete-form.component';
+import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { LastCommentModalComponent } from './components/last-comment-modal/last-comment-modal.component';
 import { IntegerOnlyModule } from './directives/integer-only.module';
 import { RequireMatchDirective } from './directives/require-match.directive';
@@ -17,6 +22,8 @@ import { SnackBarService } from './services/snack-bar.service';
 @NgModule({
     declarations: [
         LastCommentModalComponent,
+        AutocompleteComponent,
+        AutocompleteFormComponent,
         IsActivePipe,
         TitleValuePipe,
         RequireMatchDirective
@@ -30,7 +37,10 @@ import { SnackBarService } from './services/snack-bar.service';
         IntegerOnlyModule,
         MatPaginatorModule,
         MatIconModule,
-        MatTableModule
+        MatTableModule,
+        MatFormFieldModule,
+        MatAutocompleteModule,
+        MatInputModule
     ],
     exports: [
         CommonModule,
@@ -41,7 +51,9 @@ import { SnackBarService } from './services/snack-bar.service';
         TitleValuePipe,
         IntegerOnlyModule,
         RequireMatchDirective,
-        LastCommentModalComponent
+        LastCommentModalComponent,
+        AutocompleteComponent,
+        AutocompleteFormComponent
     ],
     providers: [
         ConfirmationService,

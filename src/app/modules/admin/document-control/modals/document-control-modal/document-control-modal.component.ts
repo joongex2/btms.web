@@ -4,13 +4,11 @@ import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autoc
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
-import { OrganizationService } from 'app/modules/admin/organization/organization.service';
-import { Organization } from 'app/modules/admin/organization/organization.types';
 import { requireMatchValidator } from 'app/shared/directives/require-match.directive';
-import { ModalData, ModalMode } from 'app/shared/interfaces/modal.interface';
+import { ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
-import { firstValueFrom, map, Observable, startWith } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { DocumentControlService } from '../../document-control.service';
 import { DocumentControl } from '../../document-control.types';
 
@@ -33,9 +31,7 @@ export class DocumentControlModalComponent implements OnInit {
     { title: 'Active', value: true },
     { title: 'Inactive', value: false }
   ];
-  organizeCodes: any[] = [];
-  // organizeCodes: Partial<Organization>[] = [];
-  filteredOrganizeCodeOptions: Observable<any[]>;
+  organizes: any[] = [];
   documentTypes: any[] = [
     { title: 'BTMS_01', value: 'BTMS_01' },
     { title: 'BTMS_02', value: 'BTMS_02' },
@@ -55,11 +51,10 @@ export class DocumentControlModalComponent implements OnInit {
   };
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public modalData: ModalData,
+    @Inject(MAT_DIALOG_DATA) public modalData: any,
     public matDialogRef: MatDialogRef<DocumentControlModalComponent>,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
-    private _organizationService: OrganizationService,
     private _documentControlService: DocumentControlService,
     private _formBuilder: FormBuilder
   ) { }
@@ -67,7 +62,8 @@ export class DocumentControlModalComponent implements OnInit {
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
     this.documentControl = this.modalData.data;
-    // const organizeCode = this.isEdit ? this.modalData.data.organizeCode : undefined;
+    this.organizes = this.modalData.organizes;
+    const organizeCode = this.isEdit ? this.organizes.find((v) => v.value === this.modalData.data.organizeCode) : undefined;
     const documentCode = this.isEdit ? this.modalData.data.documentCode : undefined;
     const documentType = this.isEdit ? this.modalData.data.documentType : undefined;
     const prefix = this.isEdit ? this.modalData.data.prefix : '';
@@ -78,7 +74,7 @@ export class DocumentControlModalComponent implements OnInit {
     const isActive = this.isEdit ? this.modalData.data.isActive : undefined;
 
     this.documentControlForm = this._formBuilder.group({
-      organizeCode: [undefined, [Validators.required, requireMatchValidator]],
+      organizeCode: [organizeCode, [Validators.required, requireMatchValidator]],
       documentCode: [documentCode, [Validators.required]],
       documentType: [documentType, [Validators.required]],
       prefix: [prefix, [Validators.required]],
@@ -88,46 +84,6 @@ export class DocumentControlModalComponent implements OnInit {
       lastRunningNo: [lastRunningNo, [Validators.required]],
       isActive: [isActive, [Validators.required]]
     });
-
-    this._organizationService.getOrganizations().subscribe({
-      next: (v: Organization[]) => {
-        this.organizeCodes = v.map((v) => ({ title: v.organizeName, value: v.organizeCode }))
-        this.filteredOrganizeCodeOptions = this.documentControlForm.get('organizeCode').valueChanges.pipe(
-          startWith(''),
-          map(value => (typeof value === 'string' ? value : value.title)),
-          map(name => (name ? this._filterOrganizeCode(name) : this.organizeCodes.slice())),
-        );
-        
-        if (this.isEdit) {
-          const organizeCode = this.organizeCodes.find((v) => v.value === this.modalData.data.organizeCode);
-          setTimeout(() => {
-            this.documentControlForm.get('organizeCode').setValue(organizeCode);
-          })
-        }
-      },
-      error: (e) => console.error(e)
-    });
-
-    setTimeout(() => {
-      firstValueFrom(this.organizeCodeOptions.opened.asObservable()).then(
-        (v) => {
-          // prevent auto open first time
-          this.organizeCodeTrigger.closePanel();
-        }
-      );
-    });
-  }
-
-  displayOrganizeCodeFn(organize: any): string {
-    return organize && organize.title ? organize.title : '';
-  }
-
-  private _filterOrganizeCode(search: string): Partial<Organization>[] {
-    const filterValue = search.toLowerCase();
-
-    return this.organizeCodes.filter(option =>
-      option.value.includes(search) || option.title.toLowerCase().includes(filterValue)
-    );
   }
 
   async saveAndClose() {

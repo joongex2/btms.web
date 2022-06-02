@@ -1,13 +1,11 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { ModalData } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
-import { firstValueFrom } from 'rxjs';
 import { AdminPermission } from '../../admin-user-detail/admin-user-detail.component';
 
 
@@ -20,16 +18,11 @@ import { AdminPermission } from '../../admin-user-detail/admin-user-detail.compo
 })
 export class AdminPermissionModalComponent implements OnInit {
   @ViewChild('f') adminPermissionForm: NgForm;
-  @ViewChild('buOptions') buOptions: MatAutocomplete;
-  @ViewChild('buTrigger') buTrigger: MatAutocompleteTrigger;
   adminPermission: AdminPermission;
 
   bus: any[] = [];
   subBus: any[] = [];
   plants: any[] = [];
-  filteredBus: any[] = [];
-  filteredSubBus: any[] = [];
-  filteredPlants: any[] = [];
   selectedBu: string | any;
   selectedSubBu: string | any;
   selectedPlant: string | any;
@@ -52,42 +45,11 @@ export class AdminPermissionModalComponent implements OnInit {
   ngOnInit(): void {
     this.adminPermission = this.modalData.data.adminPermission;
     this.bus = this.modalData.data.bus;
-    this.selectedBu = this.bus.find(v => v.value === this.adminPermission.businessUnit);
     this.subBus = this.modalData.data.subBus;
-    this.selectedSubBu = this.subBus.find(v => v.value === this.adminPermission.subBusinessUnit);
     this.plants = this.modalData.data.plants;
+    this.selectedBu = this.bus.find(v => v.value === this.adminPermission.businessUnit);
+    this.selectedSubBu = this.subBus.find(v => v.value === this.adminPermission.subBusinessUnit);
     this.selectedPlant = this.plants.find(v => v.value === this.adminPermission.plant);
-    this.filteredBus = this.bus.slice();
-    this.filteredSubBus = this.subBus.slice();
-    this.filteredPlants = this.plants.slice();
-
-    setTimeout(() => {
-      firstValueFrom(this.buOptions.opened.asObservable()).then(
-        (v) => {
-          // prevent auto open first time
-          this.buTrigger.closePanel();
-        }
-      );
-    });
-  }
-
-  buFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredBus = this.bus.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  subBuFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredSubBus = this.subBus.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  plantFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredPlants = this.plants.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  displayFn(value: any): string {
-    return value && value.title ? value.title : '';
   }
 
   async saveAndClose() {

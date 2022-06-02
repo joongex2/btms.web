@@ -117,74 +117,16 @@
             <div class="mt-6 flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6">
                 <form #adminPermissionForm="ngForm" class="grid gap-x-4 gap-y-4 grid-cols-12 items-center">
                     <div class="col-span-6 md:col-span-1 font-medium">Business Unit</div>
-                    <div class="col-span-6 md:col-span-2 flex items-center">
-                        :
-                        <mat-form-field class="flex-auto ml-2" appearance="fill">
-                            <input type="text" 
-                                placeholder="Business Unit"
-                                aria-label="bu"
-                                matInput 
-                                [(ngModel)]="selectedBu"
-                                (ngModelChange)="buFilter($event)"
-                                name="bu"
-                                [matAutocomplete]="buOptions"
-                                required
-                                requireMatch
-                                #bu="ngModel"
-                            >
-                            <mat-autocomplete #buOptions="matAutocomplete" [displayWith]="displayFn">
-                                <mat-option *ngFor="let bu of filteredBus" [value]="bu">
-                                    {{bu.title}}
-                                </mat-option>
-                            </mat-autocomplete>
-                            <mat-error>ไม่พบข้อมูล BU ในระบบ</mat-error>
-                        </mat-form-field>
+                    <div class="col-span-6 md:col-span-2">
+                        <autocomplete label="Business Unit" name="bu" [options]="bus" [required]="true" [(value)]="selectedBu"></autocomplete>
                     </div>
                     <div class="col-span-6 md:col-span-2 font-medium">Sub Business Unit</div>
-                    <div class="col-span-6 md:col-span-2 flex items-center">
-                        :
-                        <mat-form-field class="flex-auto ml-2" appearance="fill">
-                            <input type="text" 
-                                placeholder="Sub Business Unit"
-                                aria-label="subBu"
-                                matInput 
-                                [(ngModel)]="selectedSubBu"
-                                (ngModelChange)="subBuFilter($event)"
-                                name="subBu"
-                                [matAutocomplete]="subBuOptions"
-                                requireMatch
-                                #subBu="ngModel"
-                            >
-                            <mat-autocomplete #subBuOptions="matAutocomplete" [displayWith]="displayFn">
-                                <mat-option *ngFor="let subBus of filteredSubBus" [value]="subBus">
-                                    {{subBus.title}}
-                                </mat-option>
-                            </mat-autocomplete>
-                            <mat-error>ไม่พบข้อมูล Sub-BU ในระบบ</mat-error>
-                        </mat-form-field>
+                    <div class="col-span-6 md:col-span-2">
+                        <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu"></autocomplete>
                     </div>
                     <div class="col-span-6 md:col-span-1 font-medium">Plant</div>
-                    <div class="col-span-6 md:col-span-2 flex items-center">
-                        :
-                        <mat-form-field class="flex-auto ml-2" appearance="fill">
-                            <input type="text" 
-                                placeholder="Plant"
-                                aria-label="plant"
-                                matInput 
-                                [(ngModel)]="selectedPlant"
-                                (ngModelChange)="plantFilter($event)"
-                                name="plant"
-                                [matAutocomplete]="plantOptions"
-                                requireMatch
-                                #plant="ngModel"
-                            >
-                            <mat-autocomplete #plantOptions="matAutocomplete" [displayWith]="displayFn">
-                                <mat-option *ngFor="let plant of filteredPlants" [value]="plant">
-                                    {{plant.title}}
-                                </mat-option>
-                            </mat-autocomplete>
-                            <mat-error>ไม่พบข้อมูล Plant ในระบบ</mat-error>
-                        </mat-form-field>
+                    <div class="col-span-6 md:col-span-2">
+                        <autocomplete label="Plant" name="plant" [options]="plants" [(value)]="selectedPlant"></autocomplete>
                     </div>
                     <span class="col-span-6 md:col-span-2 flex items-center cursor-pointer" (click)="addPermission()">
                         <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>&nbsp;<span>Add Permission</span>

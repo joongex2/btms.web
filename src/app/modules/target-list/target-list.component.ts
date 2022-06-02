@@ -45,14 +45,6 @@ export class TargetListComponent implements OnInit, AfterViewInit {
   statuses: any[] = [];
   documentTypes: any[] = [];
   targetTypes: any[] = [];
-  filteredOrganizes: any[] = [];
-  filteredBus: any[] = [];
-  filteredSubBus: any[] = [];
-  filteredPlants: any[] = [];
-  filteredDivisions: any[] = [];
-  filteredStatuses: any[] = [];
-  filteredDocumentTypes: any[] = [];
-  filteredTargetTypes: any[] = [];
 
   // table setting
   displayedColumns: string[] = [
@@ -104,21 +96,13 @@ export class TargetListComponent implements OnInit, AfterViewInit {
     const divisions = this._activatedRoute.snapshot.data.divisions;
 
     this.organizes = organizes.map((org) => ({ title: org.organizeName, value: org.organizeCode }));
-    this.filteredOrganizes = organizes.map((org) => ({ title: org.organizeName, value: org.organizeCode }));
     this.statuses = statuses.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
-    this.filteredStatuses = statuses.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
     this.documentTypes = documentTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
-    this.filteredDocumentTypes = documentTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
     this.targetTypes = targetTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
-    this.filteredTargetTypes = targetTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
     this.bus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
-    this.filteredBus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
     this.subBus = subBus.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
-    this.filteredSubBus = subBus.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
     this.plants = plants.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.name, value: master.code }));
-    this.filteredPlants = plants.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.name, value: master.code }));
     this.divisions = divisions.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.name, value: master.code }));
-    this.filteredDivisions = divisions.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.name, value: master.code }));
 
     const params = (this._activatedRoute.snapshot.queryParamMap as any).params;
     if (params.expand === 'true') setTimeout(() => this.matExpansionPanel.open());
@@ -158,50 +142,6 @@ export class TargetListComponent implements OnInit, AfterViewInit {
       this.loadDocuments(1, this.paginator.pageSize, this.sort.active, this.sort.direction, jobApplicantParams);
       this.addQueryParam({ page: undefined, sort: this.sort.active, order: this.sort.direction });
     });
-  }
-
-  organizeFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredOrganizes = this.organizes.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  buFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredBus = this.bus.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  subBuFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredSubBus = this.subBus.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  plantFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredPlants = this.plants.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  divisionFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredDivisions = this.divisions.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  statusFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredStatuses = this.statuses.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  documentTypeFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredDocumentTypes = this.documentTypes.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  targetTypeFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredTargetTypes = this.targetTypes.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  displayFn(value: any): string {
-    return value && value.title ? value.title : '';
   }
 
   search() {
@@ -272,14 +212,6 @@ export class TargetListComponent implements OnInit, AfterViewInit {
     this.selectedStatus = '';
     this.selectedDocumentType = '';
     this.selectedTargetType = '';
-    this.organizeFilter('');
-    this.buFilter('');
-    this.subBuFilter('');
-    this.plantFilter('');
-    this.divisionFilter('');
-    this.statusFilter('');
-    this.documentTypeFilter('');
-    this.targetTypeFilter('');
     this.documentNo = undefined;
     this.documentYear = undefined;
     this.toDocumentYear = undefined;

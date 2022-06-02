@@ -1,4 +1,4 @@
-import { Directive } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 export function requireMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -10,7 +10,9 @@ export function requireMatchValidator(control: AbstractControl): ValidationError
     providers: [{ provide: NG_VALIDATORS, useExisting: RequireMatchDirective, multi: true }]
 })
 export class RequireMatchDirective implements Validator {
+    @Input() requireMatch: any;
+
     validate(control: AbstractControl): ValidationErrors | null {
-        return requireMatchValidator(control);
+        return this.requireMatch === '' || this.requireMatch ? requireMatchValidator(control) : null;
     }
 }

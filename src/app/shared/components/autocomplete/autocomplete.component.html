@@ -1,0 +1,33 @@
+<div class="flex items-center">
+    <div *ngIf="showLabel">{{label}}</div>
+    <div class="flex flex-1 items-center">
+        :
+        <mat-form-field class="flex-auto ml-2" appearance="fill">
+            <input 
+                type="text"
+                [placeholder]="label"
+                [attr.aria-label]="label"
+                matInput
+                [(ngModel)]="value"
+                (ngModelChange)="valueChangeHandler($event)"
+                [name]="name"
+                [matAutocomplete]="matAutoRef"
+                [required]="required"
+                [requireMatch]="requireMatch"
+                [disabled]="disabled"
+                #model="ngModel"
+            >
+            <mat-autocomplete #matAutoRef="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let option of filteredOptions" [value]="option">
+                    {{option.title}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="model.hasError('required')">
+                {{label}} is required
+            </mat-error>
+            <mat-error *ngIf="model.hasError('requireMatch')">
+                ไม่พบข้อมูล {{label}} ในระบบ
+            </mat-error>
+        </mat-form-field>
+    </div>
+</div>

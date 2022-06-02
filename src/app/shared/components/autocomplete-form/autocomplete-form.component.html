@@ -1,0 +1,25 @@
+<form [formGroup]="parentForm">
+    <div class="flex items-center">
+        <div *ngIf="showLabel" class="font-medium">{{label}}<span class="text-warn">*</span></div>
+        <div class="flex flex-1 items-center">
+            <mat-form-field class="flex-auto">
+                <input type="text"
+                    [placeholder]="label"
+                    [attr.aria-label]="label"
+                    matInput
+                    [formControlName]="name"
+                    [matAutocomplete]="matAutoRef"
+                >
+                <mat-autocomplete #matAutoRef="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option.title}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="parentForm.get(name).hasError('required')">{{label}} is required
+                </mat-error>
+                <mat-error *ngIf="parentForm.get(name).hasError('requireMatch')">ไม่พบข้อมูลต้นสังกัดในระบบ
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+</form>

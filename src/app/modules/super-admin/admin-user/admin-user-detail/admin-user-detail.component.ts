@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, NgForm, NgModel } from '@angular/forms';
+import { FormArray, FormBuilder, NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -35,9 +35,6 @@ export class AdminUserDetailComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('f') f: NgForm;
   @ViewChild('adminPermissionForm') adminPermissionForm: NgForm;
-  @ViewChild('bu') bu: NgModel;
-  @ViewChild('subBu') subBu: NgModel;
-  @ViewChild('plant') plant: NgModel;
   previousUrl: string;
 
   isEdit: boolean = true;
@@ -50,17 +47,11 @@ export class AdminUserDetailComponent implements OnInit {
   ];
   defaultPageSize = 5;
   resultsLength = 0;
-
   organizes: any[] = [];
-  filteredOrganizes: any[] = [];
-  selectedOrganize: any;
 
   bus: any[] = [];
   subBus: any[] = [];
   plants: any[] = [];
-  filteredBus: any[] = [];
-  filteredSubBus: any[] = [];
-  filteredPlants: any[] = [];
   selectedBu: string | any;
   selectedSubBu: string | any;
   selectedPlant: string | any;
@@ -145,35 +136,13 @@ export class AdminUserDetailComponent implements OnInit {
     const subBus = this._activatedRoute.snapshot.data.subBus;
     const plants = this._activatedRoute.snapshot.data.plants;
     this.bus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
-    this.filteredBus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
     this.subBus = subBus.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
-    this.filteredSubBus = subBus.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
     this.plants = plants.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.name, value: master.code }));
-    this.filteredPlants = plants.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.name, value: master.code }));
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-  }
-
-  buFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredBus = this.bus.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  subBuFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredSubBus = this.subBus.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  plantFilter(value: any) {
-    const filterValue = typeof value === 'string' ? value : value.title;
-    this.filteredPlants = this.plants.filter(v => v.title.toLowerCase().includes(filterValue.toLowerCase()));
-  }
-
-  displayFn(value: any): string {
-    return value && value.title ? value.title : '';
   }
 
   addPermission(): void {
@@ -191,14 +160,13 @@ export class AdminUserDetailComponent implements OnInit {
       this.dataSource.data = this.dataSource.data;
 
       // reset
-      this.bu.control.reset('');
-      this.subBu.control.reset('');
-      this.plant.control.reset('');
+      this.adminPermissionForm.form.get('bu').reset('');
+      this.adminPermissionForm.form.get('subBu').reset('');
+      this.adminPermissionForm.form.get('plant').reset('');
     }
   }
 
   editPermission(element: AdminPermission, index: number) {
-    console.log('edit');
     const dialogRef = this._matDialog.open(AdminPermissionModalComponent, {
       data: {
         data: {
@@ -207,7 +175,8 @@ export class AdminUserDetailComponent implements OnInit {
           subBus: this.subBus,
           plants: this.plants
         }
-      }
+      },
+      autoFocus: false
     });
     dialogRef.afterClosed()
       .subscribe((adminPermission: AdminPermission) => {
@@ -218,7 +187,6 @@ export class AdminUserDetailComponent implements OnInit {
   }
 
   deletePermission(element: AdminPermission, index: number) {
-    console.log('delete');
     this._confirmationService.delete().afterClosed().subscribe((result) => {
       if (result == 'confirmed') {
         this.dataSource.data.splice(index, 1);
