@@ -88,6 +88,12 @@ export const appRoutes: Route[] = [
                 {path: 'target-entry', loadChildren: () => import('app/modules/target-result/target-entry/target-entry.module').then(m=>m.TargetEntryModule)},
                 {path: 'result-info', loadChildren: () => import('app/modules/target-result/result-info/result-info.module').then(m=>m.ResultInfoModule)},
             ]},
+            {path: 'report', children: [
+                {path: 'standard-form', loadChildren: () => import('app/modules/report/standard-form/standard-form.module').then(m=>m.StandardFormModule)},
+                // {path: 'annual-report', loadChildren: () => },
+                // {path: 'target-track', loadChildren: () => },
+                // {path: 'save-cause-track', loadChildren: () => },
+            ]},
             {path: 'admin', children: [
                 {path: 'master', loadChildren: () => import('app/modules/admin/master/master.module').then(m => m.MasterModule)},
                 {path: 'organization', loadChildren: () => import('app/modules/admin/organization/organization.module').then(m => m.OrganizationModule)},
