@@ -5,24 +5,23 @@ import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentParams } from 'app/shared/interfaces/document.interface';
 import { DocumentService } from 'app/shared/services/document.service';
-import { StandardFormService } from './standard-form.service';
-import { StandardForm } from './standard-form.types';
+import { SaveCauseTrackService } from './save-cause-track.service';
+import { SaveCauseTrack } from './save-cause-track.types';
 
 
 @Component({
-  selector: 'standard-form',
-  templateUrl: './standard-form.component.html',
-  styleUrls: ['./standard-form.component.scss'],
+  selector: 'save-cause-track',
+  templateUrl: './save-cause-track.component.html',
+  styleUrls: ['./save-cause-track.component.scss'],
 })
-export class StandardFormComponent implements OnInit, AfterViewInit {
+export class SaveCauseTrackComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatExpansionPanel) matExpansionPanel: MatExpansionPanel;
   defaultPageSize = 5;
   resultsLength = 0;
   // documents: Document[];
-  standardForms: StandardForm[];
-  fromUrl: string; // my-target/ target-entry/ result-info
+  saveCauseTracks: SaveCauseTrack[];
 
   // bind value
   selectedOrganize: any;
@@ -30,14 +29,21 @@ export class StandardFormComponent implements OnInit, AfterViewInit {
   selectedSubBu: any;
   selectedPlant: any;
   selectedDivision: any;
-  selectedStatus: any;
+  // selectedStatus: any;
   selectedDocumentType: any;
   selectedTargetType: any;
   documentNo: string;
-  documentYear: string;
-  toDocumentYear: string;
-  searchText: string;
-  isCritical: boolean;
+
+  selectedReportStatus: any;
+  selectedCauseTrackStatus: any;
+  selectedTargetResult: any;
+  selectedFromMonth = '';
+  selectedCauseTrackResult: any;
+  selectedToMonth = '';
+  // documentYear: string;
+  // toDocumentYear: string;
+  // searchText: string;
+  // isCritical: boolean;
 
   // select option
   organizes: any[] = [];
@@ -55,8 +61,7 @@ export class StandardFormComponent implements OnInit, AfterViewInit {
     'plant',
     'targetYear',
     'targetType',
-    'runningNo',
-    'report'
+    'targetName'
   ];
 
   keyToColumnName: any = {
@@ -64,18 +69,23 @@ export class StandardFormComponent implements OnInit, AfterViewInit {
     'plant': 'Plant',
     'targetYear': 'Target Year',
     'targetType': 'Target Type',
-    'runningNo': 'Running No.',
-    'report': ''
+    'targetName': 'เป้าหมายหลัก',
   };
 
   notSortColumn: string[] = [
-    'index',
-    'report'
+    'index'
   ];
+
+  // mock
+  reportStatuses: any[];
+  causeTrackStatuses: any[];
+  targetResults: any[];
+  causeTrackResults: any[];
+  months: any[];
 
   constructor(
     // private _documentService: DocumentService,
-    private _standardFormService: StandardFormService,
+    private _standardFormService: SaveCauseTrackService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute
   ) {
@@ -101,6 +111,42 @@ export class StandardFormComponent implements OnInit, AfterViewInit {
     this.plants = plants.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.name, value: master.code }));
     this.divisions = divisions.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.name, value: master.code }));
 
+    // TODO: mock
+    this.reportStatuses = [
+      { title: 'สถานะการรายงานผล 1', value: 'result_status_1' },
+      { title: 'สถานะการรายงานผล 2', value: 'result_status_2' },
+      { title: 'สถานะการรายงานผล 3', value: 'result_status_3' },
+    ];
+    this.causeTrackStatuses = [
+      { title: 'สถานะการติดตามสาเหตุฯ 1', value: 'cause_track_status_1' },
+      { title: 'สถานะการติดตามสาเหตุฯ 2', value: 'cause_track_status_2' },
+      { title: 'สถานะการติดตามสาเหตุฯ 3', value: 'cause_track_status_3' },
+    ];
+    this.targetResults = [
+      { title: 'ผลการดำเนินงาน 1', value: 'target_result_1' },
+      { title: 'ผลการดำเนินงาน 2', value: 'target_result_2' },
+      { title: 'ผลการดำเนินงาน 3', value: 'target_result_3' }
+    ];
+    this.months = [
+      { title: 'January', value: 'January' },
+      { title: 'February', value: 'February' },
+      { title: 'March', value: 'March' },
+      { title: 'April', value: 'April' },
+      { title: 'May', value: 'May' },
+      { title: 'June', value: 'June' },
+      { title: 'July', value: 'July' },
+      { title: 'August', value: 'August' },
+      { title: 'September', value: 'September' },
+      { title: 'October', value: 'October' },
+      { title: 'November', value: 'November' },
+      { title: 'December', value: 'December' }
+    ];
+    this.causeTrackResults = [
+      { title: 'ผลการติดตามสาเหตุฯ 1', value: 'cause_track_result_1' },
+      { title: 'ผลการติดตามสาเหตุฯ 2', value: 'cause_track_result_2' },
+      { title: 'ผลการติดตามสาเหตุฯ 3', value: 'cause_track_result_3' }
+    ];
+  
     const params = (this._activatedRoute.snapshot.queryParamMap as any).params;
     if (params.expand === 'true') setTimeout(() => this.matExpansionPanel.open());
     const page = params.page ? parseInt(params.page) : 1;
@@ -113,17 +159,23 @@ export class StandardFormComponent implements OnInit, AfterViewInit {
     this.selectedPlant = this.plants.find((v) => v.value === params.PlantCode) || '';
     this.selectedDivision = this.divisions.find((v) => v.value === params.DivisionCode) || '';
     this.documentNo = params.DocumentNo || undefined;
-    this.documentYear = params.DocumentYear || undefined;
-    this.toDocumentYear = params.ToDocumentYear || undefined;
-    this.selectedStatus = this.statuses.find((v) => v.value === params.DocumentStatus) || '';
+    // this.documentYear = params.DocumentYear || undefined;
+    // this.toDocumentYear = params.ToDocumentYear || undefined;
+    // this.selectedStatus = this.statuses.find((v) => v.value === params.DocumentStatus) || '';
     this.selectedDocumentType = this.documentTypes.find((v) => v.value === params.DocumentType) || '';
     this.selectedTargetType = this.targetTypes.find((v) => v.value === params.TargetType) || '';
-    this.searchText = params.SearchText || undefined;
-    this.isCritical = params.IsCritical || false;
+    // this.searchText = params.SearchText || undefined;
+    // this.isCritical = params.IsCritical || false;
+    this.selectedReportStatus = this.reportStatuses.find((v) => v.value === params.ReportStatus) || '';
+    this.selectedCauseTrackStatus = this.causeTrackStatuses.find((v) => v.value === params.CauseTrackStatus) || '';
+    this.selectedTargetResult = this.targetResults.find((v) => v.value === params.TargetResult) || '';
+    this.selectedFromMonth = params.FromMonth || '';
+    this.selectedCauseTrackResult = this.causeTrackResults.find((v) => v.value === params.CauseTrackResult) || '';
+    this.selectedToMonth = params.ToMonth || '';
 
     // this.loadDocuments(page, size, sort, order, this.getDocumentParams());
-    setTimeout(() => this._standardFormService.getStandardForms().subscribe(v => {
-      this.standardForms = v;
+    setTimeout(() => this._standardFormService.getSaveCauseTracks().subscribe(v => {
+      this.saveCauseTracks = v;
       this.paginator.pageIndex = 0;
       this.paginator.pageSize = 5;
       this.resultsLength = 2;
@@ -170,13 +222,19 @@ export class StandardFormComponent implements OnInit, AfterViewInit {
     filter.PlantCode = this.getOptionValue(this.selectedPlant);
     filter.DivisionCode = this.getOptionValue(this.selectedDivision);
     filter.DocumentNo = this.documentNo ? this.documentNo : undefined;
-    filter.DocumentYear = this.documentYear ? this.documentYear : undefined;
-    filter.ToDocumentYear = this.toDocumentYear ? this.toDocumentYear : undefined;
-    filter.DocumentStatus = this.getOptionValue(this.selectedStatus);
+    // filter.DocumentYear = this.documentYear ? this.documentYear : undefined;
+    // filter.ToDocumentYear = this.toDocumentYear ? this.toDocumentYear : undefined;
+    // filter.DocumentStatus = this.getOptionValue(this.selectedStatus);
     filter.DocumentType = this.getOptionValue(this.selectedDocumentType);
     filter.TargetType = this.getOptionValue(this.selectedTargetType);
-    filter.SearchText = this.searchText ? this.searchText : undefined;
-    filter.IsCritical = this.isCritical ? this.isCritical.toString() : undefined;
+    filter.ReportStatus = this.getOptionValue(this.selectedReportStatus);
+    filter.CauseTrackStatus = this.getOptionValue(this.selectedCauseTrackStatus);
+    filter.TargetResult = this.getOptionValue(this.selectedTargetResult);
+    filter.FromMonth = this.selectedFromMonth;
+    filter.CauseTrackResult = this.getOptionValue(this.selectedCauseTrackResult);
+    filter.ToMonth = this.selectedToMonth;
+    // filter.SearchText = this.searchText ? this.searchText : undefined;
+    // filter.IsCritical = this.isCritical ? this.isCritical.toString() : undefined;
     return filter;
   }
 
@@ -196,13 +254,13 @@ export class StandardFormComponent implements OnInit, AfterViewInit {
     filter.PlantCode = undefined;
     filter.DivisionCode = undefined;
     filter.DocumentNo = undefined;
-    filter.DocumentYear = undefined;
-    filter.ToDocumentYear = undefined;
-    filter.DocumentStatus = undefined;
+    // filter.DocumentYear = undefined;
+    // filter.ToDocumentYear = undefined;
+    // filter.DocumentStatus = undefined;
     filter.DocumentType = undefined;
     filter.TargetType = undefined;
-    filter.SearchText = undefined;
-    filter.IsCritical = undefined;
+    // filter.SearchText = undefined;
+    // filter.IsCritical = undefined;
     return filter;
   }
 
@@ -212,14 +270,20 @@ export class StandardFormComponent implements OnInit, AfterViewInit {
     this.selectedSubBu = '';
     this.selectedPlant = '';
     this.selectedDivision = '';
-    this.selectedStatus = '';
+    // this.selectedStatus = '';
     this.selectedDocumentType = '';
     this.selectedTargetType = '';
     this.documentNo = undefined;
-    this.documentYear = undefined;
-    this.toDocumentYear = undefined;
-    this.searchText = undefined;
-    this.isCritical = false;
+    this.selectedReportStatus = '';
+    this.selectedCauseTrackStatus = '';
+    this.selectedTargetResult = '';
+    this.selectedFromMonth = '';
+    this.selectedCauseTrackResult = '';
+    this.selectedToMonth = '';
+    // this.documentYear = undefined;
+    // this.toDocumentYear = undefined;
+    // this.searchText = undefined;
+    // this.isCritical = false;
   }
 
   private addQueryParam(param?: object): void {

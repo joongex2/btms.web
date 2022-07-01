@@ -171,6 +171,13 @@ export class DocumentParams {
     ToDocumentYear?: string;
     SearchText?: string;
     IsCritical?: string;
+    // save-cause-track
+    ReportStatus?: string;
+    CauseTrackStatus?: string;
+    TargetResult?: string;
+    CauseTrackResult?: string;
+    FromMonth?: string;
+    ToMonth?: string;
 }
 
 export interface DocumentConfirm {

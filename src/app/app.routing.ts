@@ -90,9 +90,9 @@ export const appRoutes: Route[] = [
             ]},
             {path: 'report', children: [
                 {path: 'standard-form', loadChildren: () => import('app/modules/report/standard-form/standard-form.module').then(m=>m.StandardFormModule)},
-                // {path: 'annual-report', loadChildren: () => },
-                // {path: 'target-track', loadChildren: () => },
-                // {path: 'save-cause-track', loadChildren: () => },
+                {path: 'annual-report', loadChildren: () => import('app/modules/report/annual-report/annual-report.module').then(m=>m.AnnualReportModule)},
+                {path: 'target-track', loadChildren: () => import('app/modules/report/target-track/target-track.module').then(m=>m.TargetTrackModule)},
+                {path: 'save-cause-track', loadChildren: () => import('app/modules/report/save-cause-track/save-cause-track.module').then(m=>m.SaveCauseTrackModule)},
             ]},
             {path: 'admin', children: [
                 {path: 'master', loadChildren: () => import('app/modules/admin/master/master.module').then(m => m.MasterModule)},

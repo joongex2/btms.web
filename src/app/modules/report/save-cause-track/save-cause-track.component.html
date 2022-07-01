@@ -1,0 +1,219 @@
+<div class="absolute inset-0 overflow-hidden flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-4 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div>
+                        <a class="whitespace-nowrap text-primary-500">Report</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <span class="ml-1 text-secondary">รายงานการติดตามบันทึกผลและการติดตามปิดสาเหตุฯ</span>
+                    </div>
+                </div>
+                <div class="flex sm:hidden">
+                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'./..'">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-left'">
+                        </mat-icon>
+                        <span class="ml-1">Back</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">รายงานการติดตามบันทึกผลและการติดตามปิดสาเหตุฯ</h2>
+            </div>
+        </div>
+        <!-- Actions -->
+    </div>
+
+    <!-- Main -->
+    <div class="flex flex-col flex-auto p-6 overflow-y-auto">
+        <!-- CONTENT GOES HERE -->
+        <div class="flex-auto">
+            <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <!-- CONTENT GOES HERE -->
+                    <form>
+                        <div class="grid gap-x-4 sm:gap-x-8 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
+                            <div class="col-span-6 sm:col-span-2 font-medium">Organize</div>
+                            <div class="col-span-6 sm:col-span-4">
+                                <autocomplete label="Organize" name="organize" [options]="organizes" [(value)]="selectedOrganize"></autocomplete>
+                            </div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Document Type</div>
+                            <div class="col-span-6 sm:col-span-4">
+                                <autocomplete label="Document Type" name="documentType" [options]="documentTypes" [(value)]="selectedDocumentType"></autocomplete>
+                            </div>
+                            <div class="col-span-6 sm:col-span-2 sm:col-start-1 font-medium">Business Unit</div>
+                            <div class="col-span-6 sm:col-span-4">
+                                <autocomplete label="Business Unit" name="bu" [options]="bus" [(value)]="selectedBu"></autocomplete>
+                            </div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Target Type</div>
+                            <div class="col-span-6 sm:col-span-4">
+                                <autocomplete label="Target Type" name="targetType" [options]="targetTypes" [(value)]="selectedTargetType"></autocomplete>
+                            </div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Sub Business Unit</div>
+                            <div class="col-span-6 sm:col-span-4">
+                                <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu"></autocomplete>
+                            </div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Running No.</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="documentNo" name="documentNo" matInput>
+                                </mat-form-field>
+                            </div>
+                            <!-- <div class="col-span-6 sm:col-span-2 font-medium">From Document Year</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="documentYear" name="documentYear" matInput>
+                                </mat-form-field>
+                            </div> -->
+                            <div class="col-span-6 sm:col-span-2 font-medium">Plant</div>
+                            <div class="col-span-6 sm:col-span-4">
+                                <autocomplete label="Plant" name="plant" [options]="plants" [(value)]="selectedPlant"></autocomplete>
+                            </div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">สถานะการรายงานผล</div>
+                            <div class="col-span-6 sm:col-span-4">
+                                <autocomplete label="สถานะการรายงานผล" name="reportStatus" [options]="reportStatuses" [(value)]="selectedReportStatus"></autocomplete>
+                            </div>
+                            <!-- <div class="col-span-6 sm:col-span-2 font-medium">To Document Year</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="toDocumentYear" name="toDocumentYear" matInput>
+                                </mat-form-field>
+                            </div> -->
+                            <div class="col-span-6 sm:col-span-2 font-medium">Division/Department</div>
+                            <div class="col-span-6 sm:col-span-4">
+                                <autocomplete label="Division/Department" name="division" [options]="divisions" [(value)]="selectedDivision"></autocomplete>
+                            </div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">สถานะการติดตามสาเหตุฯ</div>
+                            <div class="col-span-6 sm:col-span-4">
+                                <autocomplete label="สถานะการติดตามสาเหตุฯ" name="causeTrackStatus" [options]="causeTrackStatuses" [(value)]="selectedCauseTrackStatus"></autocomplete>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-2 font-medium">ผลการดำเนินงาน</div>
+                            <div class="col-span-6 sm:col-span-4">
+                                <autocomplete label="ผลการดำเนินงาน" name="targetResult" [options]="targetResults" [(value)]="selectedTargetResult"></autocomplete>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-2 font-medium">From Month</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedFromMonth" name="type" placeholder="From Month">
+                                        <mat-option [value]="''">ทั้งหมด</mat-option>
+                                        <mat-option *ngFor="let month of months" [value]="month.value">
+                                            {{month.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-2 font-medium">ผลการติดตามสาเหตุฯ</div>
+                            <div class="col-span-6 sm:col-span-4">
+                                <autocomplete label="ผลการติดตามสาเหตุฯ" name="causeTrackResult" [options]="causeTrackResults" [(value)]="selectedCauseTrackResult"></autocomplete>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-2 font-medium">To Month</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedToMonth" name="type" placeholder="To Month">
+                                        <mat-option [value]="''">ทั้งหมด</mat-option>
+                                        <mat-option *ngFor="let month of months" [value]="month.value">
+                                            {{month.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            
+                            <!-- <div class="col-span-6 sm:col-span-2 font-medium">Critical KPI</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
+                                :
+                                <mat-checkbox class="ml-2" [color]="'primary'" [(ngModel)]="isCritical" name="isCritical"></mat-checkbox>
+                            </div> -->
+                            
+                            <!-- <div class="col-span-6 sm:col-span-2 font-medium">คำค้นหา</div>
+                            <div class="col-span-6 sm:col-span-10 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input [(ngModel)]="searchText" name="searchText" matInput placeholder="หัวข้อเป้าหมายหลัก/หัวข้อเป้าหมายย่อย">
+                                </mat-form-field>
+                            </div> -->
+                        </div>    
+                        <div
+                            class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                            <div class="flex-none">
+                                <a (click)="search()" class="flex items-center cursor-pointer">
+                                    <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Search</span>
+                                </a>
+                            </div>
+                            <div class="flex-none ml-2">
+                                <a (click)="clear()" class="flex items-center cursor-pointer">
+                                    <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Clear</span>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </mat-expansion-panel>
+            </mat-accordion>
+    
+            <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
+                <div class="example-table-container">
+                    <div class="flex justify-end">
+                        <button class="mr-2" style="width: 100px" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Export excel">
+                            <mat-icon svgIcon="iconsmind:file_excel"></mat-icon>&nbsp;<span>Export</span>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                        <button mat-menu-item>
+                            <span>รายงานติดตามสถานะการส่งรายงานเป้าหมาย (แยกชีต)</span>
+                        </button>
+                        <button mat-menu-item>
+                            <span>รายงานติดตามสถานะการส่งรายงานเป้าหมาย (รวมชีต)</span>
+                        </button>
+                        </mat-menu>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table mat-table [dataSource]="saveCauseTracks" class="mat-elevation-z8"
+                            style="width:100%" matSort>
+                            <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
+                                <ng-container *ngIf="notSortColumn.includes(key)">
+                                    <th mat-header-cell *matHeaderCellDef [ngClass]="{ 'text-center' : key == 'detail' }">{{ keyToColumnName[key] }}</th>
+                                </ng-container>
+                                <ng-container *ngIf="!notSortColumn.includes(key)">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ keyToColumnName[key] }}</th>
+                                </ng-container>
+                                <td mat-cell *matCellDef="let element; let i = index">
+                                    <ng-container *ngIf="key == 'index'">{{ (paginator.pageIndex * paginator.pageSize) + (i + 1) }}</ng-container>
+                                    <ng-container *ngIf="key !== 'index'">{{ element[key] }}</ng-container>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+                    <mat-paginator
+                        #paginator 
+                        [length]="resultsLength"
+                        [pageSize]="defaultPageSize"
+                        [pageSizeOptions]="[5, 10, 20]"
+                        showFirstLastButtons 
+                        aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

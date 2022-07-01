@@ -5,24 +5,23 @@ import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentParams } from 'app/shared/interfaces/document.interface';
 import { DocumentService } from 'app/shared/services/document.service';
-import { StandardFormService } from './standard-form.service';
-import { StandardForm } from './standard-form.types';
+import { AnnualReportService } from './annual-report.service';
+import { AnnualReport } from './annual-report.types';
 
 
 @Component({
-  selector: 'standard-form',
-  templateUrl: './standard-form.component.html',
-  styleUrls: ['./standard-form.component.scss'],
+  selector: 'annual-report',
+  templateUrl: './annual-report.component.html',
+  styleUrls: ['./annual-report.component.scss'],
 })
-export class StandardFormComponent implements OnInit, AfterViewInit {
+export class AnnualReportComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatExpansionPanel) matExpansionPanel: MatExpansionPanel;
   defaultPageSize = 5;
   resultsLength = 0;
   // documents: Document[];
-  standardForms: StandardForm[];
-  fromUrl: string; // my-target/ target-entry/ result-info
+  annualReports: AnnualReport[];
 
   // bind value
   selectedOrganize: any;
@@ -55,8 +54,7 @@ export class StandardFormComponent implements OnInit, AfterViewInit {
     'plant',
     'targetYear',
     'targetType',
-    'runningNo',
-    'report'
+    'targetName'
   ];
 
   keyToColumnName: any = {
@@ -64,18 +62,16 @@ export class StandardFormComponent implements OnInit, AfterViewInit {
     'plant': 'Plant',
     'targetYear': 'Target Year',
     'targetType': 'Target Type',
-    'runningNo': 'Running No.',
-    'report': ''
+    'targetName': 'เป้าหมายหลัก',
   };
 
   notSortColumn: string[] = [
-    'index',
-    'report'
+    'index'
   ];
 
   constructor(
     // private _documentService: DocumentService,
-    private _standardFormService: StandardFormService,
+    private _standardFormService: AnnualReportService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute
   ) {
@@ -122,8 +118,8 @@ export class StandardFormComponent implements OnInit, AfterViewInit {
     this.isCritical = params.IsCritical || false;
 
     // this.loadDocuments(page, size, sort, order, this.getDocumentParams());
-    setTimeout(() => this._standardFormService.getStandardForms().subscribe(v => {
-      this.standardForms = v;
+    setTimeout(() => this._standardFormService.getAnnualReports().subscribe(v => {
+      this.annualReports = v;
       this.paginator.pageIndex = 0;
       this.paginator.pageSize = 5;
       this.resultsLength = 2;
