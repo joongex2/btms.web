@@ -80,7 +80,10 @@ export class UserDetailComponent implements OnInit {
     }
 
     this._userGroupService.getUserGroups().subscribe({
-      next: (v: UserGroup[]) => { this.userGroups = v.map((v) => ({ title: v.name, value: v.id })) },
+      next: (v: UserGroup[]) => { this.userGroups = v
+        .filter((v) => ![9,12].includes(v.id))
+        .map((v) => ({ title: v.name, value: v.id })) 
+      },
       error: (e) => console.error(e)
     });
   }

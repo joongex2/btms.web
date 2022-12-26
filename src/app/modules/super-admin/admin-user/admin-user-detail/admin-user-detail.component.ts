@@ -119,13 +119,15 @@ export class AdminUserDetailComponent implements OnInit {
       this.username = '';
       this.name = '';
       this.email = '';
-      this.selectedUserGroup = undefined;
+      this.selectedUserGroup = 12;
       this.selectedIsActive = true;
       // this.organizes = [];
     }
 
     this._userGroupService.getUserGroups().subscribe({
-      next: (v: UserGroup[]) => { this.userGroups = v.map((v) => ({ title: v.name, value: v.id })) },
+      next: (v: UserGroup[]) => { 
+        this.userGroups = v.map((v) => ({ title: v.name, value: v.id }))
+      },
       error: (e) => console.error(e)
     });
 

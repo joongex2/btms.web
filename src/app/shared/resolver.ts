@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { UserService } from "app/core/user/user.service";
-import { MasterService } from "app/modules/admin/master/master.service";
-import { OrganizationService } from "app/modules/admin/organization/organization.service";
+import { MasterService } from "app/modules/super-admin/master/master.service";
+import { OrganizationService } from "app/modules/super-admin/organization/organization.service";
 import { LookupService } from "app/shared/services/lookup.service";
 import { Observable, take } from "rxjs";
+
 
 @Injectable({
     providedIn: 'root'

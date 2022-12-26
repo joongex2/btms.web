@@ -1,13 +1,14 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { ChangeDetectorRef, Component, Injectable, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { MatTree, MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { OrganizationService } from 'app/modules/super-admin/organization/organization.service';
+import { Organization } from 'app/modules/super-admin/organization/organization.types';
 import { RoleService } from 'app/modules/super-admin/role/role.service';
 import { Role } from 'app/modules/super-admin/role/role.types';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { BehaviorSubject } from 'rxjs';
-import { OrganizationService } from '../../organization/organization.service';
-import { Organization } from '../../organization/organization.types';
+
 
 /**
  * Node for to-do item
@@ -99,11 +100,11 @@ export class ChecklistDatabase {
         for (let org of organizations) {
             // level 0
             organizeTree[org.organizeCode] = [];
-            if (org.isActive) selected.push({ item: org.organizeCode, level: 0, expandable: org.roles && org.roles.length > 0});
+            if (org.isActive) selected.push({ item: org.organizeCode, level: 0, expandable: org.roles && org.roles.length > 0 });
             for (let role of org.roles) {
                 // level 1
                 organizeTree[org.organizeCode].push(role.roleCode);
-                if (role.isActive) selected.push({ item: role.roleCode, level: 1, expandable: false});
+                if (role.isActive) selected.push({ item: role.roleCode, level: 1, expandable: false });
             }
         }
         // console.log('organizeTree: ', organizeTree);
@@ -232,7 +233,7 @@ export class TreeChecklistComponent implements OnInit {
 
     /** The selection for checklist */
     checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
- 
+
     constructor(
         public _database: ChecklistDatabase,
         private _organizationService: OrganizationService,
@@ -261,7 +262,7 @@ export class TreeChecklistComponent implements OnInit {
     ngOnInit() {
         this._organizationService.getOrganizations().subscribe({
             next: (v: Organization[]) => {
-                this.organizations = v.map((v) => ({ title: v.organizeName, value: v.organizeCode }));
+                this.organizations = v.map((v) => ({ title: `${v.organizeCode}: ${v.organizeName}`, value: v.organizeCode }));
                 this.organizeCodeNameMapper = v.reduce((prev, cur) => {
                     prev[cur.organizeCode] = `${cur.organizeCode}: ${cur.organizeName}`;
                     return prev;
@@ -297,7 +298,7 @@ export class TreeChecklistComponent implements OnInit {
      */
     transformer = (node: TodoItemNode, level: number) => {
         const existingNode = this.nestedNodeMap.get(node);
-        const flatNode = 
+        const flatNode =
             existingNode && existingNode.item === node.item ? existingNode : new TodoItemFlatNode();
         flatNode.item = node.item;
         flatNode.level = level;

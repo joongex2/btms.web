@@ -5,6 +5,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { OrganizationService } from 'app/modules/super-admin/organization/organization.service';
+import { Organization } from 'app/modules/super-admin/organization/organization.types';
 import { RoleService } from 'app/modules/super-admin/role/role.service';
 import { Role } from 'app/modules/super-admin/role/role.types';
 import { UserGroupService } from 'app/modules/super-admin/user-group/user-group.service';
@@ -12,10 +14,9 @@ import { UserGroup } from 'app/modules/super-admin/user-group/user-group.types';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
-import { OrganizationService } from '../../organization/organization.service';
-import { Organization } from '../../organization/organization.types';
 import { UserService } from '../user.service';
 import { User } from '../user.types';
+
 
 
 

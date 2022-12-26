@@ -49,7 +49,7 @@ export class UserGroupModalComponent implements OnInit {
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
     this.userGroup = this.isEdit ? this.modalData.data.userGroup : undefined;
-    this.defaultMenu = this.isEdit ? this.userGroup.menus : this.modalData.data.defaultMenu;
+    this.defaultMenu = this.modalData.data.defaultMenu;
     const name = this.isEdit ? this.userGroup.name : '';
     const isActive = this.isEdit ? this.userGroup.isActive : false;
 
@@ -60,7 +60,7 @@ export class UserGroupModalComponent implements OnInit {
         menus.push(this._formBuilder.group({
           id: menu.id,
           title: menu.title,
-          check: menu.check
+          check: this.isEdit ? (this.findMenu(this.userGroup.menus, menuGroup.id, menu.id)?.check || false) : menu.check
         }))
       }
       menuGroups.push(this._formBuilder.group({
@@ -89,10 +89,10 @@ export class UserGroupModalComponent implements OnInit {
     return newMenu;
   }
 
-  findMenu(defaultMenu: FuseNavigationItem[], groupMenuId: string, menuId: string) {
-    const groupMenu = defaultMenu.find((gm) => gm.id == groupMenuId);
-    const menu = groupMenu.children.find((m) => m.id == menuId);
-    return menu;
+  findMenu(menu: FuseNavigationItem[], groupMenuId: string, menuId: string) {
+    const groupMenu = menu.find((gm) => gm.id == groupMenuId);
+    const _menu = groupMenu.children.find((m) => m.id == menuId);
+    return _menu;
   }
 
   async saveAndClose() {

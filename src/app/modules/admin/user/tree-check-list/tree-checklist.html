@@ -37,7 +37,7 @@
             <mat-form-field class="ml-6 mb-2">
                 <mat-select #itemValue name="organization" placeholder="Organize">
                     <mat-option *ngFor="let organization of organizations" [value]="organization.value">
-                        {{organizeCodeNameMapper ? organizeCodeNameMapper[organization.title]: ''}}
+                        {{organization.title}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
