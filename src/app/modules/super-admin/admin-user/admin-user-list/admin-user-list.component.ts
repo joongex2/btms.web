@@ -230,7 +230,7 @@ export class AdminUserListComponent implements OnInit {
         this.dataSource.data = users;
         if (!this.isFirstLoaded.value) this.isFirstLoaded.next(true);
         // only selected admin
-        this.selectedUserGroup = 21 // 21 is admin
+        this.selectedUserGroup = 9 // 9 is admin
         this.filter();
       },
       error: (e) => console.log(e)
