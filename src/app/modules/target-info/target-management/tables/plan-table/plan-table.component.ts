@@ -31,6 +31,7 @@ export class PlanTableComponent implements OnInit {
       this.findLeftYears();
     }
   }
+  @Input() targetDetailDescription: string;
   @Input() targetValue: string;
   @Input() isEdit: boolean;
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
@@ -96,6 +97,7 @@ export class PlanTableComponent implements OnInit {
       data: {
         mode: ModalMode.ADD,
         data: undefined,
+        targetDetailDescription: this.targetDetailDescription,
         targetValue: this.targetValue,
         index: this._plans.filter(v => !v.markForDelete).length + 1,
         leftYears: this.leftYears

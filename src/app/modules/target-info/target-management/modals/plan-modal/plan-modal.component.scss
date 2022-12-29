@@ -77,3 +77,7 @@ $base-dark-color: #0b2642;
 :host ::ng-deep .mat-ripple-element {
     background-color: $base-color !important;
 }
+
+:host ::ng-deep .mat-form-field-wrapper {
+    margin-bottom: 0 !important;
+}

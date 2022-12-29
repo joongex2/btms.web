@@ -156,10 +156,9 @@
                                     </mat-form-field>
                                 </div>
                             </ng-template>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Target Type</div>
+                            <!-- <div class="col-span-6 sm:col-span-2 font-medium">Target Type</div>
                             <ng-container *ngIf="mode === 'edit';else targetTypeSelect">
-                                <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.targetType :
-                                    '-'}}</span></div>
+                                <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.targetType :'-'}}</span></div>
                             </ng-container>
                             <ng-template #targetTypeSelect>
                                 <div class="col-span-6 sm:col-span-4 flex items-center">
@@ -172,7 +171,7 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
-                            </ng-template>
+                            </ng-template> -->
                             
                             <div class="col-span-6 sm:col-span-2 font-medium">Running No.</div>
                             <div class="col-span-6 sm:col-span-4">:<span class="ml-2"><a (click)="openLastComment()" class="underline text-blue-600 cursor-pointer">{{document ? document.documentNo : ''}}</a></span></div>
@@ -232,7 +231,6 @@
                     [documentId]="documentId" 
                     [targets]="targets"
                     [selectedDocumentType]="getDocumentType()"
-                    [selectedTargetType]="getTargetType()"
                     [standards]="standards"
                     [isEdit]="isEdit"
                     (markForEdit)="markForEditHandler($event)" 

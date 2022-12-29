@@ -57,7 +57,7 @@ export class PlanModalComponent implements OnInit {
     this.plan = this.modalData.data;
     this.targetValue = this.modalData.targetValue;
     const priority = this.isEdit ? this.plan.priority : this.modalData.index;
-    const planDescription = this.isEdit ? this.plan.planDescription : '';
+    const planDescription = this.isEdit ? this.plan.planDescription : this.modalData.targetDetailDescription;
     const month = moment().month() + 1;
     const undertaker = this.isEdit ? this.plan.undertaker : '';
 
@@ -86,18 +86,18 @@ export class PlanModalComponent implements OnInit {
       useMonth10: false,
       useMonth11: false,
       useMonth12: false,
-      valueMonth1: '',
-      valueMonth2: '',
-      valueMonth3: '',
-      valueMonth4: '',
-      valueMonth5: '',
-      valueMonth6: '',
-      valueMonth7: '',
-      valueMonth8: '',
-      valueMonth9: '',
-      valueMonth10: '',
-      valueMonth11: '',
-      valueMonth12: '',
+      valueMonth1: null,
+      valueMonth2: null,
+      valueMonth3: null,
+      valueMonth4: null,
+      valueMonth5: null,
+      valueMonth6: null,
+      valueMonth7: null,
+      valueMonth8: null,
+      valueMonth9: null,
+      valueMonth10: null,
+      valueMonth11: null,
+      valueMonth12: null,
       undertaker: [undertaker, [Validators.required]],
     });
 
@@ -107,7 +107,6 @@ export class PlanModalComponent implements OnInit {
       for (let i = 1; i <= 12; i++) {
         if (this.plan[`useMonth${i}`]) {
           this.planForm.get(`useMonth${i}`).setValue(true);
-          this.planForm.get(`valueMonth${i}`).setValue(this.plan[`valueMonth${i}`]);
         }
       }
     }
@@ -117,7 +116,7 @@ export class PlanModalComponent implements OnInit {
       this.checkAll.setValue(false, { emitEvent: false });
       for (let i = 1; i <= 12; i++) {
         this.planForm.get(`useMonth${i}`).setValue(false);
-        this.planForm.get(`valueMonth${i}`).setValue('');
+        this.planForm.get(`valueMonth${i}`).setValue(null);
         this.planForm.get(`useMonth${i}`).enable();
       }
     });
@@ -125,9 +124,10 @@ export class PlanModalComponent implements OnInit {
     for (let i = 1; i <= 12; i++) {
       this.planForm.get(`useMonth${i}`).valueChanges.subscribe(v => {
         if (v) {
-          this.planForm.get(`valueMonth${i}`).setValue(this.targetValue);
+          this.planForm.get(`valueMonth${i}`).enable();
         } else {
-          this.planForm.get(`valueMonth${i}`).setValue('');
+          this.planForm.get(`valueMonth${i}`).setValue(null);
+          this.planForm.get(`valueMonth${i}`).disable();
         }
       });
     }
@@ -136,7 +136,7 @@ export class PlanModalComponent implements OnInit {
       if (v) {
         for (let i = 1; i <= 12; i++) {
           this.planForm.get(`useMonth${i}`).setValue(true);
-          this.planForm.get(`valueMonth${i}`).setValue(this.targetValue);
+          this.planForm.get(`valueMonth${i}`).enable();
           this.planForm.get(`useMonth${i}`).disable();
         }
       } else {

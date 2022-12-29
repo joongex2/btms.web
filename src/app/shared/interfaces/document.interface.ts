@@ -27,7 +27,7 @@ export interface DocumentDetail {
     divisionCode: string;
     division: string;
     documentType: string;
-    targetType: string;
+    // targetType: string;
     documentTypeDescription: string;
     documentNo: string;
     documentStatus: string;
@@ -54,6 +54,7 @@ export interface Comment {
 
 export interface Target {
     id: number;
+    targetType: string;
     standard: string;
     priority: number;
     targetName: string;

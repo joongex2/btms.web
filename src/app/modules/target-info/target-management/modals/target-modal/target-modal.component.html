@@ -30,6 +30,14 @@
         </mat-form-field>
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>Target Type</mat-label>
+            <mat-select [formControlName]="'targetType'">
+                <mat-option *ngFor="let targetType of targetTypes" [value]="targetType.value">{{targetType.title}}</mat-option>
+            </mat-select>
+            <mat-error>Target Type is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto gt-xs:pr-3">
             <mat-label>Standard</mat-label>
             <mat-select [formControlName]="'standard'">
                 <mat-option *ngFor="let standard of standards" [value]="standard.value">{{standard.title}}</mat-option>

@@ -12,9 +12,7 @@
     </div>
 
     <!-- Compose form -->
-    <form
-        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
-        [formGroup]="planForm">
+    <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="planForm">
 
         <!-- To -->
         <mat-form-field>
@@ -47,15 +45,24 @@
             </tr>
             <tr>
                 <td class="row-2">
-                    <div class="flex flex-wrap gap-[4px]">
-                        <div class="month-box" *ngFor="let monthIndex of monthIndexes; let i = index">
-                            <mat-checkbox  [color]="'primary'" [formControlName]="'useMonth' + monthIndex">{{capitalizeFirstLetter(monthShortMap[monthIndex])}}</mat-checkbox>
+                    <div class="month-box w-full">
+                        <div class="grid grid-cols-12 gap-2 w-full items-center">
+                            <ng-container *ngFor="let monthIndex of monthIndexes; let i = index">
+                                <mat-checkbox class="col-span-4" [color]="'primary'"
+                                    [formControlName]="'useMonth' + monthIndex">
+                                    {{capitalizeFirstLetter(monthShortMap[monthIndex])}}</mat-checkbox>
+                                <div class="col-span-8 flex items-center">
+                                    <mat-form-field class="flex-auto">
+                                        <input matInput [formControlName]="'valueMonth' + monthIndex" type="number">
+                                    </mat-form-field>
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
                 </td>
             </tr>
-        </table> 
-            
+        </table>
+
         <!-- </div> -->
 
         <mat-form-field>
@@ -66,19 +73,17 @@
         </mat-form-field>
 
         <!-- Alert -->
-        <fuse-alert class="col-span-12" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false" [type]="alert.type"
-            [@shake]="alert.type === 'error'">
+        <fuse-alert class="col-span-12" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false"
+            [type]="alert.type" [@shake]="alert.type === 'error'">
             {{alert.message}}
         </fuse-alert>
 
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
-            <div class="flex-none flex items-center cursor-pointer"
-                (click)="saveAndClose()">
+            <div class="flex-none flex items-center cursor-pointer" (click)="saveAndClose()">
                 <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>ตกลง</span>
             </div>
-            <div class="flex-none sm:ml-2 flex items-center cursor-pointer"
-                (click)="close()">
+            <div class="flex-none sm:ml-2 flex items-center cursor-pointer" (click)="close()">
                 <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>ยกเลิก</span>
             </div>
         </div>

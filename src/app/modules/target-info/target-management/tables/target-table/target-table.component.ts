@@ -22,7 +22,6 @@ export class TargetTableComponent implements OnInit {
   @Input() documentId: number;
   @Input() targets: Target[] = [];
   @Input() selectedDocumentType: string;
-  @Input() selectedTargetType: string;
   @Input() standards: any[];
   @Input() isEdit: boolean;
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
@@ -33,14 +32,15 @@ export class TargetTableComponent implements OnInit {
     'expandIcon',
     'priority',
     'targetName',
+    'targetType',
     'standard',
     // 'targetMission',
     'editIcon',
     'deleteIcon'
   ];
   expandedTargets: Target[] = [];
-
-  kpiMissions: any[];
+  kpiMissions: any[] = [];
+  targetTypes: any[] = [];
 
   constructor(
     private _matDialog: MatDialog,
@@ -52,6 +52,13 @@ export class TargetTableComponent implements OnInit {
     this._lookupService.getLookups('KPI_MISSION').subscribe({
       next: (lookups: Lookup[]) => {
         this.kpiMissions = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupDescription }));
+      },
+      error: (e) => console.error(e)
+    });
+
+    this._lookupService.getLookups('TARGET_TYPE').subscribe({
+      next: (lookups: Lookup[]) => {
+        this.targetTypes = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
       },
       error: (e) => console.error(e)
     });
@@ -109,8 +116,8 @@ export class TargetTableComponent implements OnInit {
   }
 
   addTarget(): void {
-    if (!this.selectedDocumentType || !this.selectedTargetType) {
-      this._confirmationService.warning('กรุณาเลือก Document Type และ Target Type');
+    if (!this.selectedDocumentType) {
+      this._confirmationService.warning('กรุณาเลือก Document Type');
       return;
     }
     // Open the dialog
@@ -118,6 +125,7 @@ export class TargetTableComponent implements OnInit {
       data: {
         mode: ModalMode.ADD,
         data: undefined,
+        targetTypes: this.targetTypes,
         standards: this.standards,
         kpiMissions: this.kpiMissions,
         index: this.targets.filter(v => !v.markForDelete).length + 1
@@ -128,6 +136,7 @@ export class TargetTableComponent implements OnInit {
         if (!target) return; // cancel
         this.targets.push({
           id: 0,
+          targetType: target.targetType,
           standard: target.standard,
           priority: target.priority,
           targetName: target.targetName,
@@ -146,6 +155,7 @@ export class TargetTableComponent implements OnInit {
       data: {
         mode: ModalMode.EDIT,
         data: this.targets[index],
+        targetTypes: this.targetTypes,
         standards: this.standards,
         kpiMissions: this.kpiMissions
       }
@@ -153,6 +163,7 @@ export class TargetTableComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe((target: Target) => {
         if (!target) return; // cancel
+        this.targets[index].targetType = target.targetType,
         this.targets[index].standard = target.standard,
         this.targets[index].targetName = target.targetName,
         this.targets[index].targetMission = null,

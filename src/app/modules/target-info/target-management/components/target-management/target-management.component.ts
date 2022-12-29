@@ -51,12 +51,11 @@ export class TargetManagementComponent implements OnInit {
 
   // bind value
   selectedDocumentType: string;
-  selectedTargetType: string;
+  selectedTargetType = null; // TODO
   selectedYear: string;
 
   // select option
   documentTypes: any[] = [];
-  targetTypes: any[] = [];
   years: any[] = [];
   standards: any[] = [];
 
@@ -149,13 +148,6 @@ export class TargetManagementComponent implements OnInit {
       this._lookupService.getLookups('DOCUMENT_TYPE').subscribe({
         next: (lookups: Lookup[]) => {
           this.documentTypes = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
-        },
-        error: (e) => console.error(e)
-      });
-
-      this._lookupService.getLookups('TARGET_TYPE').subscribe({
-        next: (lookups: Lookup[]) => {
-          this.targetTypes = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
         },
         error: (e) => console.error(e)
       });
@@ -256,14 +248,6 @@ export class TargetManagementComponent implements OnInit {
     }
   }
 
-  getTargetType() {
-    if (this.mode === 'add') {
-      return this.selectedTargetType;
-    } else {
-      return this.document ? this.document.targetType : undefined;
-    }
-  }
-
   showError(error: string, hasApiError?: boolean) {
     this.showAlert = true;
     this.alert = {
@@ -323,7 +307,6 @@ export class TargetManagementComponent implements OnInit {
 
         this.selectedDocumentType = this.document.documentType;
         this.selectedYear = this.document.documentYear;
-        this.selectedTargetType = this.document.targetType;
 
         this.loadStandards(this.document.documentType);
         this.checkPrivillege();
