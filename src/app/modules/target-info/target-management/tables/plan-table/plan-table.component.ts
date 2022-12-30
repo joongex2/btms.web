@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, Quer
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatTable } from '@angular/material/table';
-import { Plan } from 'app/shared/interfaces/document.interface';
+import { Plan, SubTarget } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import moment from 'moment';
 import { TargetService } from '../../../target.service';
@@ -31,8 +31,7 @@ export class PlanTableComponent implements OnInit {
       this.findLeftYears();
     }
   }
-  @Input() targetDetailDescription: string;
-  @Input() targetValue: string;
+  @Input() subTarget: SubTarget;
   @Input() isEdit: boolean;
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('planTable') planTable: MatTable<Plan>;
@@ -97,8 +96,7 @@ export class PlanTableComponent implements OnInit {
       data: {
         mode: ModalMode.ADD,
         data: undefined,
-        targetDetailDescription: this.targetDetailDescription,
-        targetValue: this.targetValue,
+        subTarget: this.subTarget,
         index: this._plans.filter(v => !v.markForDelete).length + 1,
         leftYears: this.leftYears
       }
@@ -156,7 +154,7 @@ export class PlanTableComponent implements OnInit {
       data: {
         mode: ModalMode.EDIT,
         data: this.selectedPlan[0],
-        targetValue: this.targetValue
+        subTarget: this.subTarget
       }
     });
     dialogRef.afterClosed()

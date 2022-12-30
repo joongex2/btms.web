@@ -9,6 +9,10 @@ $base-dark-color: #4e4a18;
     color: $base-dark-color !important;
 }
 
+.width-33 {
+    width: calc(34% - 16px);
+}
+
 :host ::ng-deep .mat-input-element {
     caret-color: $base-color !important;
 }

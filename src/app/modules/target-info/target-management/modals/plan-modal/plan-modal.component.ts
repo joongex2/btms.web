@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
-import { Plan } from 'app/shared/interfaces/document.interface';
+import { Plan, SubTarget } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import moment from 'moment';
 import { ModalMode } from '../modal.type';
@@ -19,7 +19,7 @@ export class PlanModalComponent implements OnInit {
   planForm: FormGroup;
   checkAll: FormControl;
   plan: Plan;
-  targetValue: string;
+  subTarget: SubTarget;
   years: any[] = [];
   monthIndexes: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   monthShortMap = {
@@ -55,9 +55,9 @@ export class PlanModalComponent implements OnInit {
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
     this.plan = this.modalData.data;
-    this.targetValue = this.modalData.targetValue;
+    this.subTarget = this.modalData.subTarget;
     const priority = this.isEdit ? this.plan.priority : this.modalData.index;
-    const planDescription = this.isEdit ? this.plan.planDescription : this.modalData.targetDetailDescription;
+    const planDescription = this.isEdit ? this.plan.planDescription : this.subTarget.targetDetailDescription;
     const month = moment().month() + 1;
     const undertaker = this.isEdit ? this.plan.undertaker : '';
 
@@ -86,18 +86,18 @@ export class PlanModalComponent implements OnInit {
       useMonth10: false,
       useMonth11: false,
       useMonth12: false,
-      valueMonth1: null,
-      valueMonth2: null,
-      valueMonth3: null,
-      valueMonth4: null,
-      valueMonth5: null,
-      valueMonth6: null,
-      valueMonth7: null,
-      valueMonth8: null,
-      valueMonth9: null,
-      valueMonth10: null,
-      valueMonth11: null,
-      valueMonth12: null,
+      valueMonth1: this.parseInputValueMonth('1'),
+      valueMonth2: this.parseInputValueMonth('2'),
+      valueMonth3: this.parseInputValueMonth('3'),
+      valueMonth4: this.parseInputValueMonth('4'),
+      valueMonth5: this.parseInputValueMonth('5'),
+      valueMonth6: this.parseInputValueMonth('6'),
+      valueMonth7: this.parseInputValueMonth('7'),
+      valueMonth8: this.parseInputValueMonth('8'),
+      valueMonth9: this.parseInputValueMonth('9'),
+      valueMonth10: this.parseInputValueMonth('10'),
+      valueMonth11: this.parseInputValueMonth('11'),
+      valueMonth12: this.parseInputValueMonth('12'),
       undertaker: [undertaker, [Validators.required]],
     });
 
@@ -126,8 +126,10 @@ export class PlanModalComponent implements OnInit {
         if (v) {
           this.planForm.get(`valueMonth${i}`).enable();
         } else {
-          this.planForm.get(`valueMonth${i}`).setValue(null);
           this.planForm.get(`valueMonth${i}`).disable();
+          if (this.checkAll.value) {
+            this.checkAll.setValue(false);
+          }
         }
       });
     }
@@ -136,8 +138,6 @@ export class PlanModalComponent implements OnInit {
       if (v) {
         for (let i = 1; i <= 12; i++) {
           this.planForm.get(`useMonth${i}`).setValue(true);
-          this.planForm.get(`valueMonth${i}`).enable();
-          this.planForm.get(`useMonth${i}`).disable();
         }
       } else {
         for (let i = 1; i <= 12; i++) {
@@ -145,6 +145,43 @@ export class PlanModalComponent implements OnInit {
         }
       }
     })
+  }
+
+  parseInputValueMonth(index: string) {
+    let res;
+    if (this.isEdit) {
+      res = this.plan[`valueMonth${index}`];
+      // if res null set default
+      if (!res) res = this.modalData.subTarget.targetValue;
+    } else {
+      res = this.modalData.subTarget.targetValue;
+    }
+
+    if (this.subTarget.targetCondition === '1') {
+      if (!this.is2Condition(res)) res = res?.replace(/(>=|<=|>|<|=)/g, '');
+    }
+
+    return res;
+  }
+
+  is2Condition(monthValue: any) {
+    if (typeof monthValue === 'number') monthValue = monthValue.toString();
+    const match = monthValue?.match(/(>=|<=|>|<|=)/g);
+    return match ? match.length > 1 : false;
+  }
+
+  parseOutputValueMonth(valueMonth: string) {
+    let res;
+    if (this.subTarget.targetCondition === '1') {
+      if (!this.is2Condition(valueMonth)) {
+        const operator = this.subTarget.targetValue?.match(/(>=|<=|>|<|=)/g)?.[0];
+        res = operator + valueMonth;
+      }
+    } else {
+      return valueMonth;
+    }
+
+    return res;
   }
 
   capitalizeFirstLetter(string) {
@@ -161,7 +198,11 @@ export class PlanModalComponent implements OnInit {
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
     } else {
-      this.matDialogRef.close(this.planForm.getRawValue());
+      let plan = this.planForm.getRawValue();
+      for (let i = 1; i <= 12; i++) {
+        plan[`valueMonth${i}`] = this.parseOutputValueMonth(plan[`valueMonth${i}`]);
+      }
+      this.matDialogRef.close(plan);
     }
   }
 

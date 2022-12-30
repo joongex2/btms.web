@@ -130,20 +130,26 @@ export class TargetManagementComponent implements OnInit {
       this.selectedDocumentType = undefined;
       this.selectedYear = moment().year().toString();
 
-      this._lookupService.getLookups('DOCUMENT_YEAR', 'DEFAULT').subscribe({
-        next: (lookups: Lookup[]) => {
-          const defaultYear = parseInt(lookups.find((v) => v.lookupCode === 'DEFAULT').lookupDescription);
-          const currentYear = moment().year();
-          this.years.push(currentYear);
-          for (let i = 1; i <= defaultYear; i++) {
-            this.years.push(currentYear + i);
-            this.years.push(currentYear - i);
-          }
-          this.years.sort(function (a, b) { return b - a });
-          this.years = this.years.map((v) => ({ title: v.toString(), value: v.toString() }));
-        },
-        error: (e) => console.error(e)
-      });
+      // this._lookupService.getLookups('DOCUMENT_YEAR', 'DEFAULT').subscribe({
+      //   next: (lookups: Lookup[]) => {
+      //     const defaultYear = parseInt(lookups.find((v) => v.lookupCode === 'DEFAULT').lookupDescription);
+      //     const currentYear = moment().year();
+      //     this.years.push(currentYear);
+      //     for (let i = 1; i <= defaultYear; i++) {
+      //       this.years.push(currentYear + i);
+      //       this.years.push(currentYear - i);
+      //     }
+      //     this.years.sort(function (a, b) { return b - a });
+      //     this.years = this.years.map((v) => ({ title: v.toString(), value: v.toString() }));
+      //   },
+      //   error: (e) => console.error(e)
+      // });
+      const currentYear = moment().year();
+      this.years.push(currentYear);
+      this.years.push(currentYear + 1);
+      this.years.push(currentYear + 2);
+      this.years.sort(function (a, b) { return b - a });
+      this.years = this.years.map((v) => ({ title: v.toString(), value: v.toString() }));
 
       this._lookupService.getLookups('DOCUMENT_TYPE').subscribe({
         next: (lookups: Lookup[]) => {
@@ -276,7 +282,7 @@ export class TargetManagementComponent implements OnInit {
       || this.previousUrl.includes('redirectURL')
       || (!this.previousUrl.includes('/target-info/new-target')
         && !this.previousUrl.includes('/target-info/my-target')
-        )
+      )
       || this.previousUrl.includes('/confirmation')) {
       // if from refresh/ redirect or other page -> check from current url
       this.navigateByCurrentUrl();

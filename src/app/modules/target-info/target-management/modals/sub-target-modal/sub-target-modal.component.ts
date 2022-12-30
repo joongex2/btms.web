@@ -174,6 +174,7 @@ export class SubTargetModalComponent implements OnInit {
     } else {
       condition.get('markForDelete').setValue(true);
     }
+    setTimeout(() => this.mergeTargetValue2());
   }
 
   newCondition(targetCondition: string): FormGroup {
@@ -192,6 +193,8 @@ export class SubTargetModalComponent implements OnInit {
 
     if (targetCondition === '1') {
       this.setTargetValueSubscribe(newCondition);
+    } else {
+      this.setTargetValue2Subscribe(newCondition);
     }
 
     return newCondition;
@@ -204,6 +207,28 @@ export class SubTargetModalComponent implements OnInit {
     condition.get('targetValue').valueChanges.subscribe((v) => {
       this.subTargetForm.get('targetValue').setValue(condition.get('targetOperator').value + v);
     });
+  }
+
+  setTargetValue2Subscribe(condition: AbstractControl) {
+    condition.get('targetOperator').valueChanges.subscribe((v) => {
+      setTimeout(() => this.mergeTargetValue2());
+    });
+    condition.get('targetValue').valueChanges.subscribe((v) => {
+      setTimeout(() => this.mergeTargetValue2());
+    });
+  }
+
+  mergeTargetValue2() {
+    const filterConditions = this.subTargetForm.get('conditions').value.filter(v => !v.markForDelete && v.targetCondition !== '1');
+
+    let mergeTargetValue = '';
+    for (let [index, condition] of filterConditions.entries()) {
+      mergeTargetValue += condition.targetOperator + condition.targetValue;
+      if (index !== filterConditions.length - 1) {
+        mergeTargetValue += ', ';
+      }
+    }
+    this.subTargetForm.get('targetValue').setValue(mergeTargetValue);
   }
 
   chosenYearHandler(normalizedYear: Moment, dateForm: any) {
