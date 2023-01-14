@@ -445,7 +445,7 @@ export class TreeChecklistComponent implements OnInit {
         this._database.updateItem(nestedNode!, itemValue);
 
         for (let newNode of this.treeControl.dataNodes) {
-            if (node.level == 1 && newNode.level == node.level && newNode.item == itemValue) {
+            if (newNode.level == node.level && newNode.item == itemValue) {
                 // if save new role tick
                 this.checklistSelection.select(newNode);
             }

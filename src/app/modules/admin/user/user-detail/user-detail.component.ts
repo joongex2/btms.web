@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -11,7 +12,6 @@ import { firstValueFrom } from 'rxjs';
 import { TreeChecklistComponent } from '../tree-check-list/tree-checklist';
 import { UserService } from '../user.service';
 import { User } from '../user.types';
-import { Location } from '@angular/common';
 
 
 
@@ -80,9 +80,10 @@ export class UserDetailComponent implements OnInit {
     }
 
     this._userGroupService.getUserGroups().subscribe({
-      next: (v: UserGroup[]) => { this.userGroups = v
-        .filter((v) => ![9,12].includes(v.id))
-        .map((v) => ({ title: v.name, value: v.id })) 
+      next: (v: UserGroup[]) => {
+        this.userGroups = v
+          .filter((v) => { return this.isEdit || ![9, 12].includes(v.id) })
+          .map((v) => ({ title: v.name, value: v.id }))
       },
       error: (e) => console.error(e)
     });
