@@ -3,9 +3,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
+import { isNullOrUndefined } from 'app/shared/helpers/is-null-or-undefined';
 import { Plan, SubTarget } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import moment from 'moment';
+
 import { ModalMode } from '../modal.type';
 
 @Component({
@@ -36,6 +38,7 @@ export class PlanModalComponent implements OnInit {
     11: 'nov',
     12: 'dec',
   };
+  defaultValueMonth: string;
 
   // alert
   showAlert: boolean = false;
@@ -61,6 +64,9 @@ export class PlanModalComponent implements OnInit {
     const month = moment().month() + 1;
     const undertaker = this.isEdit ? this.plan.undertaker : '';
 
+    const subTargetTargetValue = this.subTarget?.targetValue;
+    this.defaultValueMonth = this.subTarget.targetCondition === '1' ? subTargetTargetValue?.replace(/(>=|<=|>|<|=)/g, '') : subTargetTargetValue;
+
     // year select option
     this.years = this.isEdit ? [this.plan.planYear] : this.modalData.leftYears;
     let planYear;
@@ -74,66 +80,60 @@ export class PlanModalComponent implements OnInit {
       priority: [{ value: priority, disabled: true }, [Validators.required]],
       planDescription: [planDescription, [Validators.required]],
       planYear: [{ value: planYear, disabled: this.isEdit }, [Validators.required]],
-      useMonth1: false,
-      useMonth2: false,
-      useMonth3: false,
-      useMonth4: false,
-      useMonth5: false,
-      useMonth6: false,
-      useMonth7: false,
-      useMonth8: false,
-      useMonth9: false,
-      useMonth10: false,
-      useMonth11: false,
-      useMonth12: false,
-      valueMonth1: this.parseInputValueMonth('1'),
-      valueMonth2: this.parseInputValueMonth('2'),
-      valueMonth3: this.parseInputValueMonth('3'),
-      valueMonth4: this.parseInputValueMonth('4'),
-      valueMonth5: this.parseInputValueMonth('5'),
-      valueMonth6: this.parseInputValueMonth('6'),
-      valueMonth7: this.parseInputValueMonth('7'),
-      valueMonth8: this.parseInputValueMonth('8'),
-      valueMonth9: this.parseInputValueMonth('9'),
-      valueMonth10: this.parseInputValueMonth('10'),
-      valueMonth11: this.parseInputValueMonth('11'),
-      valueMonth12: this.parseInputValueMonth('12'),
+      useMonth1: this.plan?.useMonth1 || false,
+      useMonth2: this.plan?.useMonth2 || false,
+      useMonth3: this.plan?.useMonth3 || false,
+      useMonth4: this.plan?.useMonth4 || false,
+      useMonth5: this.plan?.useMonth5 || false,
+      useMonth6: this.plan?.useMonth6 || false,
+      useMonth7: this.plan?.useMonth7 || false,
+      useMonth8: this.plan?.useMonth8 || false,
+      useMonth9: this.plan?.useMonth9 || false,
+      useMonth10: this.plan?.useMonth10 || false,
+      useMonth11: this.plan?.useMonth11 || false,
+      useMonth12: this.plan?.useMonth12 || false,
+      valueMonth1: this.parseInputValueMonth('1') || null,
+      valueMonth2: this.parseInputValueMonth('2') || null,
+      valueMonth3: this.parseInputValueMonth('3') || null,
+      valueMonth4: this.parseInputValueMonth('4') || null,
+      valueMonth5: this.parseInputValueMonth('5') || null,
+      valueMonth6: this.parseInputValueMonth('6') || null,
+      valueMonth7: this.parseInputValueMonth('7') || null,
+      valueMonth8: this.parseInputValueMonth('8') || null,
+      valueMonth9: this.parseInputValueMonth('9') || null,
+      valueMonth10: this.parseInputValueMonth('10') || null,
+      valueMonth11: this.parseInputValueMonth('11') || null,
+      valueMonth12: this.parseInputValueMonth('12') || null,
       undertaker: [undertaker, [Validators.required]],
     });
 
+    let initialCheckAll = false;
+    for (let i = 1; i <=12; i++) initialCheckAll = initialCheckAll || this.planForm.get(`useMonth${i}`).value
+
     this.checkAll = new FormControl(false);
 
-    if (this.isEdit) {
-      for (let i = 1; i <= 12; i++) {
-        if (this.plan[`useMonth${i}`]) {
-          this.planForm.get(`useMonth${i}`).setValue(true);
-        }
-      }
+    // set initial state useMonth, valueMonth if Edit
+    for (let i = 1; i <= 12; i++) {
+      if (!this.planForm.get(`useMonth${i}`).value) this.planForm.get(`valueMonth${i}`).disable();
     }
 
-    this.planForm.get('planYear').valueChanges.subscribe(v => {
-      // reset
-      this.checkAll.setValue(false, { emitEvent: false });
-      for (let i = 1; i <= 12; i++) {
-        this.planForm.get(`useMonth${i}`).setValue(false);
-        this.planForm.get(`valueMonth${i}`).setValue(null);
-        this.planForm.get(`useMonth${i}`).enable();
-      }
-    });
-
+    // change useMonth
     for (let i = 1; i <= 12; i++) {
       this.planForm.get(`useMonth${i}`).valueChanges.subscribe(v => {
         if (v) {
           this.planForm.get(`valueMonth${i}`).enable();
+          if (!this.planForm.get(`valueMonth${i}`).value) this.planForm.get(`valueMonth${i}`).setValue(this.defaultValueMonth);
         } else {
           this.planForm.get(`valueMonth${i}`).disable();
+          this.planForm.get(`valueMonth${i}`).setValue(null);
           if (this.checkAll.value) {
-            this.checkAll.setValue(false);
+            this.checkAll.setValue(false, { emitEvent: false });
           }
         }
       });
     }
 
+    // change checkall
     this.checkAll.valueChanges.subscribe(v => {
       if (v) {
         for (let i = 1; i <= 12; i++) {
@@ -141,23 +141,23 @@ export class PlanModalComponent implements OnInit {
         }
       } else {
         for (let i = 1; i <= 12; i++) {
-          this.planForm.get(`useMonth${i}`).enable();
+          this.planForm.get(`useMonth${i}`).setValue(false);
         }
       }
-    })
+    });
+
+    // change year
+    this.planForm.get('planYear').valueChanges.subscribe(v => {
+      // reset
+      this.checkAll.setValue(false);
+    });
   }
 
-  parseInputValueMonth(index: string) {
-    let res;
-    if (this.isEdit) {
-      res = this.plan[`valueMonth${index}`];
-      // if res null set default
-      if (!res) res = this.modalData.subTarget.targetValue;
-    } else {
-      res = this.modalData.subTarget.targetValue;
-    }
 
-    if (this.subTarget.targetCondition === '1') {
+  parseInputValueMonth(index: string) {
+    let res = this.plan?.[`valueMonth${index}`];
+
+    if (this.isEdit && res && this.subTarget.targetCondition === '1') {
       if (!this.is2Condition(res)) res = res?.replace(/(>=|<=|>|<|=)/g, '');
     }
 
@@ -171,6 +171,10 @@ export class PlanModalComponent implements OnInit {
   }
 
   parseOutputValueMonth(valueMonth: string) {
+    if (isNullOrUndefined(valueMonth)) {
+      return valueMonth;
+    }
+
     let res;
     if (this.subTarget.targetCondition === '1') {
       if (!this.is2Condition(valueMonth)) {
