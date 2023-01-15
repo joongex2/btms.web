@@ -209,6 +209,7 @@ export class TargetManagementComponent implements OnInit {
                 this._targetManagementService.targetManagementStatus = TargetManagementStatus.SUBMITTED;
                 this.loadDocument(id);
               }
+              this.targetTable.collapseAll();
               this._snackBarService.success(res.message);
             } else {
               this._snackBarService.error();

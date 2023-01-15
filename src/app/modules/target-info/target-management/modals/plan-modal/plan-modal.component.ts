@@ -7,8 +7,8 @@ import { isNullOrUndefined } from 'app/shared/helpers/is-null-or-undefined';
 import { Plan, SubTarget } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import moment from 'moment';
-
 import { ModalMode } from '../modal.type';
+
 
 @Component({
   selector: 'app-plan-modal',
@@ -107,10 +107,11 @@ export class PlanModalComponent implements OnInit {
       undertaker: [undertaker, [Validators.required]],
     });
 
-    let initialCheckAll = false;
-    for (let i = 1; i <=12; i++) initialCheckAll = initialCheckAll || this.planForm.get(`useMonth${i}`).value
-
-    this.checkAll = new FormControl(false);
+    let initialCheckAll = true;
+    for (let i = 1; i <=12; i++) { 
+      initialCheckAll = initialCheckAll && this.planForm.get(`useMonth${i}`).value;
+    }
+    this.checkAll = new FormControl(initialCheckAll);
 
     // set initial state useMonth, valueMonth if Edit
     for (let i = 1; i <= 12; i++) {
