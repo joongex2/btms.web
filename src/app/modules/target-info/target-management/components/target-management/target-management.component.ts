@@ -324,15 +324,31 @@ export class TargetManagementComponent implements OnInit {
   checkPrivillege() {
     if (this.user && this.user.organizes && this.document) {
       let haveD01 = false;
+      let haveD02 = false;
+      let haveD03 = false;
+      let haveD04 = false;
       const organize = this.user.organizes.find((v) => v.organizeCode === this.document.organizeCode);
       for (let role of organize.roles) {
         if (role.roleCode === 'D01') haveD01 = true;
+        if (role.roleCode === 'D02') haveD02 = true;
+        if (role.roleCode === 'D03') haveD03 = true;
+        if (role.roleCode === 'D04') haveD04 = true;
       }
       this.canSubmit = this.isEdit && haveD01;
       this.canEdit = !this.isEdit && this.document && this.document.documentStatus === 'DOCUMENT_DRAFT';
-      this.canPrint = !this.isEdit && this.document && this.document.documentStatus === 'DOCUMENT_DRAFT';
-      this.canNextStep = !this.isEdit && this.document && this.document.documentStatus === 'DOCUMENT_DRAFT';
-      this.canReject = !this.isEdit && this.document && this.document.documentStatus === 'DOCUMENT_DRAFT';
+      // this.canPrint = !this.isEdit && this.document && this.document.documentStatus === 'DOCUMENT_DRAFT';
+      this.canPrint = false // hide;
+      if (
+        !this.isEdit &&
+        this.document &&
+        (this.document.documentStatus === 'DOCUMENT_DRAFT' && haveD01) ||
+        (this.document.documentStatus === 'DOCUMENT_WAIT_FOR_VERIFY' && haveD02) ||
+        (this.document.documentStatus === 'DOCUMENT_WAIT_FOR_APPROVE' && haveD03) ||
+        (this.document.documentStatus === 'DOCUMENT_WAIT_FOR_ISSUE' && haveD04)
+      ) {
+        this.canNextStep = true;
+        this.canReject = true;
+      }
     } else {
       this.canSubmit = false;
       this.canEdit = false;

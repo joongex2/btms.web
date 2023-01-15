@@ -83,8 +83,10 @@
                 <a *ngIf="canNextStep" (click)="nextStep()" class="flex items-center cursor-pointer ml-3">
                     <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;
                     <span>
-                        <ng-container *ngIf="!document.documentStatus || document.documentStatus === 'DOCUMENT_DRAFT'; else statusOtherLabel">Sent</ng-container>
-                        <ng-template #statusOtherLabel>Approve</ng-template>
+                        <ng-container *ngIf="!document?.documentStatus || document?.documentStatus === 'DOCUMENT_DRAFT'">Sent</ng-container>
+                        <ng-container *ngIf="document?.documentStatus === 'DOCUMENT_WAIT_FOR_VERIFY'">Verify</ng-container>
+                        <ng-container *ngIf="document?.documentStatus === 'DOCUMENT_WAIT_FOR_APPROVE'">Approve</ng-container>
+                        <ng-container *ngIf="document?.documentStatus === 'DOCUMENT_WAIT_FOR_ISSUE'">Issue</ng-container>
                     </span>
                 </a>
                 <a *ngIf="canReject" (click)="reject()" class="flex items-center cursor-pointer ml-3">

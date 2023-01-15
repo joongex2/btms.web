@@ -142,6 +142,7 @@ export class UserDetailComponent implements OnInit {
 
   hideError() {
     this.showAlert = false;
+    this.hasApiError = false;
     this.alert = {
       type: 'success',
       message: ''
