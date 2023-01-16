@@ -1,6 +1,5 @@
 import { Route } from '@angular/router';
 import { MenuGuard } from 'app/core/auth/guards/menu.guard';
-import { RemoveStorageGuard } from 'app/core/auth/guards/remove-storage.guard';
 import { TargetListComponent } from 'app/modules/target-list/target-list.component';
 import { BusResolver, DivisionsResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, StatusesResolver, SubBusResolver, TargetTypesResolver, UserResolver } from '../../../shared/resolver';
 import { ConfirmationComponent } from '../target-management/components/confirmation/confirmation.component';
@@ -12,7 +11,6 @@ export const myTargetRoutes: Route[] = [
     {
         path: '',
         canActivate: [MenuGuard],
-        canDeactivate: [RemoveStorageGuard],
         component: MyTargetComponent,
         children: [
             {
@@ -38,8 +36,14 @@ export const myTargetRoutes: Route[] = [
                 }
             },
             {
-                path: ':organizeCode/confirmation',
-                component: ConfirmationComponent
+                path: ':id/confirm-submit',
+                component: ConfirmationComponent,
+                data: { mode: 'submit' }
+            },
+            {
+                path: ':id/confirm-reject',
+                component: ConfirmationComponent,
+                data: { mode: 'reject' }
             }
         ]
     }

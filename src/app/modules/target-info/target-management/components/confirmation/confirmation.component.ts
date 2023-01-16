@@ -11,8 +11,6 @@ import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { firstValueFrom } from 'rxjs';
 import { InformMailTableComponent } from '../../tables/inform-mail-table/inform-mail-table.component';
 import { ReceiveMailTableComponent } from '../../tables/receive-mail-table/receive-mail-table.component';
-import { TargetManagementStatus } from '../../target-management.interface';
-import { TargetManagementService } from '../../target-management.service';
 
 @Component({
   selector: 'confirmation',
@@ -26,9 +24,7 @@ export class ConfirmationComponent implements OnInit {
   @ViewChild(NgForm) f: NgForm;
   documentId: number;
   document: DocumentDetail;
-  targetManagementStatus: TargetManagementStatus;
-  TargetManagementStatus = TargetManagementStatus;
-  isMyTargetUrl: boolean = false;
+  mode: string;
 
   // bind value
   title: string;
@@ -50,20 +46,17 @@ export class ConfirmationComponent implements OnInit {
     private _userService: UserService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
-    private _targetManagementService: TargetManagementService,
     private _documentService: DocumentService,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService
   ) { }
 
   ngOnInit(): void {
-    if (this._router.url.includes('/target-info/my-target')) {
-      this.isMyTargetUrl = true;
-    }
-    this.documentId = parseInt(this._targetManagementService.documentId);
+    this.documentId = parseInt(this._activatedRoute.snapshot.paramMap.get('id'));
+    this.mode = this._activatedRoute.snapshot.data['mode'];
     this.loadDocument(this.documentId);
-    this.targetManagementStatus = this._targetManagementService.targetManagementStatus;
-    if (this.targetManagementStatus === TargetManagementStatus.CONFIRM) {
+
+    if (this.mode === 'submit') {
       this._documentService.getSubmitEmail(this.documentId).subscribe({
         next: (v: DocumentConfirm) => {
           this.bindInfo(v);
@@ -91,7 +84,6 @@ export class ConfirmationComponent implements OnInit {
   ngAfterViewInit() { }
 
   goBack() {
-    this._targetManagementService.targetManagementStatus = TargetManagementStatus.SUBMITTED;
     this._router.navigate(['../'], { relativeTo: this._activatedRoute });
   }
 
@@ -108,7 +100,7 @@ export class ConfirmationComponent implements OnInit {
         if (result == 'confirmed') {
           try {
             let res;
-            if (this.targetManagementStatus === TargetManagementStatus.CONFIRM) {
+            if (this.mode === 'submit') {
               res = await firstValueFrom(this._documentService.patchSubmitEmail(
                 this.documentId,
                 this.comment,

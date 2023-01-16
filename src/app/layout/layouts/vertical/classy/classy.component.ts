@@ -19,6 +19,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     navigation: Navigation;
     user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    navigationComponent: FuseVerticalNavigationComponent;
 
     /**
      * Constructor
@@ -77,6 +78,8 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+
+        setTimeout(() => { this.navigationComponent = this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>('mainNavigation')});
     }
 
     /**
@@ -101,12 +104,10 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     toggleNavigation(name: string): void
     {
         // Get the navigation
-        const navigation = this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(name);
-
-        if ( navigation )
+        if ( this.navigationComponent )
         {
             // Toggle the opened status
-            navigation.toggle();
+            this.navigationComponent.toggle();
         }
     }
 

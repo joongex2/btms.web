@@ -10,7 +10,7 @@
                     <div>
                         <a class="whitespace-nowrap text-primary-500">ข้อมูลเป้าหมาย</a>
                     </div>
-                    <ng-container *ngIf="isMyTargetUrl;else newTargetLabelBc">
+                    <ng-container *ngIf="mode === 'edit'">
                         <div class="flex items-center ml-1 whitespace-nowrap">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
@@ -21,30 +21,23 @@
                         <div class="flex items-center ml-1 whitespace-nowrap">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
-                            <!-- <a (click)="goBack()" class="cursor-pointer"> -->
-                                <span class="ml-1 text-secondary">เอกสารเป้าหมาย</span>
-                            <!-- </a> -->
+                            <span class="ml-1 text-secondary">เอกสารเป้าหมาย</span>
                         </div>
-                        <!-- <div class="flex items-center ml-1 whitespace-nowrap">
-                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                            </mat-icon>
-                            <span class="ml-1 text-secondary">{{ document ? document.documentNo : '' }}</span>
-                        </div> -->
                     </ng-container>
-                    <ng-template #newTargetLabelBc>
+                    <ng-container *ngIf="mode === 'add'">
                         <div class="flex items-center ml-1 whitespace-nowrap">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
                             <a (click)="goBack()" class="cursor-pointer">
-                                <span class="ml-1 text-secondary">สร้างเป้าหมายใหม่</span>
+                                <span class="ml-1 text-primary-500">เลือกหน่วยงาน</span>
                             </a>
                         </div>
-                        <!-- <div class="flex items-center ml-1 whitespace-nowrap">
+                        <div class="flex items-center ml-1 whitespace-nowrap">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
-                            <span class="ml-1 text-secondary">เอกสารเป้าหมาย</span>
-                        </div> -->
-                    </ng-template>
+                            <span class="ml-1 text-secondary">สร้างเป้าหมายใหม่</span>
+                        </div>
+                    </ng-container>
                 </div>
                 <div class="flex sm:hidden">
                     <!-- <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'..'"> -->
@@ -58,9 +51,8 @@
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"> <!--{{ document ? document.organizeCode : '' }}{{ document ? document.documentNo : '' }}-->
-                    <ng-container *ngIf="isMyTargetUrl;else newTargetLabel">เอกสารเป้าหมาย
-                    </ng-container>
-                    <ng-template #newTargetLabel>สร้างเป้าหมายใหม่</ng-template>
+                    <ng-container *ngIf="mode === 'edit'">เอกสารเป้าหมาย</ng-container>
+                    <ng-container *ngIf="mode === 'add'">สร้างเป้าหมายใหม่</ng-container>
                 </h2>
             </div>
         </div>
@@ -71,30 +63,22 @@
                     <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
                     &nbsp;<span>Back</span>
                 </a>
-                <a *ngIf="canSubmit" (click)="submit()" class="flex items-center cursor-pointer ml-3">
-                    <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Submit</span>
+                <a *ngIf="canSave" (click)="save()" class="flex items-center cursor-pointer ml-3">
+                    <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
+                </a>
+                <a *ngIf="isEdit" (click)="cancelEdit()" class="flex items-center cursor-pointer ml-3">
+                    <mat-icon svgIcon="heroicons_outline:x"></mat-icon>&nbsp;<span>Cancel</span>
                 </a>
                 <a *ngIf="canEdit" (click)="edit()" class="flex items-center cursor-pointer ml-3">
                     <mat-icon svgIcon="heroicons_outline:pencil"></mat-icon>&nbsp;<span>Edit</span>
                 </a>
-                <a *ngIf="canPrint" (click)="print()" class="flex items-center cursor-pointer ml-3">
-                    <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
-                </a>
-                <a *ngIf="canNextStep" (click)="nextStep()" class="flex items-center cursor-pointer ml-3">
+                <a *ngIf="canSubmit" (click)="submit()" class="flex items-center cursor-pointer ml-3">
                     <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;
-                    <span>
-                        <ng-container *ngIf="!document?.documentStatus || document?.documentStatus === 'DOCUMENT_DRAFT'">Sent</ng-container>
-                        <ng-container *ngIf="document?.documentStatus === 'DOCUMENT_WAIT_FOR_VERIFY'">Verify</ng-container>
-                        <ng-container *ngIf="document?.documentStatus === 'DOCUMENT_WAIT_FOR_APPROVE'">Approve</ng-container>
-                        <ng-container *ngIf="document?.documentStatus === 'DOCUMENT_WAIT_FOR_ISSUE'">Issue</ng-container>
-                    </span>
+                    <span>Submit</span>
                 </a>
                 <a *ngIf="canReject" (click)="reject()" class="flex items-center cursor-pointer ml-3">
                     <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Reject</span>
                 </a>
-                <!-- <a (click)="submit()" class="flex items-center cursor-pointer ml-3">
-                    <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span>
-                </a> -->
             </div>
             <!-- <div *ngIf="mode === 'edit'"class="flex flex-row sm:justify-end mt-1">
                 <span class="text-red-600">Last Comment:&nbsp;&nbsp;</span>
@@ -235,8 +219,7 @@
                     [targets]="targets"
                     [selectedDocumentType]="getDocumentType()"
                     [standards]="standards"
-                    [isEdit]="isEdit"
-                    (markForEdit)="markForEditHandler($event)" 
+                    [isEdit]="isEdit || mode === 'add'"
                 >
                 </app-target-table>
             </div>

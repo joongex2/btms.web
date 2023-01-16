@@ -5,10 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
-import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
-import { TargetManagementStatus } from 'app/modules/target-info/target-management/target-management.interface';
-import { TargetService } from 'app/modules/target-info/target.service';
 import { LastCommentModalComponent } from 'app/shared/components/last-comment-modal/last-comment-modal.component';
 import { DocumentDetail, Target } from 'app/shared/interfaces/document.interface';
 import { Lookup } from 'app/shared/interfaces/lookup.interface';
@@ -20,7 +17,6 @@ import { UrlService } from 'app/shared/services/url.service';
 import * as moment from 'moment';
 import { firstValueFrom } from 'rxjs';
 import { TargetTableComponent } from '../../tables/target-table/target-table.component';
-import { TargetManagementService } from '../../target-management.service';
 
 
 @Component({
@@ -40,13 +36,11 @@ export class TargetManagementComponent implements OnInit {
   previousUrl: string;
   documentId: number;
   isEdit: boolean = false; // true when press edit button
-  isMyTargetUrl: boolean = false;
 
   // check privillege
-  canSubmit: boolean = false;
+  canSave: boolean = false;
   canEdit: boolean = false;
-  canPrint: boolean = false;
-  canNextStep: boolean = false;
+  canSubmit: boolean = false;
   canReject: boolean = false;
 
   // bind value
@@ -69,16 +63,13 @@ export class TargetManagementComponent implements OnInit {
 
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private _targetService: TargetService,
     private _router: Router,
     private _location: Location,
-    private _userService: UserService,
     private _lookupService: LookupService,
     private _documentService: DocumentService,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
     private _urlService: UrlService,
-    private _targetManagementService: TargetManagementService,
     private _matDialog: MatDialog
   ) {
     this.mode = _activatedRoute.snapshot.data['mode'];
@@ -92,58 +83,33 @@ export class TargetManagementComponent implements OnInit {
     });
 
     if (this.mode === 'add') {
-      const id = this._targetManagementService.documentId;
-      if (id) {
-        // from confirmation
-        this.loadDocument(parseInt(id));
-        this.mode = 'edit';
-      } else {
-        // from new-target-list
-        const organizeCode = this._activatedRoute.snapshot.paramMap.get('organizeCode');
-        const organize = this.user.organizes.find((v) => v.organizeCode === organizeCode);
-        this.document = {};
-        this.document.businessUnit = organize.businessUnit;
-        this.document.subBusinessUnit = organize.subBusinessUnit;
-        this.document.plant = organize.plant;
-        this.document.division = organize.division;
-        this.document.userHolder = this.user.name;
-        this.document.documentNo = '';
-        this.document.documentStatusDescription = 'New';
-        this.document.revisionNo = '';
-        this.document.modifyNo = '';
-        this.document.documentDate = moment().format('YYYY-MM-DDTHH:mm:ss.SSS');
-        this.document.dueDate = '';
+      // default value
+      const organizeCode = this._activatedRoute.snapshot.paramMap.get('organizeCode');
+      const organize = this.user.organizes.find((v) => v.organizeCode === organizeCode);
+      this.document = {};
+      this.document.businessUnit = organize.businessUnit;
+      this.document.subBusinessUnit = organize.subBusinessUnit;
+      this.document.plant = organize.plant;
+      this.document.division = organize.division;
+      this.document.userHolder = this.user.name;
+      this.document.documentNo = '';
+      this.document.documentStatusDescription = 'New';
+      this.document.revisionNo = '';
+      this.document.modifyNo = '';
+      this.document.documentDate = moment().format('YYYY-MM-DDTHH:mm:ss.SSS');
+      this.document.dueDate = '';
 
-        this.document.organizeCode = organize.organizeCode;
-        this.document.businessUnitCode = organize.businessUnitCode;
-        this.document.subBusinessUnitCode = organize.subBusinessUnitCode;
-        this.document.plantCode = organize.plantCode;
-        this.document.divisionCode = organize.divisionCode;
+      this.document.organizeCode = organize.organizeCode;
+      this.document.businessUnitCode = organize.businessUnitCode;
+      this.document.subBusinessUnitCode = organize.subBusinessUnitCode;
+      this.document.plantCode = organize.plantCode;
+      this.document.divisionCode = organize.divisionCode;
 
-        this.targets = [];
+      this.targets = [];
 
-        this.isEdit = true;
-        this.checkPrivillege();
-        this._targetManagementService.targetManagementStatus = TargetManagementStatus.NEW;
-      }
 
       this.selectedDocumentType = undefined;
       this.selectedYear = moment().year().toString();
-
-      // this._lookupService.getLookups('DOCUMENT_YEAR', 'DEFAULT').subscribe({
-      //   next: (lookups: Lookup[]) => {
-      //     const defaultYear = parseInt(lookups.find((v) => v.lookupCode === 'DEFAULT').lookupDescription);
-      //     const currentYear = moment().year();
-      //     this.years.push(currentYear);
-      //     for (let i = 1; i <= defaultYear; i++) {
-      //       this.years.push(currentYear + i);
-      //       this.years.push(currentYear - i);
-      //     }
-      //     this.years.sort(function (a, b) { return b - a });
-      //     this.years = this.years.map((v) => ({ title: v.toString(), value: v.toString() }));
-      //   },
-      //   error: (e) => console.error(e)
-      // });
       const currentYear = moment().year();
       this.years.push(currentYear);
       this.years.push(currentYear + 1);
@@ -157,17 +123,15 @@ export class TargetManagementComponent implements OnInit {
         },
         error: (e) => console.error(e)
       });
+      this.checkPrivillege();
     } else {
-      this.isMyTargetUrl = true;
       // from my-target or confirmation
       const id = parseInt(this._activatedRoute.snapshot.paramMap.get('id'));
       this.loadDocument(id);
-      this._targetManagementService.documentId = id.toString();
-      this._targetManagementService.targetManagementStatus = TargetManagementStatus.SUBMITTED;
     }
   }
 
-  submit() {
+  save() {
     if (!this.f.valid) {
       this.f.control.markAllAsTouched();
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
@@ -201,16 +165,15 @@ export class TargetManagementComponent implements OnInit {
               ));
             }
             if (!res.didError) {
-              const id = res?.model;
-              if (id) {
-                this.mode = 'edit';
-                this.isEdit = false;
-                this._targetManagementService.documentId = id;
-                this._targetManagementService.targetManagementStatus = TargetManagementStatus.SUBMITTED;
-                this.loadDocument(id);
-              }
-              this.targetTable.collapseAll();
               this._snackBarService.success(res.message);
+              const id = res?.model;
+              if (this.mode === 'add') {
+                this._router.navigate([`target-info/my-target/${id}`]);
+              } else {
+                this.isEdit = false;
+                this.targetTable.collapseAll();
+                this.checkPrivillege();
+              }
             } else {
               this._snackBarService.error();
               this.showError(res.errorMessage, true);
@@ -229,22 +192,20 @@ export class TargetManagementComponent implements OnInit {
 
   edit() {
     this.isEdit = true;
-    this._targetManagementService.targetManagementStatus = TargetManagementStatus.EDIT;
     this.checkPrivillege();
   }
 
-  print() {
-    console.log('print');
+  cancelEdit() {
+    this.isEdit = false;
+    this.checkPrivillege();
   }
 
-  nextStep() {
-    this._targetManagementService.targetManagementStatus = TargetManagementStatus.CONFIRM;
-    this._router.navigate(['confirmation'], { relativeTo: this._activatedRoute });
+  submit() {
+    this._router.navigate(['confirm-submit'], { relativeTo: this._activatedRoute });
   }
 
   reject() {
-    this._targetManagementService.targetManagementStatus = TargetManagementStatus.REJECT;
-    this._router.navigate(['confirmation'], { relativeTo: this._activatedRoute });
+    this._router.navigate(['confirm-reject'], { relativeTo: this._activatedRoute });
   }
 
   getDocumentType() {
@@ -278,13 +239,13 @@ export class TargetManagementComponent implements OnInit {
   }
 
   goBack() {
-    this._targetManagementService.clear();
     if (!this.previousUrl
       || this.previousUrl.includes('redirectURL')
-      || (!this.previousUrl.includes('/target-info/new-target')
-        && !this.previousUrl.includes('/target-info/my-target')
-      )
-      || this.previousUrl.includes('/confirmation')) {
+      || (!this.previousUrl.includes('/target-info/new-target') && !this.previousUrl.includes('/target-info/my-target'))
+      || this.previousUrl.includes('/confirm-submit')
+      || this.previousUrl.includes('/confirm-reject')
+      || (this.mode === 'edit' && this.previousUrl.includes('/target-info/new-target'))
+    ) {
       // if from refresh/ redirect or other page -> check from current url
       this.navigateByCurrentUrl();
     } else {
@@ -298,10 +259,6 @@ export class TargetManagementComponent implements OnInit {
     } else {
       this._router.navigate(['/target-info/my-target']);
     }
-  }
-
-  markForEditHandler(targetId: number) {
-    // TODO: markforedit document
   }
 
   loadDocument(id: number) {
@@ -323,7 +280,8 @@ export class TargetManagementComponent implements OnInit {
   }
 
   checkPrivillege() {
-    if (this.user && this.user.organizes && this.document) {
+    // check 
+    if (this.user?.organizes && this.document) {
       let haveD01 = false;
       let haveD02 = false;
       let haveD03 = false;
@@ -335,26 +293,35 @@ export class TargetManagementComponent implements OnInit {
         if (role.roleCode === 'D03') haveD03 = true;
         if (role.roleCode === 'D04') haveD04 = true;
       }
-      this.canSubmit = this.isEdit && haveD01;
-      this.canEdit = !this.isEdit && this.document && this.document.documentStatus === 'DOCUMENT_DRAFT';
-      // this.canPrint = !this.isEdit && this.document && this.document.documentStatus === 'DOCUMENT_DRAFT';
-      this.canPrint = false // hide;
-      if (
-        !this.isEdit &&
-        this.document &&
-        (this.document.documentStatus === 'DOCUMENT_DRAFT' && haveD01) ||
-        (this.document.documentStatus === 'DOCUMENT_WAIT_FOR_VERIFY' && haveD02) ||
-        (this.document.documentStatus === 'DOCUMENT_WAIT_FOR_APPROVE' && haveD03) ||
-        (this.document.documentStatus === 'DOCUMENT_WAIT_FOR_ISSUE' && haveD04)
-      ) {
-        this.canNextStep = true;
-        this.canReject = true;
+
+      if (this.mode === 'add') {
+        // add
+        this.canSave = haveD01;
+        this.canEdit = false;
+        this.canSubmit = false;
+        this.canReject = false;
+      } else {
+        // edit
+        this.canSave = this.isEdit && haveD01;
+        this.canEdit = !this.isEdit && this.document.documentStatus === 'DOCUMENT_DRAFT' && haveD01;
+        if (
+          !this.isEdit &&
+          (this.document.documentStatus === 'DOCUMENT_DRAFT' && haveD01) ||
+          (this.document.documentStatus === 'DOCUMENT_WAIT_FOR_VERIFY' && haveD02) ||
+          (this.document.documentStatus === 'DOCUMENT_WAIT_FOR_APPROVE' && haveD03) ||
+          (this.document.documentStatus === 'DOCUMENT_WAIT_FOR_ISSUE' && haveD04)
+        ) {
+          this.canSubmit = true;
+          this.canReject = true;
+        } else {
+          this.canSubmit = false;
+          this.canReject = false;
+        }
       }
     } else {
-      this.canSubmit = false;
+      this.canSave = false;
       this.canEdit = false;
-      this.canPrint = false;
-      this.canNextStep = false;
+      this.canSubmit = false;
       this.canReject = false;
     }
   }
