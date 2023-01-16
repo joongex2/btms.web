@@ -76,13 +76,13 @@
     <ng-container matColumnDef="editIcon">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <mat-icon *ngIf="isEdit" (click)="editSubTarget(i);" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไขเป้าหมายย่อย"></mat-icon>
+            <mat-icon *ngIf="isEdit" (click)="editSubTarget(i);" svgIcon="heroicons_solid:pencil" class="icon-size-4 cursor-pointer" style="color: #89813d" title="แก้ไขเป้าหมายย่อย"></mat-icon>
         </td>
     </ng-container>
     <ng-container matColumnDef="deleteIcon">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <mat-icon *ngIf="isEdit" (click)="deleteSubTarget(i);" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบเป้าหมายย่อย"></mat-icon>
+            <mat-icon *ngIf="isEdit" (click)="deleteSubTarget(i);" svgIcon="heroicons_outline:x" class="text-warn icon-size-4 cursor-pointer" title="ลบเป้าหมายย่อย"></mat-icon>
         </td>
     </ng-container>
     <ng-container matColumnDef="expandedDetail">

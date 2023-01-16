@@ -39,6 +39,10 @@ tr.normal-row td {
     background-color: rgb(219, 215, 177) !important;
 }
 
+table tr:not(.mat-header-row):hover {
+    background-color: #beb988 !important;
+}
+
 /* column width */
 .mat-column-expandIcon {
     width: 5%;

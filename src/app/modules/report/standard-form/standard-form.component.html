@@ -25,7 +25,7 @@
             </div>
             <!-- Title -->
             <div class="mt-2">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">Standard Form</h2>
+                <div class="text-3xl font-normal text-primary tracking-tight leading-8">Standard Form</div>
             </div>
         </div>
         <!-- Actions -->
@@ -145,7 +145,7 @@
                                     <ng-container *ngIf="key == 'index'">{{ (paginator.pageIndex * paginator.pageSize) + (i + 1) }}</ng-container>
                                     <ng-container *ngIf="key == 'report'">
                                         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                                            <mat-icon svgIcon="heroicons_solid:menu"></mat-icon>
+                                            <mat-icon svgIcon="heroicons_solid:menu" class="text-primary icon-size-4 cursor-pointer"></mat-icon>
                                         </button>
                                         <mat-menu #menu="matMenu">
                                         <button mat-menu-item>

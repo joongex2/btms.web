@@ -49,12 +49,8 @@ table {
   background-color: rgb(132, 189, 0) !important;
 }
 
-.mat-row:nth-child(even) {
-  background-color: rgb(206, 230, 150) !important;
-}
-
-.mat-row:nth-child(odd) {
-  background-color: rgb(229, 240, 203) !important;
+.mat-row {
+  background-color: rgb(229, 240, 203);
 }
 
 /* column width */

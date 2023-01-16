@@ -7,6 +7,7 @@
 
 * {
     font-family: 'Prompt', sans-serif;
+    font-weight: 300;
 }
 
 // fix selected value in option panel color conflict
@@ -52,4 +53,16 @@ fieldset {
 
 .mat-menu-panel {
     max-width: 400px !important;
+}
+
+th.mat-header-cell, div.mat-sort-header-content {
+    font-weight: 400;
+}
+
+th.mat-header-cell {
+    font-size: 14px;
+}
+
+table tr:not(.mat-header-row):hover {
+    background-color: #d6e2ba !important;
 }

@@ -68,6 +68,10 @@ mat-checkbox {
     background-color: rgb(187, 211, 236) !important;
 }
 
+table tr:not(.mat-header-row):hover {
+    background-color: #99b5d3 !important;
+}
+
 /* column width */
 .mat-column-planDescription {
     width: 26%;

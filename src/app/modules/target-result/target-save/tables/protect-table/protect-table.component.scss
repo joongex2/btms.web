@@ -14,8 +14,9 @@ table {
 
 /* color */
 p.protect-header {
-    font-size: 12px;
-    font-weight: bold;
+    span {
+        font-weight: 400;
+    }
     border-bottom: 1px solid white;
     padding: 10px;
     background-color: rgb(119, 112, 36);
@@ -28,6 +29,10 @@ p.protect-header {
 
 .mat-row {
     background-color: rgb(219, 215, 177) !important;
+}
+
+table tr:not(.mat-header-row):hover {
+    background-color: #beb988 !important;
 }
 
 /* column width */

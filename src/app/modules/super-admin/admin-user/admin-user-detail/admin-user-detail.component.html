@@ -25,9 +25,9 @@
             </div>
             <!-- Title -->
             <div class="mt-2">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                <div class="text-3xl font-normal text-primary tracking-tight leading-8">
                     Organization Administrator Management Details
-                </h2>
+                </div>
             </div>
         </div>
         <!-- Actions -->
@@ -148,12 +148,12 @@
                                 <ng-container *ngIf="key == 'plant'">{{ element[key] | titleValue:plants }}</ng-container>
                                 <ng-container *ngIf="key == 'editIcon'">
                                     <div class="flex items-center justify-center">
-                                        <mat-icon (click)="editPermission(element, i)" svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไข Permission"></mat-icon>
+                                        <mat-icon (click)="editPermission(element, i)" svgIcon="heroicons_solid:pencil" class="text-primary-500 icon-size-4 cursor-pointer" title="แก้ไข Permission"></mat-icon>
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="key == 'deleteIcon'">
                                     <div class="flex items-center justify-center">
-                                        <mat-icon (click)="deletePermission(element, i)" svgIcon="heroicons_outline:x" class="w-5 min-w-5 cursor-pointer" title="ลบ Permission"></mat-icon>
+                                        <mat-icon (click)="deletePermission(element, i)" svgIcon="heroicons_outline:x" class="text-warn icon-size-4 cursor-pointer" title="ลบ Permission"></mat-icon>
                                     </div>
                                 </ng-container>
                             </td>

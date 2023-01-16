@@ -1,6 +1,7 @@
 p.table-title {
-    font-weight: bold;
-    // background: white;
+    span {
+        font-weight: 400;
+    }
     border-bottom: 1px solid white;
     padding: 10px;
     background-color: rgb(97, 138, 2);
@@ -62,11 +63,7 @@ table {
     background-color: rgb(132, 189, 0) !important;
 }
 
-.mat-row:nth-child(even) {
-    background-color: rgb(206, 230, 150) !important;
-}
-
-.mat-row:nth-child(odd) {
+.mat-row {
     background-color: rgb(229, 240, 203) !important;
 }
 

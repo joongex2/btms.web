@@ -7,7 +7,7 @@
             <div>
                 <div class="hidden sm:flex flex-wrap items-center font-medium">
                     <div>
-                        <a class="whitespace-nowrap text-primary-500">Admin</a>
+                        <a class="whitespace-nowrap text-primary-500">Super Admin</a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
@@ -18,9 +18,9 @@
             </div>
             <!-- Title -->
             <div class="mt-2">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                <div class="text-3xl font-normal text-primary tracking-tight leading-8">
                     Document Control Management
-                </h2>
+                </div>
             </div>
         </div>
     </div>
@@ -126,7 +126,7 @@
             </mat-accordion>
     
             <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
-                <div class="example-table-container" [class.sub-row]="'title'">
+                <div class="example-table-container">
                     <p class="table-title flex flex-row justify-between cursor-pointer">
                         <span>DocumentControl</span>
                         <span class="flex items-center" (click)="addDocumentControl()">
@@ -152,10 +152,9 @@
                                     <ng-container *ngIf="key == 'isActive'">{{ element[key] | isActive }}</ng-container>
                                     <ng-container *ngIf="key == 'editDeleteIcon'">
                                         <div class="flex items-center justify-center">
-                                            <mat-icon (click)="editDocumentControl(element)" svgIcon="heroicons_outline:pencil"
-                                                class="w-3.5 min-w-3.5 cursor-pointer" title="แก้ไข DocumentControl"></mat-icon>
+                                            <mat-icon (click)="editDocumentControl(element)" svgIcon="heroicons_solid:pencil" class="text-primary-500 icon-size-4 cursor-pointer" title="แก้ไข DocumentControl"></mat-icon>
                                             <mat-icon (click)="deleteDocumentControl(element)" svgIcon="heroicons_outline:x"
-                                                class="w-5 min-w-5 cursor-pointer ml-[8px]" title="ลบ DocumentControl"></mat-icon>
+                                                class="text-warn icon-size-4 cursor-pointer ml-[8px]" title="ลบ DocumentControl"></mat-icon>
                                         </div>
                                     </ng-container>
                                     <ng-container

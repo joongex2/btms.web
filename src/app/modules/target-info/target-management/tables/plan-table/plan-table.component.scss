@@ -14,8 +14,9 @@ table {
 
 /* color */
 p.table-title {
-    font-size: 12px;
-    font-weight: bold;
+    span {
+        font-weight: 400;
+    }
     border-bottom: 1px solid white;
     padding: 10px;
     background-color: rgb(15, 55, 97);
@@ -28,6 +29,10 @@ p.table-title {
 
 .mat-row {
     background-color: rgb(187, 211, 236) !important;
+}
+
+table tr:not(.mat-header-row):hover {
+    background-color: #99b5d3 !important;
 }
 
 /* column width */

@@ -18,9 +18,9 @@
             </div>
             <!-- Title -->
             <div class="mt-2">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                <div class="text-3xl font-normal text-primary tracking-tight leading-8">
                     Organization Administrator Management
-                </h2>
+                </div>
             </div>
         </div>
     </div>
@@ -145,7 +145,7 @@
                                 <ng-container *ngIf="key == 'isActive'">{{ element[key] | isActive }}</ng-container>
                                 <ng-container *ngIf="key == 'detailIcon'">
                                     <a class="flex items-center justify-center" [routerLink]="'./'+element.id">
-                                        <mat-icon svgIcon="heroicons_outline:pencil" class="w-3.5 min-w-3.5"></mat-icon>
+                                        <mat-icon svgIcon="heroicons_solid:pencil" class="text-primary-500 icon-size-4 cursor-pointer"></mat-icon>
                                     </a>
                                 </ng-container>
                                 <ng-container *ngIf="key != 'index' && key != 'isActive' && key != 'detailIcon'">{{ element[key] }}</ng-container>

@@ -26,8 +26,8 @@ td.mat-footer-cell {
     // background-color: #cee696 !important
 }
 
-.mat-row:nth-child(odd) {
-    background-color: rgb(229, 240, 203);
+.mat-row {
+    background-color: rgb(229, 240, 203) !important;
 }
 
 .mat-header-cell {

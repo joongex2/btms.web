@@ -33,11 +33,11 @@
             </div>
             <!-- Title -->
             <div class="mt-2">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                <div class="text-3xl font-normal text-primary tracking-tight leading-8">
                     <ng-container *ngIf="fromUrl==='my-target'">ข้อมูลเป้าหมายของฉัน</ng-container>
                     <ng-container *ngIf="fromUrl==='target-entry'">บันทึกผลการดำเนินงาน</ng-container>
                     <ng-container *ngIf="fromUrl==='result-info'">ข้อมูลผลการดำเนินงาน</ng-container>
-                </h2>
+                </div>
             </div>
         </div>
         <!-- Actions -->
@@ -177,17 +177,17 @@
                                     <ng-container *ngIf="key === 'detail'">
                                         <ng-container *ngIf="fromUrl==='my-target'">
                                             <a class="flex items-center" [routerLink]="'/target-info/my-target/'+element.id">
-                                                <mat-icon svgIcon="heroicons_solid:menu"></mat-icon>
+                                                <mat-icon svgIcon="heroicons_solid:menu" class="text-primary icon-size-4 cursor-pointer"></mat-icon>
                                             </a>
                                         </ng-container>
                                         <ng-container *ngIf="fromUrl==='target-entry'">
                                             <a class="flex items-center" [routerLink]="'/target-result/target-entry/'+element.id">
-                                                <mat-icon svgIcon="heroicons_solid:menu"></mat-icon>
+                                                <mat-icon svgIcon="heroicons_solid:menu" class="text-primary icon-size-4 cursor-pointer"></mat-icon>
                                             </a>
                                         </ng-container>
                                         <ng-container *ngIf="fromUrl==='result-info'">
                                             <a class="flex items-center" [routerLink]="'/target-result/result-info/'+element.id">
-                                                <mat-icon svgIcon="heroicons_solid:menu"></mat-icon>
+                                                <mat-icon svgIcon="heroicons_solid:menu" class="text-primary icon-size-4 cursor-pointer"></mat-icon>
                                             </a>
                                         </ng-container>
                                     </ng-container>
