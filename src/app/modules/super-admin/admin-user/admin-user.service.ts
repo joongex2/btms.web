@@ -10,7 +10,7 @@ import { map, Observable } from "rxjs";
 export class AdminUserService {
     constructor(private _httpClient: HttpClient) { }
 
-    createUser(
+    createAdminUser(
         name: string,
         email: string,
         username: string,
@@ -18,7 +18,7 @@ export class AdminUserService {
         isActive: boolean,
         organizes: any
     ): Observable<any> {
-        return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Users'), {
+        return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Users/admins'), {
             name,
             email,
             username,
@@ -28,25 +28,27 @@ export class AdminUserService {
         }).pipe(map(data => data.model));
     }
 
-    getUsers(): Observable<any> {
-        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Users`)).pipe(map(data => data.model));
+    getAdminUsers(): Observable<any> {
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Users/admins`)).pipe(map(data => data.model));
     }
 
-    getUser(id: number): Observable<any> {
-        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Users/${id}`)).pipe(map(data => data.model));
+    getAdminUser(id: number): Observable<any> {
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Users/admins/${id}`)).pipe(map(data => data.model));
     }
 
-    updateUser(
+    updateAdminUser(
         id: number,
         name: string,
         email: string,
+        username: string,
         groupId: number,
         isActive: boolean,
         organizes: any
     ): Observable<any> {
-        return this._httpClient.put<ResultMapper>(getBaseUrl(`/v1/Users/${id}`), {
+        return this._httpClient.put<ResultMapper>(getBaseUrl(`/v1/Users/admins/${id}`), {
             id,
             name,
+            username,
             email,
             groupId,
             isActive,

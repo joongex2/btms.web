@@ -13,15 +13,18 @@ import { UserGroup } from 'app/modules/super-admin/user-group/user-group.types';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { UrlService } from 'app/shared/services/url.service';
+import { firstValueFrom } from 'rxjs';
 import { AdminUserService } from '../admin-user.service';
 import { AdminUser } from '../admin-user.types';
 import { AdminPermissionModalComponent } from '../modals/admin-permission-modal/admin-permission-modal.component';
 
 
 export interface AdminPermission {
-  businessUnit: string;
-  subBusinessUnit: string;
-  plant: string;
+  id: number;
+  businessUnitCode: string;
+  subBusinessUnitCode: string;
+  plantCode: string;
+  isActive: boolean;
 }
 
 @Component({
@@ -68,23 +71,23 @@ export class AdminUserDetailComponent implements OnInit {
 
   // table setting
   displayedColumns: string[] = [
-    'businessUnit',
-    'subBusinessUnit',
-    'plant',
-    'editIcon',
-    'deleteIcon'
+    'businessUnitCode',
+    'subBusinessUnitCode',
+    'plantCode',
+    'isActive',
+    'editIcon'
   ];
 
   keyToColumnName: any = {
-    'businessUnit': 'Business Unit',
-    'subBusinessUnit': 'Sub-Business Unit',
-    'plant': 'Plant',
+    'businessUnitCode': 'Business Unit',
+    'subBusinessUnitCode': 'Sub-Business Unit',
+    'plantCode': 'Plant',
+    'isActive': 'Status'
   };
 
   notSortColumn: string[] = [
     'index',
-    'editIcon',
-    'deleteIcon'
+    'editIcon'
   ];
 
   // alert
@@ -100,7 +103,7 @@ export class AdminUserDetailComponent implements OnInit {
     private _router: Router,
     private _location: Location,
     private _userGroupService: UserGroupService,
-    private _userService: AdminUserService,
+    private _adminUserService: AdminUserService,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
     private _urlService: UrlService,
@@ -125,7 +128,7 @@ export class AdminUserDetailComponent implements OnInit {
     }
 
     this._userGroupService.getUserGroups().subscribe({
-      next: (v: UserGroup[]) => { 
+      next: (v: UserGroup[]) => {
         this.userGroups = v.map((v) => ({ title: v.name, value: v.id }))
       },
       error: (e) => console.error(e)
@@ -155,9 +158,11 @@ export class AdminUserDetailComponent implements OnInit {
       this._confirmationService.warning('หากเลือก plant กรุณาเลือก sub bu ด้วย');
     } else {
       this.dataSource.data.push({
-        businessUnit: this.selectedBu.value,
-        subBusinessUnit: this.selectedSubBu ? this.selectedSubBu.value : null,
-        plant: this.selectedPlant ? this.selectedPlant.value : null
+        id: 0,
+        businessUnitCode: this.selectedBu.value,
+        subBusinessUnitCode: this.selectedSubBu ? this.selectedSubBu.value : null,
+        plantCode: this.selectedPlant ? this.selectedPlant.value : null,
+        isActive: true
       })
       this.dataSource.data = this.dataSource.data;
 
@@ -206,29 +211,56 @@ export class AdminUserDetailComponent implements OnInit {
       this._confirmationService.save().afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {
           try {
-            // TODO: wait for api
+            let res;
             if (this.isEdit) {
-              // await firstValueFrom(this._userService.updateUser(
-              //   this.user.id,
-              //   this.name,
-              //   this.email,
-              //   this.selectedUserGroup,
-              //   this.selectedIsActive,
-              //   this.tcl.getOrganizes()
-              // ));
+              // edit
+              const organizes = this.dataSource.data.map(v => ({
+                userId: this.id,
+                id: v.id,
+                businessUnitCode: v.businessUnitCode,
+                subBusinessUnitCode: v.subBusinessUnitCode,
+                plantCode: v.plantCode,
+                isActive: v.isActive
+              }));
+              res = await firstValueFrom(this._adminUserService.updateAdminUser(
+                this.user.id,
+                this.name,
+                this.username,
+                this.email,
+                this.selectedUserGroup,
+                this.selectedIsActive,
+                organizes
+              ));
+              if (res.didError) {
+                this._confirmationService.warning(res.errorMessage);
+              } else {
+                this._snackBarService.success();
+              }
             } else {
               // add
-              // await firstValueFrom(this._userService.createUser(
-              //   this.name,
-              //   this.email,
-              //   this.username,
-              //   this.selectedUserGroup,
-              //   this.selectedIsActive,
-              //   this.tcl.getOrganizes(),
-              // ));
+              const organizes = this.dataSource.data.map(v => ({
+                userId: 0,
+                businessUnitCode: v.businessUnitCode,
+                subBusinessUnitCode: v.subBusinessUnitCode,
+                plantCode: v.plantCode,
+                isActive: v.isActive
+              }));
+              res = await firstValueFrom(this._adminUserService.createAdminUser(
+                this.name,
+                this.email,
+                this.username,
+                this.selectedUserGroup,
+                this.selectedIsActive,
+                organizes,
+              ));
+              if (res.didError) {
+                this._confirmationService.warning(res.errorMessage);
+              } else {
+                const id = res?.id;
+                if (id) this._router.navigate([`/super-admin/admin-user/${id}`]);
+                this._snackBarService.success();
+              }
             }
-            this._snackBarService.success();
-            this.loadUser(this.id);
           } catch (e) {
             this._snackBarService.error();
             this.showError(e.error, true);
@@ -262,7 +294,7 @@ export class AdminUserDetailComponent implements OnInit {
   }
 
   loadUser(id: number) {
-    this._userService.getUser(id).subscribe({
+    this._adminUserService.getAdminUser(id).subscribe({
       next: (v: AdminUser) => {
         this.user = v;
         this.username = this.user.username;
@@ -270,6 +302,7 @@ export class AdminUserDetailComponent implements OnInit {
         this.email = this.user.email;
         this.selectedUserGroup = this.user.groupId;
         this.selectedIsActive = this.user.isActive;
+        this.dataSource.data = this.user.organizes;
         // this.organizes = this.user.organizes;
         // this.tcl.setOrganizes(this.organizes);
       },

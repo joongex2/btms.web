@@ -23,9 +23,14 @@ export class AdminPermissionModalComponent implements OnInit {
   bus: any[] = [];
   subBus: any[] = [];
   plants: any[] = [];
+  isActives: any[] = [
+    { title: 'Active', value: true },
+    { title: 'Inactive', value: false }
+  ];
   selectedBu: string | any;
   selectedSubBu: string | any;
   selectedPlant: string | any;
+  isActive = true;
 
   // alert
   showAlert: boolean = false;
@@ -47,9 +52,10 @@ export class AdminPermissionModalComponent implements OnInit {
     this.bus = this.modalData.data.bus;
     this.subBus = this.modalData.data.subBus;
     this.plants = this.modalData.data.plants;
-    this.selectedBu = this.bus.find(v => v.value === this.adminPermission.businessUnit);
-    this.selectedSubBu = this.subBus.find(v => v.value === this.adminPermission.subBusinessUnit);
-    this.selectedPlant = this.plants.find(v => v.value === this.adminPermission.plant);
+    this.selectedBu = this.bus.find(v => v.value === this.adminPermission.businessUnitCode);
+    this.selectedSubBu = this.subBus.find(v => v.value === this.adminPermission.subBusinessUnitCode);
+    this.selectedPlant = this.plants.find(v => v.value === this.adminPermission.plantCode);
+    this.isActive = this.adminPermission.isActive;
   }
 
   async saveAndClose() {
@@ -64,9 +70,11 @@ export class AdminPermissionModalComponent implements OnInit {
           try {
             this._snackBarService.success();
             this.matDialogRef.close({
-              businessUnit: this.selectedBu.value,
-              subBusinessUnit: this.selectedSubBu ? this.selectedSubBu.value : null,
-              plant: this.selectedPlant ? this.selectedPlant.value : null
+              id: this.adminPermission.id,
+              businessUnitCode: this.selectedBu.value,
+              subBusinessUnitCode: this.selectedSubBu ? this.selectedSubBu.value : null,
+              plantCode: this.selectedPlant ? this.selectedPlant.value : null,
+              isActive: this.isActive
             } as AdminPermission);
           } catch (e) {
             this._snackBarService.error();

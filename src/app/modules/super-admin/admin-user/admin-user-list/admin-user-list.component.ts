@@ -225,12 +225,10 @@ export class AdminUserListComponent implements OnInit {
   }
 
   loadUsers() {
-    this._userService.getUsers().subscribe({
+    this._userService.getAdminUsers().subscribe({
       next: (users: AdminUser[]) => {
         this.dataSource.data = users;
         if (!this.isFirstLoaded.value) this.isFirstLoaded.next(true);
-        // only selected admin
-        this.selectedUserGroup = 12 // 12 is admin
         this.filter();
       },
       error: (e) => console.log(e)

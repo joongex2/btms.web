@@ -23,6 +23,17 @@
             <autocomplete label="Plant" name="plant" [options]="plants" [(value)]="selectedPlant"></autocomplete>
         </div>
 
+        <div class="col-span-4 font-medium">Status<span class="text-warn">*</span></div>
+        <div class="col-span-8 flex items-center">
+            :
+            <mat-form-field class="flex-auto ml-2">
+                <mat-select [(ngModel)]="isActive" name="isActive" placeholder="Status">
+                    <mat-option *ngFor="let isActive of isActives" [value]="isActive.value">{{isActive.title}}</mat-option>
+                </mat-select>
+                <mat-error>Status is required</mat-error>
+            </mat-form-field>
+        </div>
+
         <!-- Alert -->
         <fuse-alert class="col-span-12" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false"
             [type]="alert.type" [@shake]="alert.type === 'error'">
