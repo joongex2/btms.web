@@ -71,7 +71,7 @@ export class DocumentControlModalComponent implements OnInit {
     const lengthOfRunningNo = this.isEdit ? this.modalData.data.lengthOfRunningNo : '';
     const lastDocumentNo = this.isEdit ? this.modalData.data.lastDocumentNo : '';
     const lastRunningNo = this.isEdit ? this.modalData.data.lastRunningNo : '';
-    const isActive = this.isEdit ? this.modalData.data.isActive : undefined;
+    const isActive = this.isEdit ? this.modalData.data.isActive : true;
 
     this.documentControlForm = this._formBuilder.group({
       organizeCode: [organizeCode, [Validators.required, requireMatchValidator]],
