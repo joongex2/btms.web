@@ -226,7 +226,7 @@ export class UserListComponent implements OnInit {
   loadUsers() {
     this._userService.getUsers().subscribe({
       next: (users: User[]) => {
-        this.dataSource.data = users;
+        this.dataSource.data = users.filter(v => ![9, 12].includes(v.groupId));
         if (!this.isFirstLoaded.value) this.isFirstLoaded.next(true);
       },
       error: (e) => console.log(e)
