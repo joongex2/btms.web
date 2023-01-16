@@ -15,10 +15,10 @@ export class LastCommentModalComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     dataColumns = [
-        'comment',
+        'commentDate',
         'commentBy',
         'documentStatus',
-        'commentDate'
+        'comment'
     ];
     comments: Comment[];
 
