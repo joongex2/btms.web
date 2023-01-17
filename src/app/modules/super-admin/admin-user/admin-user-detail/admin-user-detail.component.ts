@@ -225,8 +225,8 @@ export class AdminUserDetailComponent implements OnInit {
               res = await firstValueFrom(this._adminUserService.updateAdminUser(
                 this.user.id,
                 this.name,
-                this.username,
                 this.email,
+                this.username,
                 this.selectedUserGroup,
                 this.selectedIsActive,
                 organizes

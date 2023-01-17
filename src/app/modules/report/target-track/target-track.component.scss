@@ -1,3 +1,13 @@
+.table-title {
+  span {
+      font-weight: 400;
+  }
+  padding: 3px 0;
+  border-bottom: 1px solid white;
+  background-color: rgb(97, 138, 2);
+  color: white;
+}
+
 .example-action-buttons {
     padding-bottom: 20px;
   }
@@ -50,7 +60,7 @@ table {
 }
 
 .mat-row {
-  background-color: rgb(229, 240, 203);
+  background-color: rgb(229, 240, 203) !important;
 }
 
 /* column width */

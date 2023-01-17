@@ -63,6 +63,11 @@ th.mat-header-cell {
     font-size: 14px;
 }
 
-table tr:not(.mat-header-row):hover {
+table:not(.year-month-table) tr:not(.mat-header-row):hover {
     background-color: #d6e2ba !important;
+}
+
+img.excel-icon {
+    margin: 5px;
+    width: 25px !important;
 }

@@ -131,9 +131,10 @@
     
             <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
                 <div class="example-table-container">
-                    <div class="flex justify-end">
-                        <button class="mr-2" style="width: 100px" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Export excel">
-                            <mat-icon svgIcon="iconsmind:file_excel"></mat-icon>&nbsp;<span>Export</span>
+                    <div class="table-title flex justify-end">
+                        <button mat-button [matMenuTriggerFor]="menu">
+                            <img src="assets/images/icons/excel.png" alt="" class="excel-icon mr-2">
+                            Export
                         </button>
                         <mat-menu #menu="matMenu">
                         <button mat-menu-item>
