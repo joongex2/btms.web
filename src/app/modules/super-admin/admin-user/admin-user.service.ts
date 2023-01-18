@@ -36,6 +36,10 @@ export class AdminUserService {
         return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Users/admins/${id}`)).pipe(map(data => data.model));
     }
 
+    getAdminUserOrganizes(id: number): Observable<any> {
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Users/admins/${id}/organizes`)).pipe(map(data => data.model));
+    }
+
     updateAdminUser(
         id: number,
         name: string,

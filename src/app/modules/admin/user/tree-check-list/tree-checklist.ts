@@ -2,12 +2,15 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { MatTree, MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.types';
+import { AdminUserService } from 'app/modules/super-admin/admin-user/admin-user.service';
 import { OrganizationService } from 'app/modules/super-admin/organization/organization.service';
 import { Organization } from 'app/modules/super-admin/organization/organization.types';
 import { RoleService } from 'app/modules/super-admin/role/role.service';
 import { Role } from 'app/modules/super-admin/role/role.types';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 
 /**
@@ -234,11 +237,15 @@ export class TreeChecklistComponent implements OnInit {
     /** The selection for checklist */
     checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
 
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
+
     constructor(
         public _database: ChecklistDatabase,
         private _organizationService: OrganizationService,
         private _roleService: RoleService,
-        private _confirmationService: ConfirmationService
+        private _confirmationService: ConfirmationService,
+        private _userService: UserService,
+        private _adminUserService: AdminUserService
     ) {
         this.treeFlattener = new MatTreeFlattener(
             this.transformer,
@@ -260,15 +267,17 @@ export class TreeChecklistComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._organizationService.getOrganizations().subscribe({
-            next: (v: Organization[]) => {
-                this.organizations = v.map((v) => ({ title: `${v.organizeCode}: ${v.organizeName}`, value: v.organizeCode }));
-                this.organizeCodeNameMapper = v.reduce((prev, cur) => {
-                    prev[cur.organizeCode] = `${cur.organizeCode}: ${cur.organizeName}`;
-                    return prev;
-                }, {});
-            },
-            error: (e) => console.error(e)
+        this._userService.user$.pipe(takeUntil(this._unsubscribeAll)).subscribe((user: User) => {
+            this._adminUserService.getAdminUserOrganizes(user.id).subscribe({
+                next: (v: Organization[]) => {
+                    this.organizations = v.map((v) => ({ title: `${v.organizeCode}: ${v.organizeName}`, value: v.organizeCode }));
+                    this.organizeCodeNameMapper = v.reduce((prev, cur) => {
+                        prev[cur.organizeCode] = `${cur.organizeCode}: ${cur.organizeName}`;
+                        return prev;
+                    }, {});
+                },
+                error: (e) => console.error(e)
+            });
         });
 
         this._roleService.getRoles().subscribe({
@@ -474,5 +483,11 @@ export class TreeChecklistComponent implements OnInit {
 
     getOrganizes(): any {
         return this._database.prepareOutput(this.checklistSelection);
+    }
+
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 }
