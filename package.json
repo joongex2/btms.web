@@ -7,14 +7,13 @@
     "private": true,
     "scripts": {
         "ng": "ng",
-        "start": "ng serve",
-        "start2": "ng serve --host 0.0.0.0",
+        "start": "ng serve --host 0.0.0.0",
         "build": "ng build",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "lint": "ng lint",
-        "build:prod": "ng build --configuration production --vendor-chunk --aot --outputHashing=all",
-        "build:staging": "ng build --configuration staging --vendor-chunk --aot --outputHashing=all"
+        "build:prod": "ng build --configuration production --vendor-chunk --aot --output-hashing=all",
+        "build:staging": "ng build --configuration staging --vendor-chunk --aot --output-hashing=all"
     },
     "dependencies": {
         "@angular/animations": "13.1.1",
