@@ -31,6 +31,7 @@ export class TargetManagementComponent implements OnInit {
   @ViewChild('targetTable') targetTable: TargetTableComponent;
   @ViewChild(NgForm) f: NgForm;
   user: User;
+  isOneOrganizeNewTarget: boolean;
   mode: string;
   document: Partial<DocumentDetail>;
   previousUrl: string;
@@ -77,6 +78,7 @@ export class TargetManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this._activatedRoute.snapshot.data.user;
+    this.isOneOrganizeNewTarget = (this.user.organizes?.length === 1 && this.user.organizes?.[0]?.roles?.findIndex(v => v.roleCode === 'D01') !== -1);
 
     this._urlService.previousUrl$.subscribe((previousUrl: string) => {
       this.previousUrl = previousUrl;

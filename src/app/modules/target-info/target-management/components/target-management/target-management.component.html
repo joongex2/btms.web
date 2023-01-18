@@ -25,7 +25,7 @@
                         </div>
                     </ng-container>
                     <ng-container *ngIf="mode === 'add'">
-                        <div class="flex items-center ml-1 whitespace-nowrap">
+                        <div *ngIf="!isOneOrganizeNewTarget" class="flex items-center ml-1 whitespace-nowrap">
                             <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                             </mat-icon>
                             <a (click)="goBack()" class="cursor-pointer">
