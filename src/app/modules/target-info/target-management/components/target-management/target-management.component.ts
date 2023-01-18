@@ -294,6 +294,10 @@ export class TargetManagementComponent implements OnInit {
         if (role.roleCode === 'D03') haveD03 = true;
         if (role.roleCode === 'D04') haveD04 = true;
       }
+      this.canSave = false;
+      this.canEdit = false;
+      this.canSubmit = false;
+      this.canReject = false;
 
       if (this.mode === 'add') {
         // add
@@ -303,20 +307,33 @@ export class TargetManagementComponent implements OnInit {
         this.canReject = false;
       } else {
         // edit
-        this.canSave = this.isEdit && haveD01;
-        this.canEdit = !this.isEdit && this.document.documentStatus === 'DOCUMENT_DRAFT' && haveD01;
-        if (
-          !this.isEdit &&
-          (this.document.documentStatus === 'DOCUMENT_DRAFT' && haveD01) ||
-          (this.document.documentStatus === 'DOCUMENT_WAIT_FOR_VERIFY' && haveD02) ||
-          (this.document.documentStatus === 'DOCUMENT_WAIT_FOR_APPROVE' && haveD03) ||
-          (this.document.documentStatus === 'DOCUMENT_WAIT_FOR_ISSUE' && haveD04)
-        ) {
+        if (this.isEdit && haveD01) this.canSave = true;
+        if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_DRAFT' && haveD01) this.canEdit = true;
+        if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_REVISE' && haveD01) {
+          this.canEdit = true;
+          this.canSubmit = true;
+        }
+        // document_cancel
+        // document_modify
+        // document_wait_for_print
+        if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_DRAFT' && haveD01) {
           this.canSubmit = true;
           this.canReject = true;
-        } else {
-          this.canSubmit = false;
-          this.canReject = false;
+        }
+        if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_WAIT_FOR_VERIFY' && haveD02) {
+          this.canSubmit = true;
+          this.canReject = true;
+        }
+        if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_WAIT_FOR_APPROVE' && haveD03) {
+          this.canSubmit = true;
+          this.canReject = true;
+        }
+        if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_WAIT_FOR_ISSUE' && haveD04) {
+          this.canSubmit = true;
+          this.canReject = true;
+        }
+        if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_ISSUED' && haveD04) {
+          this.canReject = true;
         }
       }
     } else {

@@ -269,20 +269,24 @@ export class SubTargetModalComponent implements OnInit {
       return;
     } else {
       if (this.isEdit && this.subTarget.targetCondition !== this.subTargetForm.get('targetCondition').value) {
-        this._confirmationService.delete(
+        this._confirmationService.warning(
+          'ยินยัน',
           `ประเภทของเป้าหมายเปลี่ยนจาก 
           ${this._targetConditionPipe.transform(this.subTarget.targetCondition)} 
           เป็น ${this._targetConditionPipe.transform(this.subTargetForm.get('targetCondition').value)} 
-          ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`
+          ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`,
+          true
         ).afterClosed().subscribe((result) => {
-          for (let plan of this.subTarget.plans) {
-            plan.markForEdit = true;
-            for (let index of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) {
-              // plan[`useMonth${index}`] = null;
-              plan[`valueMonth${index}`] = null;
+          if (result === 'confirmed') {
+            for (let plan of this.subTarget.plans) {
+              plan.markForEdit = true;
+              for (let index of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) {
+                // plan[`useMonth${index}`] = null;
+                plan[`valueMonth${index}`] = null;
+              }
             }
+            this.closeWithValue();
           }
-          this.closeWithValue();
         });
       } else {
         this.closeWithValue();

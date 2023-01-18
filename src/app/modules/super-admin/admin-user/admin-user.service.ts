@@ -28,6 +28,10 @@ export class AdminUserService {
         }).pipe(map(data => data.model));
     }
 
+    getUsersByAdminId(id: number): Observable<any> {
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Users/admins/${id}/users`)).pipe(map(data => data.model));
+    }
+
     getAdminUsers(): Observable<any> {
         return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Users/admins`)).pipe(map(data => data.model));
     }

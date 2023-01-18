@@ -30,10 +30,10 @@ export class ConfirmationService {
         });
     }
 
-    delete(title?: string) {
+    delete(title?: string, message?: string) {
         return this._fuseConfirmationService.open({
             title: title || 'ต้องการลบข้อมูลใช่หรือไม่',
-            message: '',
+            message: message || '',
             icon: { name: 'heroicons_outline:question-mark-circle' },
             actions: {
                 cancel: { show: true, label: 'ยกเลิก' },
@@ -42,13 +42,13 @@ export class ConfirmationService {
         });
     }
 
-    warning(title: string) {
+    warning(title: string, message?: string, showCancel = false) {
         return this._fuseConfirmationService.open({
             title,
-            message: '',
+            message: message || '',
             icon: { name: 'heroicons_outline:exclamation', color: 'warning' },
             actions: {
-                cancel: { show: false },
+                cancel: { show: showCancel },
                 confirm: { show: true, label: 'ตกลง', color: 'accent' }
             }
         });

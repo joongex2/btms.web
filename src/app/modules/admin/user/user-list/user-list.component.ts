@@ -5,6 +5,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService as _CurrentUserService } from 'app/core/user/user.service';
+import { User as CurrentUser } from 'app/core/user/user.types';
+import { AdminUserService } from 'app/modules/super-admin/admin-user/admin-user.service';
 import { OrganizationService } from 'app/modules/super-admin/organization/organization.service';
 import { Organization } from 'app/modules/super-admin/organization/organization.types';
 import { RoleService } from 'app/modules/super-admin/role/role.service';
@@ -13,13 +16,9 @@ import { UserGroupService } from 'app/modules/super-admin/user-group/user-group.
 import { UserGroup } from 'app/modules/super-admin/user-group/user-group.types';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
-import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, firstValueFrom } from 'rxjs';
 import { UserService } from '../user.service';
 import { User } from '../user.types';
-
-
-
-
 
 @Component({
   selector: 'user-list',
@@ -30,6 +29,7 @@ export class UserListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatExpansionPanel) matExpansionPanel: MatExpansionPanel;
+  user: CurrentUser;
 
   // bind value
   dataSource: MatTableDataSource<User> = new MatTableDataSource([]);
@@ -83,6 +83,8 @@ export class UserListComponent implements OnInit {
     private _organizationService: OrganizationService,
     private _roleService: RoleService,
     private _userService: UserService,
+    private _currentUserService: _CurrentUserService,
+    private _adminUserService: AdminUserService,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
     private _matDialog: MatDialog,
@@ -90,7 +92,8 @@ export class UserListComponent implements OnInit {
     private _router: Router
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.user = await firstValueFrom(this._currentUserService.user$);
     this.loadUsers();
 
     this._userGroupService.getUserGroups().subscribe({
@@ -99,7 +102,7 @@ export class UserListComponent implements OnInit {
     });
 
     this._organizationService.getOrganizations().subscribe({
-      next: (v: Organization[]) => { this.organizations = v.map((v) => ({ title: v.organizeName, value: v.organizeCode })) },
+      next: (v: Organization[]) => { this.organizations = v.map((v) => ({ title: `${v.organizeCode}:${v.organizeName}`, value: v.organizeCode })) },
       error: (e) => console.error(e)
     });
 
@@ -161,16 +164,21 @@ export class UserListComponent implements OnInit {
       let foundOrg = false;
       let foundRole = false;
 
-      for (let org of data.organizes) {
-        if (org.id == searchString.organization) {
-          foundOrg = true;
-        }
-        for (let role of org.role) {
-          if (role.id == searchString.role) {
-            foundRole = true;
+      if (data.organizes) {
+        for (let org of data.organizes) {
+          if (org.organizeCode == searchString.organization) {
+            foundOrg = true;
+          }
+          if (org.roles) {
+            for (let role of org.roles) {
+              if (role.roleCode == searchString.role) {
+                foundRole = true;
+              }
+            }
           }
         }
       }
+
       return (!searchString.username || data.username.toString().trim().toLowerCase().indexOf(searchString.username.toLowerCase()) !== -1)
         && (!searchString.email || data.email.toString().trim().toLowerCase().indexOf(searchString.email.toLowerCase()) !== -1)
         && (!searchString.name || data.name.toString().trim().toLowerCase().indexOf(searchString.name.toLowerCase()) !== -1)
@@ -224,9 +232,11 @@ export class UserListComponent implements OnInit {
   }
 
   loadUsers() {
-    this._userService.getUsers().subscribe({
+    // this._userService.getUsers().subscribe({
+    this._adminUserService.getUsersByAdminId(this.user.id).subscribe({
       next: (users: User[]) => {
-        this.dataSource.data = users.filter(v => ![9, 12].includes(v.groupId));
+        // this.dataSource.data = users.filter(v => ![9, 12].includes(v.groupId));
+        this.dataSource.data = users;
         if (!this.isFirstLoaded.value) this.isFirstLoaded.next(true);
       },
       error: (e) => console.log(e)

@@ -98,6 +98,15 @@ export class DocumentService {
         });
     }
 
+    patchSendEmail(id: number, comment: string, informEmails: string[], receiveEmails: string[]): Observable<any> {
+        return this._httpClient.patch(getBaseUrl(`/v1/Documents/${id}/send`), {
+            id,
+            comment,
+            informEmails,
+            receiveEmails
+        });
+    }
+
     patchRejectEmail(id: number, comment: string, informEmails: string[], receiveEmails: string[]): Observable<any> {
         return this._httpClient.patch(getBaseUrl(`/v1/Documents/${id}/reject`), {
             id,
