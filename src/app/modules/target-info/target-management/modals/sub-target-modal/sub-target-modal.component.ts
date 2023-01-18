@@ -162,10 +162,13 @@ export class SubTargetModalComponent implements OnInit {
       }
     });
 
-    if (targetCondition === '1') {
-      const conditionIndex = (conditions as FormArray).controls.findIndex((control) => !control.get('markForDelete').value);
-      const condition = (conditions as FormArray).at(conditionIndex);
-      this.setTargetValueSubscribe(condition);
+    const _conditions = (conditions as FormArray).controls.filter((control) => !control.get('markForDelete').value);
+    for (let condition of _conditions) {
+      if (condition.get('targetCondition').value === '1') {
+        this.setTargetValueSubscribe(condition);
+      } else {
+        this.setTargetValue2Subscribe(condition);
+      }
     }
   }
 
