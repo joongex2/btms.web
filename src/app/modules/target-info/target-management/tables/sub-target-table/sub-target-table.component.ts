@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { SubTarget } from 'app/shared/interfaces/document.interface';
+import { TargetConditionPipe } from 'app/shared/pipes/target-condition.pipe';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { detailExpandAnimation } from 'app/shared/table-animation';
 import { ModalMode } from '../../modals/modal.type';

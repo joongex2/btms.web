@@ -19,7 +19,6 @@ export class DocumentService {
         plantCode: string,
         divisionCode: string,
         documentType: string,
-        targetType: string,
         documentYear: string,
         targets: Target[]
     ): Observable<any> {
@@ -31,7 +30,6 @@ export class DocumentService {
             plantCode,
             divisionCode,
             documentType,
-            targetType,
             documentYear,
             targets
         });

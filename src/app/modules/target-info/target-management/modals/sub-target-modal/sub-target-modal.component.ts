@@ -4,6 +4,9 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
+import { SubTarget } from 'app/shared/interfaces/document.interface';
+import { TargetConditionPipe } from 'app/shared/pipes/target-condition.pipe';
+import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { ModalMode } from '../modal.type';
@@ -17,6 +20,7 @@ import { ModalMode } from '../modal.type';
 export class SubTargetModalComponent implements OnInit {
   isEdit: boolean = false;
   subTargetForm: FormGroup;
+  subTarget: SubTarget;
   symbols: any[] = [
     { title: '>', value: '>' },
     { title: '<', value: '<' },
@@ -41,20 +45,23 @@ export class SubTargetModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public modalData: any,
     public matDialogRef: MatDialogRef<SubTargetModalComponent>,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _targetConditionPipe: TargetConditionPipe,
+    private _confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
-    const priority = this.isEdit ? this.modalData.data.priority : this.modalData.index;
-    const measureType = this.isEdit ? this.modalData.data.measureType : '';
-    const targetDetailDescription = this.isEdit ? this.modalData.data.targetDetailDescription : '';
-    const targetIndex = this.isEdit ? this.modalData.data.targetIndex : '';
-    const targetValue = this.isEdit ? this.modalData.data.targetValue : '';
-    const targetCondition = this.isEdit ? this.modalData.data.targetCondition : '1';
+    this.subTarget = this.modalData.data;
+    const priority = this.isEdit ? this.subTarget.priority : this.modalData.index;
+    const measureType = this.isEdit ? this.subTarget.measureType : '';
+    const targetDetailDescription = this.isEdit ? this.subTarget.targetDetailDescription : '';
+    const targetIndex = this.isEdit ? this.subTarget.targetIndex : '';
+    const targetValue = this.isEdit ? this.subTarget.targetValue : '';
+    const targetCondition = this.isEdit ? this.subTarget.targetCondition : '1';
     const conditions = this._formBuilder.array([]);
     if (this.isEdit) {
-      for (let tc of this.modalData.data.conditions) {
+      for (let tc of this.subTarget.conditions) {
         conditions.push(this._formBuilder.group({
           id: [tc.id],
           targetDetailId: [tc.targetDetailId],
@@ -79,7 +86,7 @@ export class SubTargetModalComponent implements OnInit {
         }
       } else if (targetCondition === '2') {
         this.resultColors = [{ title: 'RED', value: 'RED' }, { title: 'YELLOW', value: 'YELLOW' }];
-        if (this.modalData.data.conditions.filter(v => v.targetCondition === '2' && !v.markForDelete).length === 0) {
+        if (this.subTarget.conditions.filter(v => v.targetCondition === '2' && !v.markForDelete).length === 0) {
           conditions.push(this.newCondition('2'));
         }
       }
@@ -88,12 +95,12 @@ export class SubTargetModalComponent implements OnInit {
       conditions.push(this.newCondition('1'));
     }
 
-    const targetUnit = this.isEdit ? this.modalData.data.targetUnit : '';
-    const currentTarget = this.isEdit ? this.modalData.data.currentTarget : '';
-    const targetReferenceValue = this.isEdit ? this.modalData.data.targetReferenceValue : '';
-    const startDate = this.isEdit ? moment({ year: this.modalData.data.startYear, month: this.modalData.data.startMonth - 1 }) : moment();
-    const finishDate = this.isEdit ? moment({ year: this.modalData.data.finishYear, month: this.modalData.data.finishMonth - 1 }) : moment();
-    const isCritical = this.isEdit ? this.modalData.data.isCritical : false;
+    const targetUnit = this.isEdit ? this.subTarget.targetUnit : '';
+    const currentTarget = this.isEdit ? this.subTarget.currentTarget : '';
+    const targetReferenceValue = this.isEdit ? this.subTarget.targetReferenceValue : '';
+    const startDate = this.isEdit ? moment({ year: this.subTarget.startYear, month: this.subTarget.startMonth - 1 }) : moment();
+    const finishDate = this.isEdit ? moment({ year: this.subTarget.finishYear, month: this.subTarget.finishMonth - 1 }) : moment();
+    const isCritical = this.isEdit ? this.subTarget.isCritical : false;
 
     this.subTargetForm = this._formBuilder.group({
       priority: [{ value: priority, disabled: true }, [Validators.required]],
@@ -181,7 +188,7 @@ export class SubTargetModalComponent implements OnInit {
     const resultColor = targetCondition === '1' ? 'GREEN' : '';
     const newCondition = this._formBuilder.group({
       id: [0],
-      targetDetailId: [this.isEdit ? this.modalData.data.id : 0],
+      targetDetailId: [this.isEdit ? this.subTarget.id : 0],
       targetCondition: [targetCondition],
       targetOperator: ['', [Validators.required]],
       targetValue: ['', [Validators.required]],
@@ -258,19 +265,42 @@ export class SubTargetModalComponent implements OnInit {
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
     } else {
-      for (let condition of (this.subTargetForm.get('conditions') as FormArray).controls) {
-        if (condition.get('id').value !== 0 && !condition.get('markForDelete').value) condition.get('markForEdit').setValue(true);
+      if (this.isEdit && this.subTarget.targetCondition !== this.subTargetForm.get('targetCondition').value) {
+        this._confirmationService.delete(
+          `ประเภทของเป้าหมายเปลี่ยนจาก 
+          ${this._targetConditionPipe.transform(this.subTarget.targetCondition)} 
+          เป็น ${this._targetConditionPipe.transform(this.subTargetForm.get('targetCondition').value)} 
+          ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`
+        ).afterClosed().subscribe((result) => {
+          for (let plan of this.subTarget.plans) {
+            plan.markForEdit = true;
+            for (let index of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) {
+              // plan[`useMonth${index}`] = null;
+              plan[`valueMonth${index}`] = null;
+            }
+          }
+          this.closeWithValue();
+        });
+      } else {
+        this.closeWithValue();
       }
-
-      const subTargetForm = this.subTargetForm.getRawValue();
-      this.matDialogRef.close({
-        ...subTargetForm,
-        startMonth: subTargetForm.startDate.month() + 1,
-        startYear: subTargetForm.startDate.year(),
-        finishMonth: subTargetForm.finishDate.month() + 1,
-        finishYear: subTargetForm.finishDate.year()
-      });
     }
+  }
+
+  closeWithValue() {
+    for (let condition of (this.subTargetForm.get('conditions') as FormArray).controls) {
+      if (condition.get('id').value !== 0 && !condition.get('markForDelete').value) condition.get('markForEdit').setValue(true);
+    }
+
+    const subTargetForm = this.subTargetForm.getRawValue();
+    this.matDialogRef.close({
+      ...subTargetForm,
+      conditions: subTargetForm.conditions.map(v => ({ ...v, targetValue: parseInt(v.targetValue) })),
+      startMonth: subTargetForm.startDate.month() + 1,
+      startYear: subTargetForm.startDate.year(),
+      finishMonth: subTargetForm.finishDate.month() + 1,
+      finishYear: subTargetForm.finishDate.year()
+    });
   }
 
   showError(error: string, hasApiError?: boolean) {

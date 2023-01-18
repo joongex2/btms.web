@@ -6,7 +6,6 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { isNullOrUndefined } from 'app/shared/helpers/is-null-or-undefined';
 import { Plan, SubTarget } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
-import moment from 'moment';
 import { ModalMode } from '../modal.type';
 
 
@@ -38,7 +37,7 @@ export class PlanModalComponent implements OnInit {
     11: 'nov',
     12: 'dec',
   };
-  defaultValueMonth: string;
+  defaultValueMonth: number;
 
   // alert
   showAlert: boolean = false;
@@ -61,11 +60,9 @@ export class PlanModalComponent implements OnInit {
     this.subTarget = this.modalData.subTarget;
     const priority = this.isEdit ? this.plan.priority : this.modalData.index;
     const planDescription = this.isEdit ? this.plan.planDescription : this.subTarget.targetDetailDescription;
-    const month = moment().month() + 1;
     const undertaker = this.isEdit ? this.plan.undertaker : '';
 
-    const subTargetTargetValue = this.subTarget?.targetValue;
-    this.defaultValueMonth = this.subTarget.targetCondition === '1' ? subTargetTargetValue?.replace(/(>=|<=|>|<|=)/g, '') : subTargetTargetValue;
+    this.defaultValueMonth = this.subTarget.targetCondition === '1' ? this.subTarget.conditions[0]?.targetValue : null;
 
     // year select option
     this.years = this.isEdit ? [this.plan.planYear] : this.modalData.leftYears;
@@ -92,23 +89,23 @@ export class PlanModalComponent implements OnInit {
       useMonth10: this.plan?.useMonth10 || false,
       useMonth11: this.plan?.useMonth11 || false,
       useMonth12: this.plan?.useMonth12 || false,
-      valueMonth1: this.parseInputValueMonth('1') || null,
-      valueMonth2: this.parseInputValueMonth('2') || null,
-      valueMonth3: this.parseInputValueMonth('3') || null,
-      valueMonth4: this.parseInputValueMonth('4') || null,
-      valueMonth5: this.parseInputValueMonth('5') || null,
-      valueMonth6: this.parseInputValueMonth('6') || null,
-      valueMonth7: this.parseInputValueMonth('7') || null,
-      valueMonth8: this.parseInputValueMonth('8') || null,
-      valueMonth9: this.parseInputValueMonth('9') || null,
-      valueMonth10: this.parseInputValueMonth('10') || null,
-      valueMonth11: this.parseInputValueMonth('11') || null,
-      valueMonth12: this.parseInputValueMonth('12') || null,
+      valueMonth1: !isNullOrUndefined(this.plan?.valueMonth1) ? this.plan.valueMonth1 : null,
+      valueMonth2: !isNullOrUndefined(this.plan?.valueMonth2) ? this.plan.valueMonth2 : null,
+      valueMonth3: !isNullOrUndefined(this.plan?.valueMonth3) ? this.plan.valueMonth3 : null,
+      valueMonth4: !isNullOrUndefined(this.plan?.valueMonth4) ? this.plan.valueMonth4 : null,
+      valueMonth5: !isNullOrUndefined(this.plan?.valueMonth5) ? this.plan.valueMonth5 : null,
+      valueMonth6: !isNullOrUndefined(this.plan?.valueMonth6) ? this.plan.valueMonth6 : null,
+      valueMonth7: !isNullOrUndefined(this.plan?.valueMonth7) ? this.plan.valueMonth7 : null,
+      valueMonth8: !isNullOrUndefined(this.plan?.valueMonth8) ? this.plan.valueMonth8 : null,
+      valueMonth9: !isNullOrUndefined(this.plan?.valueMonth9) ? this.plan.valueMonth9 : null,
+      valueMonth10: !isNullOrUndefined(this.plan?.valueMonth10) ? this.plan.valueMonth10 : null,
+      valueMonth11: !isNullOrUndefined(this.plan?.valueMonth11) ? this.plan.valueMonth11 : null,
+      valueMonth12: !isNullOrUndefined(this.plan?.valueMonth12) ? this.plan.valueMonth12 : null,
       undertaker: [undertaker, [Validators.required]],
     });
 
     let initialCheckAll = true;
-    for (let i = 1; i <=12; i++) { 
+    for (let i = 1; i <= 12; i++) {
       initialCheckAll = initialCheckAll && this.planForm.get(`useMonth${i}`).value;
     }
     this.checkAll = new FormControl(initialCheckAll);
@@ -123,7 +120,9 @@ export class PlanModalComponent implements OnInit {
       this.planForm.get(`useMonth${i}`).valueChanges.subscribe(v => {
         if (v) {
           this.planForm.get(`valueMonth${i}`).enable();
-          if (!this.planForm.get(`valueMonth${i}`).value) this.planForm.get(`valueMonth${i}`).setValue(this.defaultValueMonth);
+          if (!this.planForm.get(`valueMonth${i}`).value && this.subTarget.targetCondition === '1') {
+            this.planForm.get(`valueMonth${i}`).setValue(this.defaultValueMonth);
+          }
         } else {
           this.planForm.get(`valueMonth${i}`).disable();
           this.planForm.get(`valueMonth${i}`).setValue(null);
@@ -154,41 +153,6 @@ export class PlanModalComponent implements OnInit {
     });
   }
 
-
-  parseInputValueMonth(index: string) {
-    let res = this.plan?.[`valueMonth${index}`];
-
-    if (this.isEdit && res && this.subTarget.targetCondition === '1') {
-      if (!this.is2Condition(res)) res = res?.replace(/(>=|<=|>|<|=)/g, '');
-    }
-
-    return res;
-  }
-
-  is2Condition(monthValue: any) {
-    if (typeof monthValue === 'number') monthValue = monthValue.toString();
-    const match = monthValue?.match(/(>=|<=|>|<|=)/g);
-    return match ? match.length > 1 : false;
-  }
-
-  parseOutputValueMonth(valueMonth: string) {
-    if (isNullOrUndefined(valueMonth)) {
-      return valueMonth;
-    }
-
-    let res;
-    if (this.subTarget.targetCondition === '1') {
-      if (!this.is2Condition(valueMonth)) {
-        const operator = this.subTarget.targetValue?.match(/(>=|<=|>|<|=)/g)?.[0];
-        res = operator + valueMonth;
-      }
-    } else {
-      return valueMonth;
-    }
-
-    return res;
-  }
-
   capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -204,8 +168,10 @@ export class PlanModalComponent implements OnInit {
       return;
     } else {
       let plan = this.planForm.getRawValue();
-      for (let i = 1; i <= 12; i++) {
-        plan[`valueMonth${i}`] = this.parseOutputValueMonth(plan[`valueMonth${i}`]);
+      if (this.subTarget.targetCondition === '1') {
+        for (let i = 1; i <= 12; i++) {
+          plan[`valueMonth${i}`] = !isNullOrUndefined(plan[`valueMonth${i}`]) ? plan[`valueMonth${i}`] : null;
+        }
       }
       this.matDialogRef.close(plan);
     }

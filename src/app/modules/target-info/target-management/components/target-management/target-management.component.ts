@@ -152,7 +152,6 @@ export class TargetManagementComponent implements OnInit {
                 this.document.plantCode,
                 this.document.divisionCode,
                 this.selectedDocumentType,
-                this.selectedTargetType,
                 this.selectedYear,
                 this.targets
               ));

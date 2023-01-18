@@ -37,7 +37,8 @@
             <span class="w-full">
                 <ng-container *ngIf="element['useMonth' + (colI + 1)]">
                     <div class="flex flex-col items-center">
-                        <div>{{element['valueMonth' + (colI + 1)]}}</div>
+                        <div *ngIf="subTarget.targetCondition === '1'">{{element['valueMonth' + (colI + 1)]}}</div>
+                        <div *ngIf="subTarget.targetCondition === '2'">{{subTarget.targetValue}}</div>
                         <mat-icon class="w-5 min-w-5" [svgIcon]="'heroicons_solid:check'"></mat-icon>
                     </div>
                 </ng-container>

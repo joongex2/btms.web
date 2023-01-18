@@ -8,7 +8,7 @@ export class ConfirmationService {
 
     send(title: string) {
         return this._fuseConfirmationService.open({
-            title: title,
+            title,
             message: '',
             icon: { name: 'heroicons_outline:question-mark-circle', color: 'primary' },
             actions: {
@@ -30,9 +30,9 @@ export class ConfirmationService {
         });
     }
 
-    delete() {
+    delete(title?: string) {
         return this._fuseConfirmationService.open({
-            title: 'ต้องการลบข้อมูลใช่หรือไม่',
+            title: title || 'ต้องการลบข้อมูลใช่หรือไม่',
             message: '',
             icon: { name: 'heroicons_outline:question-mark-circle' },
             actions: {

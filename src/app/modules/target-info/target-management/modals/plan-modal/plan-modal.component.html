@@ -51,17 +51,17 @@
                                 <mat-checkbox class="col-span-4" [color]="'primary'"
                                     [formControlName]="'useMonth' + monthIndex">
                                     {{capitalizeFirstLetter(monthShortMap[monthIndex])}}</mat-checkbox>
-                                <ng-container *ngIf="subTarget.targetCondition === '1' && !is2Condition(planForm.get('valueMonth' + monthIndex).value)">
+                                <ng-container *ngIf="subTarget.targetCondition === '1'">
                                     <div class="col-span-8 flex items-center gap-2">
-                                        {{subTarget?.conditions[0]?.targetOperator}}
+                                        <!-- {{subTarget?.conditions[0]?.targetOperator}} -->
                                         <mat-form-field class="flex-auto">
                                             <input matInput [formControlName]="'valueMonth' + monthIndex" type="number">
                                         </mat-form-field>
                                     </div>
                                 </ng-container>
-                                <ng-container *ngIf="subTarget.targetCondition === '2' || is2Condition(planForm.get('valueMonth' + monthIndex).value)">
+                                <ng-container *ngIf="subTarget.targetCondition === '2'">
                                     <div class="col-span-8">
-                                        {{planForm.get('valueMonth' + monthIndex).value}}
+                                        {{subTarget?.targetValue}}
                                     </div>
                                 </ng-container>
                                 
