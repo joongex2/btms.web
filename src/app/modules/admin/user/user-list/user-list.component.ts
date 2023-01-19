@@ -63,12 +63,12 @@ export class UserListComponent implements OnInit {
   ];
 
   keyToColumnName: any = {
-    'index': 'ลำดับที่',
+    'index': 'No.',
     'username': 'Username',
     'name': 'Name',
     'email': 'Email',
     'isActive': 'Status',
-    'detailIcon': 'จัดการ',
+    'detailIcon': '',
   };
 
   notSortColumn: string[] = [
@@ -235,7 +235,7 @@ export class UserListComponent implements OnInit {
     // this._userService.getUsers().subscribe({
     this._adminUserService.getUsersByAdminId(this.user.id).subscribe({
       next: (users: User[]) => {
-        // this.dataSource.data = users.filter(v => ![9, 12].includes(v.groupId));
+        // this.dataSource.data = users.filter(v => ![1, 2].includes(v.groupId));
         this.dataSource.data = users;
         if (!this.isFirstLoaded.value) this.isFirstLoaded.next(true);
       },

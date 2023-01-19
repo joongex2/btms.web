@@ -41,13 +41,13 @@ export class LookupComponent implements OnInit {
   ];
 
   keyToColumnName: any = {
-    'index': 'ลำดับที่',
+    'index': 'No.',
     'lookupType': 'Type',
     'lookupCode': 'Code',
     'lookupDescription': 'Description',
     'lookupSequence': 'Sequence',
     'isActive': 'Status',
-    'editDeleteIcon': 'จัดการ'
+    'editDeleteIcon': ''
   };
 
   notSortColumn: string[] = [

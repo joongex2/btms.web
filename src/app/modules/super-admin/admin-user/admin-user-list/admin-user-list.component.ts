@@ -64,12 +64,12 @@ export class AdminUserListComponent implements OnInit {
   ];
 
   keyToColumnName: any = {
-    'index': 'ลำดับที่',
+    'index': 'No.',
     'username': 'Username',
     'name': 'Name',
     'email': 'Email',
     'isActive': 'Status',
-    'detailIcon': 'จัดการ',
+    'detailIcon': '',
   };
 
   notSortColumn: string[] = [

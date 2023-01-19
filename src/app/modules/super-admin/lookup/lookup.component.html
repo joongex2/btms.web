@@ -81,7 +81,7 @@
                     <p class="table-title flex flex-row justify-between cursor-pointer">
                         <span>Lookup</span>
                         <span class="flex items-center" (click)="addLookup()">
-                            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่ม Lookup
+                            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>Lookup
                         </span>
                     </p>
                     <div class="overflow-x-auto">
@@ -99,8 +99,8 @@
                                     <ng-container *ngIf="key == 'isActive'">{{ element[key] | isActive }}</ng-container>
                                     <ng-container *ngIf="key == 'editDeleteIcon'">
                                         <div class="flex items-center justify-center">
-                                            <mat-icon (click)="editLookup(element)" svgIcon="heroicons_solid:pencil" class="text-primary-500 icon-size-4 cursor-pointer" title="แก้ไข Lookup"></mat-icon>
-                                            <mat-icon (click)="deleteLookup(element)" svgIcon="heroicons_outline:x" class="text-warn icon-size-4 cursor-pointer ml-[8px]" title="ลบ Lookup"></mat-icon>
+                                            <mat-icon (click)="editLookup(element)" svgIcon="heroicons_solid:pencil" class="text-primary-500 icon-size-4 cursor-pointer" title="Edit Lookup"></mat-icon>
+                                            <mat-icon (click)="deleteLookup(element)" svgIcon="heroicons_outline:x" class="text-warn icon-size-4 cursor-pointer ml-[8px]" title="Delete Lookup"></mat-icon>
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="key != 'index' && key != 'isActive' && key != 'editDeleteIcon' && key != 'type'">{{ element[key] }}</ng-container>

@@ -106,7 +106,7 @@
                     <p class="table-title flex flex-row justify-between cursor-pointer">
                         <span>Organization</span>
                         <span class="flex items-center" (click)="addOrganization()">
-                            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่ม Organization
+                            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>Organization
                         </span>
                     </p>
                     <div class="overflow-x-auto">
@@ -128,9 +128,9 @@
                                     <ng-container *ngIf="key == 'isActive'">{{ element[key] | isActive }}</ng-container>
                                     <ng-container *ngIf="key == 'editDeleteIcon'">
                                         <div class="flex items-center justify-center">
-                                            <mat-icon (click)="editOrganization(element)" svgIcon="heroicons_solid:pencil" class="text-primary-500 icon-size-4 cursor-pointer" title="แก้ไข Organization"></mat-icon>
+                                            <mat-icon (click)="editOrganization(element)" svgIcon="heroicons_solid:pencil" class="text-primary-500 icon-size-4 cursor-pointer" title="Edit Organization"></mat-icon>
                                             <mat-icon *ngIf="false" (click)="deleteOrganization(element)" svgIcon="heroicons_outline:x"
-                                                class="text-warn icon-size-4 cursor-pointer ml-[8px]" title="ลบ Organization"></mat-icon>
+                                                class="text-warn icon-size-4 cursor-pointer ml-[8px]" title="Delete Organization"></mat-icon>
                                         </div>
                                     </ng-container>
                                     <ng-container

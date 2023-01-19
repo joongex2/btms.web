@@ -130,7 +130,7 @@
                     <p class="table-title flex flex-row justify-between cursor-pointer">
                         <span>DocumentControl</span>
                         <span class="flex items-center" (click)="addDocumentControl()">
-                            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่ม DocumentControl
+                            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>DocumentControl
                         </span>
                     </p>
                     <div class="overflow-x-auto">
@@ -152,9 +152,9 @@
                                     <ng-container *ngIf="key == 'isActive'">{{ element[key] | isActive }}</ng-container>
                                     <ng-container *ngIf="key == 'editDeleteIcon'">
                                         <div class="flex items-center justify-center">
-                                            <mat-icon (click)="editDocumentControl(element)" svgIcon="heroicons_solid:pencil" class="text-primary-500 icon-size-4 cursor-pointer" title="แก้ไข DocumentControl"></mat-icon>
+                                            <mat-icon (click)="editDocumentControl(element)" svgIcon="heroicons_solid:pencil" class="text-primary-500 icon-size-4 cursor-pointer" title="Edit DocumentControl"></mat-icon>
                                             <mat-icon (click)="deleteDocumentControl(element)" svgIcon="heroicons_outline:x"
-                                                class="text-warn icon-size-4 cursor-pointer ml-[8px]" title="ลบ DocumentControl"></mat-icon>
+                                                class="text-warn icon-size-4 cursor-pointer ml-[8px]" title="Delete DocumentControl"></mat-icon>
                                         </div>
                                     </ng-container>
                                     <ng-container

@@ -41,10 +41,10 @@ export class UserGroupComponent implements OnInit {
   ];
 
   keyToColumnName: any = {
-    'index': 'ลำดับที่',
+    'index': 'No.',
     'name': 'Name',
     'isActive': 'Status',
-    'editDeleteIcon': 'จัดการ'
+    'editDeleteIcon': ''
   };
 
   constructor(

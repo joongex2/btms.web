@@ -1,12 +1,12 @@
 <p class="fix-header table-title flex flex-row justify-between items-center">
     <span>การแก้ไข</span>
     <span *ngIf="!readonly" class="flex items-center cursor-pointer" (click)="addFix();">
-        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มการแก้ไข
+        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>การแก้ไข
     </span>
 </p>
 <table mat-table [dataSource]="fixs" multiTemplateDataRows #fixTable>
     <ng-container matColumnDef="fixNo">
-        <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
+        <th mat-header-cell *matHeaderCellDef>No.</th>
         <td mat-cell *matCellDef="let element">
             {{element.data.fixNo}}
         </td>
@@ -45,14 +45,14 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
             <mat-icon *ngIf="!readonly" (click)="editFix(i)" svgIcon="heroicons_solid:pencil" class="icon-size-4 cursor-pointer" style="color: #89813d"
-                title="แก้ไขการแก้ไข"></mat-icon>
+                title="Edit การแก้ไข"></mat-icon>
         </td>
     </ng-container>
     <ng-container matColumnDef="deleteIcon">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
             <mat-icon *ngIf="!readonly" (click)="deleteFix(i)" svgIcon="heroicons_outline:x" class="text-warn icon-size-4 cursor-pointer"
-                title="ลบการแก้ไข"></mat-icon>
+                title="Delete การแก้ไข"></mat-icon>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>

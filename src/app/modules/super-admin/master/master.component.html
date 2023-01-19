@@ -96,9 +96,9 @@
             <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
                 <div class="example-table-container">
                     <p class="table-title flex flex-row justify-between cursor-pointer">
-                        <span>มาสเตอร์</span>
+                        <span>Master</span>
                         <span class="flex items-center" (click)="addMaster()">
-                            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มมาสเตอร์
+                            <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>Master
                         </span>
                     </p>
                     <div class="overflow-x-auto">
@@ -117,8 +117,8 @@
                                     <ng-container *ngIf="key == 'type'">{{ masterTypeMapper ? masterTypeMapper[element[key]]: '-' }}</ng-container>
                                     <ng-container *ngIf="key == 'editDeleteIcon'">
                                         <div class="flex items-center justify-center">
-                                            <mat-icon (click)="editMaster(element)" svgIcon="heroicons_solid:pencil" class="text-primary-500 icon-size-4 cursor-pointer" title="แก้ไขมาสเตอร์"></mat-icon>
-                                            <mat-icon (click)="deleteMaster(element)" svgIcon="heroicons_outline:x" class="text-warn icon-size-4 cursor-pointer ml-[8px]" title="ลบมาสเตอร์"></mat-icon>
+                                            <mat-icon (click)="editMaster(element)" svgIcon="heroicons_solid:pencil" class="text-primary-500 icon-size-4 cursor-pointer" title="Edit Master"></mat-icon>
+                                            <mat-icon (click)="deleteMaster(element)" svgIcon="heroicons_outline:x" class="text-warn icon-size-4 cursor-pointer ml-[8px]" title="Delete Master"></mat-icon>
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="key != 'index' && key != 'isActive' && key != 'editDeleteIcon' && key != 'type'">{{ element[key] }}</ng-container>

@@ -4,6 +4,8 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
+import { UserService as CurrentUserService } from 'app/core/user/user.service';
+import { User as CurrentUser } from 'app/core/user/user.types';
 import { UserGroupService } from 'app/modules/super-admin/user-group/user-group.service';
 import { UserGroup } from 'app/modules/super-admin/user-group/user-group.types';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
@@ -12,7 +14,6 @@ import { firstValueFrom } from 'rxjs';
 import { TreeChecklistComponent } from '../tree-check-list/tree-checklist';
 import { UserService } from '../user.service';
 import { User } from '../user.types';
-
 
 
 
@@ -26,9 +27,11 @@ export class UserDetailComponent implements OnInit {
   @ViewChild(NgForm) f: NgForm;
   @ViewChild(TreeChecklistComponent) tcl: TreeChecklistComponent;
 
+
   isEdit: boolean = true;
   id: number;
   user: User;
+  currentUser: CurrentUser;
   userGroups: any[];
   isActives = [
     { title: 'Active', value: true },
@@ -58,12 +61,14 @@ export class UserDetailComponent implements OnInit {
     private _location: Location,
     private _userGroupService: UserGroupService,
     private _userService: UserService,
+    private _currentUserService: CurrentUserService,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const routeId = this.route.snapshot.paramMap.get('id');
+    this.currentUser = await firstValueFrom(this._currentUserService.user$);
     this.id = routeId ? parseInt(routeId) : null;
     this.isEdit = routeId ? true : false;
 
@@ -82,7 +87,7 @@ export class UserDetailComponent implements OnInit {
     this._userGroupService.getUserGroups().subscribe({
       next: (v: UserGroup[]) => {
         this.userGroups = v
-          .filter((v) => { return this.isEdit || ![9, 12].includes(v.id) })
+          .filter((v) => { return this.currentUser.id === 1 || ![1, 2].includes(v.id) })
           .map((v) => ({ title: v.name, value: v.id }))
       },
       error: (e) => console.error(e)

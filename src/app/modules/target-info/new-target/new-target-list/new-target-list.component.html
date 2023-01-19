@@ -58,6 +58,11 @@
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                                  ไม่พบสิทธิ์การสร้างเอกสารเป้าหมาย
+                                </td>
+                              </tr>
                         </table>
                     </div>
                     <mat-paginator #paginator [pageSize]="defaultPageSize" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">

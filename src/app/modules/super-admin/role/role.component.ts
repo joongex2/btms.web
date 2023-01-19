@@ -43,11 +43,11 @@ export class RoleComponent implements OnInit {
   ];
 
   keyToColumnName: any = {
-    'index': 'ลำดับที่',
+    'index': 'No.',
     'code': 'Code',
     'name': 'Name',
     'isActive': 'Status',
-    'editDeleteIcon': 'จัดการ'
+    'editDeleteIcon': ''
   };
 
   notSortColumn: string[] = [

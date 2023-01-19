@@ -66,6 +66,7 @@ export class NewTargetListComponent implements OnInit {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((user: User) => {
         this.organizes = user.organizes;
+        if (!this.organizes) this.organizes = [];
         for (let org of this.organizes) {
           org.canCreate = false;
           for (let role of org.roles) {

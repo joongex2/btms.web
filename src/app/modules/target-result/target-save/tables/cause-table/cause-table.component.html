@@ -1,7 +1,7 @@
 <p class="cause-header table-title flex flex-row justify-between items-center">
     <span>สาเหตุ</span>
     <span *ngIf="!readonly" class="flex items-center cursor-pointer" (click)="addCause();">
-        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มสาเหตุ
+        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>สาเหตุ
     </span>
 </p>
 <table [dataSource]="causes" mat-table style="min-width: 500px;" multiTemplateDataRows #causeTable>
@@ -21,7 +21,7 @@
         </td>
     </ng-container>
     <ng-container matColumnDef="causeNo">
-        <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
+        <th mat-header-cell *matHeaderCellDef>No.</th>
         <td mat-cell *matCellDef="let element">
             {{element.data.causeNo}}
         </td>
@@ -48,14 +48,14 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
             <mat-icon *ngIf="!readonly" (click)="editCause(i)" svgIcon="heroicons_solid:pencil" class="icon-size-4 cursor-pointer"
-                title="แก้ไขสาเหตุุ"></mat-icon>
+                title="Edit สาเหตุุ"></mat-icon>
         </td>
     </ng-container>
     <ng-container matColumnDef="deleteIcon">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
             <mat-icon *ngIf="!readonly" (click)="deleteCause(i)" svgIcon="heroicons_outline:x" class="text-warn icon-size-4 cursor-pointer"
-                title="ลบสาเหตุ"></mat-icon>
+                title="Delete สาเหตุ"></mat-icon>
         </td>
     </ng-container>
     <ng-container matColumnDef="expandedDetail">

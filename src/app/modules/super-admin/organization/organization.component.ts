@@ -56,7 +56,7 @@ export class OrganizationComponent implements OnInit {
   ];
 
   keyToColumnName: any = {
-    'index': 'ลำดับที่',
+    'index': 'No.',
     'organizeCode': 'Organize Code',
     'organizeName': 'Organize Name',
     'businessUnitCode': 'Business Unit Code',
@@ -64,7 +64,7 @@ export class OrganizationComponent implements OnInit {
     'plantCode': 'Plant Code',
     'divisionCode': 'Division Code',
     'isActive': 'Status',
-    'editDeleteIcon': 'จัดการ'
+    'editDeleteIcon': ''
   };
 
   notSortColumn: string[] = [

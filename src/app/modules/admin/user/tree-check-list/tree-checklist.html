@@ -34,7 +34,7 @@
     <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
         <button mat-icon-button disabled></button>
         <ng-container *ngIf="node.level == 0;else roleSelect">
-            <mat-form-field class="ml-6 mb-2">
+            <mat-form-field class="ml-6 mb-2 w-160">
                 <mat-select #itemValue name="organization" placeholder="Organize">
                     <mat-option *ngFor="let organization of organizations" [value]="organization.value">
                         {{organization.title}}

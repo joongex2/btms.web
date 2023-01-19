@@ -1,12 +1,12 @@
 <p class="protect-header table-title flex flex-row justify-between items-center">
     <span>การป้องกันการเกิดซ้ำ</span>
     <span *ngIf="!readonly" class="flex items-center cursor-pointer" (click)="addProtect();">
-        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>เพิ่มการป้องกันการเกิดซ้ำ
+        <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>การป้องกันการเกิดซ้ำ
     </span>
 </p>
 <table mat-table [dataSource]="protects" multiTemplateDataRows #protectTable>
     <ng-container matColumnDef="protectNo">
-        <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
+        <th mat-header-cell *matHeaderCellDef>No.</th>
         <td mat-cell *matCellDef="let element">
             {{element.data.protectNo}}
         </td>
@@ -51,7 +51,7 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
             <mat-icon *ngIf="!readonly" (click)="deleteProtect(i)" svgIcon="heroicons_outline:x" class="text-warn icon-size-4 cursor-pointer"
-                title="ลบการป้องกันการเกิดซ้ำ"></mat-icon>
+                title="Delete การป้องกันการเกิดซ้ำ"></mat-icon>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>

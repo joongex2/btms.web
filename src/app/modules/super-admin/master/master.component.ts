@@ -46,12 +46,12 @@ export class MasterComponent implements OnInit {
   ];
 
   keyToColumnName: any = {
-    'index': 'ลำดับที่',
+    'index': 'No.',
     'type': 'Type',
     'code': 'Code',
     'name': 'Name',
     'isActive': 'Status',
-    'editDeleteIcon': 'จัดการ'
+    'editDeleteIcon': ''
   };
 
   notSortColumn: string[] = [

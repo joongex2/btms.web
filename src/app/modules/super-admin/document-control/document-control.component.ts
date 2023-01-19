@@ -61,7 +61,7 @@ export class DocumentControlComponent implements OnInit {
   ];
 
   keyToColumnName: any = {
-    'index': 'ลำดับที่',
+    'index': 'No.',
     'organizeCode': 'Organize Code',
     'documentCode': 'Document Code',
     'documentType': 'Document Type',
@@ -71,7 +71,7 @@ export class DocumentControlComponent implements OnInit {
     'lastDocumentNo': 'Last Document No.',
     'lastRunningNo': 'Last Running No.',
     'isActive': 'Status',
-    'editDeleteIcon': 'จัดการ'
+    'editDeleteIcon': ''
   };
 
   notSortColumn: string[] = [

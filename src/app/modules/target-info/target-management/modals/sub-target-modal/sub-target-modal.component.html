@@ -3,8 +3,8 @@
     <!-- Header -->
     <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
         <div class="text-lg font-normal text-white">
-            <ng-container *ngIf="!isEdit">เพิ่มเป้าหมายย่อย</ng-container>
-            <ng-container *ngIf="isEdit">แก้ไขเป้าหมายย่อย</ng-container>
+            <ng-container *ngIf="!isEdit">Add เป้าหมายย่อย</ng-container>
+            <ng-container *ngIf="isEdit">Edit เป้าหมายย่อย</ng-container>
         </div>
         <button mat-icon-button (click)="close()" [tabIndex]="-1">
             <mat-icon class="text-current text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
@@ -17,10 +17,10 @@
         [formGroup]="subTargetForm">
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
-            <mat-label>ลำดับที่</mat-label>
+            <mat-label>No.</mat-label>
             <input matInput [formControlName]="'priority'">
             <div class="copy-fields-toggles" matSuffix></div>
-            <mat-error>ลำดับที่ is required</mat-error>
+            <mat-error>No. is required</mat-error>
         </mat-form-field>
 
         <mat-form-field class="flex-auto gt-xs:pr-3">
