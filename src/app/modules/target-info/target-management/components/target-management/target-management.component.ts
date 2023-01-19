@@ -313,8 +313,13 @@ export class TargetManagementComponent implements OnInit {
           this.canEdit = true;
           this.canSubmit = true;
         }
-        // document_cancel
-        // document_modify
+        if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_CANCEL' && haveD01) {
+          // can do nothing
+        }
+        if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_MODIFY' && haveD01) {
+          this.canEdit = true;
+          this.canSubmit = true;
+        }
         // document_wait_for_print
         if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_DRAFT' && haveD01) {
           this.canSubmit = true;
