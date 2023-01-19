@@ -115,4 +115,8 @@ export class DocumentService {
             receiveEmails
         });
     }
+
+    copyDocument(id: number): Observable<any> {
+        return this._httpClient.post(getBaseUrl(`/v1/Documents/${id}/copy`), {});
+    }
 }

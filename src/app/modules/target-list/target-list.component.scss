@@ -54,8 +54,12 @@ table {
 }
 
 /* column width */
+.mat-column-radio {
+  width: 7.5%;
+}
+
 .mat-column-organizeCode {
-  width: 15%;
+  width: 17.5%;
 }
 
 .mat-column-documentNo {
@@ -83,7 +87,7 @@ table {
 }
 
 .mat-column-creator {
-  width: 20%;
+  width: 15%;
 }
 
 .mat-column-detail {
@@ -92,4 +96,24 @@ table {
 
 :host ::ng-deep .mat-form-field-wrapper {
   margin-bottom: 0 !important;
+}
+
+// radio size
+:host ::ng-deep .mat-radio-container{
+  height: 15px;
+  width: 15px;
+}
+:host ::ng-deep .mat-radio-outer-circle{
+  height: 15px;
+  width: 15px;
+}
+:host ::ng-deep .mat-radio-inner-circle{
+  height: 15px;
+  width: 15px;
+}
+:host ::ng-deep .mat-radio-button .mat-radio-ripple{
+  height: 30px; /*double of your required circle radius*/
+  width: 30px;  /*double of your required circle radius*/
+  left: calc(50% - 15px); /*'10px'-same as your required circle radius*/
+  top: calc(50% - 15px); /*'10px'-same as your required circle radius*/
 }

@@ -3,8 +3,10 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DocumentParams } from 'app/shared/interfaces/document.interface';
+import { Document, DocumentParams } from 'app/shared/interfaces/document.interface';
+import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { DocumentService } from 'app/shared/services/document.service';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -35,6 +37,7 @@ export class TargetListComponent implements OnInit, AfterViewInit {
   toDocumentYear: string;
   searchText: string;
   isCritical: boolean;
+  selectedRow: Document;
 
   // select option
   organizes: any[] = [];
@@ -60,6 +63,7 @@ export class TargetListComponent implements OnInit, AfterViewInit {
   ];
 
   keyToColumnName: any = {
+    'radio': '',
     'organizeCode': 'Organize Code',
     'documentNo': 'Running No.',
     'revisionNo': 'Revision No.',
@@ -73,19 +77,22 @@ export class TargetListComponent implements OnInit, AfterViewInit {
 
   notSortColumn: string[] = [
     'index',
-    'detail'
+    'detail',
+    'radio'
   ];
 
   constructor(
     private _documentService: DocumentService,
     private _router: Router,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _confirmationService: ConfirmationService
   ) {
     this.setDefault();
   }
 
   ngOnInit(): void {
     this.setTitle();
+    if (this.fromUrl === 'my-target') this.displayedColumns.splice(0, 0, 'radio');
     const organizes = this._activatedRoute.snapshot.data.organizes;
     const statuses = this._activatedRoute.snapshot.data.statuses;
     const documentTypes = this._activatedRoute.snapshot.data.documentTypes;
@@ -256,6 +263,15 @@ export class TargetListComponent implements OnInit, AfterViewInit {
       this.fromUrl = 'target-entry';
     } else {
       this.fromUrl = 'result-info';
+    }
+  }
+
+  async copyDocument() {
+    const res = (await firstValueFrom(this._documentService.copyDocument(this.selectedRow.id)));
+    if (!res.didError) {
+      this._router.navigate([`./${res.model}`], { relativeTo: this._activatedRoute });
+    } else {
+      this._confirmationService.warning(res.errorMessage);
     }
   }
 }
