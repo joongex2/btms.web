@@ -122,7 +122,7 @@ export class AdminUserDetailComponent implements OnInit {
       this.username = '';
       this.name = '';
       this.email = '';
-      this.selectedUserGroup = 12;
+      this.selectedUserGroup = 2;
       this.selectedIsActive = true;
       // this.organizes = [];
     }
