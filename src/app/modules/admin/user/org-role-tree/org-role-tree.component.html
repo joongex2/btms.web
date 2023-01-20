@@ -1,0 +1,74 @@
+<span class="ml-2 flex items-center cursor-pointer" [ngClass]="{ 'mb-1' : organizeNodes?.length > 0 }" (click)="addOrganize()">
+    <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>&nbsp;<span>Add Organize</span>
+</span>
+<div *ngFor="let organizeNode of organizeNodes; let i = index">
+    <!-- Organize -->
+    <ng-container *ngIf="organizeNode.organizeCode">
+        <!-- leaf -->
+        <div *ngIf="organizeNode.roles.length === 0" class="ml-6 flex items-center" style="min-height: 37px">
+            <mat-checkbox [(ngModel)]="organizeNode.isActive" [color]="'primary'"></mat-checkbox>
+            {{organizeCodeNameMapper ? organizeCodeNameMapper[organizeNode.organizeCode]: ''}}
+            <span class="ml-2 flex items-center cursor-pointer" (click)="addNewRole(organizeNode)">
+                <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>&nbsp;<span>Add Role</span>
+            </span>
+        </div>
+        <!-- parent -->
+        <div *ngIf="organizeNode.roles.length > 0" class="flex items-center">
+            <button style="margin-top: 7px;" mat-icon-button [attr.aria-label]="'Toggle ' + organizeNode.item"
+                (click)="organizeNode.expand = !organizeNode.expand">
+                <mat-icon class="mat-icon-rtl-mirror">
+                    {{organizeNode.expand ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+            </button>
+            <mat-checkbox [(ngModel)]="organizeNode.isActive" [color]="'primary'"></mat-checkbox>
+            {{organizeCodeNameMapper ? organizeCodeNameMapper[organizeNode.organizeCode]: ''}}
+            <span class="ml-2 flex items-center cursor-pointer" (click)="addNewRole(organizeNode)">
+                <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>&nbsp;<span>Add Role</span>
+            </span>
+        </div>
+        <!-- Role -->
+        <div class="ml-12 flex flex-col gap-2 expand-element" [@detailExpand]="organizeNode.expand ? 'expanded' : 'collapsed'">
+            <div *ngFor="let roleNode of organizeNode.roles; let j = index">
+                <ng-container *ngIf="roleNode.roleCode !== ''">
+                    <mat-checkbox [(ngModel)]="roleNode.isActive" [color]="'primary'"></mat-checkbox>
+                    {{roleCodeNameMapper ? roleCodeNameMapper[roleNode.roleCode]: ''}}
+                </ng-container>
+                <!-- New Role -->
+                <ng-container *ngIf="roleNode.roleCode === ''">
+                    <div class="flex items-center" [ngClass]="{ 'mt-2': organizeNode?.roles?.length > 0 }">
+                        <mat-form-field>
+                            <mat-select #itemValue name="role" placeholder="Role">
+                                <mat-option *ngFor="let role of roles" [value]="role.value">
+                                    {{roleCodeNameMapper ? roleCodeNameMapper[role.title]: ''}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <span class="flex items-center cursor-pointer ml-2" (click)="saveRoleNode(organizeNode, roleNode, itemValue.value)">
+                            <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
+                        </span>
+                        <span class="ml-2 flex items-center cursor-pointer" (click)="deleteRoleNode(organizeNode, j)">
+                            <mat-icon>delete</mat-icon>&nbsp;<span>Delete</span>
+                        </span>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </ng-container>
+    <!-- New Organize -->
+    <ng-container *ngIf="organizeNode.organizeCode === ''">
+        <div class="flex items-center ml-6" [ngClass]="{ 'mt-2': organizeNodes?.length > 0 }">
+            <autocomplete-form class="w-160" #itemValue [label]="'organization'" [name]="'organization'"
+                [options]="organizations" [standAlone]="true" [addRequireMatch]="true">
+            </autocomplete-form>
+            <span class="flex items-center cursor-pointer ml-2"
+                (click)="itemValue.form.valid && saveOrganizeNode(organizeNode, itemValue.value.value)">
+                <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
+            </span>
+            <span class="ml-2 flex items-center cursor-pointer" (click)="deleteOrganizeNode(i)">
+                <mat-icon>delete</mat-icon>&nbsp;<span>Delete</span>
+            </span>
+        </div>
+    </ng-container>
+</div>
+
+<!-- {{JSON.stringify(organizeNodes)}} -->

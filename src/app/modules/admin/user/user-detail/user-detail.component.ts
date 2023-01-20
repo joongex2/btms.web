@@ -11,6 +11,7 @@ import { UserGroup } from 'app/modules/super-admin/user-group/user-group.types';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { firstValueFrom } from 'rxjs';
+import { OrgRoleTreeComponent } from '../org-role-tree/org-role-tree.component';
 import { TreeChecklistComponent } from '../tree-check-list/tree-checklist';
 import { UserService } from '../user.service';
 import { User } from '../user.types';
@@ -25,7 +26,7 @@ import { User } from '../user.types';
 })
 export class UserDetailComponent implements OnInit {
   @ViewChild(NgForm) f: NgForm;
-  @ViewChild(TreeChecklistComponent) tcl: TreeChecklistComponent;
+  @ViewChild(OrgRoleTreeComponent) orgRoleTree: OrgRoleTreeComponent;
 
 
   isEdit: boolean = true;
@@ -81,7 +82,6 @@ export class UserDetailComponent implements OnInit {
       this.selectedUserGroup = undefined;
       this.selectedIsActive = true;
       this.organizes = [];
-      setTimeout(() => this.tcl.setOrganizes(this.organizes));
     }
 
     this._userGroupService.getUserGroups().subscribe({
@@ -110,7 +110,7 @@ export class UserDetailComponent implements OnInit {
                 this.email,
                 this.selectedUserGroup,
                 this.selectedIsActive,
-                this.tcl.getOrganizes()
+                this.orgRoleTree.getOutput()
               ));
             } else {
               // add
@@ -120,7 +120,7 @@ export class UserDetailComponent implements OnInit {
                 this.username,
                 this.selectedUserGroup,
                 this.selectedIsActive,
-                this.tcl.getOrganizes(),
+                this.orgRoleTree.getOutput(),
               ));
             }
             this._snackBarService.success();
@@ -168,7 +168,6 @@ export class UserDetailComponent implements OnInit {
         this.selectedUserGroup = this.user.groupId;
         this.selectedIsActive = this.user.isActive;
         this.organizes = this.user.organizes;
-        this.tcl.setOrganizes(this.organizes);
       },
       error: (e) => console.error(e)
     });

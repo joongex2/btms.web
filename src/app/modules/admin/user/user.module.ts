@@ -19,6 +19,7 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserComponent } from './user.component';
 import { userRoutes } from './user.routing';
+import { OrgRoleTreeComponent } from './org-role-tree/org-role-tree.component';
 
 
 
@@ -27,7 +28,8 @@ import { userRoutes } from './user.routing';
     UserComponent,
     UserListComponent,
     UserDetailComponent,
-    TreeChecklistComponent
+    TreeChecklistComponent,
+    OrgRoleTreeComponent
   ],
   imports: [
     RouterModule.forChild(userRoutes),
