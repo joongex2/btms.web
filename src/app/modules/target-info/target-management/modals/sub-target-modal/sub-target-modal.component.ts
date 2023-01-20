@@ -302,7 +302,6 @@ export class SubTargetModalComponent implements OnInit {
     const subTargetForm = this.subTargetForm.getRawValue();
     this.matDialogRef.close({
       ...subTargetForm,
-      conditions: subTargetForm.conditions.map(v => ({ ...v, targetValue: parseInt(v.targetValue) })),
       startMonth: subTargetForm.startDate.month() + 1,
       startYear: subTargetForm.startDate.year(),
       finishMonth: subTargetForm.finishDate.month() + 1,

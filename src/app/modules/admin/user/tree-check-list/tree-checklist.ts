@@ -314,7 +314,7 @@ export class TreeChecklistComponent implements OnInit {
         flatNode.expandable = !!node.children?.length;
         this.flatNodeMap.set(flatNode, node);
         this.nestedNodeMap.set(node, flatNode);
-        if (!existingNode || existingNode.item !== node.item) this.checklistSelection.select(flatNode); // tick when new org, new role
+        if ((!existingNode || existingNode.item !== node.item) && node.item !== '') this.checklistSelection.select(flatNode); // tick when new org, new role
         return flatNode;
     };
 
