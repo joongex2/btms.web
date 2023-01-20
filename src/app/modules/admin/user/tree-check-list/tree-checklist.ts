@@ -314,6 +314,7 @@ export class TreeChecklistComponent implements OnInit {
         flatNode.expandable = !!node.children?.length;
         this.flatNodeMap.set(flatNode, node);
         this.nestedNodeMap.set(node, flatNode);
+        if (!existingNode || existingNode.item !== node.item) this.checklistSelection.select(flatNode); // tick when new org, new role
         return flatNode;
     };
 
@@ -452,13 +453,6 @@ export class TreeChecklistComponent implements OnInit {
 
         const nestedNode = this.flatNodeMap.get(node);
         this._database.updateItem(nestedNode!, itemValue);
-
-        for (let newNode of this.treeControl.dataNodes) {
-            if (newNode.level == node.level && newNode.item == itemValue) {
-                // if save new role tick
-                this.checklistSelection.select(newNode);
-            }
-        }
     }
 
     deleteNode(node: TodoItemFlatNode) {
