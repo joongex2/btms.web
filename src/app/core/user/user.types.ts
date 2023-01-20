@@ -3,10 +3,12 @@ export interface User {
     name: string;
     username: string;
     email: string;
+    menus: any;
+    groupId: number;
+    groupName: string;
+    organizes: Organize[];
     avatar?: string;
     status?: string;
-    menus: any;
-    organizes: Organize[];
 }
 
 export interface Organize {
