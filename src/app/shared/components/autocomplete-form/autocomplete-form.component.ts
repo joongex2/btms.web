@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { ControlContainer, FormGroup, NgForm } from "@angular/forms";
+import { Component, Input, OnInit, Optional } from "@angular/core";
+import { ControlContainer, FormBuilder, FormGroup } from "@angular/forms";
+import { requireMatchValidator } from "app/shared/directives/require-match.directive";
 import { map, Observable, startWith } from "rxjs";
 
 
@@ -15,12 +16,27 @@ export class AutocompleteFormComponent implements OnInit {
     @Input() name;
     @Input() options: any[] = [];
     @Input() showLabel = false;
+    @Input() standAlone = false;
+    @Input() addRequireMatch = false;
     filteredOptions: Observable<any[]>;
 
-    constructor(private controlContainer: ControlContainer) { }
+    constructor(
+        @Optional() private controlContainer: ControlContainer,
+        private _formBuilder: FormBuilder,
+    ) { }
 
     ngOnInit(): void {
-        this.parentForm = this.controlContainer.control as FormGroup;
+        if (this.standAlone) {
+            this.parentForm = this._formBuilder.group({ [this.name]: null });
+        } else {
+            this.parentForm = this.controlContainer.control as FormGroup;
+        }
+
+        if (this.addRequireMatch) {
+            this.parentForm.get(this.name).addValidators(requireMatchValidator);
+            this.parentForm.get(this.name).updateValueAndValidity();
+        }
+
         this.filteredOptions = this.parentForm.get(this.name).valueChanges.pipe(
             startWith(''),
             map(value => (typeof value === 'string' ? value : value.title)),
@@ -38,5 +54,13 @@ export class AutocompleteFormComponent implements OnInit {
 
     displayFn(value: any): string {
         return value && value.title ? value.title : '';
+    }
+
+    get value() {
+        return this.parentForm.get(this.name).value;
+    }
+
+    get form() {
+        return this.parentForm.get(this.name);
     }
 }

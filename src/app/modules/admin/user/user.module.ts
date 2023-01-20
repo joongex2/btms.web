@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -41,6 +42,7 @@ import { userRoutes } from './user.routing';
     MatDialogModule,
     MatTreeModule,
     MatCheckboxModule,
+    MatAutocompleteModule,
     FuseAlertModule,
     SharedModule
   ]

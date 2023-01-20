@@ -1,6 +1,8 @@
 
 
-<span class="ml-2 flex items-center cursor-pointer" (click)="addNewRootItem()">
+<span class="ml-2 flex items-center cursor-pointer" 
+    [ngClass]="{ 'mb-1' : treeControl?.dataNodes?.length > 0 }"
+    (click)="addNewRootItem()">
     <mat-icon svgIcon="heroicons_outline:plus"></mat-icon>&nbsp;<span>Add Organize</span>
 </span>
 <mat-tree #treeSelector [dataSource]="dataSource" [treeControl]="treeControl">
@@ -34,14 +36,14 @@
     <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
         <button mat-icon-button disabled></button>
         <ng-container *ngIf="node.level == 0;else roleSelect">
-            <mat-form-field class="ml-6 mb-2 w-160">
-                <mat-select #itemValue name="organization" placeholder="Organize">
-                    <mat-option *ngFor="let organization of organizations" [value]="organization.value">
-                        {{organization.title}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <span class="flex items-center cursor-pointer" (click)="saveNode(node, itemValue.value)">
+            <autocomplete-form class="w-160" #itemValue 
+                [label]="'organization'"    
+                [name]="'organization'"
+                [options]="organizations"
+                [standAlone]="true"
+                [addRequireMatch]="true">
+            </autocomplete-form>
+            <span class="flex items-center cursor-pointer ml-2" (click)="itemValue.form.valid && saveNode(node, itemValue.value.value)">
                 <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
             </span>
         </ng-container>
@@ -53,7 +55,7 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <span class="flex items-center cursor-pointer" (click)="saveNode(node, itemValue.value)">
+            <span class="flex items-center cursor-pointer ml-2" (click)="saveNode(node, itemValue.value)">
                 <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
             </span>
         </ng-template>
@@ -63,7 +65,7 @@
     </mat-tree-node>
 
     <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.item">
+        <button style="margin-top: 7px;" mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.item">
             <mat-icon class="mat-icon-rtl-mirror">
                 {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
             </mat-icon>

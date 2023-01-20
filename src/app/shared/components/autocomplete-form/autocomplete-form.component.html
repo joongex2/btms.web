@@ -17,7 +17,7 @@
                 </mat-autocomplete>
                 <mat-error *ngIf="parentForm.get(name).hasError('required')">{{label}} is required
                 </mat-error>
-                <mat-error *ngIf="parentForm.get(name).hasError('requireMatch')">ไม่พบข้อมูลต้นสังกัดในระบบ
+                <mat-error *ngIf="parentForm.get(name).hasError('requireMatch')">ไม่พบข้อมูล {{label}} ในระบบ
                 </mat-error>
             </mat-form-field>
         </div>

@@ -43,9 +43,10 @@
                                 <td mat-cell *matCellDef="let element; let i = index">
                                     <ng-container *ngIf="key == 'index'">{{ (paginator.pageIndex * paginator.pageSize) + (i + 1) }}</ng-container>
                                     <ng-container *ngIf="key == 'organizeName'">
-                                        <a [routerLink]="'./'+element.organizeCode">
+                                        <a *ngIf="element.canCreate" [routerLink]="'./'+element.organizeCode">
                                             {{ element[key] }}
                                         </a>
+                                        <ng-container *ngIf="!element.canCreate">{{ element[key] }}</ng-container>
                                     </ng-container>
                                     <ng-container *ngIf="key == 'chooseIcon'">
                                         <a class="flex items-center justify-center" [routerLink]="'./'+element.organizeCode">

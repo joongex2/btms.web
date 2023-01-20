@@ -18,10 +18,10 @@ export class ConfirmationService {
         });
     }
 
-    save() {
+    save(title?: string, message?: string) {
         return this._fuseConfirmationService.open({
-            title: 'ต้องการบันทึกข้อมูลใช่หรือไม่',
-            message: '',
+            title: title || 'ต้องการบันทึกข้อมูลใช่หรือไม่',
+            message: message || '',
             icon: { name: 'heroicons_outline:question-mark-circle', color: 'primary' },
             actions: {
                 cancel: { show: true, label: 'ยกเลิก' },

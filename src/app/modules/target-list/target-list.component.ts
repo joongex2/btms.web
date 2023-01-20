@@ -266,12 +266,16 @@ export class TargetListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  async copyDocument() {
-    const res = (await firstValueFrom(this._documentService.copyDocument(this.selectedRow.id)));
-    if (!res.didError) {
-      this._router.navigate([`./${res.model}`], { relativeTo: this._activatedRoute });
-    } else {
-      this._confirmationService.warning(res.errorMessage);
-    }
+  copyDocument() {
+    this._confirmationService.save('ยืนยัน', `ต้องการ copy ข้อมูล document's runningNo: ${this.selectedRow.documentNo} ใช่หรือไม่`).afterClosed().subscribe(async (result) => {
+      if (result == 'confirmed') {
+        const res = (await firstValueFrom(this._documentService.copyDocument(this.selectedRow.id)));
+        if (!res.didError) {
+          this._router.navigate([`./${res.model}`], { relativeTo: this._activatedRoute });
+        } else {
+          this._confirmationService.warning(res.errorMessage);
+        }
+      }
+    });
   }
 }
