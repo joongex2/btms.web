@@ -1,0 +1,141 @@
+<div class="absolute inset-0 overflow-hidden flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-4 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div>
+                        <a class="whitespace-nowrap text-primary-500">Super Admin</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a (click)="goBack()" class="cursor-pointer">
+                            <span class="ml-1 text-primary-500">เทมเพลทเอกสารเป้าหมาย</span>
+                        </a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <span>
+                            <ng-container *ngIf="isEdit">{{targetTemplate?.documentName}}</ng-container>
+                            <ng-container *ngIf="!isEdit">สร้างเทมเพลทเอกสารเป้าหมาย</ng-container>
+                        </span>
+                    </div>
+                </div>
+                <div class="flex sm:hidden">
+                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
+                        <span class="ml-1">Back</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <div class="text-3xl font-normal text-primary tracking-tight leading-8">
+                    <ng-container *ngIf="isEdit">{{targetTemplate?.documentName}}</ng-container>
+                    <ng-container *ngIf="!isEdit">สร้างเทมเพลทเอกสารเป้าหมาย</ng-container>
+                </div>
+            </div>
+        </div>
+        <!-- Actions -->
+        <div class="flex flex-col self-end">
+            <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 justify-end">
+                <a (click)="goBack()" class="flex items-center cursor-pointer">
+                    <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
+                    &nbsp;<span>Back</span>
+                </a>
+                <a (click)="save()" class="flex items-center cursor-pointer ml-3">
+                    <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
+                </a>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Main -->
+    <div class="flex flex-col flex-auto p-6 overflow-y-auto">
+        <!-- CONTENT GOES HERE -->
+        <div class="flex-auto">
+            <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon [svgIcon]="'heroicons_outline:information-circle'"></mat-icon>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+        
+                    <form #f="ngForm">
+                        <div class="grid gap-x-4 sm:gap-x-8 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
+                            <div class="col-span-6 sm:col-span-2 font-medium">Document Name<span class="text-warn">*</span></div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input matInput [(ngModel)]="documentName" name="documentName" required>
+                                    <mat-error>documentName is required</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Document Type<span class="text-warn">*</span></div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select 
+                                        [(ngModel)]="selectedDocumentType"
+                                        (ngModelChange)="documentTypeChange($event)"
+                                        name="documentType"
+                                        placeholder="กรุณาเลือก"
+                                        required
+                                    >
+                                        <mat-option *ngFor="let documentType of documentTypes" [value]="documentType.value">
+                                            {{documentType.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Document Status<span class="text-warn">*</span></div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedDocumentStatus" name="documentStatus" required>
+                                        <mat-option *ngFor="let documentStatus of documentStatuses" [value]="documentStatus.value">
+                                            {{documentStatus.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Year<span class="text-warn">*</span></div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedYear" name="year" required>
+                                        <mat-option *ngFor="let year of years" [value]="year.value">
+                                            {{year.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <fuse-alert class="col-span-12 sm:col-start-1" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false"
+                                [type]="alert.type" [@shake]="alert.type === 'error'">
+                                {{alert.message}}
+                            </fuse-alert>
+                        </div>
+                    </form>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
+                <app-target-table
+                    #targetTable
+                    [documentId]="targetTemplate?.id" 
+                    [targets]="targets"
+                    [selectedDocumentType]="selectedDocumentType"
+                    [standards]="standards"
+                >
+                </app-target-table>
+            </div>
+        </div>
+    </div>
+</div>

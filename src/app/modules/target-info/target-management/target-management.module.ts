@@ -77,6 +77,14 @@ import { TopicTableComponent } from "./tables/topic-table/topic-table.component"
   ],
   exports: [
     TargetManagementComponent,
+    TargetTableComponent,
+    SubTargetTableComponent,
+    PlanTableComponent,
+    TopicTableComponent,
+    TargetModalComponent,
+    SubTargetModalComponent,
+    PlanModalComponent,
+    TopicModalComponent,
     ConfirmationComponent
   ],
   providers: [

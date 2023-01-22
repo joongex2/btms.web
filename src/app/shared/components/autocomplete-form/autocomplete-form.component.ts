@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Optional } from "@angular/core";
+import { Component, Input, OnInit, Optional, SimpleChanges } from "@angular/core";
 import { ControlContainer, FormBuilder, FormGroup } from "@angular/forms";
 import { requireMatchValidator } from "app/shared/directives/require-match.directive";
 import { map, Observable, startWith } from "rxjs";
@@ -25,6 +25,15 @@ export class AutocompleteFormComponent implements OnInit {
         private _formBuilder: FormBuilder,
     ) { }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        // trigger new filteredOptions
+        if (changes['options'] && !changes['options'].firstChange) {
+            const temp = this.form.value;
+            this.form.reset();
+            this.form.setValue(temp);
+        }
+    }
+
     ngOnInit(): void {
         if (this.standAlone) {
             this.parentForm = this._formBuilder.group({ [this.name]: null });
@@ -39,7 +48,7 @@ export class AutocompleteFormComponent implements OnInit {
 
         this.filteredOptions = this.parentForm.get(this.name).valueChanges.pipe(
             startWith(''),
-            map(value => (typeof value === 'string' ? value : value.title)),
+            map(value => (typeof value === 'string' ? value : value?.title)),
             map(name => (name ? this._filterOption(name) : this.options.slice())),
         );
     }
@@ -53,7 +62,7 @@ export class AutocompleteFormComponent implements OnInit {
     }
 
     displayFn(value: any): string {
-        return value && value.title ? value.title : '';
+        return value && value.title ? value.title : value;
     }
 
     get value() {

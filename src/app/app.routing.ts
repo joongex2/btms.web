@@ -116,9 +116,9 @@ export const appRoutes: Route[] = [
                     { path: 'organization', loadChildren: () => import('app/modules/super-admin/organization/organization.module').then(m => m.OrganizationModule) },
                     { path: 'document-control', loadChildren: () => import('app/modules/super-admin/document-control/document-control.module').then(m => m.DocumentControlModule) },
                     { path: 'lookup', loadChildren: () => import('app/modules/super-admin/lookup/lookup.module').then(m => m.LookupModule) },
+                    { path: 'target-template', loadChildren: () => import('app/modules/super-admin/target-template/target-template.module').then(m => m.TargetTemplateModule) },
                 ]
             },
-
             { path: '403-forbidden', loadChildren: () => import('app/modules/error/error-403/error-403.module').then(m => m.Error403Module) },
 
             // 404 & Catch all

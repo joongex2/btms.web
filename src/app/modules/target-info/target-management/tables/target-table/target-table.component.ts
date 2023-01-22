@@ -23,7 +23,7 @@ export class TargetTableComponent implements OnInit {
   @Input() targets: Target[] = [];
   @Input() selectedDocumentType: string;
   @Input() standards: any[];
-  @Input() isEdit: boolean;
+  @Input() isEdit: boolean = true;
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
   @ViewChildren(SubTargetTableComponent) subTargetTables: QueryList<SubTargetTableComponent>;
   @ViewChild('targetTable') targetTable: MatTable<Target>;

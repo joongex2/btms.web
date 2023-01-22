@@ -1,0 +1,12 @@
+<form [formGroup]="form">
+    <div class="flex items-center">
+        <ng-multiselect-dropdown
+            class="w-full"
+            [placeholder]="placeholder"
+            [settings]="dropdownSettings"
+            [data]="options"
+            [formControlName]="name"
+        >
+        </ng-multiselect-dropdown>
+    </div>
+</form>
