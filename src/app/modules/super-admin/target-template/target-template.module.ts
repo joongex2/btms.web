@@ -16,15 +16,15 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
+import { FuseAlertModule } from '@fuse/components/alert';
+import { TargetManagementModule } from 'app/modules/target-info/target-management/target-management.module';
 import { SharedModule } from 'app/shared/shared.module';
+import { TemplateDeployModalComponent } from './modals/template-deploy-modal/template-deploy-modal.component';
+import { TargetDeployComponent } from './target-deploy/target-deploy.component';
+import { TargetTemplateDetailComponent } from './target-template-detail/target-template-detail.component';
 import { TargetTemplateListComponent } from './target-template-list/target-template-list.component';
 import { TargetTemplateComponent } from './target-template.component';
 import { targetTemplateRoutes } from './target-template.routing';
-import { TargetTemplateDetailComponent } from './target-template-detail/target-template-detail.component';
-import { TargetManagementModule } from 'app/modules/target-info/target-management/target-management.module';
-import { FuseAlertModule } from '@fuse/components/alert';
-import { TemplateDeployModalComponent } from './modals/template-deploy-modal/template-deploy-modal.component';
-import { DeployingModalComponent } from './modals/deploying-modal/deploying-modal.component';
 
 
 
@@ -33,8 +33,8 @@ import { DeployingModalComponent } from './modals/deploying-modal/deploying-moda
     TargetTemplateListComponent,
     TargetTemplateComponent,
     TargetTemplateDetailComponent,
-    TemplateDeployModalComponent,
-    DeployingModalComponent
+    TargetDeployComponent,
+    TemplateDeployModalComponent
   ],
   imports: [
     RouterModule.forChild(targetTemplateRoutes),

@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { TargetManagementComponent } from 'app/modules/target-info/target-management/components/target-management/target-management.component';
 import { UserResolver } from '../../../shared/resolver';
+import { TargetDeployComponent } from './target-deploy/target-deploy.component';
 import { TargetTemplateDetailComponent } from './target-template-detail/target-template-detail.component';
 import { TargetTemplateListComponent } from './target-template-list/target-template-list.component';
 import { TargetTemplateComponent } from './target-template.component';
@@ -26,6 +26,10 @@ export const targetTemplateRoutes: Route[] = [
             {
                 path: ':id',
                 component: TargetTemplateDetailComponent
+            },
+            {
+                path: 'deploy/:id',
+                component: TargetDeployComponent
             }
         ]
     }

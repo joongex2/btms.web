@@ -95,17 +95,6 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Document Status<span class="text-warn">*</span></div>
-                            <div class="col-span-6 sm:col-span-4 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedDocumentStatus" name="documentStatus" required>
-                                        <mat-option *ngFor="let documentStatus of documentStatuses" [value]="documentStatus.value">
-                                            {{documentStatus.title}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Year<span class="text-warn">*</span></div>
                             <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :

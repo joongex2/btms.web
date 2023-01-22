@@ -15,15 +15,13 @@ export class TargetTemplateService {
     createTargetTemplate(
         documentName: string,
         documentType: string,
-        documentStatus: string,
-        documentYear: string,
+        documentYear: number,
         targets: Target[]
     ): Observable<any> {
         return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Templates'), {
             id: 0,
             documentName,
             documentType,
-            documentStatus,
             documentYear,
             targets
         });
@@ -33,18 +31,15 @@ export class TargetTemplateService {
         id: number,
         documentName: string,
         documentType: string,
-        documentStatus: string,
-        documentYear: string,
+        documentYear: number,
         targets: Target[]
     ) {
         return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Templates'), {
             id,
             documentName,
             documentType,
-            documentStatus,
             documentYear,
-            targets,
-            markForEdit: true
+            targets
         });
     }
 
@@ -82,7 +77,7 @@ export class TargetTemplateService {
         return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Templates/${id}`)).pipe(map(data => data.model));;
     }
 
-    deployTemplates(organizes: string[]): Observable<any> {
-        return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Templates/deploy'), organizes);
+    deployTemplates(id: number, organizeIds: number[]): Observable<any> {
+        return this._httpClient.post<ResultMapper>(getBaseUrl(`/v1/Templates/${id}/deploy`), organizeIds);
     }
 }

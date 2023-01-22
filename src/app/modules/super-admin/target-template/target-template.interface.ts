@@ -4,7 +4,6 @@ export interface TargetTemplate {
     id: number;
     documentName: string;
     documentType: string;
-    documentStatus: string;
-    documentYear: string;
+    documentYear: number;
     targets: Target[];
 }

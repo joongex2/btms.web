@@ -69,23 +69,19 @@ table {
 }
 
 .mat-column-documentName {
-  width: 20%;
+  width: 25%;
 }
 
 .mat-column-documentType {
-  width: 20%;
-}
-
-.mat-column-documentStatus {
-  width: 20%;
+  width: 25%;
 }
 
 .mat-column-documentYear {
-  width: 20%;
+  width: 25%;
 }
 
 .mat-column-detail {
-  width: 10%;
+  width: 15%;
 }
 
 :host ::ng-deep .mat-form-field-wrapper {

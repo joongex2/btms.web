@@ -1,65 +1,49 @@
-<div class="flex flex-col w-80v md:w-160 max-h-80v -m-6">
+<div class="flex flex-col w-80v sm:w-[500px] max-h-85v -m-6">
 
     <!-- Header -->
     <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
-        <div class="text-lg font-normal text-white">
-            deploy เทมเพลทเอกสารเป้าหมาย
-        </div>
-        <button mat-icon-button (click)="close()" [tabIndex]="-1">
+        <div class="text-lg font-medium text-white">สร้างเอกสารจาก template</div>
+        <!-- <button mat-icon-button (click)="close()" [tabIndex]="-1">
             <mat-icon class="text-current text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
-        </button>
+        </button> -->
     </div>
 
     <!-- Body -->
-    <div class="overflow-y-auto">
-        <form class="grid gap-4 grid-cols-12 p-6 sm:p-8 items-center" [formGroup]="filterOrganizeForm">
-            <div class="col-span-4 font-medium">Business Unit Code</div>
-            <div class="col-span-8">
-                <autocomplete-form label="Business Unit Code" name="businessUnitCode" [options]="businessUnitCodes"></autocomplete-form>
+    <div class="p-6 sm:p-8">
+        <!-- Waiting -->
+        <ng-container *ngIf="status === 'waiting'">
+            <div class="flex justify-center">
+                <mat-progress-spinner
+                [diameter]="88"
+                [mode]="'indeterminate'"
+                [color]="'primary'"
+                >
+                </mat-progress-spinner>
             </div>
-    
-            <div class="col-span-4 font-medium">Sub Business Unit Code</div>
-            <div class="col-span-8">
-                <autocomplete-form label="Sub Business Unit Code" name="subBusinessUnitCode" [options]="subBusinessUnitCodes"></autocomplete-form>
-            </div>
-    
-            <div class="col-span-4 font-medium">Plant Code</div>
-            <div class="col-span-8">
-                <autocomplete-form label="Plant Code" name="plantCode" [options]="plantCodes"></autocomplete-form>
-            </div>
-    
-            <div class="col-span-4 font-medium">Division Code</div>
-            <div class="col-span-8">
-                <autocomplete-form label="Division Code" name="divisionCode" [options]="divisionCodes"></autocomplete-form>
-            </div>
-            <form-error class="col-span-12" #filterOrgError></form-error>
-            <div class="col-span-12 flex justify-end">
-                <button mat-flat-button color="warn" (click)="reset()">Reset Filter</button>
-                <button mat-flat-button color="primary" class="ml-2" (click)="filterOrganize()">Filter Organizes</button>
-            </div>
-        </form>
+            <div class="mt-4 text-base text-center">กำลัง สร้างเอกสารจาก template...</div>
+        </ng-container>
 
-        <form class="grid gap-4 grid-cols-12 p-6 pt-0 sm:p-8 sm:pt-0 items-center" [formGroup]="deployForm">
-            <div class="col-span-4 font-medium">Organizes</div>
-            <div class="col-span-8">
-                <form-multi-select-dropdown 
-                    [label]="''"
-                    [name]="'organizes'"
-                    [placeholder]="'organizes'"
-                    [options]="filterOrganizes">
-                </form-multi-select-dropdown>
-            </div>
-            <form-error class="col-span-12" #deployError></form-error>
+        <!-- Success -->
+        <ng-container *ngIf="status === 'success'">
+            <success-icon></success-icon>
+            <div class="mt-4 text-base text-center">สร้างเอกสารจาก template เสร็จสมบูรณ์</div>
+        </ng-container>
 
-            <!-- Actions -->
-            <div class="col-span-12 flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
-                <div class="flex-none flex items-center cursor-pointer" (click)="close()">
-                    <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>ยกเลิก</span>
-                </div>
-                <div class="flex-none sm:ml-2 flex items-center cursor-pointer" (click)="deploy()">
-                    <mat-icon svgIcon="heroicons_outline:paper-airplane" class="rotate-90"></mat-icon>&nbsp;<span>ตกลง</span>
-                </div>
+        <!-- Error -->
+        <ng-container *ngIf="status === 'error'">
+            <error-icon></error-icon>
+            <mat-form-field class="w-full fuse-mat-textarea">
+                <textarea class="error-text-area" matInput readonly>{{errorMessage}}</textarea>
+            </mat-form-field>
+        </ng-container>
+        
+
+        <!-- Actions -->
+        <div *ngIf="['success', 'error'].includes(status)" class="flex flex-col sm:flex-row sm:items-center justify-end mt-4">
+            <div class="flex-none flex items-center cursor-pointer"
+                (click)="close()">
+                <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>ปิด</span>
             </div>
-        </form>
+        </div>
     </div>
 </div>

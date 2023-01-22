@@ -1,0 +1,130 @@
+<div class="absolute inset-0 overflow-hidden flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-4 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div>
+                        <a class="whitespace-nowrap text-primary-500">Super Admin</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a (click)="goBack()" class="cursor-pointer">
+                            <span class="ml-1 text-primary-500">เทมเพลทเอกสารเป้าหมาย</span>
+                        </a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <span>
+                            deploy เทมเพลทเอกสารเป้าหมาย {{targetTemplate?.documentName}}
+                        </span>
+                    </div>
+                </div>
+                <div class="flex sm:hidden">
+                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
+                        <span class="ml-1">Back</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <div class="text-3xl font-normal text-primary tracking-tight leading-8">
+                    deploy เทมเพลทเอกสารเป้าหมาย {{targetTemplate?.documentName}}
+                </div>
+            </div>
+        </div>
+        <!-- Actions -->
+        <div class="flex flex-col self-end">
+            <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 justify-end">
+                <a (click)="goBack()" class="flex items-center cursor-pointer">
+                    <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
+                    &nbsp;<span>Back</span>
+                </a>
+                <div (click)="deploy()" class="cursor-pointer flex items-center ml-3">
+                    <mat-icon svgIcon="heroicons_outline:paper-airplane" class="rotate-90"></mat-icon>&nbsp;<span>Deploy</span>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Main -->
+    <div class="flex flex-col flex-auto p-6 overflow-y-auto">
+        <!-- CONTENT GOES HERE -->
+        <div class="flex-auto">
+            <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel [expanded]="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon [svgIcon]="'heroicons_outline:information-circle'"></mat-icon>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <!-- CONTENT GOES HERE -->
+                    <form>
+                        <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)" [formGroup]="filterOrganizeForm">
+                            <div class="col-span-6 sm:col-span-3 font-medium">Business Unit Code</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <autocomplete-form class="ml-2 w-full" label="Business Unit Code" name="businessUnitCode" [options]="businessUnitCodes"></autocomplete-form>
+                            </div>
+                    
+                            <div class="col-span-6 sm:col-span-3 font-medium">Sub Business Unit Code</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <autocomplete-form class="ml-2 w-full" label="Sub Business Unit Code" name="subBusinessUnitCode" [options]="subBusinessUnitCodes"></autocomplete-form>
+                            </div>
+                    
+                            <div class="col-span-6 sm:col-span-3 font-medium">Plant Code</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <autocomplete-form class="ml-2 w-full" label="Plant Code" name="plantCode" [options]="plantCodes"></autocomplete-form>
+                            </div>
+                    
+                            <div class="col-span-6 sm:col-span-3 font-medium">Division Code</div>
+                            <div class="col-span-6 sm:col-span-3 flex items-center">
+                                :
+                                <autocomplete-form class="ml-2 w-full" label="Division Code" name="divisionCode" [options]="divisionCodes"></autocomplete-form>
+                            </div>
+                            <form-error class="col-span-12" #filterOrgError></form-error>
+                        </div>
+                        <div class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                            <div class="flex-none" (click)="filterOrganize()">
+                                <a class="flex items-center cursor-pointer">
+                                    <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Filter Organizes</span>
+                                </a>
+                            </div>
+                            <div class="flex-none ml-2" (click)="reset()">
+                                <a class="flex items-center cursor-pointer">
+                                    <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Reset Filter</span>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded p-6">
+                <form [formGroup]="deployForm">
+                    <div class="col-span-4 font-medium">Organizes</div>
+                    <div class="col-span-8">
+                        <form-multi-select-dropdown 
+                            [label]="''"
+                            [name]="'organizes'"
+                            [placeholder]="'organizes'"
+                            [options]="filterOrganizes">
+                        </form-multi-select-dropdown>
+                    </div>
+                    <div class="mt-2">
+                        <form-error class="col-span-12" #deployError></form-error>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

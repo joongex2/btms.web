@@ -5,7 +5,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
-import { TemplateDeployModalComponent } from '../modals/template-deploy-modal/template-deploy-modal.component';
 import { TargetTemplateService } from '../target-template.service';
 
 @Component({
@@ -24,22 +23,11 @@ export class TargetTemplateListComponent implements OnInit {
   // bind value
   searchText: string;
 
-  // select option
-  organizes: any[] = [];
-  bus: any[] = [];
-  subBus: any[] = [];
-  plants: any[] = [];
-  divisions: any[] = [];
-  statuses: any[] = [];
-  documentTypes: any[] = [];
-  targetTypes: any[] = [];
-
   // table setting
   displayedColumns: string[] = [
     'index',
     'documentName',
     'documentType',
-    'documentStatus',
     'documentYear',
     'detail'
   ];
@@ -48,7 +36,6 @@ export class TargetTemplateListComponent implements OnInit {
     'index': 'No.',
     'documentName': 'Document Name',
     'documentType': 'Document Type',
-    'documentStatus': 'Document Status',
     'documentYear': 'Document Year',
     'detail': ''
   };
@@ -158,19 +145,5 @@ export class TargetTemplateListComponent implements OnInit {
 
   onClick() {
     return false;
-  }
-
-  deployTemplate(templateId: number) {
-    const dialogRef = this._matDialog.open(TemplateDeployModalComponent, {
-      data: {
-        templateId
-      },
-      autoFocus: false
-    });
-    dialogRef.afterClosed()
-      .subscribe((success: boolean) => {
-        if (!success) return; // cancel
-        // this.loadOrganizations();
-      });
   }
 }

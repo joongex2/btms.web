@@ -107,7 +107,7 @@
                                             <a class="flex items-center" [routerLink]="'/super-admin/target-template/'+element.id" title="แก้ไขเทมเพลทเอกสารเป้าหมาย">
                                                 <mat-icon svgIcon="heroicons_solid:menu" class="text-primary icon-size-4 cursor-pointer"></mat-icon>
                                             </a>
-                                            <a class="ml-[8px] flex items-center" (click)="deployTemplate(element.id)" title="ส่งเทมเพลทเอกสารเป้าหมาย">
+                                            <a class="ml-[8px] flex items-center" [routerLink]="'./deploy/'+element.id" title="ส่งเทมเพลทเอกสารเป้าหมาย">
                                                 <mat-icon svgIcon="heroicons_solid:paper-airplane" class="text-primary icon-size-4 cursor-pointer rotate-90"></mat-icon>
                                             </a>
                                         </div>

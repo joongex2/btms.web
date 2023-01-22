@@ -35,8 +35,7 @@ export class TargetTemplateDetailComponent implements OnInit {
   // bind value
   documentName: string;
   selectedDocumentType: string;
-  selectedDocumentStatus: string;
-  selectedYear: string;
+  selectedYear: number;
   targets: Target[] = [];
 
   // select option
@@ -77,13 +76,13 @@ export class TargetTemplateDetailComponent implements OnInit {
 
     // load select
     // years
-    this.selectedYear = moment().year().toString();
+    this.selectedYear = moment().year();
     const currentYear = moment().year();
     this.years.push(currentYear);
     this.years.push(currentYear + 1);
     this.years.push(currentYear + 2);
     this.years.sort(function (a, b) { return b - a });
-    this.years = this.years.map((v) => ({ title: v.toString(), value: v.toString() }));
+    this.years = this.years.map((v) => ({ title: v.toString(), value: v }));
 
     // documentTypes
     this._lookupService.getLookups('DOCUMENT_TYPE').subscribe({
@@ -107,7 +106,6 @@ export class TargetTemplateDetailComponent implements OnInit {
       this.targetTemplate = {} as any;
       this.targetTemplate.id = 0;
       this.targetTemplate.documentName = null;
-      this.targetTemplate.documentStatus = null;
       this.targetTemplate.documentType = null;
       this.targetTemplate.documentYear = null;
       this.targets = [];
@@ -133,7 +131,6 @@ export class TargetTemplateDetailComponent implements OnInit {
               res = await firstValueFrom(this._targetTemplateService.createTargetTemplate(
                 this.documentName,
                 this.selectedDocumentType,
-                this.selectedDocumentStatus,
                 this.selectedYear,
                 this.targets
               ));
@@ -143,7 +140,6 @@ export class TargetTemplateDetailComponent implements OnInit {
                 this.targetTemplate.id,
                 this.documentName,
                 this.selectedDocumentType,
-                this.selectedDocumentStatus,
                 this.selectedYear,
                 this.targets
               ));
@@ -212,7 +208,6 @@ export class TargetTemplateDetailComponent implements OnInit {
         this.targetTemplate = targetTemplate;
         this.documentName = this.targetTemplate.documentName
         this.selectedDocumentType = this.targetTemplate.documentType;
-        this.selectedDocumentStatus = this.targetTemplate.documentStatus;
         this.selectedYear = this.targetTemplate.documentYear;
         this.targets = this.targetTemplate.targets;
 
