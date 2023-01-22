@@ -87,7 +87,7 @@ export class UserDetailComponent implements OnInit {
     this._userGroupService.getUserGroups().subscribe({
       next: (v: UserGroup[]) => {
         this.userGroups = v
-          .filter((v) => { return this.currentUser.id === 1 || ![1, 2].includes(v.id) })
+          .filter((v) => { return !(this.currentUser.groupId !== 1 && !this.isEdit && [1, 2].includes(v.id)) })
           .map((v) => ({ title: v.name, value: v.id }))
       },
       error: (e) => console.error(e)
