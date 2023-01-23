@@ -21,7 +21,7 @@
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
                         <span>
-                            deploy เทมเพลทเอกสารเป้าหมาย {{targetTemplate?.documentName}}
+                            ส่งสร้างเอกสารเป้าหมายจากเทมเพลท {{targetTemplate?.documentName}}
                         </span>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
             <!-- Title -->
             <div class="mt-2">
                 <div class="text-3xl font-normal text-primary tracking-tight leading-8">
-                    deploy เทมเพลทเอกสารเป้าหมาย {{targetTemplate?.documentName}}
+                    ส่งสร้างเอกสารเป้าหมายจากเทมเพลท {{targetTemplate?.documentName}}
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
                     &nbsp;<span>Back</span>
                 </a>
                 <div (click)="deploy()" class="cursor-pointer flex items-center ml-3">
-                    <mat-icon svgIcon="heroicons_outline:paper-airplane" class="rotate-90"></mat-icon>&nbsp;<span>Deploy</span>
+                    <mat-icon svgIcon="heroicons_outline:paper-airplane" class="rotate-90"></mat-icon>&nbsp;<span>Send</span>
                 </div>
             </div>
         </div>
@@ -96,12 +96,12 @@
                         <div class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
                             <div class="flex-none" (click)="filterOrganize()">
                                 <a class="flex items-center cursor-pointer">
-                                    <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Filter Organizes</span>
+                                    <mat-icon svgIcon="heroicons_outline:search-circle"></mat-icon>&nbsp;<span>Search</span>
                                 </a>
                             </div>
                             <div class="flex-none ml-2" (click)="reset()">
                                 <a class="flex items-center cursor-pointer">
-                                    <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Reset Filter</span>
+                                    <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Clear</span>
                                 </a>
                             </div>
                         </div>
