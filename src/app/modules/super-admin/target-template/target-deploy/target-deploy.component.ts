@@ -61,6 +61,7 @@ export class TargetDeployComponent implements OnInit {
   ngOnInit(): void {
     let routeId = this._activatedRoute.snapshot.paramMap.get('id') as any;
     this.templateId = parseInt(routeId);
+    this.loadTargetTemplate(this.templateId);
 
     this._urlService.previousUrl$.subscribe((previousUrl: string) => {
       this.previousUrl = previousUrl;
