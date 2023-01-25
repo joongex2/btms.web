@@ -116,19 +116,19 @@
     
             <div class="mt-6 flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6">
                 <form #adminPermissionForm="ngForm" class="grid gap-x-4 gap-y-4 grid-cols-12 items-center">
-                    <div class="col-span-6 md:col-span-1 font-medium">Business Unit<span class="text-warn">*</span></div>
-                    <div class="col-span-6 md:col-span-2">
+                    <div class="col-span-6 md:col-span-3 font-medium">Business Unit<span class="text-warn">*</span></div>
+                    <div class="col-span-6 md:col-span-3">
                         <autocomplete label="Business Unit" name="bu" [options]="bus" [required]="true" [(value)]="selectedBu"></autocomplete>
                     </div>
-                    <div class="col-span-6 md:col-span-2 font-medium">Sub Business Unit</div>
-                    <div class="col-span-6 md:col-span-2">
+                    <div class="col-span-6 md:col-span-3 font-medium">Sub Business Unit</div>
+                    <div class="col-span-6 md:col-span-3">
                         <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu"></autocomplete>
                     </div>
-                    <div class="col-span-6 md:col-span-1 font-medium">Plant</div>
-                    <div class="col-span-6 md:col-span-2">
+                    <div class="col-span-6 md:col-span-3 font-medium">Plant</div>
+                    <div class="col-span-6 md:col-span-9">
                         <autocomplete label="Plant" name="plant" [options]="plants" [(value)]="selectedPlant"></autocomplete>
                     </div>
-                    <span class="col-span-6 md:col-span-2 flex items-center cursor-pointer" (click)="addPermission()">
+                    <span class="col-span-6 flex items-center cursor-pointer" (click)="addPermission()">
                         <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>&nbsp;<span>Add Permission</span>
                     </span>
                 </form>
