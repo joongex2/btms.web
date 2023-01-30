@@ -12,8 +12,8 @@ export class ConfirmationService {
             message: '',
             icon: { name: 'heroicons_outline:question-mark-circle', color: 'primary' },
             actions: {
-                cancel: { show: true, label: 'ยกเลิก' },
-                confirm: { show: true, label: 'ตกลง', color: 'primary' }
+                cancel: { show: true, label: 'Cancel' },
+                confirm: { show: true, label: 'OK', color: 'primary' }
             }
         });
     }
@@ -24,8 +24,8 @@ export class ConfirmationService {
             message: message || '',
             icon: { name: 'heroicons_outline:question-mark-circle', color: 'primary' },
             actions: {
-                cancel: { show: true, label: 'ยกเลิก' },
-                confirm: { show: true, label: 'ตกลง', color: 'primary' }
+                cancel: { show: true, label: 'Cancel' },
+                confirm: { show: true, label: 'OK', color: 'primary' }
             }
         });
     }
@@ -36,8 +36,8 @@ export class ConfirmationService {
             message: message || '',
             icon: { name: 'heroicons_outline:question-mark-circle' },
             actions: {
-                cancel: { show: true, label: 'ยกเลิก' },
-                confirm: { show: true, label: 'ตกลง' }
+                cancel: { show: true, label: 'Cancel' },
+                confirm: { show: true, label: 'OK' }
             }
         });
     }
@@ -49,7 +49,7 @@ export class ConfirmationService {
             icon: { name: 'heroicons_outline:exclamation', color: 'warning' },
             actions: {
                 cancel: { show: showCancel },
-                confirm: { show: true, label: 'ตกลง', color: 'accent' }
+                confirm: { show: true, label: 'OK', color: 'accent' }
             }
         });
     }

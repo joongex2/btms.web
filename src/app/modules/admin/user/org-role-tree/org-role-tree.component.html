@@ -36,7 +36,7 @@
                 <!-- New Role -->
                 <ng-container *ngIf="roleNode.roleCode === ''">
                     <div class="flex items-center" [ngClass]="{ 'mt-2': organizeNode?.roles?.length > 0 }">
-                        <mat-form-field>
+                        <mat-form-field class="w-80">
                             <mat-select #itemValue name="role" placeholder="Role">
                                 <mat-option *ngFor="let role of roles" [value]="role.value">
                                     {{roleCodeNameMapper ? roleCodeNameMapper[role.title]: ''}}
@@ -44,10 +44,10 @@
                             </mat-select>
                         </mat-form-field>
                         <span class="flex items-center cursor-pointer ml-2" (click)="saveRoleNode(organizeNode, roleNode, itemValue.value)">
-                            <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
+                            <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>OK</span>
                         </span>
                         <span class="ml-2 flex items-center cursor-pointer" (click)="deleteRoleNode(organizeNode, j)">
-                            <mat-icon>cancel</mat-icon>&nbsp;<span>Cancel</span>
+                            <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Cancel</span>
                         </span>
                     </div>
                 </ng-container>
@@ -57,15 +57,15 @@
     <!-- New Organize -->
     <ng-container *ngIf="organizeNode.organizeCode === ''">
         <div class="flex items-center ml-6" [ngClass]="{ 'mt-2': organizeNodes?.length > 0 }">
-            <autocomplete-form class="w-full" #itemValue [label]="'organization'" [name]="'organization'"
+            <autocomplete-form class="w-full" #itemValue [label]="'Organize List'" [name]="'organization'"
                 [options]="organizations" [standAlone]="true" [addRequireMatch]="true">
             </autocomplete-form>
             <span class="flex items-center cursor-pointer ml-2"
                 (click)="itemValue.form.valid && saveOrganizeNode(organizeNode, itemValue.value.value)">
-                <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
+                <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>OK</span>
             </span>
             <span class="ml-2 flex items-center cursor-pointer" (click)="deleteOrganizeNode(i)">
-                <mat-icon>cancel</mat-icon>&nbsp;<span>Cancel</span>
+                <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Cancel</span>
             </span>
         </div>
     </ng-container>
