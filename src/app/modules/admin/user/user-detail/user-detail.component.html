@@ -117,7 +117,7 @@
                 </mat-expansion-panel>
             </mat-accordion>
     
-            <div [ngClass]="{ invisible: currentUser?.groupId === 1 }" class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6">
+            <div [ngClass]="{ invisible: selectedUserGroup === 1 }" class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6">
                 <org-role-tree [organizeNodes]="organizes"></org-role-tree>
             </div>
         </div>
