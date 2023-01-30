@@ -57,7 +57,7 @@
     <!-- New Organize -->
     <ng-container *ngIf="organizeNode.organizeCode === ''">
         <div class="flex items-center ml-6" [ngClass]="{ 'mt-2': organizeNodes?.length > 0 }">
-            <autocomplete-form class="w-160" #itemValue [label]="'organization'" [name]="'organization'"
+            <autocomplete-form class="w-full" #itemValue [label]="'organization'" [name]="'organization'"
                 [options]="organizations" [standAlone]="true" [addRequireMatch]="true">
             </autocomplete-form>
             <span class="flex items-center cursor-pointer ml-2"

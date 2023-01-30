@@ -193,6 +193,7 @@ export class TargetTemplateDetailComponent implements OnInit {
   goBack() {
     if (!this.previousUrl
       || this.previousUrl.includes('redirectURL')
+      || this.previousUrl.includes('add-template')
       || !this.previousUrl.includes('/super-admin/target-template')
     ) {
       // if from refresh/ redirect or other page -> check from current url
