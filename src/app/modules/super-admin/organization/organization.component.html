@@ -7,7 +7,10 @@
             <div>
                 <div class="hidden sm:flex flex-wrap items-center font-medium">
                     <div>
-                        <a class="whitespace-nowrap text-primary-500">Super Admin</a>
+                        <a class="whitespace-nowrap text-primary-500">
+                            <ng-container *ngIf="currentUser?.groupId === 1">Super Admin</ng-container>
+                            <ng-container *ngIf="currentUser?.groupId !== 1">Admin</ng-container>
+                        </a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
@@ -105,7 +108,7 @@
                 <div class="example-table-container">
                     <p class="table-title flex flex-row justify-between cursor-pointer">
                         <span>Organization</span>
-                        <span class="flex items-center" (click)="addOrganization()">
+                        <span *ngIf="currentUser?.groupId === 1" class="flex items-center" (click)="addOrganization()">
                             <mat-icon style="color:white" svgIcon="heroicons_outline:plus"></mat-icon>Organization
                         </span>
                     </p>

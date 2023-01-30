@@ -4,13 +4,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.types';
 import { ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
+import { firstValueFrom } from 'rxjs';
 import { OrganizationModalComponent } from './modals/organization-modal/organization-modal.component';
 import { OrganizationService } from './organization.service';
 import { Organization } from './organization.types';
-
 
 
 @Component({
@@ -21,6 +23,7 @@ import { Organization } from './organization.types';
 export class OrganizationComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  currentUser: User;
 
   // bind value
   dataSource: MatTableDataSource<Organization> = new MatTableDataSource([]);
@@ -51,8 +54,7 @@ export class OrganizationComponent implements OnInit {
     'subBusinessUnitCode',
     'plantCode',
     'divisionCode',
-    'isActive',
-    'editDeleteIcon'
+    'isActive'
   ];
 
   keyToColumnName: any = {
@@ -74,6 +76,7 @@ export class OrganizationComponent implements OnInit {
 
   constructor(
     private _organizationService: OrganizationService,
+    private _userService: UserService,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
     private _matDialog: MatDialog,
@@ -82,7 +85,7 @@ export class OrganizationComponent implements OnInit {
     this.loadOrganizations();
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const bus = this._activatedRoute.snapshot.data.bus;
     const subBus = this._activatedRoute.snapshot.data.subBus;
     const plants = this._activatedRoute.snapshot.data.plants;
@@ -93,6 +96,11 @@ export class OrganizationComponent implements OnInit {
     this.divisions = divisions.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.name, value: master.code }));
     // default
     this.dataSource.filterPredicate = this.customFilterPredicate();
+
+    this.currentUser = await firstValueFrom(this._userService.user$);
+    if (this.currentUser?.groupId === 1) {
+      this.displayedColumns.push('editDeleteIcon');
+    }
   }
 
   ngAfterViewInit() {

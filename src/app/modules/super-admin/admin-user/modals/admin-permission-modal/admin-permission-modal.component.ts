@@ -65,23 +65,18 @@ export class AdminPermissionModalComponent implements OnInit {
     } else if (this.selectedPlant && !this.selectedSubBu) {
       this._confirmationService.warning('หากเลือก plant กรุณาเลือก sub bu ด้วย');
     } else {
-      this._confirmationService.save().afterClosed().subscribe(async (result) => {
-        if (result == 'confirmed') {
-          try {
-            this._snackBarService.success();
-            this.matDialogRef.close({
-              id: this.adminPermission.id,
-              businessUnitCode: this.selectedBu.value,
-              subBusinessUnitCode: this.selectedSubBu ? this.selectedSubBu.value : null,
-              plantCode: this.selectedPlant ? this.selectedPlant.value : null,
-              isActive: this.isActive
-            } as AdminPermission);
-          } catch (e) {
-            this._snackBarService.error();
-            this.showError(e, true);
-          }
-        }
-      });
+      try {
+        this.matDialogRef.close({
+          id: this.adminPermission.id,
+          businessUnitCode: this.selectedBu.value,
+          subBusinessUnitCode: this.selectedSubBu ? this.selectedSubBu.value : null,
+          plantCode: this.selectedPlant ? this.selectedPlant.value : null,
+          isActive: this.isActive
+        } as AdminPermission);
+      } catch (e) {
+        this._snackBarService.error();
+        this.showError(e, true);
+      }
     }
   }
 

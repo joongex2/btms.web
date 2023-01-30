@@ -118,7 +118,7 @@
                                     <ng-container *ngIf="key == 'editDeleteIcon'">
                                         <div class="flex items-center justify-center">
                                             <mat-icon (click)="editMaster(element)" svgIcon="heroicons_solid:pencil" class="text-primary-500 icon-size-4 cursor-pointer" title="Edit Master"></mat-icon>
-                                            <mat-icon (click)="deleteMaster(element)" svgIcon="heroicons_outline:x" class="text-warn icon-size-4 cursor-pointer ml-[8px]" title="Delete Master"></mat-icon>
+                                            <mat-icon *ngIf="false" (click)="deleteMaster(element)" svgIcon="heroicons_outline:x" class="text-warn icon-size-4 cursor-pointer ml-[8px]" title="Delete Master"></mat-icon>
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="key != 'index' && key != 'isActive' && key != 'editDeleteIcon' && key != 'type'">{{ element[key] }}</ng-container>

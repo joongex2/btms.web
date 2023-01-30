@@ -68,7 +68,7 @@
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedUserGroup" name="userGroup" placeholder="Group" required [disabled]="isEdit && [1, 2].includes(selectedUserGroup)">
+                                    <mat-select [(ngModel)]="selectedUserGroup" name="userGroup" placeholder="Group" required [disabled]="!(currentUser.groupId === 1) && isEdit && [1, 2].includes(selectedUserGroup)">
                                         <mat-option *ngFor="let userGroup of userGroups" [value]="userGroup.value">
                                             {{userGroup.title}}
                                         </mat-option>
