@@ -7,7 +7,10 @@
             <div>
                 <div class="hidden sm:flex flex-wrap items-center font-medium">
                     <div>
-                        <a class="whitespace-nowrap text-primary-500">Admin</a>
+                        <a class="whitespace-nowrap text-primary-500">
+                            <ng-container *ngIf="currentUser?.groupId === 1">Super Admin</ng-container>
+                            <ng-container *ngIf="currentUser?.groupId !== 1">Admin</ng-container>
+                        </a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
@@ -68,7 +71,7 @@
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
                                 <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedUserGroup" name="userGroup" placeholder="Group" required [disabled]="!(currentUser.groupId === 1) && isEdit && [1, 2].includes(selectedUserGroup)">
+                                    <mat-select [(ngModel)]="selectedUserGroup" name="userGroup" placeholder="Group" required [disabled]="!(currentUser?.groupId === 1) && isEdit && [1, 2].includes(selectedUserGroup)">
                                         <mat-option *ngFor="let userGroup of userGroups" [value]="userGroup.value">
                                             {{userGroup.title}}
                                         </mat-option>
