@@ -20,6 +20,7 @@ export class UserGroupComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   defaultMenu: string;
+  defaultPageSize = 10;
 
   // bind value
   dataSource: MatTableDataSource<UserGroup> = new MatTableDataSource([]);

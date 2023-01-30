@@ -48,7 +48,7 @@ export class AdminUserDetailComponent implements OnInit {
     { title: 'Active', value: true },
     { title: 'Inactive', value: false }
   ];
-  defaultPageSize = 5;
+  defaultPageSize = 10;
   resultsLength = 0;
   organizes: any[] = [];
 

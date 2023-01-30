@@ -20,6 +20,7 @@ import { MasterModalComponent } from './modals/master-modal/master-modal.compone
 export class MasterComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  defaultPageSize = 10;
 
   // bind value
   dataSource: MatTableDataSource<Master> = new MatTableDataSource([]);

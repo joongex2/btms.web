@@ -41,7 +41,6 @@ export class AdminUserListComponent implements OnInit {
     { title: 'Active', value: true },
     { title: 'Inactive', value: false }
   ];
-  defaultPageSize = 5;
   resultsLength = 0;
 
   // bind value
@@ -139,7 +138,8 @@ export class AdminUserListComponent implements OnInit {
         this.isFirstLoaded.subscribe((v) => {
           // set page
           this.paginator.pageIndex = parseInt(params.page);
-          this.paginator.pageSize = parseInt(params.size);
+          // this.paginator.pageSize = parseInt(params.size);
+          this.paginator.pageSize = 10;
           // set filter
           this.username = params.username ? params.username : undefined;
           this.email = params.email ? params.email : undefined;

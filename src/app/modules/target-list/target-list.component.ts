@@ -18,7 +18,7 @@ export class TargetListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatExpansionPanel) matExpansionPanel: MatExpansionPanel;
-  defaultPageSize = 5;
+  defaultPageSize = 10;
   resultsLength = 0;
   documents: Document[];
   fromUrl: string; // my-target/ target-entry/ result-info

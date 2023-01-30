@@ -17,7 +17,7 @@ export class NewTargetListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   organizes: Organize[];
-  defaultPageSize = 5;
+  defaultPageSize = 10;
 
   // bind value
   dataSource: MatTableDataSource<Organize> = new MatTableDataSource([]);

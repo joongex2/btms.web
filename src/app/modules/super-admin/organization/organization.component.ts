@@ -24,6 +24,7 @@ export class OrganizationComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   currentUser: User;
+  defaultPageSize = 10;
 
   // bind value
   dataSource: MatTableDataSource<Organization> = new MatTableDataSource([]);

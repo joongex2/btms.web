@@ -18,7 +18,7 @@ export class StandardFormComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatExpansionPanel) matExpansionPanel: MatExpansionPanel;
-  defaultPageSize = 5;
+  defaultPageSize = 10;
   resultsLength = 0;
   // documents: Document[];
   standardForms: StandardForm[];
