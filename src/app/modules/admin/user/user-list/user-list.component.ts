@@ -9,7 +9,6 @@ import { UserService as _CurrentUserService } from 'app/core/user/user.service';
 import { User as CurrentUser } from 'app/core/user/user.types';
 import { AdminUserService } from 'app/modules/super-admin/admin-user/admin-user.service';
 import { OrganizationService } from 'app/modules/super-admin/organization/organization.service';
-import { Organization } from 'app/modules/super-admin/organization/organization.types';
 import { RoleService } from 'app/modules/super-admin/role/role.service';
 import { Role } from 'app/modules/super-admin/role/role.types';
 import { UserGroupService } from 'app/modules/super-admin/user-group/user-group.service';
@@ -47,7 +46,7 @@ export class UserListComponent implements OnInit {
   email: string;
   name: string;
   selectedUserGroup: number;
-  selectedOrganization: string;
+  selectedOrganization: any;
   selectedRole: string;
   selectedIsActive: boolean;
 
@@ -92,16 +91,12 @@ export class UserListComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.organizations = this._activatedRoute.snapshot.data.organizations?.map((v) => ({ title: `${v.organizeCode}:${v.organizeName}`, value: v.organizeCode }));
     this.user = await firstValueFrom(this._currentUserService.user$);
     this.loadUsers();
 
     this._userGroupService.getUserGroups().subscribe({
       next: (v: UserGroup[]) => { this.userGroups = v.map((v) => ({ title: v.name, value: v.id })) },
-      error: (e) => console.error(e)
-    });
-
-    this._organizationService.getOrganizations().subscribe({
-      next: (v: Organization[]) => { this.organizations = v.map((v) => ({ title: `${v.organizeCode}:${v.organizeName}`, value: v.organizeCode })) },
       error: (e) => console.error(e)
     });
 
@@ -148,7 +143,7 @@ export class UserListComponent implements OnInit {
           this.email = params.email ? params.email : undefined;
           this.name = params.name ? params.name : undefined;
           this.selectedUserGroup = params.userGroup ? parseInt(params.userGroup) : undefined;
-          this.selectedOrganization = params.organization ? params.organization : undefined;
+          this.selectedOrganization = params.organization ? this.organizations.find(v => v.value === params.organization) : undefined;
           this.selectedRole = params.role ? params.role : undefined;
           this.selectedIsActive = params.isActive ? (params.isActive === 'true') : undefined;
           this.filter();
@@ -167,7 +162,7 @@ export class UserListComponent implements OnInit {
 
       if (data.organizes) {
         for (let org of data.organizes) {
-          if (org.organizeCode == searchString.organization?.value) {
+          if (org.organizeCode == searchString.organization) {
             foundOrg = true;
           }
           if (org.roles) {
@@ -202,7 +197,7 @@ export class UserListComponent implements OnInit {
       email: this.email,
       name: this.name,
       userGroup: this.selectedUserGroup,
-      organization: this.selectedOrganization,
+      organization: this.selectedOrganization?.value,
       role: this.selectedRole,
       isActive: this.selectedIsActive
     }
