@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from "@angular/core";
 import { ControlContainer, NgForm } from "@angular/forms";
 
 
@@ -36,6 +36,12 @@ export class AutocompleteComponent implements OnInit {
 
     ngOnInit(): void {
         this.filteredOptions = this.options.slice();
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.options && !changes.options.isFirstChange()) {
+            this.filteredOptions = this.options.slice();
+        }
     }
 
     optionFilter(value: any) {

@@ -97,14 +97,7 @@
                             </div>
                             <div class="col-span-3 font-medium">Organization</div>
                             <div class="col-span-9 flex items-center">
-                                :
-                                <mat-form-field class="flex-auto ml-2">
-                                    <mat-select [(ngModel)]="selectedOrganization" name="organization" placeholder="ทั้งหมด">
-                                        <mat-option *ngFor="let organization of organizations" [value]="organization.value">
-                                            {{organization.title}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                                <autocomplete class="w-full" label="organization" name="organization" [options]="organizations" [required]="false" [(value)]="selectedOrganization"></autocomplete>
                             </div>
                         </div>
     

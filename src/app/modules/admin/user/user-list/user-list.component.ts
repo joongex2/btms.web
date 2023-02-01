@@ -34,7 +34,7 @@ export class UserListComponent implements OnInit {
   // bind value
   dataSource: MatTableDataSource<User> = new MatTableDataSource([]);
   userGroups: any[];
-  organizations: any[];
+  organizations: any[] = [];
   roles: any[];
   isActives = [
     { title: 'Active', value: true },
@@ -167,7 +167,7 @@ export class UserListComponent implements OnInit {
 
       if (data.organizes) {
         for (let org of data.organizes) {
-          if (org.organizeCode == searchString.organization) {
+          if (org.organizeCode == searchString.organization?.value) {
             foundOrg = true;
           }
           if (org.roles) {
