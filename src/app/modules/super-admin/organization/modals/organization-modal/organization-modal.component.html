@@ -33,49 +33,22 @@
 
         <div class="col-span-4 font-medium">Business Unit Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
-            <mat-form-field class="flex-auto">
-                <mat-select [formControlName]="'businessUnitCode'" placeholder="Business Unit Code">
-                    <mat-option *ngFor="let businessCode of businessUnitCodes" [value]="businessCode.value">
-                        {{businessCode.title}}
-                    </mat-option>
-                </mat-select>
-                <mat-error>Business Unit Code is required</mat-error>
-            </mat-form-field>
+            <autocomplete-form class="w-full" label="Business Unit Code" name="businessUnitCode" [options]="businessUnitCodes"></autocomplete-form>
         </div>
 
         <div class="col-span-4 font-medium">Sub Business Unit Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
-            <mat-form-field class="flex-auto">
-                <mat-select [formControlName]="'subBusinessUnitCode'" placeholder="Sub Business UnitCode">
-                    <mat-option *ngFor="let subBusinessCode of subBusinessUnitCodes" [value]="subBusinessCode.value">
-                        {{subBusinessCode.title}}
-                    </mat-option>
-                </mat-select>
-                <mat-error>Sub Business Unit Code is required</mat-error>
-            </mat-form-field>
+            <autocomplete-form class="w-full" label="Sub Business UnitCode" name="subBusinessUnitCode" [options]="subBusinessUnitCodes"></autocomplete-form>
         </div>
 
         <div class="col-span-4 font-medium">Plant Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
-            <mat-form-field class="flex-auto">
-                <mat-select [formControlName]="'plantCode'" placeholder="Plant Code">
-                    <mat-option *ngFor="let plantCode of plantCodes" [value]="plantCode.value">{{plantCode.title}}
-                    </mat-option>
-                </mat-select>
-                <mat-error>Plant Code is required</mat-error>
-            </mat-form-field>
+            <autocomplete-form class="w-full" label="Plant Code" name="plantCode" [options]="plantCodes"></autocomplete-form>
         </div>
 
         <div class="col-span-4 font-medium">Division Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
-            <mat-form-field class="flex-auto">
-                <mat-select [formControlName]="'divisionCode'" placeholder="Division Code">
-                    <mat-option *ngFor="let divisionCode of divisionCodes" [value]="divisionCode.value">
-                        {{divisionCode.title}}
-                    </mat-option>
-                </mat-select>
-                <mat-error>Division Code is required</mat-error>
-            </mat-form-field>
+            <autocomplete-form class="w-full" label="Division Code" name="divisionCode" [options]="divisionCodes"></autocomplete-form>
         </div>
 
         <ng-container *ngIf="isEdit">

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
+import { requireMatchValidator } from 'app/shared/directives/require-match.directive';
 import { ModalData, ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
@@ -25,10 +26,10 @@ export class OrganizationModalComponent implements OnInit {
   isEdit: boolean = false;
   organization: Organization;
   organizationForm: FormGroup;
-  businessUnitCodes: any[];
-  subBusinessUnitCodes: any[];
-  plantCodes: any[];
-  divisionCodes: any[];
+  businessUnitCodes: any[] = [];
+  subBusinessUnitCodes: any[] = [];
+  plantCodes: any[] = [];
+  divisionCodes: any[] = [];
   isActives: any[] = [
     { title: 'Active', value: true },
     { title: 'Inactive', value: false }
@@ -62,10 +63,10 @@ export class OrganizationModalComponent implements OnInit {
     this.organizationForm = this._formBuilder.group({
       organizeCode: [organizeCode, [Validators.required]],
       organizeName: [organizeName, [Validators.required]],
-      businessUnitCode: [undefined, [Validators.required]],
-      subBusinessUnitCode: [undefined, [Validators.required]],
-      plantCode: [undefined, [Validators.required]],
-      divisionCode: [undefined, [Validators.required]],
+      businessUnitCode: [undefined, [Validators.required, requireMatchValidator]],
+      subBusinessUnitCode: [undefined, [Validators.required, requireMatchValidator]],
+      plantCode: [undefined, [Validators.required, requireMatchValidator]],
+      divisionCode: [undefined, [Validators.required, requireMatchValidator]],
       isActive: [{ value: isActive, disabled: !this.isEdit }, [Validators.required]]
     });
 
@@ -76,10 +77,10 @@ export class OrganizationModalComponent implements OnInit {
         this.subBusinessUnitCodes = masters.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
         this.plantCodes = masters.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.code, value: master.code }));
         this.divisionCodes = masters.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.code, value: master.code }));
-        const businessUnitCode = this.isEdit ? this.organization.businessUnitCode : undefined;
-        const subBusinessUnitCode = this.isEdit ? this.organization.subBusinessUnitCode : undefined;
-        const plantCode = this.isEdit ? this.organization.plantCode : undefined;
-        const divisionCode = this.isEdit ? this.organization.divisionCode : undefined;
+        const businessUnitCode = this.isEdit ? this.businessUnitCodes.find(v => v.value === this.organization.businessUnitCode) || null : undefined;
+        const subBusinessUnitCode = this.isEdit ? this.subBusinessUnitCodes.find(v => v.value === this.organization.subBusinessUnitCode) || null : undefined;
+        const plantCode = this.isEdit ? this.plantCodes.find(v => v.value === this.organization.plantCode) || null : undefined;
+        const divisionCode = this.isEdit ? this.divisionCodes.find(v => v.value === this.organization.divisionCode) || null : undefined;
         this.organizationForm.get('businessUnitCode').setValue(businessUnitCode);
         this.organizationForm.get('subBusinessUnitCode').setValue(subBusinessUnitCode);
         this.organizationForm.get('plantCode').setValue(plantCode);
@@ -103,10 +104,10 @@ export class OrganizationModalComponent implements OnInit {
                 this.organization.id,
                 this.organizationForm.get('organizeCode').value,
                 this.organizationForm.get('organizeName').value,
-                this.organizationForm.get('businessUnitCode').value,
-                this.organizationForm.get('subBusinessUnitCode').value,
-                this.organizationForm.get('plantCode').value,
-                this.organizationForm.get('divisionCode').value,
+                this.organizationForm.get('businessUnitCode').value.value,
+                this.organizationForm.get('subBusinessUnitCode').value.value,
+                this.organizationForm.get('plantCode').value.value,
+                this.organizationForm.get('divisionCode').value.value,
                 this.organizationForm.get('isActive').value
               ));
             } else {
@@ -114,10 +115,10 @@ export class OrganizationModalComponent implements OnInit {
               await firstValueFrom(this._organizationService.createOrganization(
                 this.organizationForm.get('organizeCode').value,
                 this.organizationForm.get('organizeName').value,
-                this.organizationForm.get('businessUnitCode').value,
-                this.organizationForm.get('subBusinessUnitCode').value,
-                this.organizationForm.get('plantCode').value,
-                this.organizationForm.get('divisionCode').value,
+                this.organizationForm.get('businessUnitCode').value.value,
+                this.organizationForm.get('subBusinessUnitCode').value.value,
+                this.organizationForm.get('plantCode').value.value,
+                this.organizationForm.get('divisionCode').value.value,
               ));
             }
             this._snackBarService.success();
