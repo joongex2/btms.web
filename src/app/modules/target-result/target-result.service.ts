@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CookieService } from "app/shared/services/cookie.service";
 import { LocalStorageService } from "app/shared/services/local-storage.service";
+import { BehaviorSubject } from "rxjs";
 import { PlanStatus, TargetSaveData } from "./target-result.interface";
 import { FileUpload, LastComment } from "./target-result.types";
 
@@ -8,6 +9,9 @@ import { FileUpload, LastComment } from "./target-result.types";
     providedIn: 'root'
 })
 export class TargetResultService {
+    private planMonthToggleChange = new BehaviorSubject<boolean>(false);
+    planMonthToggleChange$ = this.planMonthToggleChange.asObservable();
+
     lastComments: LastComment[] = [
         {
             comment: '',
@@ -84,14 +88,19 @@ export class TargetResultService {
 
     clear() {
         this.storage.deleteItem('targetSaveData');
+        this._cookieService.deleteCookie('planStatuses');
     }
 
     get PlanStatuses(): PlanStatus[] {
         const cookie = this._cookieService.getCookie('planStatuses');
-        return cookie ? JSON.parse(cookie): undefined;
+        return cookie ? JSON.parse(cookie) : undefined;
     }
 
     set PlanStatuses(planStatus: PlanStatus[]) {
         this._cookieService.setCookie('planStatuses', JSON.stringify(planStatus), 1);
+    }
+
+    planMonthToggle() {
+        this.planMonthToggleChange.next(true);
     }
 }

@@ -156,6 +156,19 @@ export interface Plan {
     flowMonth10?: PlanFlow;
     flowMonth11?: PlanFlow;
     flowMonth12?: PlanFlow;
+
+    actualTarget1?: ActualTarget;
+    actualTarget2?: ActualTarget;
+    actualTarget3?: ActualTarget;
+    actualTarget4?: ActualTarget;
+    actualTarget5?: ActualTarget;
+    actualTarget6?: ActualTarget;
+    actualTarget7?: ActualTarget;
+    actualTarget8?: ActualTarget;
+    actualTarget9?: ActualTarget;
+    actualTarget10?: ActualTarget;
+    actualTarget11?: ActualTarget;
+    actualTarget12?: ActualTarget;
 }
 
 export class DocumentParams {
@@ -201,4 +214,11 @@ export interface ReceiveEmail {
     name: string;
     email: string;
     selected: boolean;
+}
+
+export interface ActualTarget {
+    id: number;
+    status: string;
+    valueStatus: string;
+    value: string;
 }

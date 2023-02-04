@@ -110,6 +110,14 @@ table tr:not(.mat-header-row):hover {
     padding: 0 8px 0 4px !important;
 }
 
+.bg-accept {
+    background-color: rgb(55, 126, 34) !important;
+}
+
+.bg-reject {
+    background-color: rgb(233,108,102) !important;
+}
+
 .bg-status-default {
     background-color: rgb(211,211,211);
 }

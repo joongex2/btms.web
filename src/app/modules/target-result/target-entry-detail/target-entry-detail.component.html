@@ -48,11 +48,11 @@
                     &nbsp;<span>Back</span>
                 </a>
                 <ng-container *ngIf="!readonly">
-                    <a class="flex items-center ml-3">
-                        <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
-                    </a>
-                    <a class="flex items-center ml-3">
+                    <a *ngIf="canSubmit" (click)="submit()" class="flex items-center cursor-pointer ml-3">
                         <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Submit</span>
+                    </a>
+                    <a *ngIf="canReject" (click)="reject()" class="flex items-center cursor-pointer ml-3">
+                        <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Reject</span>
                     </a>
                 </ng-container>
             </div>

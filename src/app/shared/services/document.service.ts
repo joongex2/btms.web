@@ -1,15 +1,21 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { TargetResultService } from "app/modules/target-result/target-result.service";
 import { getBaseUrl } from "app/shared/helpers/get-base-url";
 import { ResultMapper } from "app/shared/interfaces/result-mapper.interface";
 import { map, Observable } from "rxjs";
-import { DocumentParams, Target } from "../interfaces/document.interface";
+import { DocumentDetail, DocumentParams, Target } from "../interfaces/document.interface";
 
 @Injectable({
     providedIn: 'root'
 })
 export class DocumentService {
-    constructor(private _httpClient: HttpClient) { }
+    private mockDocument: DocumentDetail;
+
+    constructor(
+        private _httpClient: HttpClient,
+        private _targetResultService: TargetResultService
+    ) { }
 
     createDocument(
         id: number,
@@ -118,5 +124,29 @@ export class DocumentService {
 
     copyDocument(id: number): Observable<any> {
         return this._httpClient.post(getBaseUrl(`/v1/Documents/${id}/copy`), {});
+    }
+
+    // mockDocument
+    setMockDocument(document: DocumentDetail) {
+        this.mockDocument = document;
+        this.mockActualTarget(document.targets); // TODO remove
+        this._targetResultService.clear();
+    }
+
+    getMockDocument(): DocumentDetail {
+        return this.mockDocument;
+    }
+
+    // mock actualTargets
+    mockActualTarget(targets: Target[]) {
+        for (let target of targets) {
+            for (let subTarget of target.details) {
+                for (let plan of subTarget.plans) {
+                    for (let i = 1; i <= 12; i++) {
+                        plan[`actualTarget${i}`] = null;
+                    }
+                }
+            }
+        }
     }
 }

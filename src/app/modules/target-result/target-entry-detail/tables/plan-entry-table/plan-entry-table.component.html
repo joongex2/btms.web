@@ -20,14 +20,11 @@
         <th mat-header-cell *matHeaderCellDef>{{capitalizeFirstLetter(col)}}</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-month text-center bg-status-default cursor-pointer" [ngClass]="{
                 'border border-solid border-white': col=='dec',
-                'bg-reporting': document?.documentStatus === 'DOCUMENT_REPORTING',
-                'bg-wait-for-verify': document?.documentStatus === 'DOCUMENT_WAIT_FOR_VERIFY',
-                'bg-wait-for-approve': document?.documentStatus === 'DOCUMENT_WAIT_FOR_APPROVE',
-                'bg-wait-for-release': document?.documentStatus === 'DOCUMENT_WAIT_FOR_RELEASE',
-                'bg-released': document?.documentStatus === 'DOCUMENT_RELEASE',
-                'italic': element['flowMonth' + (colIndex + 1)] === PlanFlow.VISITED
+                'italic': [PlanFlow.VISITED, PlanFlow.ACCEPT, PlanFlow.REJECT].includes(element['flowMonth' + (colIndex + 1)]),
+                'bg-accept': [PlanFlow.ACCEPT].includes(element['flowMonth' + (colIndex + 1)]),
+                'bg-reject': [PlanFlow.REJECT].includes(element['flowMonth' + (colIndex + 1)])
             }"
-            (click)="openTargetEntryModal(element, col)"
+            (click)="saveTargetEntry(element, colIndex+1)"
             >
             <span class="text-month">P</span>
         </td>
@@ -36,10 +33,25 @@
         <td mat-cell *matCellDef="let element" [attr.colspan]="12"
             class="bg-slate-300 border border-solid border-white header-text">ทำได้จริง</td>
     </ng-container>
-    <ng-container *ngFor="let col of planRow2" [matColumnDef]="col">
-        <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center" [ngClass]="{ 
-                'border border-solid border-white': col=='dec2'
+    <ng-container *ngFor="let col of planRow2; let colIndex = index" [matColumnDef]="col">
+        <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center p-4" [ngClass]="{ 
+                'border border-solid border-white': col=='dec2',
+                'bg-reporting': element['actualTarget'+(colIndex+1)]?.status === 'TARGET_REPORTING',
+                'bg-wait-for-verify': element['actualTarget'+(colIndex+1)]?.status === 'TARGET_WAIT_FOR_VERIFY',
+                'bg-wait-for-approve': element['actualTarget'+(colIndex+1)]?.status === 'TARGET_WAIT_FOR_APPROVE',
+                'bg-wait-for-release': element['actualTarget'+(colIndex+1)]?.status === 'TARGET_WAIT_FOR_RELEASE',
+                'bg-released': element['actualTarget'+(colIndex+1)]?.status === 'TARGET_RELEASED'
             }">
+            <div class="py-2">
+                <div>{{ element['actualTarget'+(colIndex+1)]?.valueStatus | targetValueStatus }}</div>
+                <mat-checkbox
+                    *ngIf="[PlanFlow.ACCEPT, PlanFlow.REJECT].includes(element['flowMonth' + (colIndex + 1)])"
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? toggleElement(colIndex+1, element) : null"
+                    [checked]="isElementSelected(colIndex+1, element)"
+                    [color]="'primary'">
+                </mat-checkbox>
+            </div>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="planHeader"></tr>

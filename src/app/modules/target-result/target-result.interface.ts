@@ -17,5 +17,7 @@ export interface PlanStatus {
 
 export enum PlanFlow {
     READY = 'ready',
-    VISITED = 'visited'
+    VISITED = 'visited',
+    ACCEPT = 'accept',
+    REJECT = 'reject'
 }

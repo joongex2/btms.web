@@ -14,6 +14,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { AutocompleteFormComponent } from './components/autocomplete-form/autocomplete-form.component';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { ErrorIconComponent } from './components/error-icon/error-icon.component';
+import { FileUploadTableComponent } from './components/file-upload-table/file-upload-table.component';
 import { FormErrorComponent } from './components/form-error/form-error.component';
 import { FormMultiSelectDropdownComponent } from './components/form-multi-select-dropdown/form-multi-select-dropdown.component';
 import { LastCommentModalComponent } from './components/last-comment-modal/last-comment-modal.component';
@@ -22,6 +23,7 @@ import { IntegerOnlyModule } from './directives/integer-only.module';
 import { RequireMatchDirective } from './directives/require-match.directive';
 import { IsActivePipe } from './pipes/is-active.pipe';
 import { PipeModule } from './pipes/pipe.module';
+import { TargetValueStatusPipe } from './pipes/target-value-status';
 import { TitleValuePipe } from './pipes/title-value.pipe';
 import { ConfirmationService } from './services/confirmation.service';
 import { SnackBarService } from './services/snack-bar.service';
@@ -33,11 +35,13 @@ import { SnackBarService } from './services/snack-bar.service';
         AutocompleteFormComponent,
         IsActivePipe,
         TitleValuePipe,
+        TargetValueStatusPipe,
         RequireMatchDirective,
         FormErrorComponent,
         FormMultiSelectDropdownComponent,
         SuccessIconComponent,
-        ErrorIconComponent
+        ErrorIconComponent,
+        FileUploadTableComponent,
     ],
     imports: [
         CommonModule,
@@ -63,6 +67,7 @@ import { SnackBarService } from './services/snack-bar.service';
         PipeModule,
         IsActivePipe,
         TitleValuePipe,
+        TargetValueStatusPipe,
         IntegerOnlyModule,
         RequireMatchDirective,
         LastCommentModalComponent,
@@ -71,7 +76,8 @@ import { SnackBarService } from './services/snack-bar.service';
         FormErrorComponent,
         FormMultiSelectDropdownComponent,
         SuccessIconComponent,
-        ErrorIconComponent
+        ErrorIconComponent,
+        FileUploadTableComponent
     ],
     providers: [
         ConfirmationService,

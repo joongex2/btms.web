@@ -12,7 +12,7 @@
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
-                        <a [routerLink]="'./../..'">
+                        <a [routerLink]="'/target-result/target-entry'">
                             <span class="ml-1 text-primary-500">
                                 <ng-container *ngIf="!readonly">บันทึกผลการดำเนินงาน</ng-container>
                                 <ng-container *ngIf="readonly">ข้อมูลผลการดำเนินงาน</ng-container>
@@ -22,7 +22,7 @@
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
-                        <a [routerLink]="'./..'">
+                        <a (click)="goBack()" class="cursor-pointer">
                             <span class="ml-1 text-primary-500">การรายงานผลการดำเนินงานตามเป้าหมาย</span>
                         </a>
                     </div>
@@ -32,57 +32,49 @@
                         <span class="ml-1 text-secondary">บันทึกผลการดำเนินงาน</span>
                     </div>
                 </div>
-                <div class="flex sm:hidden">
-                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'./..'">
-                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-left'">
-                        </mat-icon>
-                        <span class="ml-1">Back</span>
-                    </a>
-                </div>
             </div>
             <!-- Title -->
             <div class="mt-2">
                 <div class="text-3xl font-normal text-primary tracking-tight leading-8">
-                    <ng-container *ngIf="mode === 'saveResult'">บันทึกผลการดำเนินงาน</ng-container>
-                    <ng-container *ngIf="mode === 'causeAndFix'">สาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</ng-container>
+                    บันทึกผลการดำเนินงาน
                 </div>
             </div>
         </div>
         <!-- Action -->
         <div class="flex flex-col self-end">
             <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-                <ng-container *ngIf="mode == 'saveResult';else unarchiveMenu">
-                    <a (click)="backToDetail()" class="flex items-center cursor-pointer">
-                        <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
-                        &nbsp;<span>Back</span>
+                <a (click)="goBack()" class="flex items-center cursor-pointer">
+                    <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
+                    &nbsp;<span>Back</span>
+                </a>
+                <ng-container *ngIf="!readonly">
+                    <a *ngIf="canSave" (click)="save()" class="flex items-center cursor-pointer ml-3">
+                        <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
                     </a>
-                    <ng-container *ngIf="!readonly">
-                        <a *ngIf="canAcceptReject" (click)="submit()" class="flex items-center cursor-pointer ml-3">
-                            <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Accept</span>
-                        </a>
-                        <a *ngIf="canAcceptReject" (click)="submit()" class="flex items-center cursor-pointer ml-3">
-                            <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Reject</span>
-                        </a>
-                        <a *ngIf="canSave" (click)="submit()" class="flex items-center cursor-pointer ml-3">
-                            <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
-                        </a>
-                    </ng-container>
+                    <a *ngIf="isEdit" (click)="cancelEdit()" class="flex items-center cursor-pointer ml-3">
+                        <mat-icon svgIcon="heroicons_outline:x"></mat-icon>&nbsp;<span>Cancel</span>
+                    </a>
+                    <a *ngIf="canEdit" (click)="edit()" class="flex items-center cursor-pointer ml-3">
+                        <mat-icon svgIcon="heroicons_outline:pencil"></mat-icon>&nbsp;<span>Edit</span>
+                    </a>
+                    <a *ngIf="canSubmit" (click)="submit()" class="flex items-center cursor-pointer ml-3">
+                        <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;
+                        <span>Submit</span>
+                    </a>
+                    <a *ngIf="canReject" (click)="reject()" class="flex items-center cursor-pointer ml-3">
+                        <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Reject</span>
+                    </a>
                 </ng-container>
-                <ng-template #unarchiveMenu>
-                    <a (click)="backToArchive()" class="flex items-center cursor-pointer">
-                        <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
-                        &nbsp;<span>Back</span>
-                    </a>
-                    <ng-container *ngIf="!readonly">
-                        <a class="flex items-center ml-3 cursor-pointer">
-                            <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
-                        </a>
-                        <a *ngIf="canSave" class="flex items-center ml-3 cursor-pointer">
-                            <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Save</span>
-                        </a>
-                    </ng-container>
-                </ng-template>
             </div>
+            <ng-container *ngIf="canSubmit || canReject">
+                <mat-divider class="my-1"></mat-divider>
+                <div class="flex self-end">
+                    <mat-radio-group aria-label="select accept or reject" [(ngModel)]="acceptReject" (ngModelChange)="acceptRejectChange($event)" name="acceptReject">
+                        <mat-radio-button *ngIf="canSubmit" [color]="'primary'" value="accept"><span class="text-primary">Accept</span></mat-radio-button>
+                        <mat-radio-button *ngIf="canReject" [color]="'warn'" value="reject" class="ml-2"><span class="text-warn">Reject</span></mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </ng-container>
         </div>
     </div>
 
@@ -114,7 +106,7 @@
                             <div class="col-span-4 font-medium">ประจำปี</div>
                             <div class="col-span-8">:<span class="ml-2">{{plan?.planYear}}</span></div>
                             <div class="col-span-4 font-medium">สถานะ</div>
-                            <div class="col-span-8">:<span class="ml-2">{{document?.documentStatusDescription}}</span></div>
+                            <div class="col-span-8">:<span class="ml-2">{{actualTarget?.status}}</span></div>
                         </div>
                     </div>
                 </div>
@@ -132,62 +124,45 @@
                             <div class="col-span-4 font-medium">ผลการดำเนินงานที่ตั้งไว้</div>
                             <div class="col-span-8">:<span class="ml-2">{{subTarget?.targetValue}}</span></div>
                             <div class="col-span-4 font-medium">ผลการดำเนินงานที่ทำได้</div>
-                            <ng-container *ngIf="mode=='saveResult';else targetResultText">
+                            <ng-container *ngIf="true">
                                 <ng-container *ngIf="subTarget?.measureType === '1'">
-                                    <div class="col-span-6 flex items-center">
+                                    <div id="resultForm" class="col-span-6 flex items-center">
                                         :
                                         <mat-form-field class="flex-auto ml-2">
-                                            <input [(ngModel)]="targetResult" name="targetResult" matInput
-                                                (blur)="setShowRefDocument()" appIntegerOnly [disabled]="readonly">
+                                            <input 
+                                                matInput
+                                                appIntegerOnly
+                                                [(ngModel)]="targetResult"
+                                                name="targetResult" 
+                                                (blur)="setShowRefDocument()"  
+                                                [disabled]="readonly || naCheckBox || !this.isEdit"
+                                                [required]="!naCheckBox">
+                                            <mat-error>ผลการดำเนินงาน is required</mat-error>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-span-2">
-                                        <mat-checkbox [color]="'primary'" [(ngModel)]="naCheckBox" name="naCheckBox" [disabled]="readonly">N/A
+                                        <mat-checkbox [color]="'primary'" [(ngModel)]="naCheckBox" (ngModelChange)="naCheckboxTick($event)" name="naCheckBox" [disabled]="readonly || !this.isEdit">N/A
                                         </mat-checkbox>
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="subTarget?.measureType === '2'">
-                                    <div class="col-span-6 flex items-center">
+                                    <div id="resultForm" class="col-span-6 flex items-center">
                                         :
-                                        <mat-radio-group aria-label="Select an option" [(ngModel)]="targetResult" (ngModelChange)="setShowRefDocument()" name="choice" [disabled]="readonly">
+                                        <mat-radio-group class="ml-2" aria-label="Select an option" [(ngModel)]="targetResult" (ngModelChange)="setShowRefDocument()" name="choice" [disabled]="readonly || !this.isEdit">
                                             <mat-radio-button [color]="'primary'" value="archive">Archive</mat-radio-button>
                                             <mat-radio-button [color]="'primary'" value="unarchive" class="ml-2">Unarchive</mat-radio-button>
                                             <mat-radio-button [color]="'primary'" value="na" class="ml-2">N/A</mat-radio-button>
                                         </mat-radio-group>
                                     </div>
                                 </ng-container>
-                                <ng-container *ngIf="showRefDocument">
+                                <ng-container *ngIf="actualTarget?.valueStatus === 'unarchive'">
                                     <div class="col-span-4 font-medium">เอกสารอ้างอิง</div>
-                                    <div class="col-span-8">:<a class="ml-2 underline text-blue-600 cursor-pointer" (click)="mode='causeAndFix'">SOV-TEST-99-05</a></div>
+                                    <div class="col-span-8">:<a class="ml-2 underline text-blue-600 cursor-pointer" [routerLink]="'./cause-and-fix/1'">สร้างสาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</a></div>
                                 </ng-container>
                             </ng-container>
-                            <ng-template #targetResultText>
+                            <ng-template *ngIf="false">
                                 <div class="col-span-8">: <span class="ml-2">{{targetResult}}</span></div>
                             </ng-template>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="mode == 'causeAndFix'" class="mt-6 flex flex-col px-8 pt-10 bg-card shadow rounded overflow-y-auto">
-                    <div class="flex flex-col gt-xs:flex-row gt-xs:items-start" style="color: rgb(30, 41, 59)">
-                        <div class="gt-xs:max-w-80 gt-xs:pr-12">
-                            <p class="text-lg font-medium">ข้อมูลสาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</p>
-                        </div>
-                        <mat-divider class="mb-4"></mat-divider>
-
-                        <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center">
-                            <div class="col-span-3 font-medium">เลขที่เอกสาร</div>
-                            <div class="col-span-3">: <span class="ml-2">SOV-Test-99-05</span></div>
-                            <div class="col-span-3 font-medium">วันที่สร้างเอกสาร</div>
-                            <div class="col-span-3">: <span class="ml-2">07/06/2019</span></div>
-                            <div class="col-span-3 font-medium">สถานะเอกสาร</div>
-                            <div class="col-span-3">: <span class="ml-2">Closed(New)</span></div>
-                            <div class="col-span-3 font-medium">ผู้สร้างเอกสาร</div>
-                            <div class="col-span-3">: <span class="ml-2">Jate Hongsa</span></div>
-                        </div>
-
-                        <!-- Cause Table -->
-                        <div class="mb-4">
-                            <app-cause-table [readonly]="readonly" [causes]="causes"></app-cause-table>
                         </div>
                     </div>
                 </div>
@@ -199,10 +174,7 @@
                         <mat-divider class="mb-4"></mat-divider>
             
                         <div class="mb-4">
-                            <app-file-upload-table *ngIf="mode == 'saveResult'" [readonly]="readonly" [fileUploads]="saveResultFileUploads">
-                            </app-file-upload-table>
-                            <app-file-upload-table *ngIf="mode == 'causeAndFix'" [readonly]="readonly" [fileUploads]="causeAndFixFileUploads">
-                            </app-file-upload-table>
+                            <app-file-upload-table [readonly]="readonly" [fileUploads]="saveResultFileUploads"></app-file-upload-table>
                         </div>
                     </div>
                 </div>

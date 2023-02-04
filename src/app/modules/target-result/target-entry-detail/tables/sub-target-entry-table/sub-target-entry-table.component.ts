@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { DocumentDetail, SubTarget } from 'app/shared/interfaces/document.interface';
 import { detailExpandAnimation } from 'app/shared/table-animation';
+import { PlanEntryTableComponent } from '../plan-entry-table/plan-entry-table.component';
 
 @Component({
   selector: 'app-sub-target-entry-table',
@@ -19,6 +20,8 @@ export class SubTargetEntryTableComponent implements OnInit {
   subTargetRow2 = ['expandedDetail'];
 
   expandedSubtargets: SubTarget[] = [];
+
+  @ViewChildren(PlanEntryTableComponent) planEntryTables: QueryList<PlanEntryTableComponent>;
 
   constructor() { }
 

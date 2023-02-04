@@ -1,0 +1,163 @@
+<div class="absolute inset-0 overflow-hidden flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-4 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div>
+                        <a class="whitespace-nowrap text-primary-500">ผลการดำเนินงานตามเป้าหมาย</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a [routerLink]="'/target-result/target-entry'">
+                            <span class="ml-1 text-primary-500">
+                                บันทึกผลการดำเนินงาน
+                            </span>
+                        </a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a [routerLink]="'./../../../../../..'">
+                            <span class="ml-1 text-primary-500">การรายงานผลการดำเนินงานตามเป้าหมาย</span>
+                        </a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a (click)="goBack()" class="cursor-pointer">
+                            <span class="ml-1 text-primary-500">บันทึกผลการดำเนินงาน</span>
+                        </a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <span class="ml-1 text-secondary">สาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <div class="text-3xl font-normal text-primary tracking-tight leading-8">
+                    สาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย
+                </div>
+            </div>
+        </div>
+        <!-- Action -->
+        <div class="flex flex-col self-end">
+            <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <a class="flex items-center cursor-pointer" (click)="goBack()">
+                    <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
+                    &nbsp;<span>Back</span>
+                </a>
+                <ng-container *ngIf="!readonly">
+                    <a class="flex items-center ml-3 cursor-pointer">
+                        <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
+                    </a>
+                    <a *ngIf="canSave" class="flex items-center ml-3 cursor-pointer">
+                        <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Save</span>
+                    </a>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT GOES HERE -->
+    <div class="flex-auto p-6 overflow-y-auto">
+        <div class="flex-auto">
+            <form #f="ngForm">
+                <div class="flex flex-col px-8 py-4 bg-card shadow rounded overflow-y-auto">
+                    <div class="flex flex-col gt-xs:flex-row gt-xs:items-start" style="color: rgb(30, 41, 59)">
+                        <div class="gt-xs:max-w-80 gt-xs:pr-12">
+                            <p class="text-lg font-medium">ข้อมูลเป้าหมาย</p>
+                        </div>
+
+                        <mat-divider class="mb-4"></mat-divider>
+
+                        <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4">
+                            <div class="col-span-4 font-medium">Running No.</div>
+                            <div class="col-span-8">:<span class="ml-2"><a (click)="openLastComment()"
+                                        class="underline text-blue-600 cursor-pointer">{{document ? document.documentNo
+                                        : ''}}</a></span></div>
+                            <div class="col-span-4 font-medium">เป้าหมายหลัก</div>
+                            <div class="col-span-8">:<span class="ml-2">{{target?.targetName}}</span></div>
+                            <div class="col-span-4 font-medium">เป้าหมายย่อย</div>
+                            <div class="col-span-8">:<span class="ml-2">{{subTarget?.targetDetailDescription}}</span>
+                            </div>
+                            <div class="col-span-4 font-medium">วิธีการดำเนินงาน/<br>แผนการดำเนินงาน</div>
+                            <div class="col-span-8">:<span class="ml-2">{{plan?.planDescription}}</span></div>
+                            <div class="col-span-4 font-medium">ประเภทการวัดผล</div>
+                            <div class="col-span-8">:<span class="ml-2"
+                                    *ngIf="subTarget?.measureType === '1'">เชิงปริมาณ</span><span class="ml-2"
+                                    *ngIf="subTarget?.measureType === '2'">เชิงคุณภาพ</span></div>
+                            <div class="col-span-4 font-medium">ประจำเดือน</div>
+                            <div class="col-span-8">:<span class="ml-2">{{month}}</span></div>
+                            <div class="col-span-4 font-medium">ประจำปี</div>
+                            <div class="col-span-8">:<span class="ml-2">{{plan?.planYear}}</span></div>
+                            <div class="col-span-4 font-medium">สถานะ</div>
+                            <div class="col-span-8">:<span class="ml-2">{{document?.documentStatusDescription}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 flex flex-col px-8 py-4 bg-card shadow rounded overflow-y-auto">
+                    <div class="flex flex-col gt-xs:flex-row gt-xs:items-start" style="color: rgb(30, 41, 59)">
+                        <div class="gt-xs:max-w-80 gt-xs:pr-12">
+                            <p class="text-lg font-medium">ข้อมูลการรายงานผล</p>
+                        </div>
+
+                        <mat-divider class="mb-4"></mat-divider>
+
+                        <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center">
+                            <div class="col-span-4 font-medium">ผู้รายงานผล</div>
+                            <div class="col-span-8">:<span class="ml-2">{{plan?.undertaker}}</span></div>
+                            <div class="col-span-4 font-medium">ผลการดำเนินงานที่ตั้งไว้</div>
+                            <div class="col-span-8">:<span class="ml-2">{{subTarget?.targetValue}}</span></div>
+                            <div class="col-span-4 font-medium">ผลการดำเนินงานที่ทำได้</div>
+                            <div class="col-span-8">: <span class="ml-2">{{targetResult}}</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 flex flex-col px-8 pt-10 bg-card shadow rounded overflow-y-auto">
+                    <div class="flex flex-col gt-xs:flex-row gt-xs:items-start" style="color: rgb(30, 41, 59)">
+                        <div class="gt-xs:max-w-80 gt-xs:pr-12">
+                            <p class="text-lg font-medium">ข้อมูลสาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</p>
+                        </div>
+                        <mat-divider class="mb-4"></mat-divider>
+
+                        <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center">
+                            <div class="col-span-3 font-medium">เลขที่เอกสาร</div>
+                            <div class="col-span-3">: <span class="ml-2">SOV-Test-99-05</span></div>
+                            <div class="col-span-3 font-medium">วันที่สร้างเอกสาร</div>
+                            <div class="col-span-3">: <span class="ml-2">07/06/2019</span></div>
+                            <div class="col-span-3 font-medium">สถานะเอกสาร</div>
+                            <div class="col-span-3">: <span class="ml-2">Closed(New)</span></div>
+                            <div class="col-span-3 font-medium">ผู้สร้างเอกสาร</div>
+                            <div class="col-span-3">: <span class="ml-2">Jate Hongsa</span></div>
+                        </div>
+
+                        <!-- Cause Table -->
+                        <div class="mb-4">
+                            <app-cause-table [readonly]="readonly" [causes]="causes"></app-cause-table>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 flex flex-col px-8 py-4 bg-card shadow rounded overflow-y-auto">
+                    <div class="flex flex-col gt-xs:flex-row gt-xs:items-start" style="color: rgb(30, 41, 59)">
+                        <div class="gt-xs:max-w-80 gt-xs:pr-12">
+                            <p class="text-lg font-medium">เอกสารแนบ</p>
+                        </div>
+                        <mat-divider class="mb-4"></mat-divider>
+
+                        <div class="mb-4">
+                            <app-file-upload-table [readonly]="readonly" [fileUploads]="causeAndFixFileUploads"></app-file-upload-table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,8 +1,10 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlanFlow } from 'app/modules/target-result/target-result.interface';
 import { TargetResultService } from 'app/modules/target-result/target-result.service';
 import { DocumentDetail, Plan } from 'app/shared/interfaces/document.interface';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-plan-entry-table',
@@ -23,6 +25,10 @@ export class PlanEntryTableComponent implements OnInit {
 
   PlanFlow = PlanFlow;
 
+  selection = new SelectionModel<{ month: number, plan: Plan }>(true, []);
+
+  JSON = JSON;
+
   constructor(
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
@@ -31,7 +37,7 @@ export class PlanEntryTableComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  openTargetEntryModal(plan: Plan, month: string) {
+  saveTargetEntry(plan: Plan, month: string) {
     this._targetResultService.targetSaveData = {
       documentId: this.documentId,
       targetId: this.targetId,
@@ -39,10 +45,45 @@ export class PlanEntryTableComponent implements OnInit {
       planId: plan.id,
       month
     }
-    this._router.navigate(['save'], { relativeTo: this._activatedRoute });
+    this._router.navigate([`plans/${plan.id}/month/${month}`], { relativeTo: this._activatedRoute });
   }
 
   capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  toggleElement(month: number, plan: Plan) {
+    const findElement = this.isElementSelected(month, plan);
+    if (findElement) {
+      this.selection.toggle(findElement)
+    } else {
+      // create new
+      this.selection.toggle({ month, plan });
+    }
+    this._targetResultService.planMonthToggle();
+  }
+
+  isElementSelected(month: number, plan: Plan) {
+    return this.selection.selected.find(v => _.isEqual(v, { month, plan }));
+  }
+
+  checkAllAccept() {
+    let allAccept = true;
+    for (let select of this.selection.selected) {
+      if (select.plan[`flowMonth${select.month}`] === PlanFlow.REJECT) {
+        allAccept = false;
+      }
+    }
+    return allAccept;
+  }
+
+  checkAllReject() {
+    let allReject = true;
+    for (let select of this.selection.selected) {
+      if (select.plan[`flowMonth${select.month}`] === PlanFlow.ACCEPT) {
+        allReject = false;
+      }
+    }
+    return allReject;
   }
 }

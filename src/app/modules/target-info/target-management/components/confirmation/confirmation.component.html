@@ -6,19 +6,72 @@
             <!-- Breadcrumbs -->
             <div>
                 <div class="hidden sm:flex flex-wrap items-center font-medium">
-                    <div>
-                        <a class="whitespace-nowrap text-primary-500">ข้อมูลเป้าหมาย</a>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon class="icon-size-5 text-primary-500" [svgIcon]="'heroicons_solid:chevron-right'">
-                        </mat-icon>
-                        <span class="ml-1 text-primary-500">ข้อมูลเป้าหมายของฉัน</span>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon class="icon-size-5 text-primary-500" [svgIcon]="'heroicons_solid:chevron-right'">
-                        </mat-icon>
-                        <a (click)="goBack()" class="ml-1 text-primary-500 cursor-pointer">เอกสารเป้าหมาย</a>
-                    </div>
+                    <ng-container *ngIf="['submit', 'reject'].includes(mode)">
+                        <div>
+                            <a class="whitespace-nowrap text-primary-500">ข้อมูลเป้าหมาย</a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-primary-500" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <span class="ml-1 text-primary-500">ข้อมูลเป้าหมายของฉัน</span>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-primary-500" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a (click)="goBack()" class="ml-1 text-primary-500 cursor-pointer">เอกสารเป้าหมาย</a>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="['single-target-submit', 'single-target-reject'].includes(mode)">
+                        <div>
+                            <a class="whitespace-nowrap text-primary-500">ผลการดำเนินงานตามเป้าหมาย</a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a [routerLink]="'/target-result/target-entry'">
+                                <span class="ml-1 text-primary-500">
+                                    บันทึกผลการดำเนินงาน
+                                </span>
+                            </a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a [routerLink]="'./../../../../../..'" class="cursor-pointer">
+                                <span class="ml-1 text-primary-500">การรายงานผลการดำเนินงานตามเป้าหมาย</span>
+                            </a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a (click)="goBack()" class="cursor-pointer">
+                                <span class="ml-1 text-primary-500">บันทึกผลการดำเนินงาน</span>
+                            </a>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="['multi-target-submit', 'multi-target-reject'].includes(mode)">
+                        <div>
+                            <a class="whitespace-nowrap text-primary-500">ผลการดำเนินงานตามเป้าหมาย</a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a [routerLink]="'/target-result/target-entry'">
+                                <span class="ml-1 text-primary-500">
+                                    บันทึกผลการดำเนินงาน
+                                </span>
+                            </a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a (click)="goBack()" class="cursor-pointer">
+                                <span class="ml-1 text-primary-500">
+                                    การรายงานผลการดำเนินงานตามเป้าหมาย
+                                </span>
+                            </a>
+                        </div>
+                    </ng-container>
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
@@ -42,8 +95,8 @@
             <a (click)="send()" class="flex items-center cursor-pointer ml-3">
                 <mat-icon svgIcon="heroicons_outline:arrow-circle-right"></mat-icon>&nbsp;
                 <span>
-                    <ng-container *ngIf="mode === 'submit'">Send</ng-container>
-                    <ng-container *ngIf="mode === 'reject'">Reject</ng-container>
+                    <ng-container *ngIf="['submit', 'single-target-submit', 'multi-target-submit'].includes(mode)">Send</ng-container>
+                    <ng-container *ngIf="['reject', 'single-target-reject', 'multi-target-reject'].includes(mode)">Reject</ng-container>
                 </span>
             </a>
         </div>

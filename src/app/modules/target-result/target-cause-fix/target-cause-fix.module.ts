@@ -24,11 +24,23 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { IntegerOnlyModule } from 'app/shared/directives/integer-only.module';
 import { SharedModule } from 'app/shared/shared.module';
 import * as moment from 'moment';
-import { TargetSaveComponent } from './target-save.component';
+import { CauseModalComponent } from './modals/cause-modal/cause-modal.component';
+import { FixModalComponent } from './modals/fix-modal/fix-modal.component';
+import { ProtectModalComponent } from './modals/protect-modal/protect-modal.component';
+import { CauseTableComponent } from './tables/cause-table/cause-table.component';
+import { FixTableComponent } from './tables/fix-table/fix-table.component';
+import { ProtectTableComponent } from './tables/protect-table/protect-table.component';
+import { TargetCauseFixComponent } from './target-cause-fix.component';
 
 @NgModule({
   declarations: [
-    TargetSaveComponent
+    TargetCauseFixComponent,
+    CauseModalComponent,
+    FixModalComponent,
+    ProtectModalComponent,
+    FixTableComponent,
+    ProtectTableComponent,
+    CauseTableComponent
   ],
   imports: [
     RouterModule,
@@ -72,4 +84,4 @@ import { TargetSaveComponent } from './target-save.component';
     }
   ]
 })
-export class TargetSaveModule { }
+export class TargetCauseFixModule { }
