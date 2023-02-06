@@ -235,13 +235,14 @@ export class TargetListComponent implements OnInit, AfterViewInit {
   }
 
   loadDocuments(page: number, size: number, sort?: string, order?: string, params?: DocumentParams) {
-    this._documentService.getDocuments(
-      page,
-      size,
-      sort,
-      order,
-      params
-    ).subscribe({
+    let obs;
+    if (this.fromUrl === 'my-target') {
+      obs = this._documentService.getDocuments(page, size, sort, order, params);
+    } else {
+      obs = this._documentService.getTargetDocuments(page, size, sort, order, params);
+    }
+
+    obs.subscribe({
       next: (v) => {
         this.documents = v.model;
         this.paginator.pageIndex = v.pageNumber - 1;

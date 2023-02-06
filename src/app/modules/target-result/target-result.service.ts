@@ -1,8 +1,11 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { getBaseUrl } from "app/shared/helpers/get-base-url";
+import { ResultMapper } from "app/shared/interfaces/result-mapper.interface";
 import { CookieService } from "app/shared/services/cookie.service";
 import { LocalStorageService } from "app/shared/services/local-storage.service";
-import { BehaviorSubject } from "rxjs";
-import { PlanStatus, TargetSaveData } from "./target-result.interface";
+import { BehaviorSubject, map, Observable } from "rxjs";
+import { PlanFlow, PlanStatus, TargetSaveData } from "./target-result.interface";
 import { FileUpload, LastComment } from "./target-result.types";
 
 @Injectable({
@@ -63,7 +66,9 @@ export class TargetResultService {
 
     constructor(
         private storage: LocalStorageService,
-        private _cookieService: CookieService
+        private _cookieService: CookieService,
+        private _httpClient: HttpClient,
+
     ) { }
 
     getLastComments() {
@@ -102,5 +107,53 @@ export class TargetResultService {
 
     planMonthToggle() {
         this.planMonthToggleChange.next(true);
+    }
+
+    postActual(
+        targetDetailPlanId: number,
+        targetYear: number,
+        targetMonth: number,
+        targetActualValue: number,
+        targetActualResult: string,
+        remarks: string
+    ) {
+        return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Targets/actuals'), {
+            targetDetailPlanId,
+            targetYear,
+            targetMonth,
+            targetActualValue,
+            targetActualResult,
+            remarks
+        })
+    }
+
+    getActual(planId: number, month: number) {
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Targets/actuals/${planId}/month/${month}`)).pipe(map(data => data.model));
+    }
+
+    getActualSubmitEmail(id: number): Observable<any> {
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Targets/actuals/${id}/submit`)).pipe(map(data => data.model));
+    }
+
+    getActualRejectEmail(id: number): Observable<any> {
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Targets/actuals/${id}/reject`)).pipe(map(data => data.model));
+    }
+
+    patchActualSubmitEmail(targetActualIds: number[], comment: string, informEmails: string[], receiveEmails: string[]): Observable<any> {
+        return this._httpClient.patch(getBaseUrl(`/v1/Targets/actuals/submit`), {
+            targetActualIds,
+            comment,
+            informEmails,
+            receiveEmails
+        });
+    }
+
+    patchActualRejectEmail(targetActualIds: number[], comment: string, informEmails: string[], receiveEmails: string[]): Observable<any> {
+        return this._httpClient.patch(getBaseUrl(`/v1/Targets/actuals/reject`), {
+            targetActualIds,
+            comment,
+            informEmails,
+            receiveEmails
+        });
     }
 }

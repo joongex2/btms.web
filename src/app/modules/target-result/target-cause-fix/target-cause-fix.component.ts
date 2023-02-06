@@ -6,7 +6,7 @@ import { User } from 'app/core/user/user.types';
 import { CauseRecord, ResultDetail } from 'app/modules/target-info/target.types';
 import { LastCommentModalComponent } from 'app/shared/components/last-comment-modal/last-comment-modal.component';
 import { monthToNumber } from 'app/shared/helpers/month-convert';
-import { ActualTarget, DocumentDetail, Plan, SubTarget, Target } from 'app/shared/interfaces/document.interface';
+import { DocumentDetail, Plan, SubTarget, Target } from 'app/shared/interfaces/document.interface';
 import { DocumentService } from 'app/shared/services/document.service';
 import { UrlService } from 'app/shared/services/url.service';
 import { PlanFlow, TargetSaveData } from '../target-result.interface';
@@ -37,7 +37,6 @@ export class TargetCauseFixComponent implements OnInit {
   subTarget: SubTarget;
   plan: Plan;
   month: string;
-  actualTarget: ActualTarget;
 
   isEdit: boolean = false; // true when press edit button
   // check privillege

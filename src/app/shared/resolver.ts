@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/r
 import { UserService } from "app/core/user/user.service";
 import { MasterService } from "app/modules/super-admin/master/master.service";
 import { OrganizationService } from "app/modules/super-admin/organization/organization.service";
+import { TargetResultService } from "app/modules/target-result/target-result.service";
 import { LookupService } from "app/shared/services/lookup.service";
 import { Observable, take } from "rxjs";
 
@@ -113,5 +114,17 @@ export class UserResolver implements Resolve<any>
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
         return this._userService.user$.pipe(take(1));;
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ActualResolver implements Resolve<any>
+{
+    constructor(private _targetResultService: TargetResultService) { }
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        return this._targetResultService.getActual(parseInt(route.params.planId), parseInt(route.params.month));
     }
 }

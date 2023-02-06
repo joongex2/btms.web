@@ -3,12 +3,16 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { fuseAnimations } from '@fuse/animations';
+import { FuseAlertType } from '@fuse/components/alert';
 import { User } from 'app/core/user/user.types';
 import { LastCommentModalComponent } from 'app/shared/components/last-comment-modal/last-comment-modal.component';
-import { ActualTarget, DocumentDetail, Plan, SubTarget, Target } from 'app/shared/interfaces/document.interface';
+import { Actual, DocumentDetail, Plan, SubTarget, Target } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { DocumentService } from 'app/shared/services/document.service';
+import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { UrlService } from 'app/shared/services/url.service';
+import { firstValueFrom } from 'rxjs';
 import { PlanFlow } from '../target-result.interface';
 import { TargetResultService } from '../target-result.service';
 import { FileUpload } from '../target-result.types';
@@ -16,14 +20,14 @@ import { FileUpload } from '../target-result.types';
 @Component({
   selector: 'target-save',
   templateUrl: './target-save.component.html',
-  styleUrls: ['./target-save.component.scss']
+  styleUrls: ['./target-save.component.scss'],
+  animations: fuseAnimations
 })
 export class TargetSaveComponent implements OnInit {
   @ViewChild('f') form: NgForm;
   user: User;
   mode: string;
   saveResultFileUploads: FileUpload[];
-  showRefDocument: boolean = false;
   readonly = false;
   previousUrl: string;
 
@@ -37,7 +41,7 @@ export class TargetSaveComponent implements OnInit {
   subTarget: SubTarget;
   plan: Plan;
   month: number;
-  actualTarget: ActualTarget;
+  actual: Actual;
 
   isEdit: boolean = false; // true when press edit button
   // check privillege
@@ -45,6 +49,14 @@ export class TargetSaveComponent implements OnInit {
   canEdit: boolean = false;
   canSubmit: boolean = false;
   canReject: boolean = false;
+
+  // alert
+  showAlert: boolean = false;
+  hasApiError: boolean = false;
+  alert: { type: FuseAlertType; message: string } = {
+    type: 'success',
+    message: ''
+  };
 
   constructor(
     private _targetResultService: TargetResultService,
@@ -54,13 +66,13 @@ export class TargetSaveComponent implements OnInit {
     private _matDialog: MatDialog,
     private _urlService: UrlService,
     private _location: Location,
-    private _confirmationService: ConfirmationService
+    private _confirmationService: ConfirmationService,
+    private _snackBarService: SnackBarService
   ) {
     this.readonly = _activatedRoute.snapshot.data['readonly'] ? true : false;
     const documentId = parseInt(this._activatedRoute.snapshot.params.id);
     const planId = parseInt(this._activatedRoute.snapshot.params.planId);
     const month = parseInt(this._activatedRoute.snapshot.params.month);
-    // this.setData(this._targetResultService.targetSaveData);
     this.setData(documentId, planId, month);
   }
 
@@ -69,33 +81,16 @@ export class TargetSaveComponent implements OnInit {
     this.mode = this._activatedRoute.snapshot.data['mode'];
     this.checkPrivillege();
     this.saveResultFileUploads = this._targetResultService.getSaveResultFileUploads();
-    // this.causeAndFixFileUploads = this._targetResultService.getCauseAndFixFileUploads();
 
     this._urlService.previousUrl$.subscribe((previousUrl: string) => {
       this.previousUrl = previousUrl;
     });
   }
 
-  // setData(data: TargetSaveData): void {
   setData(documentId: number, planId: number, month: number) {
-    // const documentId = data.documentId;
-    // const targetId = data.targetId;
-    // const subTargetId = data.subTargetId;
-    // const planId = data.planId;
     this._documentService.getDocument(documentId).subscribe({
       next: (documentDetail: DocumentDetail) => {
-        // this.document = documentDetail;
-        if (!this._documentService.getMockDocument()) {
-          this._documentService.setMockDocument(documentDetail);
-        }
-        this.document = this._documentService.getMockDocument();
-        // this.target = documentDetail.targets.find(v => v.id === targetId);
-        // if (this.target) {
-        //   this.subTarget = this.target.details.find(v => v.id === subTargetId);
-        //   if (this.subTarget) {
-        //     this.plan = this.subTarget.plans.find(v => v.id === planId);
-        //   }
-        // }
+        this.document = documentDetail;
         for (let target of this.document.targets) {
           for (let subTarget of target.details) {
             for (let plan of subTarget.plans) {
@@ -109,14 +104,12 @@ export class TargetSaveComponent implements OnInit {
         }
         const currentPlanFlow: PlanFlow = this.getPlanStatus().planStatus?.flow;
         if (![PlanFlow.ACCEPT, PlanFlow.REJECT].includes(currentPlanFlow)) this.setPlanFlow(PlanFlow.VISITED);
-        this.mode = this.plan[`actualTarget${this.month}`] ? 'edit' : 'add';
+        this.mode = this._activatedRoute.snapshot.data.actual ? 'edit' : 'add';
         if (this.mode === 'edit') {
-          this.actualTarget = this.plan[`actualTarget${this.month}`];
-          this.targetResult = this.subTarget.measureType === '1' ? this.actualTarget.value : this.actualTarget.valueStatus;
-          this.naCheckBox = this.subTarget.measureType === '1' && this.actualTarget.valueStatus === 'na';
+          this.actual = this._activatedRoute.snapshot.data.actual;
+          this.targetResult = this.subTarget.measureType === '1' ? (this.actual.targetActualValue?.toString() || null) : this.actual.targetActualResult;
+          this.naCheckBox = this.subTarget.measureType === '1' && this.actual.targetActualResult === 'N';
           this.acceptReject = [PlanFlow.ACCEPT, PlanFlow.REJECT].includes(currentPlanFlow) ? currentPlanFlow : null;
-        } else {
-          this.isEdit = true;
         }
         this.checkPrivillege();
       },
@@ -156,18 +149,6 @@ export class TargetSaveComponent implements OnInit {
     this._targetResultService.PlanStatuses = planStatuses;
   }
 
-  setShowRefDocument(): void {
-    if (this.subTarget.measureType === '1') {
-      this.showRefDocument = parseFloat(this.targetResult) < 70; // TODO:
-    } else {
-      if (this.targetResult === 'unarchive') {
-        this.showRefDocument = true;
-      } else {
-        this.showRefDocument = false;
-      }
-    }
-  }
-
   openLastComment() {
     const dialogRef = this._matDialog.open(LastCommentModalComponent, {
       data: {
@@ -178,14 +159,6 @@ export class TargetSaveComponent implements OnInit {
       .subscribe((result: any) => {
 
       });
-  }
-
-  backToDetail(): void {
-    this._router.navigate(['../'], { relativeTo: this._activatedRoute });
-  }
-
-  backToArchive(): void {
-    this.mode = 'saveResult';
   }
 
   checkPrivillege() {
@@ -215,23 +188,23 @@ export class TargetSaveComponent implements OnInit {
       } else {
         // edit
         if (this.isEdit && haveT01) this.canSave = true;
-        if (!this.isEdit && this.actualTarget.status === 'TARGET_REPORTING' && haveT01) this.canEdit = true;
-        if (!this.isEdit && this.actualTarget.status === 'TARGET_REPORTING' && haveT01) {
+        if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_REPORTING' && haveT01) this.canEdit = true;
+        if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_REPORTING' && haveT01) {
           this.canSubmit = true;
         }
-        if (!this.isEdit && this.actualTarget.status === 'TARGET_WAIT_FOR_VERIFY' && haveT02) {
-          this.canSubmit = true;
-          this.canReject = true;
-        }
-        if (!this.isEdit && this.actualTarget.status === 'TARGET_WAIT_FOR_APPROVE' && haveT03) {
+        if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_WAIT_FOR_VERIFY' && haveT02) {
           this.canSubmit = true;
           this.canReject = true;
         }
-        if (!this.isEdit && this.actualTarget.status === 'TARGET_WAIT_FOR_RELEASE' && haveT04) {
+        if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_WAIT_FOR_APPROVE' && haveT03) {
           this.canSubmit = true;
           this.canReject = true;
         }
-        if (!this.isEdit && this.actualTarget.status === 'TARGET_RELEASED' && haveT04) {
+        if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_WAIT_FOR_RELEASE' && haveT04) {
+          this.canSubmit = true;
+          this.canReject = true;
+        }
+        if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_RELEASED' && haveT04) {
           this.canReject = true;
         }
       }
@@ -263,21 +236,36 @@ export class TargetSaveComponent implements OnInit {
     } else {
       this._confirmationService.save().afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {
-          if (this.mode === 'add') {
-            this.plan[`actualTarget${this.month}`] = {
-              id: Math.floor(Math.random() * 1000) + 1,
-              status: 'TARGET_REPORTING',
-              value: this.subTarget.measureType === '1' && !this.naCheckBox ? this.targetResult : null,
-              valueStatus: this.calculateValueStatus()
-            };
-            this.actualTarget = this.plan[`actualTarget${this.month}`]
-            this.mode = 'edit';
-          } else {
-            this.actualTarget.value = this.subTarget.measureType === '1' && !this.naCheckBox ? this.targetResult : null;
-            this.actualTarget.valueStatus = this.calculateValueStatus();
+          try {
+            let res = await firstValueFrom(this._targetResultService.postActual(
+              this.plan.id,
+              this.plan.planYear,
+              this.month,
+              this.subTarget.measureType === '1' && !this.naCheckBox ? parseInt(this.targetResult) : null,
+              this.calculateTargetActualResult(),
+              null
+            ));
+            if (this.mode === 'add') {
+              this.actual = await firstValueFrom(this._targetResultService.getActual(this.plan.id, this.month));
+              this.mode = 'edit';
+            }
+
+            if (!res.didError) {
+              this._snackBarService.success(res.message);
+              this.isEdit = false;
+              this.checkPrivillege();
+            } else {
+              this._snackBarService.error();
+              this.showError(res.errorMessage, true);
+              return;
+            }
+          } catch (e) {
+            console.log(e);
+            this._snackBarService.error();
+            this.showError(e.error, true);
+            return;
           }
-          this.isEdit = false;
-          this.checkPrivillege();
+          this.hideError();
         }
       });
     }
@@ -294,17 +282,17 @@ export class TargetSaveComponent implements OnInit {
   }
 
   submit() {
-    this._router.navigate(['./confirm-submit'], { relativeTo: this._activatedRoute })
+    this._router.navigate([`./confirm-submit/${this.actual.id}`], { relativeTo: this._activatedRoute })
   }
 
   reject() {
-    this._router.navigate(['./confirm-reject'], { relativeTo: this._activatedRoute })
+    this._router.navigate([`./confirm-reject/${this.actual.id}`], { relativeTo: this._activatedRoute })
   }
 
-  calculateValueStatus(): string {
+  calculateTargetActualResult(): string {
     if (this.subTarget.measureType === '1') {
       // quality
-      if (this.naCheckBox) return 'na';
+      if (this.naCheckBox) return 'N';
       if (this.subTarget.targetCondition === '1') {
         // single
         const targetOperator = this.subTarget.conditions[0].targetOperator;
@@ -312,33 +300,33 @@ export class TargetSaveComponent implements OnInit {
         const targetResultNum = parseInt(this.targetResult);
         if (targetOperator === '>') {
           if (targetResultNum > targetValue) {
-            return 'archive';
+            return 'A';
           } else {
-            return 'unarchive';
+            return 'U';
           }
         } else if (targetOperator === '<') {
           if (targetResultNum < targetValue) {
-            return 'archive';
+            return 'A';
           } else {
-            return 'unarchive';
+            return 'U';
           }
         } else if (targetOperator === '=') {
           if (targetResultNum === targetValue) {
-            return 'archive';
+            return 'A';
           } else {
-            return 'unarchive';
+            return 'U';
           }
         } else if (targetOperator === '>=') {
           if (targetResultNum >= targetValue) {
-            return 'archive';
+            return 'A';
           } else {
-            return 'unarchive';
+            return 'U';
           }
         } else if (targetOperator === '<=') {
           if (targetResultNum <= targetValue) {
-            return 'archive';
+            return 'A';
           } else {
-            return 'unarchive';
+            return 'U';
           }
         }
       } else {
@@ -348,18 +336,18 @@ export class TargetSaveComponent implements OnInit {
           const targetValue = condition.targetValue;
           const targetResultNum = parseInt(this.targetResult);
           if (targetOperator === '>' && targetResultNum > targetValue) {
-            return 'unarchive';
+            return 'U';
           } else if (targetOperator === '<' && targetResultNum < targetValue) {
-            return 'unarchive';
+            return 'U';
           } else if (targetOperator === '=' && targetResultNum === targetValue) {
-            return 'unarchive';
+            return 'U';
           } else if (targetOperator === '>=' && targetResultNum >= targetValue) {
-            return 'unarchive';
+            return 'U';
           } else if (targetOperator === '<=' && targetResultNum <= targetValue) {
-            return 'unarchive';
+            return 'U';
           }
         }
-        return 'archive';
+        return 'A';
       }
     } else {
       // quantity
@@ -377,5 +365,27 @@ export class TargetSaveComponent implements OnInit {
     } else if (acceptReject === 'reject') {
       this.setPlanFlow(PlanFlow.REJECT);
     }
+  }
+
+  showError(error: string, hasApiError?: boolean) {
+    this.showAlert = true;
+    this.alert = {
+      type: 'error',
+      message: error
+    };
+    if (hasApiError) this.hasApiError = true;
+  }
+
+  hideError() {
+    this.showAlert = false;
+    this.hasApiError = false;
+    this.alert = {
+      type: 'success',
+      message: ''
+    };
+  }
+
+  isShowError() {
+    return (this.showAlert && !this.form.valid) || this.hasApiError;
   }
 }

@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlanFlow } from 'app/modules/target-result/target-result.interface';
 import { TargetResultService } from 'app/modules/target-result/target-result.service';
-import { DocumentDetail, Plan } from 'app/shared/interfaces/document.interface';
+import { DocumentDetail, Plan, SubTarget } from 'app/shared/interfaces/document.interface';
 import * as _ from 'lodash';
 
 @Component({
@@ -17,6 +17,7 @@ export class PlanEntryTableComponent implements OnInit {
   @Input() targetId: number;
   @Input() subTargetId: number;
   @Input() document: Partial<DocumentDetail>;
+  subTarget: SubTarget;
 
   planHeader = ['planDescription', 'planYear', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec', 'undertaker'];
   planRow1 = ['planDescription', 'planYear', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec', 'undertaker'];
@@ -35,7 +36,9 @@ export class PlanEntryTableComponent implements OnInit {
     private _targetResultService: TargetResultService
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.subTarget = this.document.targets.find(v => v.id === this.targetId)?.details.find(v => v.id === this.subTargetId);
+  }
 
   saveTargetEntry(plan: Plan, month: string) {
     this._targetResultService.targetSaveData = {
@@ -67,23 +70,47 @@ export class PlanEntryTableComponent implements OnInit {
     return this.selection.selected.find(v => _.isEqual(v, { month, plan }));
   }
 
-  checkAllAccept() {
+  checkAllAcceptAndSameStatus() {
     let allAccept = true;
+    let allSameStatus = true;
+    let status = '';
     for (let select of this.selection.selected) {
       if (select.plan[`flowMonth${select.month}`] === PlanFlow.REJECT) {
         allAccept = false;
       }
+      const actual = select.plan.actuals.find(v => v.targetMonth === select.month);
+      if (status === '') {
+        status = actual.targetActualStatus;
+      } else {
+        if (status !== actual.targetActualStatus) {
+          allSameStatus = false;
+        }
+      }
     }
-    return allAccept;
+    return allAccept && allSameStatus;
   }
 
-  checkAllReject() {
+  checkAllRejectAndSameStatus() {
     let allReject = true;
+    let allSameStatus = true;
+    let status = '';
     for (let select of this.selection.selected) {
       if (select.plan[`flowMonth${select.month}`] === PlanFlow.ACCEPT) {
         allReject = false;
       }
+      const actual = select.plan.actuals.find(v => v.targetMonth === select.month);
+      if (status === '') {
+        status = actual.targetActualStatus;
+      } else {
+        if (status !== actual.targetActualStatus) {
+          allSameStatus = false;
+        }
+      }
     }
-    return allReject;
+    return allReject && allSameStatus;
+  }
+
+  getActual(plan: Plan, month: number) {
+    return plan.actuals.find(v => v.targetMonth === month);
   }
 }
