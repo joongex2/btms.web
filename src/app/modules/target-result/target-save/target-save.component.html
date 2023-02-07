@@ -59,14 +59,14 @@
                     </a>
                     <a *ngIf="canSubmit" (click)="submit()" class="flex items-center cursor-pointer ml-3">
                         <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;
-                        <span>Submit</span>
+                        <span>Accept</span>
                     </a>
                     <a *ngIf="canReject" (click)="reject()" class="flex items-center cursor-pointer ml-3">
-                        <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Not Approve</span>
+                        <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Reject</span>
                     </a>
                 </ng-container>
             </div>
-            <ng-container *ngIf="canSubmit || canReject">
+            <!-- <ng-container *ngIf="canSubmit || canReject">
                 <mat-divider class="my-1"></mat-divider>
                 <div class="flex self-end">
                     <mat-radio-group aria-label="select accept or reject" [(ngModel)]="acceptReject" (ngModelChange)="acceptRejectChange($event)" name="acceptReject">
@@ -74,7 +74,7 @@
                         <mat-radio-button *ngIf="canReject" [color]="'warn'" value="reject" class="ml-2"><span class="text-warn">Reject</span></mat-radio-button>
                     </mat-radio-group>
                 </div>
-            </ng-container>
+            </ng-container> -->
         </div>
     </div>
 

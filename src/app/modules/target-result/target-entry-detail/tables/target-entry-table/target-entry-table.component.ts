@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { User } from 'app/core/user/user.types';
 import { DocumentDetail, Target } from 'app/shared/interfaces/document.interface';
 import { detailExpandAnimation } from 'app/shared/table-animation';
 import { SubTargetEntryTableComponent } from '../sub-target-entry-table/sub-target-entry-table.component';
@@ -13,6 +14,8 @@ export class TargetEntryTableComponent implements OnInit {
   @Input() targets: Target[];
   @Input() documentId: number;
   @Input() document: Partial<DocumentDetail>;
+  @Input() user: User;
+  hideTargetIds: number[] = [];
 
   @ViewChildren(SubTargetEntryTableComponent) subTargetEntryTables: QueryList<SubTargetEntryTableComponent>;
 
@@ -79,5 +82,4 @@ export class TargetEntryTableComponent implements OnInit {
       subTargetEntryTable.collapseAll();
     }
   }
-
 }

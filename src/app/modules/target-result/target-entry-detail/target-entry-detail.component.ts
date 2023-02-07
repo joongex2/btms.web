@@ -23,7 +23,8 @@ export class TargetEntryDetailComponent implements OnInit {
   document: Partial<DocumentDetail>;
   documentId: number;
   readonly = false;
-
+  
+  canConfirm: boolean = true;
   canSubmit: boolean = false;
   canReject: boolean = false;
 
@@ -48,7 +49,7 @@ export class TargetEntryDetailComponent implements OnInit {
     this.loadDocument(id);
 
     this.planMonthToggleChangeSub = this._targetResultService.planMonthToggleChange$.pipe(skip(1)).subscribe(v => {
-      this.checkPrivillege();
+      // this.checkPrivillege();
     });
   }
 
@@ -120,12 +121,30 @@ export class TargetEntryDetailComponent implements OnInit {
     // check
     this.canSubmit = false;
     this.canReject = false;
-    if (this.checkAtleastOneAndAllAcceptAndSameStatus()) {
+    if (this.checkAtleastOneAndSameStatus()) {
       this.canSubmit = true;
     }
-    if (this.checkAtleaseOntAndAllRejectAndSameStatus()) {
+    if (this.checkAtleastOneAndSameStatus() && this.checkAllCanReject()) {
       this.canReject = true;
     }
+  }
+
+  checkAtleastOneAndSameStatus(): boolean {
+    let checkNum = 0;
+    let allSameStatus = true;
+    for (let planTable of this.planEntryTables) {
+      checkNum += planTable.selection.selected.length;
+      allSameStatus = allSameStatus && planTable.checkAllSameStatus();
+    }
+    return checkNum > 0 && allSameStatus;
+  }
+
+  checkAllCanReject(): boolean {
+    let allCanReject = true;
+    for (let planTable of this.planEntryTables) {
+      allCanReject = allCanReject && planTable.checkAllCanReject();
+    }
+    return allCanReject;
   }
 
   checkAtleastOneAndAllAcceptAndSameStatus(): boolean {
@@ -138,7 +157,7 @@ export class TargetEntryDetailComponent implements OnInit {
     return checkNum > 0 && allAcceptAndSameStatus;
   }
 
-  checkAtleaseOntAndAllRejectAndSameStatus(): boolean {
+  checkAtleaseOneAndAllRejectAndSameStatus(): boolean {
     let checkNum = 0;
     let allRejectAndSameStatus = true;
     for (let planTable of this.planEntryTables) {
@@ -156,6 +175,29 @@ export class TargetEntryDetailComponent implements OnInit {
     return actualTargetIds;
   }
 
+  confirm() {
+    for (let planTable of this.planEntryTables) {
+      planTable.filter();
+    }
+    for (let subTarget of this.targetEntryTableComponent.subTargetEntryTables) {
+      const hideSubTargetIds = [];
+      for (let plan of subTarget.planEntryTables) {
+        const atleastOneSelected = plan.filter();
+        if (!atleastOneSelected) {
+          hideSubTargetIds.push(plan.subTargetId);
+          subTarget.hideSubTargetIds.push(plan.subTargetId);
+        }
+      }
+      if (hideSubTargetIds.length === this.targets.find(v => v.id === subTarget.targetId).details.length) {
+        this.targetEntryTableComponent.hideTargetIds.push(subTarget.targetId);
+      }
+    }
+
+    this.addQueryParam({ filter: true });
+    this.checkPrivillege();
+    this.canConfirm = false;
+  }
+
   submit() {
     let actualTargetIds = this.getActualIds();
     this._router.navigate(['./multi/confirm-submit'], { relativeTo: this._activatedRoute, queryParams: { actualTargetIds } });
@@ -164,5 +206,32 @@ export class TargetEntryDetailComponent implements OnInit {
   reject() {
     let actualTargetIds = this.getActualIds();
     this._router.navigate(['./multi/confirm-reject'], { relativeTo: this._activatedRoute, queryParams: { actualTargetIds } });
+  }
+
+  private addQueryParam(param?: object): void {
+    this._router.navigate(['./'], {
+      relativeTo: this._activatedRoute,
+      queryParams: param,
+      queryParamsHandling: 'merge'
+    })
+  }
+
+  back() {
+    if (this._activatedRoute.snapshot.queryParams.filter) {
+      this.addQueryParam({ filter: undefined });
+      for (let planTable of this.planEntryTables) {
+        planTable.cancelFilter();
+      }
+      // clear hide of subtargets, targets
+      for (let subTarget of this.targetEntryTableComponent.subTargetEntryTables) {
+        subTarget.hideSubTargetIds = [];
+      }
+      this.targetEntryTableComponent.hideTargetIds = [];
+      this.canConfirm = true;
+      this.canSubmit = false;
+      this.canReject = false;
+    } else {
+      this._router.navigate(['./..'], { relativeTo: this._activatedRoute });
+    }
   }
 }

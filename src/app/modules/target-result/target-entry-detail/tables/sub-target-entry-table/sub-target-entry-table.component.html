@@ -58,12 +58,13 @@
                     [targetId]="targetId"
                     [subTargetId]="element.id"
                     [document]="document"
+                    [user]="user"
                 >
                 </app-plan-entry-table>
             </div>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="subTargetHeader"></tr>
-    <tr mat-row class="normal-row" *matRowDef="let element;let row;columns: subTargetRow1"></tr>
-    <tr mat-row *matRowDef="let row; columns: subTargetRow2" class="expand-row"></tr>
+    <tr mat-row class="normal-row" *matRowDef="let element;let row;columns: subTargetRow1" [class.hidden]="hideSubTargetIds.includes(element.id)"></tr>
+    <tr mat-row *matRowDef="let element;let row; columns: subTargetRow2" class="expand-row" [class.hidden]="hideSubTargetIds.includes(element.id)"></tr>
 </table>

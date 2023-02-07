@@ -113,7 +113,7 @@ export class UserResolver implements Resolve<any>
     constructor(private _userService: UserService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this._userService.user$.pipe(take(1));;
+        return this._userService.user$.pipe(take(1));
     }
 }
 

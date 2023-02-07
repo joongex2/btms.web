@@ -191,9 +191,9 @@ export class TargetSaveComponent implements OnInit {
         // edit
         if (this.isEdit && haveT01) this.canSave = true;
         if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_REPORTING' && haveT01) this.canEdit = true;
-        if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_REPORTING' && haveT01) {
-          this.canSubmit = true;
-        }
+        // if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_REPORTING' && haveT01) {
+        //   this.canSubmit = true;
+        // }
         if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_WAIT_FOR_VERIFY' && haveT02) {
           this.canSubmit = true;
           this.canReject = true;
@@ -282,11 +282,15 @@ export class TargetSaveComponent implements OnInit {
   }
 
   submit() {
-    this._router.navigate([`./confirm-submit/${this.actual.id}`], { relativeTo: this._activatedRoute })
+    // this._router.navigate([`./confirm-submit/${this.actual.id}`], { relativeTo: this._activatedRoute })
+    this.setPlanFlow(PlanFlow.ACCEPT);
+    this._router.navigate(['./../../../..'], { relativeTo: this._activatedRoute });
   }
 
   reject() {
-    this._router.navigate([`./confirm-reject/${this.actual.id}`], { relativeTo: this._activatedRoute })
+    // this._router.navigate([`./confirm-reject/${this.actual.id}`], { relativeTo: this._activatedRoute })
+    this.setPlanFlow(PlanFlow.REJECT);
+    this._router.navigate(['./../../../..'], { relativeTo: this._activatedRoute });
   }
 
   calculateTargetActualResult(): string {

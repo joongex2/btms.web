@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { User } from 'app/core/user/user.types';
 import { DocumentDetail, SubTarget } from 'app/shared/interfaces/document.interface';
 import { detailExpandAnimation } from 'app/shared/table-animation';
 import { PlanEntryTableComponent } from '../plan-entry-table/plan-entry-table.component';
@@ -14,6 +15,8 @@ export class SubTargetEntryTableComponent implements OnInit {
   @Input() targetId: number;
   @Input() documentId: number;
   @Input() document: Partial<DocumentDetail>;
+  @Input() user: User;
+  hideSubTargetIds: number[] = [];
 
   subTargetHeader = ['expandIcon', 'priority', 'targetDetailDescription', 'targetIndex', 'targetValue', 'targetUnit', 'currentTarget', 'startMonth', 'startYear', 'finishMonth', 'finishYear']
   subTargetRow1 = ['expandIcon', 'priority', 'targetDetailDescription', 'targetIndex', 'targetValue', 'targetUnit', 'currentTarget', 'startMonth', 'startYear', 'finishMonth', 'finishYear'];
@@ -56,6 +59,4 @@ export class SubTargetEntryTableComponent implements OnInit {
   collapseAll() {
     this.expandedSubtargets = [];
   }
-
-
 }

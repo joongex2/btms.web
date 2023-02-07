@@ -1,9 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { User } from 'app/core/user/user.types';
 import { PlanFlow } from 'app/modules/target-result/target-result.interface';
 import { TargetResultService } from 'app/modules/target-result/target-result.service';
-import { DocumentDetail, Plan, SubTarget } from 'app/shared/interfaces/document.interface';
+import { Actual, DocumentDetail, Plan, SubTarget } from 'app/shared/interfaces/document.interface';
 import * as _ from 'lodash';
 
 @Component({
@@ -17,7 +18,10 @@ export class PlanEntryTableComponent implements OnInit {
   @Input() targetId: number;
   @Input() subTargetId: number;
   @Input() document: Partial<DocumentDetail>;
+  @Input() user: User;
   subTarget: SubTarget;
+
+  isFilter: boolean;
 
   planHeader = ['planDescription', 'planYear', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec', 'undertaker'];
   planRow1 = ['planDescription', 'planYear', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec', 'undertaker'];
@@ -36,11 +40,17 @@ export class PlanEntryTableComponent implements OnInit {
     private _targetResultService: TargetResultService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.subTarget = this.document.targets.find(v => v.id === this.targetId)?.details.find(v => v.id === this.subTargetId);
   }
 
+  ngOnChange() {
+
+  }
+
   saveTargetEntry(plan: Plan, month: string) {
+    if (!this.isDisplay(plan, parseInt(month)) || this.isFilter) return;
+
     this._targetResultService.targetSaveData = {
       documentId: this.documentId,
       targetId: this.targetId,
@@ -68,6 +78,30 @@ export class PlanEntryTableComponent implements OnInit {
 
   isElementSelected(month: number, plan: Plan) {
     return this.selection.selected.find(v => _.isEqual(v, { month, plan }));
+  }
+
+  checkAllSameStatus() {
+    let allSameStatus = true;
+    let status = '';
+    for (let select of this.selection.selected) {
+      const actual = select.plan.actuals.find(v => v.targetMonth === select.month);
+      if (status === '') {
+        status = actual.targetActualStatus;
+      } else {
+        if (status !== actual.targetActualStatus) {
+          allSameStatus = false;
+        }
+      }
+    }
+    return allSameStatus;
+  }
+
+  checkAllCanReject() {
+    for (let select of this.selection.selected) {
+      const actual = select.plan.actuals.find(v => v.targetMonth === select.month);
+      if (actual.targetActualStatus === 'TARGET_REPORTING') return false;
+    }
+    return true;
   }
 
   checkAllAcceptAndSameStatus() {
@@ -112,5 +146,65 @@ export class PlanEntryTableComponent implements OnInit {
 
   getActual(plan: Plan, month: number) {
     return plan.actuals.find(v => v.targetMonth === month);
+  }
+
+  checkPrivillege(actual: Actual) {
+    if (!actual) return false;
+    let canSubmit = false;
+    let canReject = false;
+    if (this.user && this.user.organizes && this.document) {
+      let haveT01 = false;
+      let haveT02 = false;
+      let haveT03 = false;
+      let haveT04 = false;
+      const organize = this.user.organizes.find((v) => v.organizeCode === this.document.organizeCode);
+      for (let role of organize.roles) {
+        if (role.roleCode === 'T01') haveT01 = true;
+        if (role.roleCode === 'T02') haveT02 = true;
+        if (role.roleCode === 'T03') haveT03 = true;
+        if (role.roleCode === 'T04') haveT04 = true;
+      }
+
+      if (actual.targetActualStatus === 'TARGET_REPORTING' && haveT01) {
+        canSubmit = true;
+      }
+      if (actual.targetActualStatus === 'TARGET_WAIT_FOR_VERIFY' && haveT02) {
+        canSubmit = true;
+        canReject = true;
+      }
+      if (actual.targetActualStatus === 'TARGET_WAIT_FOR_APPROVE' && haveT03) {
+        canSubmit = true;
+        canReject = true;
+      }
+      if (actual.targetActualStatus === 'TARGET_WAIT_FOR_RELEASE' && haveT04) {
+        canSubmit = true;
+        canReject = true;
+      }
+    } else {
+      canSubmit = false;
+      canReject = false;
+    }
+    return canSubmit || canReject;
+  }
+
+  filter() {
+    this.isFilter = true;
+    return this.AtleastOneSelected();
+  }
+
+  cancelFilter() {
+    this.isFilter = false;
+  }
+
+  isPlanIdSelected(plan: Plan) {
+    return this.selection.selected.findIndex(v => v.plan.id === plan.id) !== -1;
+  }
+
+  isDisplay(plan: Plan, month: number) {
+    return !this.isFilter || (this.isFilter && this.isElementSelected(month, plan));
+  }
+
+  AtleastOneSelected() {
+    return this.plans.findIndex(v => this.selection.selected.findIndex(s => s.plan.id === v.id) !== -1) !== -1;
   }
 }

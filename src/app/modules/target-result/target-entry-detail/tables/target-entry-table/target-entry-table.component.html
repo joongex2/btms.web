@@ -42,12 +42,14 @@
                     [subTargets]="element.details"
                     [documentId]="documentId"
                     [targetId]="element.id"
-                    [document]="document">
+                    [document]="document"
+                    [user]="user"
+                >
                 </app-sub-target-entry-table>
             </div>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="targetHeader"></tr>
-    <tr mat-row class="normal-row" *matRowDef="let element;let row; columns: targetRow1"></tr>
-    <tr mat-row *matRowDef="let row; columns: targetRow2" class="expand-row"></tr>
+    <tr mat-row class="normal-row" *matRowDef="let element;let row; columns: targetRow1" [class.hidden]="hideTargetIds.includes(element.id)"></tr>
+    <tr mat-row *matRowDef="let element;let row; columns: targetRow2" class="expand-row" [class.hidden]="hideTargetIds.includes(element.id)"></tr>
 </table>

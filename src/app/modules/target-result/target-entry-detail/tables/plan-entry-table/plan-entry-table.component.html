@@ -18,15 +18,16 @@
     </ng-container>
     <ng-container *ngFor="let col of months; let colIndex = index" [matColumnDef]="col">
         <th mat-header-cell *matHeaderCellDef>{{capitalizeFirstLetter(col)}}</th>
-        <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-month text-center bg-status-default cursor-pointer" [ngClass]="{
+        <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-month text-center bg-status-default" [ngClass]="{
                 'border border-solid border-white': col=='dec',
-                'italic': [PlanFlow.VISITED, PlanFlow.ACCEPT, PlanFlow.REJECT].includes(element['flowMonth' + (colIndex + 1)]),
-                'bg-accept': [PlanFlow.ACCEPT].includes(element['flowMonth' + (colIndex + 1)]),
-                'bg-reject': [PlanFlow.REJECT].includes(element['flowMonth' + (colIndex + 1)])
+                'italic': [PlanFlow.VISITED, PlanFlow.ACCEPT, PlanFlow.REJECT].includes(element['flowMonth' + (colIndex + 1)]) && isDisplay(element, colIndex+1),
+                'bg-accept': [PlanFlow.ACCEPT].includes(element['flowMonth' + (colIndex + 1)]) && isDisplay(element, colIndex+1),
+                'bg-reject': [PlanFlow.REJECT].includes(element['flowMonth' + (colIndex + 1)]) && isDisplay(element, colIndex+1),
+                'cursor-pointer': isDisplay(element, colIndex+1) && !isFilter
             }"
             (click)="saveTargetEntry(element, colIndex+1)"
             >
-            <span class="text-month">P</span>
+            <span class="text-month" *ngIf="isDisplay(element, colIndex+1)">P</span>
         </td>
     </ng-container>
     <ng-container matColumnDef="resultHeader">
@@ -34,32 +35,39 @@
             class="bg-slate-300 border border-solid border-white header-text">ทำได้จริง</td>
     </ng-container>
     <ng-container *ngFor="let col of planRow2; let colIndex = index" [matColumnDef]="col">
-        <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center p-4 cursor-pointer result-column" [ngClass]="{ 
+        <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center p-4 result-column" [ngClass]="{ 
                 'border border-solid border-white': col=='dec2',
-                'bg-reporting': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_REPORTING',
-                'bg-wait-for-verify': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_WAIT_FOR_VERIFY',
-                'bg-wait-for-approve': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_WAIT_FOR_APPROVE',
-                'bg-wait-for-release': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_WAIT_FOR_RELEASE',
-                'bg-released': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_RELEASED'
+                'bg-reporting': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_REPORTING' && isDisplay(element, colIndex+1),
+                'bg-wait-for-verify': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_WAIT_FOR_VERIFY' && isDisplay(element, colIndex+1),
+                'bg-wait-for-approve': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_WAIT_FOR_APPROVE' && isDisplay(element, colIndex+1),
+                'bg-wait-for-release': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_WAIT_FOR_RELEASE' && isDisplay(element, colIndex+1),
+                'bg-released': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_RELEASED' && isDisplay(element, colIndex+1),
+                'cursor-pointer': isDisplay(element, colIndex+1) && !isFilter
             }"
             (click)="saveTargetEntry(element, colIndex+1)"
             >
-            <div class="py-2" [title]="getActual(element, colIndex+1)?.targetActualValue">
-                <div>{{ getActual(element, colIndex+1)?.targetActualResult }}</div>
-                <!-- <div *ngIf="subTarget?.measureType === '1'">
-                    {{ getActual(element, colIndex+1)?.targetActualValue }}
-                </div> -->
-                <mat-checkbox
-                    *ngIf="[PlanFlow.ACCEPT, PlanFlow.REJECT].includes(element['flowMonth' + (colIndex + 1)])"
-                    (click)="$event.stopPropagation()"
-                    (change)="$event ? toggleElement(colIndex+1, element) : null"
-                    [checked]="isElementSelected(colIndex+1, element)"
-                    [color]="'primary'">
-                </mat-checkbox>
+            <div class="py-2" [title]="getActual(element, colIndex+1)?.targetActualValue" 
+                [ngClass]="{ 'pointer-events-none': !getActual(element, colIndex+1)?.targetActualValue
+                    || getActual(element, colIndex+1)?.targetActualValue === 0
+                }">
+                <ng-container *ngIf="isDisplay(element, colIndex+1)">
+                    <div>{{ getActual(element, colIndex+1)?.targetActualResult }}</div>
+                    <!-- <div *ngIf="subTarget?.measureType === '1'">
+                        {{ getActual(element, colIndex+1)?.targetActualValue }}
+                    </div> -->
+                    <mat-checkbox
+                        *ngIf="checkPrivillege(getActual(element, colIndex+1))"
+                        (click)="$event.stopPropagation()"
+                        (change)="$event ? toggleElement(colIndex+1, element) : null"
+                        [checked]="isElementSelected(colIndex+1, element)"
+                        [disabled]="isFilter"
+                        [color]="'primary'">
+                    </mat-checkbox>
+                </ng-container>
             </div>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="planHeader"></tr>
-    <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: planRow1"></tr>
-    <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: planRow2"></tr>
+    <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: planRow1" [class.hidden]="!isPlanIdSelected(element) && isFilter"></tr>
+    <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: planRow2" [class.hidden]="!isPlanIdSelected(element) && isFilter"></tr>
 </table>

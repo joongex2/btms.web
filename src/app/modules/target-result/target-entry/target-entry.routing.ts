@@ -32,7 +32,10 @@ export const targetEntryRoutes: Route[] = [
             },
             {
                 path: ':id',
-                component: TargetEntryDetailComponent
+                component: TargetEntryDetailComponent,
+                resolve: {
+                    user: UserResolver
+                }
             },
             {
                 path: ':id/plans/:planId/month/:month',
