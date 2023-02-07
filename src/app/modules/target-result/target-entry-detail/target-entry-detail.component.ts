@@ -24,7 +24,7 @@ export class TargetEntryDetailComponent implements OnInit {
   document: Partial<DocumentDetail>;
   documentId: number;
   readonly = false;
-  
+
   canConfirm: boolean = true;
   canSubmit: boolean = false;
   canReject: boolean = false;
@@ -147,11 +147,12 @@ export class TargetEntryDetailComponent implements OnInit {
     let latestStatus = '';
     for (let planTable of this.planEntryTables) {
       checkNum += planTable.selection.selected.length;
-      const { allSameStatus , status } = planTable.checkAllSameStatus();
+      const { allSameStatus, status } = planTable.checkAllSameStatus();
       latestAllSameStatus = latestAllSameStatus && allSameStatus;
+      if (status === '') continue;
       if (latestStatus === '' && latestStatus !== status) {
         latestStatus = status;
-      } else {
+      } else if (latestStatus !== '' && latestStatus !== status) {
         return false;
       }
     }
@@ -196,11 +197,11 @@ export class TargetEntryDetailComponent implements OnInit {
 
   confirm() {
     if (!this.checkAtleastOne()) {
-      this._snackBarService.error('กรุณาเลือกผลการดำเนินงานอย่างน้อยหนึ่งรายการ');
+      this._snackBarService.warn('กรุณาเลือกผลการดำเนินงานอย่างน้อยหนึ่งรายการ');
       return;
     }
     if (!this.checkAtleastOneAndSameStatus()) {
-      this._snackBarService.error('กรุณาเลือกสถานะของผลดำเนินการให้เหมือนกัน');
+      this._snackBarService.warn('กรุณาเลือกสถานะของผลดำเนินการให้เหมือนกัน');
       return;
     }
     for (let planTable of this.planEntryTables) {

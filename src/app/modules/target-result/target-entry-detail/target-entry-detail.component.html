@@ -36,7 +36,8 @@
             <!-- Title -->
             <div class="mt-2">
                 <div class="text-3xl font-normal text-primary tracking-tight leading-8">
-                    การรายงานผลการดำเนินงานตามเป้าหมาย
+                    <ng-container *ngIf="canConfirm">การรายงานผลการดำเนินงานตามเป้าหมาย</ng-container>
+                    <ng-container *ngIf="!canConfirm">ยืนยันการเลือกหัวข้อเป้าหมาย</ng-container>
                 </div>
             </div>
         </div>

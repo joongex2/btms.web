@@ -14,6 +14,15 @@ export class SnackBarService {
         });
     }
 
+    warn(message) {
+        this._matSnackBar.open(message, '', {
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            duration: 2000,
+            panelClass: ['warn-snackbar']
+        });
+    }
+
     error(message = 'เกิดข้อผิดพลาด') {
         this._matSnackBar.open(message, '', {
             horizontalPosition: 'right',
