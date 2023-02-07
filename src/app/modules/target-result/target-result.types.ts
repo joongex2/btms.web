@@ -16,7 +16,7 @@ export interface Attachment {
     id: number;
     originalFilename: string;
     fileUrl: string;
-    uploader?: string;
-    date?: string;
+    createdBy?: string;
+    createdDate?: string;
     markForDelete: boolean;
 }

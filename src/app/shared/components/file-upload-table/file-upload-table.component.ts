@@ -24,8 +24,8 @@ export class FileUploadTableComponent implements OnInit {
 
   dataColumns = [
     'originalFilename',
-    'uploader',
-    'date',
+    'createdBy',
+    'createdDate',
     'deleteIcon'
   ];
 

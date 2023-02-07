@@ -51,16 +51,16 @@ export class TargetResultService {
     saveResultFileUploads: Partial<Attachment>[] = [
         {
             originalFilename: 'save-result-1.xlsx',
-            uploader: '',
-            date: ''
+            createdBy: '',
+            createdDate: ''
         }
     ];
 
     causeAndFixFileUploads: Partial<Attachment>[] = [
         {
             originalFilename: 'cause-and-fix-1.xlsx',
-            uploader: '',
-            date: ''
+            createdBy: '',
+            createdDate: ''
         }
     ];
 

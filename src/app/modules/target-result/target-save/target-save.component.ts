@@ -110,6 +110,8 @@ export class TargetSaveComponent implements OnInit {
           this.naCheckBox = this.subTarget.measureType === '1' && this.actual.targetActualResult === 'N';
           this.acceptReject = [PlanFlow.ACCEPT, PlanFlow.REJECT].includes(currentPlanFlow) ? currentPlanFlow : null;
           this.attachments = this.actual.attachments;
+        } else {
+          this.attachments = [];
         }
         this.checkPrivillege();
       },
