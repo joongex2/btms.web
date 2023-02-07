@@ -46,10 +46,7 @@
             }"
             (click)="saveTargetEntry(element, colIndex+1)"
             >
-            <div class="py-2" [title]="getActual(element, colIndex+1)?.targetActualValue" 
-                [ngClass]="{ 'pointer-events-none': !getActual(element, colIndex+1)?.targetActualValue
-                    || getActual(element, colIndex+1)?.targetActualValue === 0
-                }">
+            <div class="py-2" [title]="getActual(element, colIndex+1)?.targetActualValue">
                 <ng-container *ngIf="isDisplay(element, colIndex+1)">
                     <div>{{ getActual(element, colIndex+1)?.targetActualResult }}</div>
                     <!-- <div *ngIf="subTarget?.measureType === '1'">
