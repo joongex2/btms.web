@@ -1,4 +1,5 @@
 import { PlanFlow } from "app/modules/target-result/target-result.interface";
+import { Attachment, FileUpload } from "app/modules/target-result/target-result.types";
 
 export interface Document {
     id: number;
@@ -219,4 +220,5 @@ export interface Actual {
     targetDetailPlanId: number;
     targetMonth: number;
     targetYear: number;
+    attachments: Attachment[];
 }

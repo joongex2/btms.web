@@ -5,7 +5,18 @@ export interface LastComment {
 }
 
 export interface FileUpload {
-    fileName: string;
-    uploader: string;
-    date: string;
+    name: string;
+    size: number;
+    mimeType: string;
+    path: string;
+    url: string;
+}
+
+export interface Attachment {
+    id: number;
+    originalFilename: string;
+    fileUrl: string;
+    uploader?: string;
+    date?: string;
+    markForDelete: boolean;
 }

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { UserService } from 'app/core/user/user.service';
+import { PlanFlow } from 'app/modules/target-result/target-result.interface';
 import { TargetResultService } from 'app/modules/target-result/target-result.service';
 import { DocumentConfirm, DocumentDetail, InformEmail, ReceiveEmail } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
@@ -26,6 +27,7 @@ export class ConfirmationComponent implements OnInit {
   @ViewChild(NgForm) f: NgForm;
   documentId: number;
   document: DocumentDetail;
+  targetDocument: DocumentDetail;
   mode: string;
   actualTargetId: number;
   actualTargetIds: number[];
@@ -67,6 +69,7 @@ export class ConfirmationComponent implements OnInit {
       this.actualTargetIds = this._activatedRoute.snapshot.queryParamMap.get('actualTargetIds').split(',').map(v => parseInt(v));
     }
     this.loadDocument(this.documentId);
+    this.loadTargetDocument(this.documentId);
 
     if (['submit'].includes(this.mode)) {
       this._documentService.getSubmitEmail(this.documentId).subscribe({
@@ -159,6 +162,10 @@ export class ConfirmationComponent implements OnInit {
               ));
             }
             if (!res.didError) {
+              if (!['submit', 'reject'].includes(this.mode)) {
+                // save mode
+                this.resetPlanFlow();
+              }
               this._snackBarService.success(res.message);
               this.goBack();
             } else {
@@ -167,6 +174,7 @@ export class ConfirmationComponent implements OnInit {
               return;
             }
           } catch (e) {
+            console.log(e);
             this._snackBarService.error();
             this.showError(e.error, true);
             return;
@@ -184,6 +192,15 @@ export class ConfirmationComponent implements OnInit {
       },
       error: (e) => console.error(e)
     });
+  }
+
+  loadTargetDocument(id: number) {
+    this._documentService.getTargetDocument(id).subscribe({
+      next: (documentDetail: DocumentDetail) => {
+        this.targetDocument = documentDetail;
+      },
+      error: (e) => console.error(e)
+    })
   }
 
   showError(error: string, hasApiError?: boolean) {
@@ -206,5 +223,45 @@ export class ConfirmationComponent implements OnInit {
 
   isShowError() {
     return (this.showAlert && !this.f.valid) || this.hasApiError;
+  }
+
+  findPlanIdMonthByActualId(actualId: number): { planId: number, month: number } {
+    for (let target of this.targetDocument.targets) {
+      for (let subTarget of target.details) {
+        for (let plan of subTarget.plans) {
+          if (plan.actuals) {
+            for (let actual of plan.actuals) {
+              if (actual.id === actualId) {
+                return { planId: plan.id, month: actual.targetMonth }
+              }
+            }
+          }
+        }
+      }
+    }
+    return { planId: null, month: null }
+  }
+
+  resetPlanFlow() {
+    if (this.mode.includes('single')) {
+      // single
+      const { planId, month } = this.findPlanIdMonthByActualId(this.actualTargetId);
+      const planStatuses = this._targetResultService.PlanStatuses;
+      const planStatus = planStatuses.find(v => v.planId === planId && v.month === month);
+      if (planStatus) planStatus.flow = PlanFlow.VISITED; // reset to visited;
+      this._targetResultService.PlanStatuses = planStatuses;
+    } else {
+      // multiple
+      const planIdMonths: { planId: number, month: number }[] = [];
+      for (let actualId of this.actualTargetIds) {
+        planIdMonths.push(this.findPlanIdMonthByActualId(actualId));
+      }
+      const planStatuses = this._targetResultService.PlanStatuses;
+      for (let planIdMonth of planIdMonths) {
+        const planStatus = planStatuses.find(v => v.planId === planIdMonth.planId && v.month === planIdMonth.month);
+        if (planStatus) planStatus.flow = PlanFlow.VISITED; // reset to visited;
+      }
+      this._targetResultService.PlanStatuses = planStatuses;
+    }
   }
 }

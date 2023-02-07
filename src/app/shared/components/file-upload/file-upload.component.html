@@ -1,0 +1,36 @@
+<div class="w-full text-left mb-5">
+    <h3 class="mb-2">
+        {{label}} {{required?' *':''}}
+    </h3>
+    <!-- <div class="flex items-center space-x-2" *ngIf="path">
+        <ng-container *ngIf="isImage(path); else elseTemplate">
+            <a href="{{path | baseUrl}}" target="_blank" rel="noopener noreferrer">
+                <img class="thumbnail cursor-pointer" [src]="path | baseUrl" alt="no image">
+            </a>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <mat-icon class="icon-size-4" [svgIcon]="'heroicons_solid:document'"></mat-icon>
+            <a class="text-blue-500 underline" href="{{path | baseUrl}}" target="_blank" rel="noopener noreferrer">{{ filename || (path|baseUrl) }}</a>
+        </ng-template>
+    </div> -->
+    <div *ngIf="!isUpload" class="mt-2">
+        <input id="{{name}}" class="absolute h-0 w-0 opacity-0 invisible pointer-events-none" type="file" [multiple]="false" [accept]="accept" (change)="uploadFile(inputFile)" #inputFile>
+        <label class="relative p-2 rounded-full text-white px-3 cursor-pointer" for="{{name}}" matRipple style="background: #84bd00;">
+            <mat-icon svgIcon="heroicons_outline:upload" class="absolute top-2.5 icon-size-4 mr-1 text-white"></mat-icon>
+            <span class="ml-5">{{labelButton}}</span>
+        </label>
+    </div>
+    <div class="relative" *ngIf="isUpload">
+        <div class="flex mb-2 items-center justify-start">
+            <div class="text-left">
+                <span class="text-sm font-normal inline-block text-primary">
+                    {{progress}}%
+                </span>
+            </div>
+        </div>
+        <div class="overflow-hidden h-4 mb-4 text-xs flex rounded" style="background: #84bd00;">
+            <div [style.width.%]="progress" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center" style="background: #84bd00;">
+            </div>
+        </div>
+    </div>
+</div>

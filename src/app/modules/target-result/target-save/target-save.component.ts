@@ -15,7 +15,7 @@ import { UrlService } from 'app/shared/services/url.service';
 import { firstValueFrom } from 'rxjs';
 import { PlanFlow } from '../target-result.interface';
 import { TargetResultService } from '../target-result.service';
-import { FileUpload } from '../target-result.types';
+import { Attachment, FileUpload } from '../target-result.types';
 
 @Component({
   selector: 'target-save',
@@ -27,7 +27,7 @@ export class TargetSaveComponent implements OnInit {
   @ViewChild('f') form: NgForm;
   user: User;
   mode: string;
-  saveResultFileUploads: FileUpload[];
+  attachments: Attachment[];
   readonly = false;
   previousUrl: string;
 
@@ -80,7 +80,6 @@ export class TargetSaveComponent implements OnInit {
     this.user = this._activatedRoute.snapshot.data.user;
     this.mode = this._activatedRoute.snapshot.data['mode'];
     this.checkPrivillege();
-    this.saveResultFileUploads = this._targetResultService.getSaveResultFileUploads();
 
     this._urlService.previousUrl$.subscribe((previousUrl: string) => {
       this.previousUrl = previousUrl;
@@ -110,6 +109,7 @@ export class TargetSaveComponent implements OnInit {
           this.targetResult = this.subTarget.measureType === '1' ? (this.actual.targetActualValue?.toString() || null) : this.actual.targetActualResult;
           this.naCheckBox = this.subTarget.measureType === '1' && this.actual.targetActualResult === 'N';
           this.acceptReject = [PlanFlow.ACCEPT, PlanFlow.REJECT].includes(currentPlanFlow) ? currentPlanFlow : null;
+          this.attachments = this.actual.attachments;
         }
         this.checkPrivillege();
       },
@@ -204,9 +204,6 @@ export class TargetSaveComponent implements OnInit {
           this.canSubmit = true;
           this.canReject = true;
         }
-        if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_RELEASED' && haveT04) {
-          this.canReject = true;
-        }
       }
     } else {
       this.canSave = false;
@@ -243,7 +240,8 @@ export class TargetSaveComponent implements OnInit {
               this.month,
               this.subTarget.measureType === '1' && !this.naCheckBox ? parseInt(this.targetResult) : null,
               this.calculateTargetActualResult(),
-              null
+              null,
+              this.attachments
             ));
             if (this.mode === 'add') {
               this.actual = await firstValueFrom(this._targetResultService.getActual(this.plan.id, this.month));

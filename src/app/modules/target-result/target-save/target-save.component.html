@@ -62,7 +62,7 @@
                         <span>Submit</span>
                     </a>
                     <a *ngIf="canReject" (click)="reject()" class="flex items-center cursor-pointer ml-3">
-                        <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Reject</span>
+                        <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Not Approve</span>
                     </a>
                 </ng-container>
             </div>
@@ -174,7 +174,7 @@
                         <mat-divider class="mb-4"></mat-divider>
             
                         <div class="mb-4">
-                            <app-file-upload-table [readonly]="readonly" [fileUploads]="saveResultFileUploads"></app-file-upload-table>
+                            <app-file-upload-table [readonly]="readonly || (!this.isEdit && mode !== 'add')" [attachments]="attachments"></app-file-upload-table>
                         </div>
                     </div>
                 </div>

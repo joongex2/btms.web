@@ -11,7 +11,7 @@ import { DocumentService } from 'app/shared/services/document.service';
 import { UrlService } from 'app/shared/services/url.service';
 import { PlanFlow, TargetSaveData } from '../target-result.interface';
 import { TargetResultService } from '../target-result.service';
-import { FileUpload } from '../target-result.types';
+import { Attachment, FileUpload } from '../target-result.types';
 
 @Component({
   selector: 'target-cause-fix',
@@ -22,7 +22,7 @@ export class TargetCauseFixComponent implements OnInit {
   user: User;
   saveResultFileUploads: FileUpload[];
   causes: CauseRecord[];
-  causeAndFixFileUploads: FileUpload[];
+  causeAndFixFileUploads: Partial<Attachment>[];
   showRefDocument: boolean = false;
   readonly = false;
   previousUrl: string;

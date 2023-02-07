@@ -5,8 +5,8 @@ import { ResultMapper } from "app/shared/interfaces/result-mapper.interface";
 import { CookieService } from "app/shared/services/cookie.service";
 import { LocalStorageService } from "app/shared/services/local-storage.service";
 import { BehaviorSubject, map, Observable } from "rxjs";
-import { PlanFlow, PlanStatus, TargetSaveData } from "./target-result.interface";
-import { FileUpload, LastComment } from "./target-result.types";
+import { PlanStatus, TargetSaveData } from "./target-result.interface";
+import { Attachment, LastComment } from "./target-result.types";
 
 @Injectable({
     providedIn: 'root'
@@ -48,17 +48,17 @@ export class TargetResultService {
         }
     ];
 
-    saveResultFileUploads: FileUpload[] = [
+    saveResultFileUploads: Partial<Attachment>[] = [
         {
-            fileName: 'save-result-1.xlsx',
+            originalFilename: 'save-result-1.xlsx',
             uploader: '',
             date: ''
         }
     ];
 
-    causeAndFixFileUploads: FileUpload[] = [
+    causeAndFixFileUploads: Partial<Attachment>[] = [
         {
-            fileName: 'cause-and-fix-1.xlsx',
+            originalFilename: 'cause-and-fix-1.xlsx',
             uploader: '',
             date: ''
         }
@@ -115,7 +115,8 @@ export class TargetResultService {
         targetMonth: number,
         targetActualValue: number,
         targetActualResult: string,
-        remarks: string
+        remarks: string,
+        attachments: Attachment[]
     ) {
         return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Targets/actuals'), {
             targetDetailPlanId,
@@ -123,7 +124,8 @@ export class TargetResultService {
             targetMonth,
             targetActualValue,
             targetActualResult,
-            remarks
+            remarks,
+            attachments
         })
     }
 

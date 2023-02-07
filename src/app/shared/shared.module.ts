@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -15,12 +16,14 @@ import { AutocompleteFormComponent } from './components/autocomplete-form/autoco
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { ErrorIconComponent } from './components/error-icon/error-icon.component';
 import { FileUploadTableComponent } from './components/file-upload-table/file-upload-table.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { FormErrorComponent } from './components/form-error/form-error.component';
 import { FormMultiSelectDropdownComponent } from './components/form-multi-select-dropdown/form-multi-select-dropdown.component';
 import { LastCommentModalComponent } from './components/last-comment-modal/last-comment-modal.component';
 import { SuccessIconComponent } from './components/success-icon/success-icon.component';
 import { IntegerOnlyModule } from './directives/integer-only.module';
 import { RequireMatchDirective } from './directives/require-match.directive';
+import { BaseUrlPipe } from './pipes/base-url.pipe';
 import { IsActivePipe } from './pipes/is-active.pipe';
 import { PipeModule } from './pipes/pipe.module';
 import { TargetValueStatusPipe } from './pipes/target-value-status';
@@ -36,12 +39,14 @@ import { SnackBarService } from './services/snack-bar.service';
         IsActivePipe,
         TitleValuePipe,
         TargetValueStatusPipe,
+        BaseUrlPipe,
         RequireMatchDirective,
         FormErrorComponent,
         FormMultiSelectDropdownComponent,
         SuccessIconComponent,
         ErrorIconComponent,
         FileUploadTableComponent,
+        FileUploadComponent
     ],
     imports: [
         CommonModule,
@@ -58,6 +63,7 @@ import { SnackBarService } from './services/snack-bar.service';
         MatInputModule,
         FuseAlertModule,
         MatSelectModule,
+        MatButtonModule,
         NgMultiSelectDropDownModule.forRoot()
     ],
     exports: [
@@ -68,6 +74,7 @@ import { SnackBarService } from './services/snack-bar.service';
         IsActivePipe,
         TitleValuePipe,
         TargetValueStatusPipe,
+        BaseUrlPipe,
         IntegerOnlyModule,
         RequireMatchDirective,
         LastCommentModalComponent,
@@ -77,7 +84,8 @@ import { SnackBarService } from './services/snack-bar.service';
         FormMultiSelectDropdownComponent,
         SuccessIconComponent,
         ErrorIconComponent,
-        FileUploadTableComponent
+        FileUploadTableComponent,
+        FileUploadComponent
     ],
     providers: [
         ConfirmationService,
