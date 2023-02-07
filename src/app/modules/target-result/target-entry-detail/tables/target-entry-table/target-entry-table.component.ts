@@ -16,8 +16,8 @@ export class TargetEntryTableComponent implements OnInit {
 
   @ViewChildren(SubTargetEntryTableComponent) subTargetEntryTables: QueryList<SubTargetEntryTableComponent>;
 
-  targetHeader = ['expandIcon', 'priority', 'targetName', 'standard'];
-  targetRow1 = ['expandIcon', 'priority', 'targetName', 'standard'];
+  targetHeader = ['expandIcon', 'priority', 'targetName', 'targetType', 'standard'];
+  targetRow1 = ['expandIcon', 'priority', 'targetName', 'targetType', 'standard'];
   targetRow2 = ['expandedDetail'];
 
   expandedTargets: Target[] = [];

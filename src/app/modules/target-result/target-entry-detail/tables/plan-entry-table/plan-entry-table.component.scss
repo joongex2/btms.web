@@ -38,7 +38,7 @@ td.mat-cell:not(:first-child):not(:last-child) {
 
 tr span.text-month {
     color: black;
-    font-weight: 700;
+    font-weight: 300;
 }
 
 mat-checkbox {
@@ -135,4 +135,8 @@ table tr:not(.mat-header-row):hover {
 }
 .bg-released{
     background-color: rgb(55, 126, 34) !important;
+}
+
+.result-column {
+    vertical-align: top !important;
 }

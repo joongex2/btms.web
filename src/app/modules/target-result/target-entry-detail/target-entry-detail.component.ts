@@ -94,6 +94,8 @@ export class TargetEntryDetailComponent implements OnInit {
           }
           this.planEntryTables = planEntryTables;
         });
+
+        setTimeout(() => this.expandAll());
       },
       error: (e) => console.error(e)
     });
