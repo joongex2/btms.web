@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'app/core/user/user.types';
 import { DocumentDetail, Target } from 'app/shared/interfaces/document.interface';
 import { DocumentService } from 'app/shared/services/document.service';
+import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { skip, Subscription } from 'rxjs';
 import { LastCommentModalComponent } from '../../../shared/components/last-comment-modal/last-comment-modal.component';
 import { TargetResultService } from '../target-result.service';
@@ -38,7 +39,8 @@ export class TargetEntryDetailComponent implements OnInit {
     private _router: Router,
     private _matDialog: MatDialog,
     private _documentService: DocumentService,
-    private _targetResultService: TargetResultService
+    private _targetResultService: TargetResultService,
+    private _snackBarService: SnackBarService
   ) {
     this.readonly = _activatedRoute.snapshot.data['readonly'] ? true : false;
   }
@@ -129,14 +131,31 @@ export class TargetEntryDetailComponent implements OnInit {
     }
   }
 
-  checkAtleastOneAndSameStatus(): boolean {
+  checkAtleastOne(): boolean {
     let checkNum = 0;
-    let allSameStatus = true;
+
     for (let planTable of this.planEntryTables) {
       checkNum += planTable.selection.selected.length;
-      allSameStatus = allSameStatus && planTable.checkAllSameStatus();
     }
-    return checkNum > 0 && allSameStatus;
+    return checkNum > 0;
+  }
+
+
+  checkAtleastOneAndSameStatus(): boolean {
+    let checkNum = 0;
+    let latestAllSameStatus = true;
+    let latestStatus = '';
+    for (let planTable of this.planEntryTables) {
+      checkNum += planTable.selection.selected.length;
+      const { allSameStatus , status } = planTable.checkAllSameStatus();
+      latestAllSameStatus = latestAllSameStatus && allSameStatus;
+      if (latestStatus === '' && latestStatus !== status) {
+        latestStatus = status;
+      } else {
+        return false;
+      }
+    }
+    return checkNum > 0 && latestAllSameStatus;
   }
 
   checkAllCanReject(): boolean {
@@ -176,6 +195,14 @@ export class TargetEntryDetailComponent implements OnInit {
   }
 
   confirm() {
+    if (!this.checkAtleastOne()) {
+      this._snackBarService.error('กรุณาเลือกผลการดำเนินงานอย่างน้อยหนึ่งรายการ');
+      return;
+    }
+    if (!this.checkAtleastOneAndSameStatus()) {
+      this._snackBarService.error('กรุณาเลือกสถานะของผลดำเนินการให้เหมือนกัน');
+      return;
+    }
     for (let planTable of this.planEntryTables) {
       planTable.filter();
     }

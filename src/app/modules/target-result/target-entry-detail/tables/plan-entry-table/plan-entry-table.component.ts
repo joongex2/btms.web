@@ -93,7 +93,7 @@ export class PlanEntryTableComponent implements OnInit {
         }
       }
     }
-    return allSameStatus;
+    return { allSameStatus, status };
   }
 
   checkAllCanReject() {
