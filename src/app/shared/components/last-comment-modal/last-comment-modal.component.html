@@ -15,7 +15,7 @@
                 <ng-container matColumnDef="commentDate">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
                     <td mat-cell *matCellDef="let element">
-                        {{element.commentDate | date : 'dd/MM/YYYY'}}
+                        {{element.commentDate | date : 'dd/MM/YYYY HH:mm'}}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="commentBy">

@@ -12,25 +12,22 @@
     </div>
 
     <!-- Body -->
-    <form
-        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
-        [formGroup]="causeForm">
-
+    <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="causeForm">
         <mat-form-field>
-            <mat-label>No.</mat-label>
-            <input matInput [formControlName]="'causeNo'">
+            <mat-label>ลำดับที่</mat-label>
+            <input matInput [formControlName]="'sequenceNo'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>รายละเอียด</mat-label>
-            <input matInput [formControlName]="'causeDetail'">
+            <input matInput [formControlName]="'causeTopic'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>หมายเหตุ</mat-label>
-            <input matInput [formControlName]="'causeNote'">
+            <input matInput [formControlName]="'causeDescription'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 

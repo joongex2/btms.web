@@ -36,27 +36,27 @@ table tr:not(.mat-header-row):hover {
 }
 
 /* column width */
-.mat-column-protectNo {
+.mat-column-sequenceNo {
     width: 15%;
 }
 
-.mat-column-protectDetail {
+.mat-column-solutionTopic {
     width: 20%;
 }
 
-.mat-column-protectOwner {
+.mat-column-userResponsibility {
     width: 20%;
 }
 
-.mat-column-protectDueDate {
+.mat-column-finishDate {
     width: 12.5%;
 }
 
-.mat-column-protectFollow {
+.mat-column-solutionDescription {
     width: 15%;
 }
 
-.mat-column-protectStartDate {
+.mat-column-actionDate {
     width: 12.5%;
 }
 

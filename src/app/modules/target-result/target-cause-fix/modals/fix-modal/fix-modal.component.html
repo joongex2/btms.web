@@ -12,73 +12,59 @@
     </div>
 
     <!-- Body -->
-    <form
-        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
-        [formGroup]="fixForm">
+    <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="fixForm">
 
         <mat-form-field>
             <mat-label>No.</mat-label>
-            <input matInput [formControlName]="'fixNo'">
+            <input matInput [formControlName]="'sequenceNo'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>รายละเอียดการแก้ไข</mat-label>
-            <input matInput [formControlName]="'fixDetail'">
+            <input matInput [formControlName]="'solutionTopic'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>ผู้รับผิดชอบ</mat-label>
-            <input matInput [formControlName]="'fixOwner'">
+            <input matInput [formControlName]="'userResponsibility'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>กำหนดเสร็จ</mat-label>
-            <input
-                matInput
-                [matDatepicker]="fixDueDatepicker"
-                [formControlName]="'fixDueDateSelect'"
+            <input matInput [matDatepicker]="finishDatepicker" [formControlName]="'finishDate'"
                 [placeholder]="'กำหนดเสร็จ'">
-            <mat-datepicker-toggle
-                matSuffix
-                [for]="fixDueDatepicker">
+            <mat-datepicker-toggle matSuffix [for]="finishDatepicker">
             </mat-datepicker-toggle>
-            <mat-datepicker #fixDueDatepicker>
+            <mat-datepicker #finishDatepicker>
             </mat-datepicker>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>การติดตามการแก้ไข</mat-label>
-            <input matInput [formControlName]="'fixFollow'">
+            <input matInput [formControlName]="'solutionDescription'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>วันที่ดำเนินการ</mat-label>
-            <input
-                matInput
-                [matDatepicker]="fixStartDatepicker"
-                [formControlName]="'fixStartDateSelect'"
+            <input matInput [matDatepicker]="actionDatepicker" [formControlName]="'actionDate'"
                 [placeholder]="'วันที่ดำเนินการ'">
-            <mat-datepicker-toggle
-                matSuffix
-                [for]="fixStartDatepicker">
+            <mat-datepicker-toggle matSuffix [for]="actionDatepicker">
             </mat-datepicker-toggle>
-            <mat-datepicker #fixStartDatepicker>
+            <mat-datepicker #actionDatepicker>
             </mat-datepicker>
         </mat-form-field>
 
 
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4 sm:mt-6">
-            <div class="flex-none flex items-center cursor-pointer"
-                (click)="close()">
+            <div class="flex-none flex items-center cursor-pointer" (click)="close()">
                 <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Cancel</span>
             </div>
-            <div class="flex-none sm:ml-2 flex items-center cursor-pointer"
-                (click)="saveAndClose()">
+            <div class="flex-none sm:ml-2 flex items-center cursor-pointer" (click)="saveAndClose()">
                 <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>OK</span>
             </div>
         </div>

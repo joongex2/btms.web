@@ -1,8 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { ModalMode } from 'app/modules/target-info/target-management/modals/modal.type';
-import { Protect, ProtectRecord } from 'app/modules/target-info/target.types';
+import { Protect } from 'app/modules/target-info/target.types';
+import { TARGET_SOLUTION_TYPE } from 'app/modules/target-result/target-result.interface';
+import { Solution } from 'app/shared/interfaces/document.interface';
+import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { ProtectModalComponent } from '../../modals/protect-modal/protect-modal.component';
 
 @Component({
@@ -11,64 +14,104 @@ import { ProtectModalComponent } from '../../modals/protect-modal/protect-modal.
   styleUrls: ['./protect-table.component.scss']
 })
 export class ProtectTableComponent implements OnInit {
-  @Input() protects: ProtectRecord[]
+  @Input() solutions: Solution[];
+  @Input() protects: Solution[];
   @Input() readonly = false;
+  @Input() causeId: number;
 
   @ViewChild('protectTable') protectTable: MatTable<Protect>;
+  @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
 
   dataColumns = [
-    'protectNo',
-    'protectDetail',
-    'protectOwner',
-    'protectDueDate',
-    'protectFollow',
-    'protectStartDate',
+    'sequenceNo',
+    'solutionTopic',
+    'userResponsibility',
+    'finishDate',
+    'solutionDescription',
+    'actionDate',
     'editIcon',
     'deleteIcon'
   ];
 
   constructor(
     private _matDialog: MatDialog,
+    private _confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
+    this.protects = this.solutions.filter(v => v.targetSolutionType === TARGET_SOLUTION_TYPE.PREVENTION);
   }
-
 
   addProtect(): void {
     // Open the dialog
     const dialogRef = this._matDialog.open(ProtectModalComponent, {
       data: {
         mode: ModalMode.ADD,
-        data: undefined
+        data: undefined,
+        index: this.protects.filter(v => !v.markForDelete).length + 1
       }
     });
     dialogRef.afterClosed()
-      .subscribe((protect: Protect) => {
+      .subscribe((protect: Solution) => {
         if (!protect) return; // cancel
         this.protects.push({
-          data: protect
+          id: 0,
+          targetCauseId: this.causeId,
+          targetSolutionType: TARGET_SOLUTION_TYPE.PREVENTION,
+          sequenceNo: protect.sequenceNo,
+          solutionTopic: protect.solutionTopic,
+          userResponsibility: protect.userResponsibility,
+          finishDate: protect.finishDate,
+          solutionDescription: protect.solutionDescription,
+          actionDate: protect.actionDate
         });
         this.protectTable.renderRows();
       });
   };
+
   editProtect(index: number): void {
     const dialogRef = this._matDialog.open(ProtectModalComponent, {
       data: {
         mode: ModalMode.EDIT,
-        data: this.protects[index].data
+        data: this.protects[index]
       }
     });
     dialogRef.afterClosed()
-      .subscribe((protect: Protect) => {
+      .subscribe((protect: Solution) => {
         if (!protect) return; // cancel
-        this.protects[index].data = protect;
+        this.protects[index].solutionTopic = protect.solutionTopic;
+        this.protects[index].userResponsibility = protect.userResponsibility;
+        this.protects[index].finishDate = protect.finishDate;
+        this.protects[index].solutionDescription = protect.solutionDescription;
+        this.protects[index].actionDate = protect.actionDate;
+        this.protects[index].markForEdit = true;
         this.protectTable.renderRows();
+        this.markForEdit.emit(this.causeId);
       });
   };
   deleteProtect(index: number): void {
-    this.protects.splice(index, 1);
-    this.protectTable.renderRows();
+    this._confirmationService.delete().afterClosed().subscribe((result) => {
+      if (result == 'confirmed') {
+        if (this.protects[index].id === 0) {
+          this.protects.splice(index, 1);
+        } else {
+          this.protects[index].markForDelete = true;
+        }
+        // reindex
+        let newSequenceNo = 1;
+        for (let protect of this.protects) {
+          if (!protect.markForDelete) {
+            if (protect.sequenceNo !== newSequenceNo) {
+              protect.sequenceNo = newSequenceNo;
+              protect.markForEdit = true;
+            }
+            newSequenceNo++;
+          }
+        }
+        this.protectTable.renderRows();
+        this.markForEdit.emit(this.causeId);
+      }
+    });
   };
 
 }

@@ -17,20 +17,20 @@
         [formGroup]="protectForm">
 
         <mat-form-field>
-            <mat-label>No.</mat-label>
-            <input matInput [formControlName]="'protectNo'">
+            <mat-label>ลำดับที่</mat-label>
+            <input matInput [formControlName]="'sequenceNo'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>รายละเอียดการป้องกันการเกิดซ้ำ</mat-label>
-            <input matInput [formControlName]="'protectDetail'">
+            <input matInput [formControlName]="'solutionTopic'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>ผู้รับผิดชอบ</mat-label>
-            <input matInput [formControlName]="'protectOwner'">
+            <input matInput [formControlName]="'userResponsibility'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
@@ -38,20 +38,20 @@
             <mat-label>กำหนดเสร็จ</mat-label>
             <input
                 matInput
-                [matDatepicker]="protectDueDatepicker"
-                [formControlName]="'protectDueDateSelect'"
+                [matDatepicker]="finishDatepicker"
+                [formControlName]="'finishDate'"
                 [placeholder]="'กำหนดเสร็จ'">
             <mat-datepicker-toggle
                 matSuffix
-                [for]="protectDueDatepicker">
+                [for]="finishDatepicker">
             </mat-datepicker-toggle>
-            <mat-datepicker #protectDueDatepicker>
+            <mat-datepicker #finishDatepicker>
             </mat-datepicker>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>การติดตามการป้องกัน</mat-label>
-            <input matInput [formControlName]="'protectFollow'">
+            <input matInput [formControlName]="'solutionDescription'">
             <div class="copy-fields-toggles" matSuffix></div>
         </mat-form-field>
 
@@ -59,14 +59,14 @@
             <mat-label>วันที่ดำเนินการ</mat-label>
             <input
                 matInput
-                [matDatepicker]="protectStartDatepicker"
-                [formControlName]="'protectStartDateSelect'"
+                [matDatepicker]="actionDatepicker"
+                [formControlName]="'actionDate'"
                 [placeholder]="'วันที่ดำเนินการ'">
             <mat-datepicker-toggle
                 matSuffix
-                [for]="protectStartDatepicker">
+                [for]="actionDatepicker">
             </mat-datepicker-toggle>
-            <mat-datepicker #protectStartDatepicker>
+            <mat-datepicker #actionDatepicker>
             </mat-datepicker>
         </mat-form-field>
 

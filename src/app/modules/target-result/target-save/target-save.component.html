@@ -156,7 +156,10 @@
                                 </ng-container>
                                 <ng-container *ngIf="actual?.targetActualResult === 'U'">
                                     <div class="col-span-4 font-medium">เอกสารอ้างอิง</div>
-                                    <div class="col-span-8">:<a class="ml-2 underline text-blue-600 cursor-pointer" [routerLink]="'./cause-and-fix/1'">สร้างสาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</a></div>
+                                    <div class="col-span-8">:
+                                        <a *ngIf="actual?.targetReferenceId" class="ml-2 underline text-blue-600 cursor-pointer" [routerLink]="'./cause-and-fix/' + actual?.targetReferenceId">{{actual?.targetReferenceRunningNo}}</a>
+                                        <a *ngIf="!actual?.targetReferenceId" class="ml-2 underline text-blue-600 cursor-pointer" [routerLink]="'./add-cause-and-fix'">สร้างสาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</a>
+                                    </div>
                                 </ng-container>
                             </ng-container>
                             <fuse-alert class="col-span-12 sm:col-start-1" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false"

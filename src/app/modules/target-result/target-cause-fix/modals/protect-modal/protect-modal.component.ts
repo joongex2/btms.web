@@ -2,9 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalData, ModalMode } from 'app/modules/target-info/target-management/modals/modal.type';
-import { genRandomNumber } from 'app/shared/helpers/gen-number';
+import { Solution } from 'app/shared/interfaces/document.interface';
 import * as moment from 'moment';
-
 
 @Component({
   selector: 'app-protect-modal',
@@ -12,6 +11,7 @@ import * as moment from 'moment';
   styleUrls: ['./protect-modal.component.scss']
 })
 export class ProtectModalComponent implements OnInit {
+  protect: Solution;
   isEdit: boolean = false;
   protectForm: FormGroup;
 
@@ -23,20 +23,18 @@ export class ProtectModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
-    const protectNo = this.isEdit ? this.modalData.data.protectNo : genRandomNumber();
-    const protectDetail = this.isEdit ? this.modalData.data.protectDetail : '';
-    const protectOwner = this.isEdit ? this.modalData.data.protectOwner : '';
-    const protectDueDateSelect = this.isEdit ? moment(this.modalData.data.protectDueDate, 'YYYY-MM-DD') : moment();
-    const protectFollow = this.isEdit ? this.modalData.data.protectFollow : '';
-    const protectStartDateSelect = this.isEdit ? moment(this.modalData.data.protectStartDate, 'YYYY-MM-DD') : moment();
+    this.protect = this.isEdit ? this.modalData.data : null;
+    const sequenceNo = this.isEdit ? this.protect.sequenceNo : this.modalData.index;
+    const finishDate = this.isEdit ? moment(this.protect.finishDate, 'YYYY-MM-DD') : moment();
+    const actionDate = this.isEdit ? moment(this.protect.actionDate, 'YYYY-MM-DD') : moment();
 
     this.protectForm = this._formBuilder.group({
-      protectNo: [protectNo, [Validators.required]],
-      protectDetail: [protectDetail, [Validators.required]],
-      protectOwner: [protectOwner, [Validators.required]],
-      protectDueDateSelect: [protectDueDateSelect, [Validators.required]],
-      protectFollow: [protectFollow, [Validators.required]],
-      protectStartDateSelect: [protectStartDateSelect, [Validators.required]]
+      sequenceNo: [{ value: sequenceNo, disabled: true }],
+      solutionTopic: [this.protect?.solutionTopic || null, [Validators.required]],
+      userResponsibility: [this.protect?.userResponsibility || null, [Validators.required]],
+      finishDate: [finishDate, [Validators.required]],
+      solutionDescription: [this.protect?.solutionDescription || null, [Validators.required]],
+      actionDate: [actionDate, [Validators.required]]
     });
   }
 
@@ -48,8 +46,8 @@ export class ProtectModalComponent implements OnInit {
     const protectForm = this.protectForm.getRawValue();
     this.matDialogRef.close({
       ...protectForm,
-      protectDueDate: protectForm.protectDueDateSelect.format('YYYY-MM-DD'),
-      protectStartDate: protectForm.protectStartDateSelect.format('YYYY-MM-DD')
+      finishDate: protectForm.finishDate.format('YYYY-MM-DD'),
+      actionDate: protectForm.actionDate.format('YYYY-MM-DD')
     })
   }
 }

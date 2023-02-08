@@ -295,7 +295,7 @@ export class TargetSaveComponent implements OnInit {
 
   calculateTargetActualResult(): string {
     if (this.subTarget.measureType === '1') {
-      // quality
+      // quantity
       if (this.naCheckBox) return 'N';
       if (this.subTarget.targetCondition === '1') {
         // single
@@ -354,7 +354,7 @@ export class TargetSaveComponent implements OnInit {
         return 'A';
       }
     } else {
-      // quantity
+      // quality
       return this.targetResult;
     }
   }

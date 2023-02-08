@@ -5,7 +5,8 @@ import { MasterService } from "app/modules/super-admin/master/master.service";
 import { OrganizationService } from "app/modules/super-admin/organization/organization.service";
 import { TargetResultService } from "app/modules/target-result/target-result.service";
 import { LookupService } from "app/shared/services/lookup.service";
-import { Observable, take } from "rxjs";
+import { map, Observable, switchMap, take } from "rxjs";
+import { DocumentService } from "./services/document.service";
 
 
 @Injectable({
@@ -31,6 +32,22 @@ export class StatusesResolver implements Resolve<any>
         return this._lookupService.getLookups('BTMS_01_STATUS');
     }
 }
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ReferenceStatusesResolver implements Resolve<any>
+{
+    constructor(private _lookupService: LookupService) { }
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        return this._lookupService.getLookupWorkflows().pipe(map(v => {
+            const model = v.model;
+            return model.filter(res => res.workflowCode === 'BTMS_03')
+        }));
+    }
+}
+
 
 @Injectable({
     providedIn: 'root'
@@ -126,5 +143,50 @@ export class ActualResolver implements Resolve<any>
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
         return this._targetResultService.getActual(parseInt(route.params.planId), parseInt(route.params.month));
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ReferenceResolver implements Resolve<any>
+{
+    constructor(private _targetResultService: TargetResultService) { }
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        return this._targetResultService.getReference(parseInt(route.params.referenceId));
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ReferenceDataResolver implements Resolve<any>
+{
+    constructor(private _targetResultService: TargetResultService) { }
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        return this._targetResultService.getReference(parseInt(route.params.referenceId)).pipe(
+            switchMap((res: any) =>
+                this._targetResultService.getActual(
+                    res.targetReference.targetDetailPlanId,
+                    res.targetReference.targetMonth).pipe(
+                        map(res2 => ({ reference: res, actual: res2 })
+                        )
+                    )
+            )
+        );
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class DocumentResolver implements Resolve<any>
+{
+    constructor(private _documentService: DocumentService) { }
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        return this._documentService.getDocument(parseInt(route.params.documentId));
     }
 }

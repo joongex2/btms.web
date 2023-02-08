@@ -6,37 +6,58 @@
             <!-- Breadcrumbs -->
             <div>
                 <div class="hidden sm:flex flex-wrap items-center font-medium">
-                    <div>
-                        <a class="whitespace-nowrap text-primary-500">ผลการดำเนินงานตามเป้าหมาย</a>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                        </mat-icon>
-                        <a [routerLink]="'/target-result/target-entry'">
-                            <span class="ml-1 text-primary-500">
-                                บันทึกผลการดำเนินงาน
-                            </span>
-                        </a>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                        </mat-icon>
-                        <a [routerLink]="'./../../../../../..'">
-                            <span class="ml-1 text-primary-500">การรายงานผลการดำเนินงานตามเป้าหมาย</span>
-                        </a>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                        </mat-icon>
-                        <a (click)="goBack()" class="cursor-pointer">
-                            <span class="ml-1 text-primary-500">บันทึกผลการดำเนินงาน</span>
-                        </a>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                        </mat-icon>
-                        <span class="ml-1 text-secondary">สาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</span>
-                    </div>
+                    <ng-container *ngIf="fromUrl === 'target-entry'">
+                        <div>
+                            <a class="whitespace-nowrap text-primary-500">ผลการดำเนินงานตามเป้าหมาย</a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a [routerLink]="'/target-result/target-entry'">
+                                <span class="ml-1 text-primary-500">
+                                    บันทึกผลการดำเนินงาน
+                                </span>
+                            </a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a [routerLink]="'./../../../../../..'">
+                                <span class="ml-1 text-primary-500">การรายงานผลการดำเนินงานตามเป้าหมาย</span>
+                            </a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a (click)="goBack()" class="cursor-pointer">
+                                <span class="ml-1 text-primary-500">บันทึกผลการดำเนินงาน</span>
+                            </a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <span class="ml-1 text-secondary">สาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</span>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="fromUrl === 'cause-edit-target'">
+                        <div>
+                            <a class="whitespace-nowrap text-primary-500">ผลการดำเนินงานตามเป้าหมาย</a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a [routerLink]="'/target-result/cause-edit-target'">
+                                <span class="ml-1 text-primary-500">
+                                    สาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย
+                                </span>
+                            </a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <span class="ml-1 text-secondary">สาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</span>
+                        </div>
+                    </ng-container>
                 </div>
             </div>
             <!-- Title -->
@@ -54,11 +75,14 @@
                     &nbsp;<span>Back</span>
                 </a>
                 <ng-container *ngIf="!readonly">
-                    <a class="flex items-center ml-3 cursor-pointer">
+                    <!-- <a class="flex items-center ml-3 cursor-pointer">
                         <mat-icon svgIcon="heroicons_outline:printer"></mat-icon>&nbsp;<span>Print</span>
-                    </a>
-                    <a *ngIf="canSave" class="flex items-center ml-3 cursor-pointer">
+                    </a> -->
+                    <!-- <a *ngIf="canSave" class="flex items-center ml-3 cursor-pointer">
                         <mat-icon svgIcon="heroicons_outline:check-circle"></mat-icon>&nbsp;<span>Save</span>
+                    </a> -->
+                    <a class="flex items-center ml-3 cursor-pointer" (click)="save()">
+                        <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
                     </a>
                 </ng-container>
             </div>
@@ -94,11 +118,11 @@
                                     *ngIf="subTarget?.measureType === '1'">เชิงปริมาณ</span><span class="ml-2"
                                     *ngIf="subTarget?.measureType === '2'">เชิงคุณภาพ</span></div>
                             <div class="col-span-4 font-medium">ประจำเดือน</div>
-                            <div class="col-span-8">:<span class="ml-2">{{month}}</span></div>
+                            <div class="col-span-8">:<span class="ml-2">{{actual?.targetMonth | thaiMonth}}</span></div>
                             <div class="col-span-4 font-medium">ประจำปี</div>
-                            <div class="col-span-8">:<span class="ml-2">{{plan?.planYear}}</span></div>
+                            <div class="col-span-8">:<span class="ml-2">{{actual?.targetYear}}</span></div>
                             <div class="col-span-4 font-medium">สถานะ</div>
-                            <div class="col-span-8">:<span class="ml-2">{{document?.documentStatusDescription}}</span>
+                            <div class="col-span-8">:<span class="ml-2">{{actual?.targetActualStatusName}}</span>
                             </div>
                         </div>
                     </div>
@@ -113,11 +137,13 @@
 
                         <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center">
                             <div class="col-span-4 font-medium">ผู้รายงานผล</div>
-                            <div class="col-span-8">:<span class="ml-2">{{plan?.undertaker}}</span></div>
+                            <div class="col-span-8">:<span class="ml-2">{{actual?.actionBy}}</span></div>
                             <div class="col-span-4 font-medium">ผลการดำเนินงานที่ตั้งไว้</div>
                             <div class="col-span-8">:<span class="ml-2">{{subTarget?.targetValue}}</span></div>
                             <div class="col-span-4 font-medium">ผลการดำเนินงานที่ทำได้</div>
-                            <div class="col-span-8">: <span class="ml-2">{{targetResult}}</span></div>
+                            <div class="col-span-8">: <span class="ml-2">{{actual?.targetActualResult | targetActualResult}}
+                                <ng-container *ngIf="subTarget?.measureType === '1' && actual?.targetActualResult !== 'N'"> ({{actual?.targetActualValue}})</ng-container>
+                            </span></div>
                         </div>
                     </div>
                 </div>
@@ -130,18 +156,22 @@
 
                         <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center">
                             <div class="col-span-3 font-medium">เลขที่เอกสาร</div>
-                            <div class="col-span-3">: <span class="ml-2">SOV-Test-99-05</span></div>
+                            <div class="col-span-3">: <span class="ml-2">{{targetReference?.runningNo}}</span></div>
                             <div class="col-span-3 font-medium">วันที่สร้างเอกสาร</div>
-                            <div class="col-span-3">: <span class="ml-2">07/06/2019</span></div>
+                            <div class="col-span-3">: <span class="ml-2">{{targetReference?.createdDate | date: 'dd/MM/yyyy'}}</span></div>
                             <div class="col-span-3 font-medium">สถานะเอกสาร</div>
-                            <div class="col-span-3">: <span class="ml-2">Closed(New)</span></div>
+                            <div class="col-span-3">: <span class="ml-2">{{targetReference?.targetReferenceStatusName}}</span></div>
                             <div class="col-span-3 font-medium">ผู้สร้างเอกสาร</div>
-                            <div class="col-span-3">: <span class="ml-2">Jate Hongsa</span></div>
+                            <div class="col-span-3">: <span class="ml-2">{{targetReference?.createdBy}}</span></div>
                         </div>
 
                         <!-- Cause Table -->
                         <div class="mb-4">
-                            <app-cause-table [readonly]="readonly" [causes]="causes"></app-cause-table>
+                            <app-cause-table 
+                                [readonly]="readonly"
+                                [causes]="causes"
+                                [targetReferenceId]="reference?.targetReference?.id"   
+                            ></app-cause-table>
                         </div>
                     </div>
                 </div>
@@ -153,7 +183,61 @@
                         <mat-divider class="mb-4"></mat-divider>
 
                         <div class="mb-4">
-                            <app-file-upload-table [readonly]="readonly" [attachments]="causeAndFixFileUploads"></app-file-upload-table>
+                            <app-file-upload-table [readonly]="readonly" [attachments]="attachments"></app-file-upload-table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex flex-col px-8 py-4 bg-card shadow rounded overflow-y-auto">
+                    <div class="flex flex-col gt-xs:flex-row gt-xs:items-start" style="color: rgb(30, 41, 59)">
+                        <div class="gt-xs:max-w-80 gt-xs:pr-12">
+                            <p class="text-lg font-medium">ผลลัพธ์การติดตามสาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</p>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="text-sm font-light text-warn mb-4">***กรุณาป้อนผลลัพธ์การติดตามแก้ไข/ป้องกันสิ่งที่ไม่เป็นไปตามเป้าหมาย</div>
+
+                        <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center">
+                            <div class="col-span-4 font-medium">ผู้รายงานผลการติดตาม</div>
+                            <div class="col-span-8">:<span class="ml-2">{{targetReference?.resultReportor}}</span></div>
+                            <div class="col-span-4 font-medium">ผลลัพธ์การติดตาม</div>
+                            <div class="col-span-8">:
+                                <mat-radio-group class="ml-2" aria-label="Select an option" [(ngModel)]="result" name="result" [disabled]="readonly">
+                                    <mat-radio-button [color]="'primary'" value="A">Archive</mat-radio-button>
+                                    <mat-radio-button [color]="'primary'" value="U" class="ml-2">Unarchive</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            <div class="col-span-4 font-medium">ค่าเป้าหมายที่ทำได้ (ถ้ามี)</div>
+                            <div class="col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input 
+                                        matInput
+                                        appIntegerOnly
+                                        [(ngModel)]="resultValue"
+                                        name="resultValue"   
+                                        [disabled]="readonly"
+                                    >
+                                </mat-form-field>
+                            </div>
+                            <div class="col-start-1 col-span-4 font-medium">วันที่อนุมัติผลลัพธ์การติดตาม</div>
+                            <div class="col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <input matInput 
+                                        [matDatepicker]="resultApprovedDatepicker"
+                                        [(ngModel)]="resultApprovedDate"
+                                        name="resultApprovedDate"
+                                        [placeholder]="'วันที่อนุมัติผลลัพธ์การติดตาม'">
+                                    <mat-datepicker-toggle matSuffix [for]="resultApprovedDatepicker">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #resultApprovedDatepicker>
+                                    </mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <fuse-alert class="col-span-12 sm:col-start-1" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false"
+                                [type]="alert.type" [@shake]="alert.type === 'error'">
+                                {{alert.message}}
+                            </fuse-alert>
                         </div>
                     </div>
                 </div>

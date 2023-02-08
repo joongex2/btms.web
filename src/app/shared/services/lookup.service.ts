@@ -65,4 +65,8 @@ export class LookupService {
     getLookupTypes(): Observable<any> {
         return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Lookups/types`)).pipe(map(data => data.model));
     }
+
+    getLookupWorkflows(): Observable<any> {
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Lookups/workflows`));
+    }
 }

@@ -1,5 +1,5 @@
-import { PlanFlow } from "app/modules/target-result/target-result.interface";
-import { Attachment, FileUpload } from "app/modules/target-result/target-result.types";
+import { PlanFlow, TARGET_SOLUTION_TYPE } from "app/modules/target-result/target-result.interface";
+import { Attachment } from "app/modules/target-result/target-result.types";
 
 export interface Document {
     id: number;
@@ -221,4 +221,75 @@ export interface Actual {
     targetMonth: number;
     targetYear: number;
     attachments: Attachment[];
+    targetReferenceId: number;
+    targetReferenceRunningNo: string;
+}
+
+export interface Reference {
+    id: number;
+    organizeCode: string;
+    businessUnitCode: string;
+    subBusinessUnitCode: string;
+    plantCode: string;
+    divisionCode: string;
+    documentType: string;
+    documentNo: string;
+    runningNo: string;
+    createdDate: string;
+    targetMonth: number;
+    documentYear: number;
+    targetReferenceStatus: string;
+    createdBy: string;
+}
+export interface ReferenceDetail {
+    targetReference: TargetReference;
+    attachments: Attachment[];
+}
+
+export interface TargetReference {
+    id: number;
+    runningNo: string;
+    targetDetailPlanId: number;
+    targetMonth: number;
+    targetReferenceStatus: string;
+    targetReferenceStatusName: string;
+    createdDate: string;
+    createdBy: string;
+    resultApprovedDate: string;
+    resultValue: number;
+    result: string;
+    resultReportor: string;
+    causes: Cause[];
+    markForEdit?: boolean;
+    markForDelete?: boolean;
+}
+
+export interface Cause {
+    id: number;
+    targetReferenceId?: number;
+    sequenceNo: number;
+    causeTopic: string;
+    causeStatus: string;
+    causeDescription: string;
+    createdDate?: string;
+    createdBy?: string;
+    solutions: Solution[];
+    markForEdit?: boolean;
+    markForDelete?: boolean;
+}
+
+export interface Solution {
+    id: number;
+    targetCauseId: number;
+    targetSolutionType: TARGET_SOLUTION_TYPE;
+    sequenceNo: number;
+    solutionTopic: string;
+    userResponsibility: string;
+    finishDate: string;
+    solutionDescription: string;
+    actionDate: string;
+    createdDate?: string;
+    createdBy?: string;
+    markForEdit?: boolean;
+    markForDelete?: boolean;
 }

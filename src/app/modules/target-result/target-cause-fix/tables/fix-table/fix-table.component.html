@@ -5,40 +5,40 @@
     </span>
 </p>
 <table mat-table [dataSource]="fixs" multiTemplateDataRows #fixTable>
-    <ng-container matColumnDef="fixNo">
-        <th mat-header-cell *matHeaderCellDef>No.</th>
-        <td mat-cell *matCellDef="let element">
-            {{element.data.fixNo}}
+    <ng-container matColumnDef="sequenceNo">
+        <th mat-header-cell *matHeaderCellDef>ลำดับที่</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">
+            {{element.sequenceNo}}
         </td>
     </ng-container>
-    <ng-container matColumnDef="fixDetail">
+    <ng-container matColumnDef="solutionTopic">
         <th mat-header-cell *matHeaderCellDef>รายละเอียดการแก้ไข</th>
         <td mat-cell *matCellDef="let element">
-            {{element.data.fixDetail}}
+            {{element.solutionTopic}}
         </td>
     </ng-container>
-    <ng-container matColumnDef="fixOwner">
+    <ng-container matColumnDef="userResponsibility">
         <th mat-header-cell *matHeaderCellDef>ผู้รับผิดชอบ</th>
         <td mat-cell *matCellDef="let element">
-            {{element.data.fixOwner}}
+            {{element.userResponsibility}}
         </td>
     </ng-container>
-    <ng-container matColumnDef="fixDueDate">
+    <ng-container matColumnDef="finishDate">
         <th mat-header-cell *matHeaderCellDef>กำหนดเสร็จ</th>
         <td mat-cell *matCellDef="let element">
-            {{element.data.fixDueDate | date: 'dd/MM/yyyy'}}
+            {{element.finishDate | date: 'dd/MM/yyyy'}}
         </td>
     </ng-container>
-    <ng-container matColumnDef="fixFollow">
+    <ng-container matColumnDef="solutionDescription">
         <th mat-header-cell *matHeaderCellDef>การติดตามการแก้ไข</th>
         <td mat-cell *matCellDef="let element">
-            {{element.data.fixFollow}}
+            {{element.solutionDescription}}
         </td>
     </ng-container>
-    <ng-container matColumnDef="fixStartDate">
+    <ng-container matColumnDef="actionDate">
         <th mat-header-cell *matHeaderCellDef>วันที่ดำเนินการ</th>
         <td mat-cell *matCellDef="let element">
-            {{element.data.fixStartDate | date: 'dd/MM/yyyy'}}
+            {{element.actionDate | date: 'dd/MM/yyyy'}}
         </td>
     </ng-container>
     <ng-container matColumnDef="editIcon">
@@ -56,5 +56,5 @@
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: dataColumns"></tr>
+    <tr mat-row [class.hidden]="row.markForDelete" *matRowDef="let row; columns: dataColumns"></tr>
 </table>

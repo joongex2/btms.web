@@ -2,8 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalData, ModalMode } from 'app/modules/target-info/target-management/modals/modal.type';
-import { genRandomNumber } from 'app/shared/helpers/gen-number';
-
+import { Cause } from 'app/shared/interfaces/document.interface';
 
 @Component({
   selector: 'app-cause-modal',
@@ -12,10 +11,13 @@ import { genRandomNumber } from 'app/shared/helpers/gen-number';
 })
 export class CauseModalComponent implements OnInit {
   isEdit: boolean = false;
+  cause: Cause;
   causeForm: FormGroup;
   causeStatuses: any[] = [
-    { title: 'Completed', value: 'complete' },
-    { title: 'Not Complete', value: 'notComplete' }
+    { title: 'On process', value: 'On process' },
+    { title: 'Revise', value: 'Revise' },
+    { title: 'Completed', value: 'Completed' },
+    { title: 'In Completed', value: 'In Completed' }
   ];
 
   constructor(
@@ -26,16 +28,14 @@ export class CauseModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
-    const causeNo = this.isEdit ? this.modalData.data.causeNo : genRandomNumber();
-    const causeDetail = this.isEdit ? this.modalData.data.causeDetail : '';
-    const causeNote = this.isEdit ? this.modalData.data.causeNote : '';
-    const causeStatus = this.isEdit ? this.modalData.data.causeStatus : '';
+    this.cause = this.isEdit ? this.modalData.data.causeNo : null;
+    const sequenceNo = this.isEdit ? this.cause.sequenceNo : this.modalData.index;
 
     this.causeForm = this._formBuilder.group({
-      causeNo: [causeNo, [Validators.required]],
-      causeDetail: [causeDetail, [Validators.required]],
-      causeNote: [causeNote, [Validators.required]],
-      causeStatus: [causeStatus, [Validators.required]]
+      sequenceNo: [{ value: sequenceNo, disabled: true }],
+      causeTopic: [this.cause?.causeTopic || null, [Validators.required]],
+      causeDescription: [this.cause?.causeDescription || null, [Validators.required]],
+      causeStatus: [this.cause?.causeStatus || null, [Validators.required]]
     });
   }
 

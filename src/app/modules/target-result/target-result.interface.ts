@@ -21,3 +21,8 @@ export enum PlanFlow {
     ACCEPT = 'accept',
     REJECT = 'reject'
 }
+
+export enum TARGET_SOLUTION_TYPE {
+    SOLUTION = 'SOLUTION',
+    PREVENTION = 'PREVENTION'
+} 

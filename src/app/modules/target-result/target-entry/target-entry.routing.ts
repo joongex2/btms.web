@@ -3,7 +3,7 @@ import { MenuGuard } from 'app/core/auth/guards/menu.guard';
 import { RemoveStorageGuard } from 'app/core/auth/guards/remove-storage.guard';
 import { ConfirmationComponent } from 'app/modules/target-info/target-management/components/confirmation/confirmation.component';
 import { TargetListComponent } from 'app/modules/target-list/target-list.component';
-import { ActualResolver, BusResolver, DivisionsResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, StatusesResolver, SubBusResolver, TargetTypesResolver, UserResolver } from 'app/shared/resolver';
+import { ActualResolver, BusResolver, DivisionsResolver, DocumentResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, ReferenceResolver, StatusesResolver, SubBusResolver, TargetTypesResolver, UserResolver } from 'app/shared/resolver';
 import { TargetCauseFixComponent } from '../target-cause-fix/target-cause-fix.component';
 import { TargetEntryDetailComponent } from '../target-entry-detail/target-entry-detail.component';
 import { TargetSaveComponent } from '../target-save/target-save.component';
@@ -66,10 +66,24 @@ export const targetEntryRoutes: Route[] = [
                 data: { mode: 'multi-target-reject' }
             },
             {
-                path: ':id/plans/:planId/month/:month/cause-and-fix/:id',
+                path: ':documentId/plans/:planId/month/:month/add-cause-and-fix',
                 component: TargetCauseFixComponent,
+                data: { mode: 'add' },
                 resolve: {
-                    user: UserResolver
+                    user: UserResolver,
+                    document: DocumentResolver,
+                    actual: ActualResolver
+                }
+            },
+            {
+                path: ':documentId/plans/:planId/month/:month/cause-and-fix/:referenceId',
+                component: TargetCauseFixComponent,
+                data: { mode: 'edit' },
+                resolve: {
+                    user: UserResolver,
+                    document: DocumentResolver,
+                    actual: ActualResolver,
+                    reference: ReferenceResolver
                 }
             },
         ]
