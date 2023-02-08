@@ -164,7 +164,7 @@ export class ConfirmationComponent implements OnInit {
             if (!res.didError) {
               if (!['submit', 'reject'].includes(this.mode)) {
                 // save mode
-                this.resetPlanFlow();
+                // this.resetPlanFlow(); not clear flag
               }
               this._snackBarService.success(res.message);
               this.goBack();
