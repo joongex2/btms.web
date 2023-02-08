@@ -13,6 +13,7 @@
         "test": "ng test",
         "lint": "ng lint",
         "build:prod": "ng build --configuration production --vendor-chunk --aot --output-hashing=all",
+        "build:uat": "ng build --configuration uat --vendor-chunk --aot --output-hashing=all",
         "build:staging": "ng build --configuration staging --vendor-chunk --aot --output-hashing=all"
     },
     "dependencies": {
