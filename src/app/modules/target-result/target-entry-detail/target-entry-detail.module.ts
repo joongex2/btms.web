@@ -19,6 +19,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { IntegerOnlyModule } from 'app/shared/directives/integer-only.module';
@@ -61,6 +62,7 @@ import { TargetEntryDetailComponent } from './target-entry-detail.component';
     MatSortModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    MatTooltipModule,
     FuseAlertModule,
     SharedModule,
     IntegerOnlyModule
