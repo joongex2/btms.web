@@ -43,6 +43,7 @@ export class TargetManagementComponent implements OnInit {
   canEdit: boolean = false;
   canSubmit: boolean = false;
   canReject: boolean = false;
+  canRevise: boolean = false;
 
   // bind value
   selectedDocumentType: string;
@@ -298,6 +299,7 @@ export class TargetManagementComponent implements OnInit {
       this.canEdit = false;
       this.canSubmit = false;
       this.canReject = false;
+      this.canRevise = false;
 
       if (this.mode === 'add') {
         // add
@@ -340,12 +342,16 @@ export class TargetManagementComponent implements OnInit {
         if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_ISSUED' && haveD04) {
           this.canReject = true;
         }
+        if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_ISSUED' && haveD01) {
+          this.canRevise = true;
+        }
       }
     } else {
       this.canSave = false;
       this.canEdit = false;
       this.canSubmit = false;
       this.canReject = false;
+      this.canRevise = false;
     }
   }
 

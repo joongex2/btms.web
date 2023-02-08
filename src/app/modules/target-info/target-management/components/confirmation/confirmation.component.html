@@ -94,10 +94,7 @@
             </a>
             <a (click)="send()" class="flex items-center cursor-pointer ml-3">
                 <mat-icon svgIcon="heroicons_outline:arrow-circle-right"></mat-icon>&nbsp;
-                <span>
-                    <ng-container *ngIf="['submit', 'single-target-submit', 'multi-target-submit'].includes(mode)">Send</ng-container>
-                    <ng-container *ngIf="['reject', 'single-target-reject', 'multi-target-reject'].includes(mode)">Not Approve</ng-container>
-                </span>
+                <span>Send</span>
             </a>
         </div>
     </div>

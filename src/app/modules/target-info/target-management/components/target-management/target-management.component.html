@@ -79,6 +79,9 @@
                 <a *ngIf="canReject" (click)="reject()" class="flex items-center cursor-pointer ml-3">
                     <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Not Approve</span>
                 </a>
+                <a *ngIf="canRevise" (click)="reject()" class="flex items-center cursor-pointer ml-3">
+                    <mat-icon svgIcon="heroicons_outline:receipt-refund"></mat-icon>&nbsp;<span>Revise</span>
+                </a>
             </div>
             <!-- <div *ngIf="mode === 'edit'"class="flex flex-row sm:justify-end mt-1">
                 <span class="text-red-600">Last Comment:&nbsp;&nbsp;</span>
