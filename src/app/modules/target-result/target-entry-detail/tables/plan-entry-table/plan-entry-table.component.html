@@ -48,7 +48,7 @@
             >
             <div class="py-2" 
                 [matTooltip]="getActual(element, colIndex+1)?.targetActualValue"
-                [matTooltipDisabled]="!getActual(element, colIndex+1)?.targetActualValue"
+                [matTooltipDisabled]="!getActual(element, colIndex+1)?.targetActualValue && getActual(element, colIndex+1)?.targetActualValue !== 0"
             >
                 <ng-container *ngIf="isDisplay(element, colIndex+1)">
                     <div>{{ getActual(element, colIndex+1)?.targetActualResult }}</div>
