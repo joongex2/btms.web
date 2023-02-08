@@ -5,7 +5,6 @@ import { User } from 'app/core/user/user.types';
 import { DocumentDetail, Target } from 'app/shared/interfaces/document.interface';
 import { DocumentService } from 'app/shared/services/document.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
-import { skip, Subscription } from 'rxjs';
 import { LastCommentModalComponent } from '../../../shared/components/last-comment-modal/last-comment-modal.component';
 import { TargetResultService } from '../target-result.service';
 import { PlanEntryTableComponent } from './tables/plan-entry-table/plan-entry-table.component';
@@ -32,8 +31,6 @@ export class TargetEntryDetailComponent implements OnInit {
   planEntryTables: PlanEntryTableComponent[];
   @ViewChild(TargetEntryTableComponent) targetEntryTableComponent: TargetEntryTableComponent;
 
-  planMonthToggleChangeSub: Subscription;
-
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
@@ -49,14 +46,6 @@ export class TargetEntryDetailComponent implements OnInit {
     this.user = this._activatedRoute.snapshot.data.user;
     const id = parseInt(this._activatedRoute.snapshot.paramMap.get('id'));
     this.loadDocument(id);
-
-    this.planMonthToggleChangeSub = this._targetResultService.planMonthToggleChange$.pipe(skip(1)).subscribe(v => {
-      // this.checkPrivillege();
-    });
-  }
-
-  ngOnDestroy() {
-    this.planMonthToggleChangeSub.unsubscribe();
   }
 
   openLastComment() {
@@ -104,6 +93,7 @@ export class TargetEntryDetailComponent implements OnInit {
     });
   }
 
+  // check status from cookie
   checkPlanStatus() {
     const planStatuses = this._targetResultService.PlanStatuses;
     if (!planStatuses) return;
@@ -140,7 +130,6 @@ export class TargetEntryDetailComponent implements OnInit {
     return checkNum > 0;
   }
 
-
   checkAtleastOneAndSameStatus(): boolean {
     let checkNum = 0;
     let latestAllSameStatus = true;
@@ -167,26 +156,6 @@ export class TargetEntryDetailComponent implements OnInit {
     return allCanReject;
   }
 
-  checkAtleastOneAndAllAcceptAndSameStatus(): boolean {
-    let checkNum = 0;
-    let allAcceptAndSameStatus = true;
-    for (let planTable of this.planEntryTables) {
-      checkNum += planTable.selection.selected.length;
-      allAcceptAndSameStatus = allAcceptAndSameStatus && planTable.checkAllAcceptAndSameStatus();
-    }
-    return checkNum > 0 && allAcceptAndSameStatus;
-  }
-
-  checkAtleaseOneAndAllRejectAndSameStatus(): boolean {
-    let checkNum = 0;
-    let allRejectAndSameStatus = true;
-    for (let planTable of this.planEntryTables) {
-      checkNum += planTable.selection.selected.length;
-      allRejectAndSameStatus = allRejectAndSameStatus && planTable.checkAllRejectAndSameStatus();
-    }
-    return checkNum > 0 && allRejectAndSameStatus;
-  }
-
   getActualIds(): number[] {
     const actualTargetIds = [];
     for (let planTable of this.planEntryTables) {
@@ -207,6 +176,7 @@ export class TargetEntryDetailComponent implements OnInit {
     for (let planTable of this.planEntryTables) {
       planTable.filter();
     }
+    // filter uncheck subtarget, target element;
     for (let subTarget of this.targetEntryTableComponent.subTargetEntryTables) {
       const hideSubTargetIds = [];
       for (let plan of subTarget.planEntryTables) {
@@ -226,24 +196,6 @@ export class TargetEntryDetailComponent implements OnInit {
     this.canConfirm = false;
   }
 
-  submit() {
-    let actualTargetIds = this.getActualIds();
-    this._router.navigate(['./multi/confirm-submit'], { relativeTo: this._activatedRoute, queryParams: { actualTargetIds } });
-  }
-
-  reject() {
-    let actualTargetIds = this.getActualIds();
-    this._router.navigate(['./multi/confirm-reject'], { relativeTo: this._activatedRoute, queryParams: { actualTargetIds } });
-  }
-
-  private addQueryParam(param?: object): void {
-    this._router.navigate(['./'], {
-      relativeTo: this._activatedRoute,
-      queryParams: param,
-      queryParamsHandling: 'merge'
-    })
-  }
-
   back() {
     if (this._activatedRoute.snapshot.queryParams.filter) {
       this.addQueryParam({ filter: undefined });
@@ -261,5 +213,23 @@ export class TargetEntryDetailComponent implements OnInit {
     } else {
       this._router.navigate(['./..'], { relativeTo: this._activatedRoute });
     }
+  }
+
+  submit() {
+    let actualTargetIds = this.getActualIds();
+    this._router.navigate(['./multi/confirm-submit'], { relativeTo: this._activatedRoute, queryParams: { actualTargetIds } });
+  }
+
+  reject() {
+    let actualTargetIds = this.getActualIds();
+    this._router.navigate(['./multi/confirm-reject'], { relativeTo: this._activatedRoute, queryParams: { actualTargetIds } });
+  }
+
+  private addQueryParam(param?: object): void {
+    this._router.navigate(['./'], {
+      relativeTo: this._activatedRoute,
+      queryParams: param,
+      queryParamsHandling: 'merge'
+    })
   }
 }

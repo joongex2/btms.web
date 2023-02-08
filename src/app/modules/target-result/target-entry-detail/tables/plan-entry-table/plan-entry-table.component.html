@@ -46,7 +46,10 @@
             }"
             (click)="saveTargetEntry(element, colIndex+1)"
             >
-            <div class="py-2" [title]="getActual(element, colIndex+1)?.targetActualValue">
+            <div class="py-2" 
+                [matTooltip]="getActual(element, colIndex+1)?.targetActualValue"
+                [matTooltipDisabled]="!getActual(element, colIndex+1)?.targetActualValue"
+            >
                 <ng-container *ngIf="isDisplay(element, colIndex+1)">
                     <div>{{ getActual(element, colIndex+1)?.targetActualResult }}</div>
                     <!-- <div *ngIf="subTarget?.measureType === '1'">

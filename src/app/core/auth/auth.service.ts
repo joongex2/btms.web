@@ -6,6 +6,7 @@ import { UserService } from 'app/core/user/user.service';
 import { NavigationService } from '../navigation/navigation.service';
 import { getBaseUrl } from 'app/shared/helpers/get-base-url';
 import { FuseNavigationItem } from '@fuse/components/navigation';
+import { TargetResultService } from 'app/modules/target-result/target-result.service';
 
 @Injectable()
 export class AuthService
@@ -18,7 +19,8 @@ export class AuthService
     constructor(
         private _httpClient: HttpClient,
         private _userService: UserService,
-        private _navigationService: NavigationService
+        private _navigationService: NavigationService,
+        private _targetResultService: TargetResultService
     )
     {
     }
@@ -175,6 +177,9 @@ export class AuthService
         
         // Remove the refresh token from the local storage
         localStorage.removeItem('refreshToken');
+
+        // clear plan statuses
+        this._targetResultService.clear();
 
         // Set the authenticated flag to false
         this._authenticated = false;
