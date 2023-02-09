@@ -65,8 +65,8 @@ export class TargetListComponent implements OnInit, AfterViewInit {
   keyToColumnName: any = {
     'radio': '',
     'organizeCode': 'Organize Code',
-    'documentNo': 'Running No.',
-    'revisionNo': 'Revision No.',
+    'documentNo': 'Running',
+    'revisionNo': 'Revision',
     'createDate': 'Create Date',
     'issueDate': 'Issued Date',
     'documentYear': 'Year',

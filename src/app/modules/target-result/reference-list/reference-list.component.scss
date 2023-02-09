@@ -59,9 +59,11 @@ table {
 }
 
 .mat-column-documentNo {
-  width: 28%;
+  width: 20%;
 }
-
+.mat-column-runningNo {
+  width: 15%;
+}
 .mat-column-createdDate {
   width: 12%;
 }
@@ -70,7 +72,7 @@ table {
   width: 7.5%;
 }
 
-.mat-column-targetReferenceStatus {
+.mat-column-targetReferenceStatusName {
   width: 12.5%;
 }
 
