@@ -266,11 +266,11 @@ export class TargetCauseFixComponent implements OnInit {
           this.canReject = true;
         }
         if (!this.isEdit && this.targetReference.targetReferenceStatus === 'SOLVE_CLOSED' && haveT04) {
-          this.canSubmit = true;
-          this.canReject = true;
+          // this.canSubmit = true;
+          // this.canReject = true;
         }
-        if (!this.isEdit && this.targetReference.targetReferenceStatus === 'SOLVE_CLOSED (NEW)' && haveT04) {
-          this.canReject = true;
+        if (!this.isEdit && this.targetReference.targetReferenceStatus === 'SOLVE_CLOSED(NEW)' && haveT04) {
+          // this.canReject = true;
         }
       }
     } else {

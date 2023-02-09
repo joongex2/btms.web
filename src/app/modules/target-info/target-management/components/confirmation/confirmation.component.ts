@@ -113,7 +113,7 @@ export class ConfirmationComponent implements OnInit {
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
     } else if (this.receiveMailTable.selection.selected.length === 0) {
-      this._confirmationService.warning('กรุณาเลือก user receive mail อย่างน้อย 1 รายการ');
+      this._snackBarService.warn('กรุณาเลือก user receive mail อย่างน้อย 1 รายการ');
       this.showError('users receive mail, list of users inform mail must have atleast 1 email checked', true);
     } else {
       this._confirmationService.send('ต้องการ' + this.title + 'ใช่หรือไม่').afterClosed().subscribe(async (result) => {
