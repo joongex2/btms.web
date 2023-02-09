@@ -49,6 +49,7 @@ export class ReferenceListComponent implements OnInit, AfterViewInit {
   // table setting
   displayedColumns: string[] = [
     'organizeCode',
+    'documentNo',
     'runningNo',
     'createdDate',
     'documentYear',
@@ -60,6 +61,7 @@ export class ReferenceListComponent implements OnInit, AfterViewInit {
   keyToColumnName: any = {
     'radio': '',
     'organizeCode': 'Organize Code',
+    'documentNo':'Document No.',
     'runningNo': 'Running No.',
     'createdDate': 'Create Date',
     'documentYear': 'Year',
