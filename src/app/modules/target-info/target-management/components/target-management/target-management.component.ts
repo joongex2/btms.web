@@ -339,9 +339,6 @@ export class TargetManagementComponent implements OnInit {
           this.canSubmit = true;
           this.canReject = true;
         }
-        if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_ISSUED' && haveD04) {
-          this.canReject = true;
-        }
         if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_ISSUED' && haveD01) {
           this.canRevise = true;
         }

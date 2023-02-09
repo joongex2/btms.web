@@ -19,6 +19,7 @@ export class CauseTableComponent implements OnInit {
   @Input() causes: Cause[];
   @Input() readonly = false;
   @Input() targetReferenceId: number;
+  @Input() targetReferenceStatus: string;
   @ViewChild('causeTable') causeTable: MatTable<Cause>;
   @ViewChildren('fixTable') fixTables: QueryList<FixTableComponent>;
   @ViewChildren('protectTable') protectTables: QueryList<ProtectTableComponent>;

@@ -155,7 +155,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-6 flex flex-col px-8 pt-10 bg-card shadow rounded overflow-y-auto">
+                <div class="mt-6 flex flex-col px-8 py-4 bg-card shadow rounded overflow-y-auto">
                     <div class="flex flex-col gt-xs:flex-row gt-xs:items-start" style="color: rgb(30, 41, 59)">
                         <div class="gt-xs:max-w-80 gt-xs:pr-12">
                             <p class="text-lg font-medium">ข้อมูลสาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</p>
@@ -178,7 +178,8 @@
                             <app-cause-table 
                                 [readonly]="readonly || (!this.isEdit && mode !== 'add')"
                                 [causes]="causes"
-                                [targetReferenceId]="reference?.targetReference?.id"   
+                                [targetReferenceId]="reference?.targetReference?.id"
+                                [targetReferenceStatus]="targetReference?.targetReferenceStatus"   
                             ></app-cause-table>
                         </div>
                     </div>

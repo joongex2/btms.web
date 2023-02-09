@@ -18,6 +18,7 @@ export class ProtectTableComponent implements OnInit {
   @Input() protects: Solution[];
   @Input() readonly = false;
   @Input() causeId: number;
+  @Input() targetReferenceStatus: string;
 
   @ViewChild('protectTable') protectTable: MatTable<Protect>;
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
@@ -48,7 +49,8 @@ export class ProtectTableComponent implements OnInit {
       data: {
         mode: ModalMode.ADD,
         data: undefined,
-        index: this.protects.filter(v => !v.markForDelete).length + 1
+        index: this.protects.filter(v => !v.markForDelete).length + 1,
+        targetReferenceStatus: this.targetReferenceStatus
       }
     });
     dialogRef.afterClosed()
@@ -73,7 +75,8 @@ export class ProtectTableComponent implements OnInit {
     const dialogRef = this._matDialog.open(ProtectModalComponent, {
       data: {
         mode: ModalMode.EDIT,
-        data: this.protects[index]
+        data: this.protects[index],
+        targetReferenceStatus: this.targetReferenceStatus
       }
     });
     dialogRef.afterClosed()

@@ -104,44 +104,12 @@ export class PlanEntryTableComponent implements OnInit {
     return true;
   }
 
-  checkAllAcceptAndSameStatus() {
-    let allAccept = true;
-    let allSameStatus = true;
-    let status = '';
+  checkAllUnarchiveHaveReference() {
     for (let select of this.selection.selected) {
-      if (select.plan[`flowMonth${select.month}`] === PlanFlow.REJECT) {
-        allAccept = false;
-      }
       const actual = select.plan.actuals.find(v => v.targetMonth === select.month);
-      if (status === '') {
-        status = actual.targetActualStatus;
-      } else {
-        if (status !== actual.targetActualStatus) {
-          allSameStatus = false;
-        }
-      }
+      if (actual.targetActualResult === 'U' && actual.targetReferenceId === null) return false;
     }
-    return allAccept && allSameStatus;
-  }
-
-  checkAllRejectAndSameStatus() {
-    let allReject = true;
-    let allSameStatus = true;
-    let status = '';
-    for (let select of this.selection.selected) {
-      if (select.plan[`flowMonth${select.month}`] === PlanFlow.ACCEPT) {
-        allReject = false;
-      }
-      const actual = select.plan.actuals.find(v => v.targetMonth === select.month);
-      if (status === '') {
-        status = actual.targetActualStatus;
-      } else {
-        if (status !== actual.targetActualStatus) {
-          allSameStatus = false;
-        }
-      }
-    }
-    return allReject && allSameStatus;
+    return true;
   }
 
   getActual(plan: Plan, month: number) {

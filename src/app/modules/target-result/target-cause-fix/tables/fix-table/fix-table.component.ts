@@ -18,6 +18,7 @@ export class FixTableComponent implements OnInit {
   @Input() fixs: Solution[];
   @Input() readonly = false;
   @Input() causeId: number;
+  @Input() targetReferenceStatus: string;
 
   @ViewChild('fixTable') fixTable: MatTable<Fix>
   @Output() markForEdit: EventEmitter<number> = new EventEmitter<number>();
@@ -48,7 +49,8 @@ export class FixTableComponent implements OnInit {
       data: {
         mode: ModalMode.ADD,
         data: undefined,
-        index: this.fixs.filter(v => !v.markForDelete).length + 1
+        index: this.fixs.filter(v => !v.markForDelete).length + 1,
+        targetReferenceStatus: this.targetReferenceStatus
       }
     });
     dialogRef.afterClosed()
@@ -73,7 +75,8 @@ export class FixTableComponent implements OnInit {
     const dialogRef = this._matDialog.open(FixModalComponent, {
       data: {
         mode: ModalMode.EDIT,
-        data: this.fixs[index]
+        data: this.fixs[index],
+        targetReferenceStatus: this.targetReferenceStatus
       }
     });
     dialogRef.afterClosed()

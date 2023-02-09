@@ -149,11 +149,17 @@ export class TargetEntryDetailComponent implements OnInit {
   }
 
   checkAllCanReject(): boolean {
-    let allCanReject = true;
     for (let planTable of this.planEntryTables) {
-      allCanReject = allCanReject && planTable.checkAllCanReject();
+      if (!planTable.checkAllCanReject()) return false
     }
-    return allCanReject;
+    return true;
+  }
+
+  checkAllUnarchiveHaveReference(): boolean {
+    for (let planTable of this.planEntryTables) {
+      if (!planTable.checkAllUnarchiveHaveReference()) return false;
+    }
+    return true;
   }
 
   getActualIds(): number[] {
@@ -172,6 +178,10 @@ export class TargetEntryDetailComponent implements OnInit {
     }
     if (!this.checkAtleastOneAndSameStatus()) {
       this._snackBarService.warn('กรุณาเลือกสถานะของผลดำเนินการให้เหมือนกัน');
+      return;
+    }
+    if (!this.checkAllUnarchiveHaveReference()) {
+      this._snackBarService.warn('มีบางผลการดำเนินงาน Unarchive ที่ไม่มี เอกสารสาเหตุและการแก้ไข');
       return;
     }
     for (let planTable of this.planEntryTables) {
