@@ -46,24 +46,14 @@ export const targetEntryRoutes: Route[] = [
                 }
             },
             {
-                path: ':id/plans/:planId/month/:month/confirm-submit/:actualTargetId',
+                path: ':id/confirm-submit',
                 component: ConfirmationComponent,
-                data: { mode: 'single-target-submit' }
+                data: { mode: 'actual-submit' }
             },
             {
-                path: ':id/plans/:planId/month/:month/confirm-reject/:actualTargetId',
+                path: ':id/confirm-reject',
                 component: ConfirmationComponent,
-                data: { mode: 'single-target-reject' }
-            },
-            {
-                path: ':id/multi/confirm-submit',
-                component: ConfirmationComponent,
-                data: { mode: 'multi-target-submit' }
-            },
-            {
-                path: ':id/multi/confirm-reject',
-                component: ConfirmationComponent,
-                data: { mode: 'multi-target-reject' }
+                data: { mode: 'actual-reject' }
             },
             {
                 path: ':documentId/plans/:planId/month/:month/add-cause-and-fix',
@@ -86,6 +76,16 @@ export const targetEntryRoutes: Route[] = [
                     reference: ReferenceResolver
                 }
             },
+            {
+                path: ':documentId/plans/:planId/month/:month/cause-and-fix/:referenceId/confirm-submit',
+                component: ConfirmationComponent,
+                data: { mode: 'reference-submit' }
+            },
+            {
+                path: ':documentId/plans/:planId/month/:month/cause-and-fix/:referenceId/confirm-reject',
+                component: ConfirmationComponent,
+                data: { mode: 'reference-reject' }
+            }
         ]
     }
 ];

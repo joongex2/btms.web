@@ -6,7 +6,7 @@
             <!-- Breadcrumbs -->
             <div>
                 <div class="hidden sm:flex flex-wrap items-center font-medium">
-                    <ng-container *ngIf="['submit', 'reject'].includes(mode)">
+                    <ng-container *ngIf="['document-submit', 'document-reject'].includes(mode)">
                         <div>
                             <a class="whitespace-nowrap text-primary-500">ข้อมูลเป้าหมาย</a>
                         </div>
@@ -21,35 +21,7 @@
                             <a (click)="goBack()" class="ml-1 text-primary-500 cursor-pointer">เอกสารเป้าหมาย</a>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="['single-target-submit', 'single-target-reject'].includes(mode)">
-                        <div>
-                            <a class="whitespace-nowrap text-primary-500">ผลการดำเนินงานตามเป้าหมาย</a>
-                        </div>
-                        <div class="flex items-center ml-1 whitespace-nowrap">
-                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                            </mat-icon>
-                            <a [routerLink]="'/target-result/target-entry'">
-                                <span class="ml-1 text-primary-500">
-                                    บันทึกผลการดำเนินงาน
-                                </span>
-                            </a>
-                        </div>
-                        <div class="flex items-center ml-1 whitespace-nowrap">
-                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                            </mat-icon>
-                            <a [routerLink]="'./../../../../../..'" class="cursor-pointer">
-                                <span class="ml-1 text-primary-500">การรายงานผลการดำเนินงานตามเป้าหมาย</span>
-                            </a>
-                        </div>
-                        <div class="flex items-center ml-1 whitespace-nowrap">
-                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                            </mat-icon>
-                            <a (click)="goBack()" class="cursor-pointer">
-                                <span class="ml-1 text-primary-500">บันทึกผลการดำเนินงาน</span>
-                            </a>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="['multi-target-submit', 'multi-target-reject'].includes(mode)">
+                    <ng-container *ngIf="['actual-submit', 'actual-reject'].includes(mode)">
                         <div>
                             <a class="whitespace-nowrap text-primary-500">ผลการดำเนินงานตามเป้าหมาย</a>
                         </div>
@@ -72,11 +44,69 @@
                             </a>
                         </div>
                     </ng-container>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                        </mat-icon>
-                        <a class="ml-1 text-secondary">ยืนยันเปลี่ยนสถานะ</a>
-                    </div>
+                    <ng-container *ngIf="['reference-submit', 'reference-reject'].includes(mode) && fromUrl === 'cause-edit-target'">
+                        <div>
+                            <a class="whitespace-nowrap text-primary-500">ผลการดำเนินงานตามเป้าหมาย</a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a [routerLink]="'/target-result/cause-edit-target'">
+                                <span class="ml-1 text-primary-500">
+                                    สาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย
+                                </span>
+                            </a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a (click)="goBack()">
+                                <span class="ml-1 text-primary-500 cursor-pointer">
+                                    สาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย
+                                </span>
+                            </a>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="['reference-submit', 'reference-reject'].includes(mode) && fromUrl === 'target-entry'">
+                        <div>
+                            <a class="whitespace-nowrap text-primary-500">ผลการดำเนินงานตามเป้าหมาย</a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a [routerLink]="'/target-result/target-entry'">
+                                <span class="ml-1 text-primary-500">
+                                    บันทึกผลการดำเนินงาน
+                                </span>
+                            </a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a [routerLink]="'./../../../../../..'">
+                                <span class="ml-1 text-primary-500">การรายงานผลการดำเนินงานตามเป้าหมาย</span>
+                            </a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a [routerLink]="'./../../..'">
+                                <span class="ml-1 text-primary-500">บันทึกผลการดำเนินงาน</span>
+                            </a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a (click)="goBack()" class="cursor-pointer">
+                                <span class="ml-1 text-primary-500">สาเหตุและการแก้ไขสิ่งที่ไม่เป็นไปตามเป้าหมาย</span>
+                            </a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                            </mat-icon>
+                            <a class="ml-1 text-secondary">ยืนยันเปลี่ยนสถานะ</a>
+                        </div>
+                    </ng-container>
                 </div>
             </div>
             <!-- Title -->
@@ -113,8 +143,7 @@
                         <div class="col-span-6 sm:col-span-1 font-medium h-full align-top">Comment</div>
                         <div class="col-span-6 sm:col-span-11 sm:pl-6 flex align-top">:
                             <mat-form-field class="fuse-mat-textarea flex-auto ml-2">
-                                <textarea matInput [(ngModel)]="comment" name="comment" [rows]="3" matTextareaAutosize ></textarea>
-                                <!-- <mat-error>Comment is required</mat-error> -->
+                                <textarea matInput [(ngModel)]="comment" name="comment" [rows]="3" matTextareaAutosize></textarea>
                             </mat-form-field>
                         </div>
                     </div>

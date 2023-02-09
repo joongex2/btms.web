@@ -217,4 +217,30 @@ export class TargetResultService {
             resultApprovedDate
         })
     }
+
+    getReferenceSubmitEmail(id: number): Observable<any> {
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/References/${id}/submit`)).pipe(map(data => data.model));
+    }
+
+    getReferenceRejectEmail(id: number): Observable<any> {
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/References/${id}/reject`)).pipe(map(data => data.model));
+    }
+
+    patchReferenceSubmitEmail(id: number, comment: string, informEmails: string[], receiveEmails: string[]): Observable<any> {
+        return this._httpClient.patch(getBaseUrl(`/v1/References/submit`), {
+            id,
+            comment,
+            informEmails,
+            receiveEmails
+        });
+    }
+
+    patchReferenceRejectEmail(id: number, comment: string, informEmails: string[], receiveEmails: string[]): Observable<any> {
+        return this._httpClient.patch(getBaseUrl(`/v1/References/reject`), {
+            id,
+            comment,
+            informEmails,
+            receiveEmails
+        });
+    }
 }

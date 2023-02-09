@@ -282,13 +282,11 @@ export class TargetSaveComponent implements OnInit {
   }
 
   submit() {
-    // this._router.navigate([`./confirm-submit/${this.actual.id}`], { relativeTo: this._activatedRoute })
     this.setPlanFlow(PlanFlow.ACCEPT);
     this._router.navigate(['./../../../..'], { relativeTo: this._activatedRoute });
   }
 
   reject() {
-    // this._router.navigate([`./confirm-reject/${this.actual.id}`], { relativeTo: this._activatedRoute })
     this.setPlanFlow(PlanFlow.REJECT);
     this._router.navigate(['./../../../..'], { relativeTo: this._activatedRoute });
   }

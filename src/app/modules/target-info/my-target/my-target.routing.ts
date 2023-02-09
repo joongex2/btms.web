@@ -38,12 +38,12 @@ export const myTargetRoutes: Route[] = [
             {
                 path: ':id/confirm-submit',
                 component: ConfirmationComponent,
-                data: { mode: 'submit' }
+                data: { mode: 'document-submit' }
             },
             {
                 path: ':id/confirm-reject',
                 component: ConfirmationComponent,
-                data: { mode: 'reject' }
+                data: { mode: 'document-reject' }
             }
         ]
     }

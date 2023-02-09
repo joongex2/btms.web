@@ -184,7 +184,7 @@ export class DocumentParams {
     ToMonth?: string;
 }
 
-export interface DocumentConfirm {
+export interface ConfirmationInfo {
     title: string;
     from: string;
     dueDate: string;

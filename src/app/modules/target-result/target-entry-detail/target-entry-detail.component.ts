@@ -157,9 +157,10 @@ export class TargetEntryDetailComponent implements OnInit {
   }
 
   getActualIds(): number[] {
-    const actualTargetIds = [];
+    let actualTargetIds = [];
     for (let planTable of this.planEntryTables) {
-      actualTargetIds.push(planTable.selection.selected.map(v => v.plan.actuals.find(a => a.targetMonth === v.month).id))
+      const matchIds = planTable.selection.selected.map(v => v.plan.actuals.find(a => a.targetMonth === v.month).id);
+      actualTargetIds = [...actualTargetIds, ...matchIds];
     }
     return actualTargetIds;
   }
@@ -217,12 +218,12 @@ export class TargetEntryDetailComponent implements OnInit {
 
   submit() {
     let actualTargetIds = this.getActualIds();
-    this._router.navigate(['./multi/confirm-submit'], { relativeTo: this._activatedRoute, queryParams: { actualTargetIds } });
+    this._router.navigate(['./confirm-submit'], { relativeTo: this._activatedRoute, queryParams: { actualTargetIds: [actualTargetIds] } });
   }
 
   reject() {
     let actualTargetIds = this.getActualIds();
-    this._router.navigate(['./multi/confirm-reject'], { relativeTo: this._activatedRoute, queryParams: { actualTargetIds } });
+    this._router.navigate(['./confirm-reject'], { relativeTo: this._activatedRoute, queryParams: { actualTargetIds: [actualTargetIds] } });
   }
 
   private addQueryParam(param?: object): void {

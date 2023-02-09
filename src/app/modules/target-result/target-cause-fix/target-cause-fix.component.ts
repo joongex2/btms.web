@@ -120,6 +120,8 @@ export class TargetCauseFixComponent implements OnInit {
     this._urlService.previousUrl$.subscribe((previousUrl: string) => {
       this.previousUrl = previousUrl;
     });
+
+    this.checkPrivillege();
   }
 
   openLastComment() {
@@ -188,6 +190,24 @@ export class TargetCauseFixComponent implements OnInit {
     });
   }
 
+  edit() {
+    this.isEdit = true;
+    this.checkPrivillege();
+  }
+
+  cancelEdit() {
+    this.isEdit = false;
+    this.checkPrivillege();
+  }
+
+  submit() {
+    this._router.navigate(['./confirm-submit'], { relativeTo: this._activatedRoute })
+  }
+
+  reject() {
+    this._router.navigate(['./confirm-reject'], { relativeTo: this._activatedRoute })
+  }
+
   goBack() {
     if (!this.previousUrl
       || this.previousUrl.includes('redirectURL')
@@ -206,16 +226,16 @@ export class TargetCauseFixComponent implements OnInit {
   checkPrivillege() {
     // check 
     if (this.user?.organizes && this.document) {
-      let haveS01 = false;
-      let haveS02 = false;
-      let haveS03 = false;
-      let haveS04 = false;
+      let haveT01 = false;
+      let haveT02 = false;
+      let haveT03 = false;
+      let haveT04 = false;
       const organize = this.user.organizes.find((v) => v.organizeCode === this.document.organizeCode);
       for (let role of organize.roles) {
-        if (role.roleCode === 'S01') haveS01 = true;
-        if (role.roleCode === 'S02') haveS02 = true;
-        if (role.roleCode === 'S03') haveS03 = true;
-        if (role.roleCode === 'S04') haveS04 = true;
+        if (role.roleCode === 'T01') haveT01 = true;
+        if (role.roleCode === 'T02') haveT02 = true;
+        if (role.roleCode === 'T03') haveT03 = true;
+        if (role.roleCode === 'T04') haveT04 = true;
       }
       this.canSave = false;
       this.canEdit = false;
@@ -224,43 +244,32 @@ export class TargetCauseFixComponent implements OnInit {
 
       if (this.mode === 'add') {
         // add
-        this.canSave = haveS01;
+        this.canSave = haveT01;
         this.canEdit = false;
         this.canSubmit = false;
         this.canReject = false;
       } else {
         // edit
-        if (this.isEdit && haveS01) this.canSave = true;
-        if (!this.isEdit && this.document.documentStatus === 'SOLVE_DRAFT' && haveS01) this.canEdit = true;
-        if (!this.isEdit && this.document.documentStatus === 'SOLVE_INPROCESS' && haveS01) {
+        if (this.isEdit && haveT01) this.canSave = true;
+        if (!this.isEdit && this.targetReference.targetReferenceStatus === 'SOLVE_DRAFT' && haveT01) this.canEdit = true;
+        if (!this.isEdit && this.targetReference.targetReferenceStatus === 'SOLVE_INPROCESS' && haveT01) {
           this.canEdit = true;
           this.canSubmit = true;
+          // this.canReject = true;
         }
-        // if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_CANCEL' && haveD01) {
-        //   // can do nothing
-        // }
-        // if (!this.isEdit && this.document.documentStatus === 'DOCUMENT_MODIFY' && haveD01) {
-        //   this.canEdit = true;
-        //   this.canSubmit = true;
-        // }
-        // document_wait_for_print
-        if (!this.isEdit && this.document.documentStatus === 'SOLVE_DRAFT' && haveS01) {
+        if (!this.isEdit && this.targetReference.targetReferenceStatus === 'SOLVE_WAIT_FOR_VERIFY' && haveT02) {
           this.canSubmit = true;
           this.canReject = true;
         }
-        if (!this.isEdit && this.document.documentStatus === 'SOLVE_WAIT_FOR_VERIFY' && haveS02) {
+        if (!this.isEdit && this.targetReference.targetReferenceStatus === 'SOLVE_WAIT_FOR_APPROVE' && haveT03) {
           this.canSubmit = true;
           this.canReject = true;
         }
-        if (!this.isEdit && this.document.documentStatus === 'SOLVE_WAIT_FOR_APPROVE' && haveS03) {
+        if (!this.isEdit && this.targetReference.targetReferenceStatus === 'SOLVE_CLOSED' && haveT04) {
           this.canSubmit = true;
           this.canReject = true;
         }
-        if (!this.isEdit && this.document.documentStatus === 'SOLVE_CLOSED' && haveS04) {
-          this.canSubmit = true;
-          this.canReject = true;
-        }
-        if (!this.isEdit && this.document.documentStatus === 'SOLVE_CLOSED (NEW)' && haveS04) {
+        if (!this.isEdit && this.targetReference.targetReferenceStatus === 'SOLVE_CLOSED (NEW)' && haveT04) {
           this.canReject = true;
         }
       }
