@@ -137,6 +137,27 @@ table tr:not(.mat-header-row):hover {
     background-color: rgb(55, 126, 34) !important;
 }
 
+.bg-archive {
+    background-color: rgb(55, 126, 34) !important;
+}
+
+.bg-unarchive-red {
+    background-color: rgb(233,108,102) !important;
+}
+
+.bg-unarchive-yellow {
+    background-color: rgb(255,253,83) !important;
+}
+
 .result-column {
     vertical-align: top !important;
+    height: inherit;
+}
+
+:host ::ng-deep .select-checkbox label.mat-checkbox-layout {
+    vertical-align: top;
+    span.mat-checkbox-inner-container {
+        width: 14px;
+        height: 14px;
+    }
 }

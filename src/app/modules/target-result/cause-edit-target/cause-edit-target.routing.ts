@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { MenuGuard } from 'app/core/auth/guards/menu.guard';
-import { BusResolver, DivisionsResolver, DocumentResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, ReferenceDataResolver, ReferenceStatusesResolver, StatusesResolver, SubBusResolver, TargetTypesResolver } from 'app/shared/resolver';
+import { BusResolver, DivisionsResolver, DocumentResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, ReferenceDataResolver, ReferenceStatusesResolver, SubBusResolver, TargetTypesResolver, UserResolver } from 'app/shared/resolver';
 import { ReferenceListComponent } from '../reference-list/reference-list.component';
 import { TargetCauseFixComponent } from '../target-cause-fix/target-cause-fix.component';
 import { CauseEditTargetComponent } from './cause-edit-target.component';
@@ -29,6 +29,7 @@ export const causeEditTargetRoutes: Route[] = [
                 path: 'documents/:documentId/references/:referenceId',
                 component: TargetCauseFixComponent,
                 resolve: {
+                    user: UserResolver,
                     document: DocumentResolver,
                     referenceData: ReferenceDataResolver
                 },

@@ -33,6 +33,7 @@ export class SubTargetModalComponent implements OnInit {
     { title: 'เชิงคุณภาพ', value: '2' }
   ];
   resultColors: any[] = [];
+  targetCondition2Disabled = false;
 
   // alert
   showAlert: boolean = false;
@@ -118,6 +119,17 @@ export class SubTargetModalComponent implements OnInit {
       isCritical: [isCritical]
     });
 
+    this.subTargetForm.get('measureType').valueChanges.subscribe(value => {
+      if (value === '2') {
+        if (this.subTargetForm.get('targetCondition').value === '2') {
+          this.subTargetForm.get('targetCondition').setValue('1');
+        }
+        this.targetCondition2Disabled = true;
+      } else {
+        this.targetCondition2Disabled = false;
+      }
+    });
+
     this.subTargetForm.get('targetCondition').valueChanges.subscribe(value => {
       if (value === '1') {
         this.resultColors = [{ title: 'GREEN', value: 'GREEN' }];
@@ -141,8 +153,6 @@ export class SubTargetModalComponent implements OnInit {
       } else {
         this.resultColors = [{ title: 'RED', value: 'RED' }, { title: 'YELLOW', value: 'YELLOW' }];
 
-        this.subTargetForm.get('targetValue').setValue('');
-
         // remove targetCondition = 1 && id = 0
         const conditions = this.subTargetForm.get('conditions') as FormArray;
         const newConditions = [];
@@ -160,6 +170,7 @@ export class SubTargetModalComponent implements OnInit {
         }
         conditions.push(this.newCondition('2'));
       }
+      this.subTargetForm.get('targetValue').setValue('');
     });
 
     const _conditions = (conditions as FormArray).controls.filter((control) => !control.get('markForDelete').value);

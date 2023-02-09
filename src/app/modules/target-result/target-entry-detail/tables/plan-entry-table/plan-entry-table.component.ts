@@ -207,4 +207,24 @@ export class PlanEntryTableComponent implements OnInit {
   AtleastOneSelected() {
     return this.plans.findIndex(v => this.selection.selected.findIndex(s => s.plan.id === v.id) !== -1) !== -1;
   }
+
+  solveUnarchiveColor(plan: Plan, month: number) {
+    const actual = this.getActual(plan, month);
+    // range
+    if (actual.targetActualResult === 'N') return 'none';
+    for (let condition of this.subTarget.conditions) {
+      const targetOperator = condition.targetOperator;
+      const targetValue = condition.targetValue;
+      const targetColor = condition.resultColor;
+      const targetResultNum = actual.targetActualValue;
+      if ((targetOperator === '>' && targetResultNum > targetValue)
+        || (targetOperator === '<' && targetResultNum < targetValue)
+        || (targetOperator === '=' && targetResultNum === targetValue)
+        || (targetOperator === '>=' && targetResultNum >= targetValue)
+        || (targetOperator === '<=' && targetResultNum <= targetValue)) {
+        return targetColor === 'RED' ? 'red' : 'yellow';
+      }
+    }
+    return 'none';
+  }
 }
