@@ -28,7 +28,7 @@ export class CauseModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
-    this.cause = this.isEdit ? this.modalData.data.causeNo : null;
+    this.cause = this.isEdit ? this.modalData.data : null;
     const sequenceNo = this.isEdit ? this.cause.sequenceNo : this.modalData.index;
 
     this.causeForm = this._formBuilder.group({
