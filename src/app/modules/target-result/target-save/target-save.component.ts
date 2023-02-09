@@ -15,7 +15,7 @@ import { UrlService } from 'app/shared/services/url.service';
 import { firstValueFrom } from 'rxjs';
 import { PlanFlow } from '../target-result.interface';
 import { TargetResultService } from '../target-result.service';
-import { Attachment, FileUpload } from '../target-result.types';
+import { Attachment } from '../target-result.types';
 
 @Component({
   selector: 'target-save',
@@ -32,7 +32,7 @@ export class TargetSaveComponent implements OnInit {
   previousUrl: string;
 
   //bind value
-  targetResult: string;
+  targetResult: number | string;
   naCheckBox: boolean = false;
   acceptReject: string;
 
@@ -106,7 +106,7 @@ export class TargetSaveComponent implements OnInit {
         this.mode = this._activatedRoute.snapshot.data.actual ? 'edit' : 'add';
         if (this.mode === 'edit') {
           this.actual = this._activatedRoute.snapshot.data.actual;
-          this.targetResult = this.subTarget.measureType === '1' ? (this.actual.targetActualValue?.toString() || null) : this.actual.targetActualResult;
+          this.targetResult = this.subTarget.measureType === '1' ? this.actual.targetActualValue : this.actual.targetActualResult;
           this.naCheckBox = this.subTarget.measureType === '1' && this.actual.targetActualResult === 'N';
           this.acceptReject = [PlanFlow.ACCEPT, PlanFlow.REJECT].includes(currentPlanFlow) ? currentPlanFlow : null;
           this.attachments = this.actual.attachments;
@@ -240,7 +240,7 @@ export class TargetSaveComponent implements OnInit {
               this.plan.id,
               this.plan.planYear,
               this.month,
-              this.subTarget.measureType === '1' && !this.naCheckBox ? parseInt(this.targetResult) : null,
+              this.subTarget.measureType === '1' && !this.naCheckBox ? this.targetResult as number : null,
               this.calculateTargetActualResult(),
               null,
               this.attachments
@@ -299,7 +299,7 @@ export class TargetSaveComponent implements OnInit {
         // single
         const targetOperator = this.subTarget.conditions[0].targetOperator;
         const targetValue = this.subTarget.conditions[0].targetValue;
-        const targetResultNum = parseInt(this.targetResult);
+        const targetResultNum = this.targetResult;
         if (targetOperator === '>') {
           if (targetResultNum > targetValue) {
             return 'A';
@@ -336,7 +336,7 @@ export class TargetSaveComponent implements OnInit {
         for (let condition of this.subTarget.conditions) {
           const targetOperator = condition.targetOperator;
           const targetValue = condition.targetValue;
-          const targetResultNum = parseInt(this.targetResult);
+          const targetResultNum = this.targetResult;
           if (targetOperator === '>' && targetResultNum > targetValue) {
             return 'U';
           } else if (targetOperator === '<' && targetResultNum < targetValue) {
@@ -353,7 +353,7 @@ export class TargetSaveComponent implements OnInit {
       }
     } else {
       // quality
-      return this.targetResult;
+      return this.targetResult as string;
     }
   }
 
@@ -389,5 +389,11 @@ export class TargetSaveComponent implements OnInit {
 
   isShowError() {
     return (this.showAlert && !this.form.valid) || this.hasApiError;
+  }
+
+  onBlur(evt) {
+    if (evt?.target?.valueAsNumber) {
+      this.targetResult = Math.round(evt.target.valueAsNumber * 10**4) / 10**4;
+    }
   }
 }

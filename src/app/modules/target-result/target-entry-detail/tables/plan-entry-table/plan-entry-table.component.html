@@ -70,21 +70,21 @@
                             'bg-archive': getActual(element, colIndex+1)?.targetActualResult === 'A' && isDisplay(element, colIndex+1),
                             'bg-unarchive-red': (
                                     (subTarget?.targetCondition === '1' && getActual(element, colIndex+1)?.targetActualResult === 'U')
-                                    || (subTarget?.targetCondition === '2' && solveUnachiveColor(element, colIndex+1) === 'red')
+                                    || (subTarget?.targetCondition === '2' && solveUnarchiveColor(element, colIndex+1) === 'red')
                                 )
                                 && isDisplay(element, colIndex+1),
                             'bg-unarchive-yellow': (
-                                    subTarget?.targetCondition === '2' && solveUnachiveColor(element, colIndex+1) === 'yellow'
+                                    subTarget?.targetCondition === '2' && solveUnarchiveColor(element, colIndex+1) === 'yellow'
                                 ) 
                                 && isDisplay(element, colIndex+1)
                         }"
                     >
                         <div class="text-xs"
                             style="line-height: 23px; max-height:23px; overflow: hidden"
-                            [matTooltip]="(getActual(element, colIndex+1)?.targetActualValue | number : '1.4-4')"
+                            [matTooltip]="(getActual(element, colIndex+1)?.targetActualValue | number : '1.0-4')"
                             [matTooltipDisabled]="!getActual(element, colIndex+1)?.targetActualValue && getActual(element, colIndex+1)?.targetActualValue !== 0"
                             *ngIf="subTarget?.measureType === '1' && isDisplay(element, colIndex+1)">
-                            {{ getActual(element, colIndex+1)?.targetActualValue | number : '1.4-4' }}
+                            {{ getActual(element, colIndex+1)?.targetActualValue | number : '1.0-4' }}
                         </div>
                     </div>
                 </div>

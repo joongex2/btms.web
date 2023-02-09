@@ -131,7 +131,8 @@
                                         <mat-form-field class="flex-auto ml-2">
                                             <input 
                                                 matInput
-                                                appIntegerOnly
+                                                type="number"
+                                                (blur)="onBlur($event)"
                                                 [(ngModel)]="targetResult"
                                                 name="targetResult"   
                                                 [disabled]="readonly || naCheckBox || (!this.isEdit && mode !== 'add')"
