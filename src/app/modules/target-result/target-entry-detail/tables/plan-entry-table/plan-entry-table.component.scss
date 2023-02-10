@@ -36,6 +36,24 @@ td.mat-cell:not(:first-child):not(:last-child) {
     border-right: 1px solid white;
 }
 
+tr:nth-last-child(3) {
+    td:nth-child(1),td:nth-child(2),td:nth-child(15) {
+        border-bottom-width: 0;
+    }
+}
+
+tr:last-child {
+    @for $i from 1 through 12 {
+        td:nth-child(#{$i}),td:nth-child(#{$i}),td:nth-child(#{$i}) {
+            border-bottom-width: 0;
+        }
+    }
+}
+
+.border-solid-white {
+    border-right: 1px solid white;
+}
+
 tr span.text-month {
     color: black;
     font-weight: 300;
