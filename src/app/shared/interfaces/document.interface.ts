@@ -207,8 +207,8 @@ export interface ReceiveEmail {
 }
 
 export interface Actual {
-    actionBy: string;
-    actionDate: string;
+    createdBy: string;
+    createdDate: string;
     dueDate: string;
     id: number;
     targetActualResult: string // e.g. A, U, N
