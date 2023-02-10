@@ -39,14 +39,6 @@
                         </div>
                     </ng-container>
                 </div>
-                <div class="flex sm:hidden">
-                    <!-- <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'..'"> -->
-                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium">
-                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-left'">
-                        </mat-icon>
-                        <span class="ml-1">Back</span>
-                    </a>
-                </div>
             </div>
             <!-- Title -->
             <div class="mt-2">
@@ -83,10 +75,6 @@
                     <mat-icon svgIcon="heroicons_outline:receipt-refund"></mat-icon>&nbsp;<span>Revise</span>
                 </a>
             </div>
-            <!-- <div *ngIf="mode === 'edit'"class="flex flex-row sm:justify-end mt-1">
-                <span class="text-red-600">Last Comment:&nbsp;&nbsp;</span>
-                <a href="#" onClick="return false;" (click)="openLastComment()" class="underline text-blue-600">More Detail</a>
-            </div> -->
         </div>
         
     </div>
@@ -145,23 +133,6 @@
                                     </mat-form-field>
                                 </div>
                             </ng-template>
-                            <!-- <div class="col-span-6 sm:col-span-2 font-medium">Target Type</div>
-                            <ng-container *ngIf="mode === 'edit';else targetTypeSelect">
-                                <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.targetType :'-'}}</span></div>
-                            </ng-container>
-                            <ng-template #targetTypeSelect>
-                                <div class="col-span-6 sm:col-span-4 flex items-center">
-                                    :
-                                    <mat-form-field class="flex-auto ml-2">
-                                        <mat-select [(ngModel)]="selectedTargetType" name="targetType" placeholder="กรุณาเลือก" required>
-                                            <mat-option *ngFor="let targetType of targetTypes" [value]="targetType.value">
-                                                {{targetType.title}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                            </ng-template> -->
-                            
                             <div class="col-span-6 sm:col-span-2 font-medium">Running No.</div>
                             <div class="col-span-6 sm:col-span-4">:<span class="ml-2"><a (click)="openLastComment()" class="underline text-blue-600 cursor-pointer">{{document ? document.documentNo : ''}}</a></span></div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Business Unit</div>
@@ -178,10 +149,8 @@
                             <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.modifyNo : ''}}</span></div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Division/Department</div>
                             <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.division : ''}}</span></div>
-                           
                             <div class="col-span-6 sm:col-span-2 font-medium">Date Create</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? (document.documentDate | date : 'dd/MM/YYYY') : ''}}</span></div>
-                           
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? (document.documentDate | date : 'dd/MM/YYYY') : ''}}</span></div>     
                             <div class="col-span-6 sm:col-span-2 font-medium">Creator</div>
                             <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.userHolder : ''}}</span></div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Date Due</div>
@@ -194,26 +163,6 @@
                     </form>
                 </mat-expansion-panel>
             </mat-accordion>
-    
-            <!-- <div class="mt-6 flex flex-row flex-auto">
-                <button
-                    class="m-2"
-                    mat-raised-button
-                    (click)="expandAll()"
-                    >
-                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:chevron-double-down'"></mat-icon>
-                    <span class="ml-2">Expand All</span>
-                </button>
-                <button
-                    class="m-2"
-                    mat-raised-button
-                    (click)="collapseAll()"
-                    >
-                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:chevron-double-up'"></mat-icon>
-                    <span class="ml-2">Collapse All</span>
-                </button>
-            </div> -->
-
             <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
                 <app-target-table
                     #targetTable

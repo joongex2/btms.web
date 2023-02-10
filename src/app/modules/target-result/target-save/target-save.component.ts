@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { User } from 'app/core/user/user.types';
+import { FileUploadTableComponent } from 'app/shared/components/file-upload-table/file-upload-table.component';
 import { LastCommentModalComponent } from 'app/shared/components/last-comment-modal/last-comment-modal.component';
 import { Actual, DocumentDetail, Plan, SubTarget, Target } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
@@ -25,16 +26,16 @@ import { Attachment } from '../target-result.types';
 })
 export class TargetSaveComponent implements OnInit {
   @ViewChild('f') form: NgForm;
+  @ViewChild(FileUploadTableComponent) fileUploadTable: FileUploadTableComponent;
   user: User;
   mode: string;
-  attachments: Attachment[];
   readonly = false;
   previousUrl: string;
 
   //bind value
   targetResult: number | string;
   naCheckBox: boolean = false;
-  acceptReject: string;
+  attachments: Attachment[];
 
   document: Partial<DocumentDetail>;
   target: Target;
@@ -108,8 +109,7 @@ export class TargetSaveComponent implements OnInit {
           this.actual = this._activatedRoute.snapshot.data.actual;
           this.targetResult = this.subTarget.measureType === '1' ? this.actual.targetActualValue : this.actual.targetActualResult;
           this.naCheckBox = this.subTarget.measureType === '1' && this.actual.targetActualResult === 'N';
-          this.acceptReject = [PlanFlow.ACCEPT, PlanFlow.REJECT].includes(currentPlanFlow) ? currentPlanFlow : null;
-          this.attachments = this.actual.attachments;
+          this.attachments = JSON.parse(JSON.stringify(this.actual.attachments));
         } else {
           this.attachments = [];
         }
@@ -191,9 +191,6 @@ export class TargetSaveComponent implements OnInit {
         // edit
         if (this.isEdit && haveT01) this.canSave = true;
         if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_REPORTING' && haveT01) this.canEdit = true;
-        // if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_REPORTING' && haveT01) {
-        //   this.canSubmit = true;
-        // }
         if (!this.isEdit && this.actual.targetActualStatus === 'TARGET_WAIT_FOR_VERIFY' && haveT02) {
           this.canSubmit = true;
           this.canReject = true;
@@ -245,11 +242,11 @@ export class TargetSaveComponent implements OnInit {
               null,
               this.attachments
             ));
+            this.actual = await firstValueFrom(this._targetResultService.getActual(this.plan.id, this.month));
+            this.attachments = JSON.parse(JSON.stringify(this.actual.attachments));
             if (this.mode === 'add') {
-              this.actual = await firstValueFrom(this._targetResultService.getActual(this.plan.id, this.month));
               this.mode = 'edit';
             }
-
             if (!res.didError) {
               this._snackBarService.success(res.message);
               this.isEdit = false;
@@ -276,7 +273,13 @@ export class TargetSaveComponent implements OnInit {
     this.checkPrivillege();
   }
 
-  cancelEdit() {
+  async cancelEdit() {
+    // bring back data
+    this.targetResult = this.subTarget.measureType === '1' ? this.actual.targetActualValue : this.actual.targetActualResult;
+    this.naCheckBox = this.subTarget.measureType === '1' && this.actual.targetActualResult === 'N';
+    await this.fileUploadTable.deleteUnsavedAttachments();
+    this.attachments = JSON.parse(JSON.stringify(this.actual.attachments));
+
     this.isEdit = false;
     this.checkPrivillege();
   }
@@ -361,14 +364,6 @@ export class TargetSaveComponent implements OnInit {
     if (isTick) this.targetResult = null;
   }
 
-  acceptRejectChange(acceptReject: string) {
-    if (acceptReject === 'accept') {
-      this.setPlanFlow(PlanFlow.ACCEPT);
-    } else if (acceptReject === 'reject') {
-      this.setPlanFlow(PlanFlow.REJECT);
-    }
-  }
-
   showError(error: string, hasApiError?: boolean) {
     this.showAlert = true;
     this.alert = {
@@ -393,7 +388,7 @@ export class TargetSaveComponent implements OnInit {
 
   onBlur(evt) {
     if (evt?.target?.valueAsNumber) {
-      this.targetResult = Math.round(evt.target.valueAsNumber * 10**4) / 10**4;
+      this.targetResult = Math.round(evt.target.valueAsNumber * 10 ** 4) / 10 ** 4;
     }
   }
 }

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { User } from 'app/core/user/user.types';
+import { FileUploadTableComponent } from 'app/shared/components/file-upload-table/file-upload-table.component';
 import { LastCommentModalComponent } from 'app/shared/components/last-comment-modal/last-comment-modal.component';
 import { Actual, Cause, DocumentDetail, Plan, ReferenceDetail, SubTarget, Target, TargetReference } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
@@ -13,7 +14,7 @@ import { UrlService } from 'app/shared/services/url.service';
 import moment from 'moment';
 import { firstValueFrom } from 'rxjs';
 import { TargetResultService } from '../target-result.service';
-import { Attachment, FileUpload } from '../target-result.types';
+import { Attachment } from '../target-result.types';
 import { CauseTableComponent } from './tables/cause-table/cause-table.component';
 
 @Component({
@@ -23,7 +24,6 @@ import { CauseTableComponent } from './tables/cause-table/cause-table.component'
   animations: fuseAnimations
 })
 export class TargetCauseFixComponent implements OnInit {
-  mode: string;
   user: User;
   // document
   document: Partial<DocumentDetail>;
@@ -31,19 +31,20 @@ export class TargetCauseFixComponent implements OnInit {
   subTarget: SubTarget;
   plan: Plan;
   month: number;
+  // actual
   actual: Actual;
+  // reference
   reference: ReferenceDetail;
   targetReference: TargetReference;
 
   //bind value
+  causes: Cause[];
+  attachments: Attachment[];
   result: string;
   resultValue: number;
   resultApprovedDate: any;
 
-  saveResultFileUploads: FileUpload[];
-  causes: Cause[];
-  attachments: Attachment[];
-  showRefDocument: boolean = false;
+  mode: string;
   readonly = false;
   previousUrl: string;
 
@@ -57,6 +58,7 @@ export class TargetCauseFixComponent implements OnInit {
   fromUrl: string; // target-entry/ cause-edit-target
 
   @ViewChild(CauseTableComponent) causeTable: CauseTableComponent;
+  @ViewChild(FileUploadTableComponent) fileUploadTable: FileUploadTableComponent;
 
   // alert
   showAlert: boolean = false;
@@ -107,8 +109,8 @@ export class TargetCauseFixComponent implements OnInit {
       if (this.fromUrl === 'target-entry') this.reference = this._activatedRoute.snapshot.data.reference;
       if (this.fromUrl === 'cause-edit-target') this.reference = this._activatedRoute.snapshot.data.referenceData.reference;
       this.targetReference = this.reference.targetReference;
-      this.causes = this.targetReference.causes;
-      this.attachments = this.reference.attachments;
+      this.causes = JSON.parse(JSON.stringify(this.targetReference.causes));
+      this.attachments = JSON.parse(JSON.stringify(this.reference.attachments));
       this.result = this.targetReference.result;
       this.resultValue = this.targetReference.resultValue;
       this.resultApprovedDate = this.targetReference.resultApprovedDate ? moment(this.targetReference.resultApprovedDate) : null;
@@ -168,8 +170,9 @@ export class TargetCauseFixComponent implements OnInit {
               this._router.navigate([`./../cause-and-fix/${res.model}`], { relativeTo: this._activatedRoute });
             } else {
               // to refresh createdBy, createdDate of attachments
-              const reference: ReferenceDetail = await firstValueFrom(this._targetResultService.getReference(this.targetReference.id));
-              this.attachments = reference.attachments;
+              this.reference = await firstValueFrom(this._targetResultService.getReference(this.targetReference.id));
+              this.targetReference = this.reference.targetReference;
+              this.attachments = JSON.parse(JSON.stringify(this.reference.attachments));
             }
             this._snackBarService.success(res.message);
             this.isEdit = false;
@@ -195,7 +198,15 @@ export class TargetCauseFixComponent implements OnInit {
     this.checkPrivillege();
   }
 
-  cancelEdit() {
+  async cancelEdit() {
+    // bring back data
+    this.causes = JSON.parse(JSON.stringify(this.targetReference.causes));
+    await this.fileUploadTable.deleteUnsavedAttachments();
+    this.attachments = JSON.parse(JSON.stringify(this.reference.attachments));
+    this.result = this.targetReference.result;
+    this.resultValue = this.targetReference.resultValue;
+    this.resultApprovedDate = this.targetReference.resultApprovedDate ? moment(this.targetReference.resultApprovedDate) : null;
+
     this.isEdit = false;
     this.checkPrivillege();
   }

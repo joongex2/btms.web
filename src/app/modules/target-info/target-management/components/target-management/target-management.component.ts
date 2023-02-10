@@ -31,13 +31,14 @@ export class TargetManagementComponent implements OnInit {
   @ViewChild('targetTable') targetTable: TargetTableComponent;
   @ViewChild(NgForm) f: NgForm;
   user: User;
-  isOneOrganizeNewTarget: boolean;
-  mode: string;
   document: Partial<DocumentDetail>;
-  previousUrl: string;
   documentId: number;
-  isEdit: boolean = false; // true when press edit button
+  isOneOrganizeNewTarget: boolean;
 
+  mode: string;
+  previousUrl: string;
+
+  isEdit: boolean = false; // true when press edit button
   // check privillege
   canSave: boolean = false;
   canEdit: boolean = false;
@@ -110,7 +111,6 @@ export class TargetManagementComponent implements OnInit {
 
       this.targets = [];
 
-
       this.selectedDocumentType = undefined;
       this.selectedYear = moment().year().toString();
       const currentYear = moment().year();
@@ -175,6 +175,7 @@ export class TargetManagementComponent implements OnInit {
                 this.isEdit = false;
                 this.targetTable.collapseAll();
                 this.checkPrivillege();
+                this.loadDocument(this.documentId);
               }
             } else {
               this._snackBarService.error();
@@ -198,6 +199,9 @@ export class TargetManagementComponent implements OnInit {
   }
 
   cancelEdit() {
+    // bring back data
+    this.targets = JSON.parse(JSON.stringify(this.document.targets));
+
     this.isEdit = false;
     this.checkPrivillege();
   }
@@ -269,7 +273,7 @@ export class TargetManagementComponent implements OnInit {
         this.document = documentDetail;
         this.runningNo = this.document.documentNo;
         this.documentId = this.document.id;
-        this.targets = this.document.targets;
+        this.targets = JSON.parse(JSON.stringify(this.document.targets));
 
         this.selectedDocumentType = this.document.documentType;
         this.selectedYear = this.document.documentYear;

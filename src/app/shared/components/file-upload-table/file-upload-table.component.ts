@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Attachment, FileUpload } from 'app/modules/target-result/target-result.types';
 import { FileService } from 'app/shared/services/file.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -92,5 +93,19 @@ export class FileUploadTableComponent implements OnInit {
       attachment.markForDelete = true;
       this.dataSource.filter = '{}';
     }
+  }
+
+  async deleteUnsavedAttachments() {
+    const deleteAttachments = this.attachments.filter(v => v.id === 0);
+    const remainAttachments = this.attachments.filter(v => v.id !== 0);
+    for (let attachment of deleteAttachments) {
+      if (attachment.id === 0) {
+        const filePath = attachment.fileUrl.split('/');
+        const realFileName = attachment.fileUrl.split('/')[filePath.length - 1];
+        await firstValueFrom(this._fileService.deleteFileNormal(realFileName));
+      }
+    }
+    this.attachments = remainAttachments;
+    this.dataSource.data = this.attachments;
   }
 }

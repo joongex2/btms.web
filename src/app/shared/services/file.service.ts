@@ -26,4 +26,8 @@ export class FileService {
                 observe: 'events'
             });
     }
+
+    deleteFileNormal(fileName: string): Observable<any> {
+        return this._httpClient.delete(getBaseUrl(`/v1/Files/attachments/${fileName}`));
+    }
 }
