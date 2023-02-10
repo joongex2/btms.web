@@ -1,20 +1,20 @@
 <table mat-table [dataSource]="plans" class="mat-elevation-z8 plan-entry" multiTemplateDataRows>
     <ng-container matColumnDef="planDescription">
         <th mat-header-cell *matHeaderCellDef>การวัดผลเป้าหมาย</th>
-        <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.rowspan]="2" class="text-left"
+        <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.rowspan]="3" class="text-left"
             style="padding-left: 15px !important;">
             {{element.planDescription}}
         </td>
     </ng-container>
     <ng-container matColumnDef="planYear">
         <th mat-header-cell *matHeaderCellDef>ปี</th>
-        <td mat-cell *matCellDef="let element" [attr.rowspan]="2">
+        <td mat-cell *matCellDef="let element" [attr.rowspan]="3">
             {{element.planYear}}
         </td>
     </ng-container>
     <ng-container matColumnDef="undertaker">
         <th mat-header-cell *matHeaderCellDef>ผู้รับผิดชอบ</th>
-        <td mat-cell *matCellDef="let element" [attr.rowspan]="2">{{element.undertaker}}</td>
+        <td mat-cell *matCellDef="let element" [attr.rowspan]="3">{{element.undertaker}}</td>
     </ng-container>
     <ng-container *ngFor="let col of months; let colIndex = index" [matColumnDef]="col">
         <th mat-header-cell *matHeaderCellDef>{{capitalizeFirstLetter(col)}}</th>
@@ -37,11 +37,16 @@
     <ng-container *ngFor="let col of planRow2; let colIndex = index" [matColumnDef]="col">
         <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center p-4 result-column" [ngClass]="{ 
                 'border border-solid border-white': col=='dec2',
+                'bg-reporting': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_REPORTING' && isDisplay(element, colIndex+1),
+                'bg-wait-for-verify': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_WAIT_FOR_VERIFY' && isDisplay(element, colIndex+1),
+                'bg-wait-for-approve': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_WAIT_FOR_APPROVE' && isDisplay(element, colIndex+1),
+                'bg-wait-for-release': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_WAIT_FOR_RELEASE' && isDisplay(element, colIndex+1),
+                'bg-released': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_RELEASED' && isDisplay(element, colIndex+1),
                 'cursor-pointer': isDisplay(element, colIndex+1) && !isFilter
             }"
             (click)="saveTargetEntry(element, colIndex+1)"
             >
-            <div class="relative h-full">
+            <div class="relative h-full flex flex-col justify-center">
                 <mat-checkbox
                 class="absolute top-0 right-0 mt-0 select-checkbox"
                 *ngIf="checkPrivillege(getActual(element, colIndex+1)) && isDisplay(element, colIndex+1)"
@@ -51,48 +56,39 @@
                 [disabled]="isFilter"
                 [color]="'primary'">
                 </mat-checkbox>
-                <div class="h-full">
-                    <div class="h-1/2 align-top"
-                        [ngClass]="{
-                            'bg-reporting': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_REPORTING' && isDisplay(element, colIndex+1),
-                            'bg-wait-for-verify': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_WAIT_FOR_VERIFY' && isDisplay(element, colIndex+1),
-                            'bg-wait-for-approve': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_WAIT_FOR_APPROVE' && isDisplay(element, colIndex+1),
-                            'bg-wait-for-release': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_WAIT_FOR_RELEASE' && isDisplay(element, colIndex+1),
-                            'bg-released': getActual(element, colIndex+1)?.targetActualStatus === 'TARGET_RELEASED' && isDisplay(element, colIndex+1)
-                        }"
-                    >      
-                        <ng-container *ngIf="isDisplay(element, colIndex+1)">
-                            <div style="line-height: 23px;">{{ getActual(element, colIndex+1)?.targetActualResult }}</div>  
-                        </ng-container>
-                    </div>
-                    <div class="h-1/2 border-t border-solid border-white align-middle"
-                        [ngClass]="{
-                            'bg-archive': getActual(element, colIndex+1)?.targetActualResult === 'A' && isDisplay(element, colIndex+1),
-                            'bg-unarchive-red': (
-                                    (subTarget?.targetCondition === '1' && getActual(element, colIndex+1)?.targetActualResult === 'U')
-                                    || (subTarget?.targetCondition === '2' && solveUnarchiveColor(element, colIndex+1) === 'red')
-                                )
-                                && isDisplay(element, colIndex+1),
-                            'bg-unarchive-yellow': (
-                                    subTarget?.targetCondition === '2' && solveUnarchiveColor(element, colIndex+1) === 'yellow'
-                                ) 
-                                && isDisplay(element, colIndex+1)
-                        }"
-                    >
-                        <div class="text-xs"
-                            style="line-height: 23px; max-height:23px; overflow: hidden"
-                            [matTooltip]="(getActual(element, colIndex+1)?.targetActualValue | number : '1.0-4')"
-                            [matTooltipDisabled]="!getActual(element, colIndex+1)?.targetActualValue && getActual(element, colIndex+1)?.targetActualValue !== 0"
-                            *ngIf="subTarget?.measureType === '1' && isDisplay(element, colIndex+1)">
-                            {{ getActual(element, colIndex+1)?.targetActualValue | number : '1.0-4' }}
-                        </div>
-                    </div>
-                </div>
-                
+                <ng-container *ngIf="isDisplay(element, colIndex+1)">
+                    {{ getActual(element, colIndex+1)?.targetActualResult }}
+                </ng-container>
+            </div>
+        </td>
+    </ng-container>
+    <ng-container *ngFor="let col of planRow3; let colIndex = index" [matColumnDef]="col">
+        <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center p-4 result-column"
+        [ngClass]="{
+            'bg-archive': getActual(element, colIndex+1)?.targetActualResult === 'A' && isDisplay(element, colIndex+1),
+            'bg-unarchive-red': (
+                    (subTarget?.targetCondition === '1' && getActual(element, colIndex+1)?.targetActualResult === 'U')
+                    || (subTarget?.targetCondition === '2' && solveUnarchiveColor(element, colIndex+1) === 'red')
+                )
+                && isDisplay(element, colIndex+1),
+            'bg-unarchive-yellow': (
+                    subTarget?.targetCondition === '2' && solveUnarchiveColor(element, colIndex+1) === 'yellow'
+                ) 
+                && isDisplay(element, colIndex+1),
+            'cursor-pointer': isDisplay(element, colIndex+1) && !isFilter
+        }"
+        (click)="saveTargetEntry(element, colIndex+1)"
+        >
+            <div class="text-xs target-actual-value"
+                [matTooltip]="(getActual(element, colIndex+1)?.targetActualValue | number : '1.0-4')"
+                [matTooltipDisabled]="!getActual(element, colIndex+1)?.targetActualValue && getActual(element, colIndex+1)?.targetActualValue !== 0"
+                *ngIf="subTarget?.measureType === '1' && isDisplay(element, colIndex+1)">
+                {{ getActual(element, colIndex+1)?.targetActualValue | number : '1.0-4' }}
             </div>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="planHeader"></tr>
     <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: planRow1" [class.hidden]="!isPlanIdSelected(element) && isFilter"></tr>
     <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: planRow2" [class.hidden]="!isPlanIdSelected(element) && isFilter"></tr>
+    <tr mat-row class="example-element-row" *matRowDef="let element;let row;columns: planRow3" [class.hidden]="!isPlanIdSelected(element) && isFilter"></tr>
 </table>

@@ -44,7 +44,7 @@
     <ng-container matColumnDef="editIcon">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <mat-icon *ngIf="!readonly" (click)="editProtect(i)" svgIcon="heroicons_solid:pencil" class="icon-size-4 cursor-pointer" style="color: #89813d" title="แก้ไขการป้องกันการเกิดซ้ำ"></mat-icon>
+            <mat-icon *ngIf="!readonly" (click)="editProtect(i)" svgIcon="heroicons_solid:pencil" class="icon-size-4 cursor-pointer" style="color: #89813d" title="Edit การป้องกันการเกิดซ้ำ"></mat-icon>
         </td>
     </ng-container>
     <ng-container matColumnDef="deleteIcon">

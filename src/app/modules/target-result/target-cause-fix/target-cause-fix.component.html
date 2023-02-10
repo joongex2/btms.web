@@ -221,7 +221,8 @@
                                 <mat-form-field class="flex-auto ml-2">
                                     <input 
                                         matInput
-                                        appIntegerOnly
+                                        type="number"
+                                        (blur)="onBlur($event)"
                                         [(ngModel)]="resultValue"
                                         name="resultValue"   
                                         [disabled]="readonly || (!this.isEdit && mode !== 'add') || targetReference?.targetReferenceStatus !== 'SOLVE_INPROCESS'"

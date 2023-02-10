@@ -303,4 +303,9 @@ export class TargetCauseFixComponent implements OnInit {
     return this.showAlert || this.hasApiError;
   }
 
+  onBlur(evt) {
+    if (evt?.target?.valueAsNumber) {
+      this.resultValue = Math.round(evt.target.valueAsNumber * 10 ** 4) / 10 ** 4;
+    }
+  }
 }

@@ -26,6 +26,7 @@ export class PlanEntryTableComponent implements OnInit {
   planHeader = ['planDescription', 'planYear', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec', 'undertaker'];
   planRow1 = ['planDescription', 'planYear', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec', 'undertaker'];
   planRow2 = ['jan2', 'feb2', 'mar2', 'apr2', 'may2', 'jun2', 'jul2', 'aug2', 'sep2', 'oct2', 'nov2', 'dec2'];
+  planRow3 = ['jan3', 'feb3', 'mar3', 'apr3', 'may3', 'jun3', 'jul3', 'aug3', 'sep3', 'oct3', 'nov3', 'dec3'];
   months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
   PlanFlow = PlanFlow;
