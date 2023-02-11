@@ -91,6 +91,7 @@ export class UserGroupModalComponent implements OnInit {
 
   findMenu(menu: FuseNavigationItem[], groupMenuId: string, menuId: string) {
     const groupMenu = menu.find((gm) => gm.id == groupMenuId);
+    if (!groupMenu) return undefined;
     const _menu = groupMenu.children.find((m) => m.id == menuId);
     return _menu;
   }

@@ -23,6 +23,7 @@ export class FileUploadComponent implements OnInit {
   @Input() multi?: boolean = false;
   @Input() filename?: string = 'ไฟล์อัพโหลด';
   @Input() accept?: string = '*'; // 'image/*'
+  @Input() isButton? = true;
 
   @Output() complete: EventEmitter<FileUpload> = new EventEmitter<FileUpload>()
   file: File;

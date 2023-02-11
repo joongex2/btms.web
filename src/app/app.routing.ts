@@ -1,8 +1,8 @@
 import { Route } from '@angular/router';
+import { InitialDataResolver } from 'app/app.resolvers';
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
-import { InitialDataResolver } from 'app/app.resolvers';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -97,6 +97,7 @@ export const appRoutes: Route[] = [
             },
             {
                 path: 'report', children: [
+                    { path: 'export-report', loadChildren: () => import('app/modules/report/export-report/export-report.module').then(m => m.ExportReportModule) },
                     { path: 'standard-form', loadChildren: () => import('app/modules/report/standard-form/standard-form.module').then(m => m.StandardFormModule) },
                     { path: 'annual-report', loadChildren: () => import('app/modules/report/annual-report/annual-report.module').then(m => m.AnnualReportModule) },
                     { path: 'target-track', loadChildren: () => import('app/modules/report/target-track/target-track.module').then(m => m.TargetTrackModule) },

@@ -26,6 +26,10 @@ tr.normal-row td {
   display: flex;
 }
 
+tr:last-child td {
+  border-bottom-width: 0;
+}
+
 /* color */
 p.table-title {
   span {

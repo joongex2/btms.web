@@ -54,7 +54,7 @@ table {
 }
 
 /* column width */
-.mat-column-radio {
+.mat-column-checkbox {
   width: 7.5%;
 }
 
@@ -63,11 +63,11 @@ table {
 }
 
 .mat-column-documentNo {
-  width: 13%;
+  width: 15%;
 }
 
 .mat-column-revisionNo {
-  width: 6%;
+  width: 8%;
 }
 
 .mat-column-createDate {
@@ -87,11 +87,7 @@ table {
 }
 
 .mat-column-creator {
-  width: 15%;
-}
-
-.mat-column-detail {
-  width: 5%;
+  width: 12%;
 }
 
 :host ::ng-deep .mat-form-field-wrapper {
@@ -118,12 +114,30 @@ table {
   top: calc(50% - 15px); /*'10px'-same as your required circle radius*/
 }
 
+/* color */
 p.table-title {
   span {
-      font-weight: 400;
+    font-weight: 400;
   }
   border-bottom: 1px solid white;
-  padding: 3px 10px;
+  padding: 3px 7px;
   background-color: rgb(97, 138, 2);
   color: white !important;
+}
+
+
+tr th:not(:first-child),
+tr td:not(:first-child) { 
+  padding: 0 4px; 
+}
+
+:host ::ng-deep .mat-column-checkbox label.mat-checkbox-layout {
+  // vertical-align: top;
+  span.mat-checkbox-inner-container {
+      width: 16px;
+      height: 16px;
+      span.mat-checkbox-frame {
+          border-width: 1.6px;
+      }
+  }
 }

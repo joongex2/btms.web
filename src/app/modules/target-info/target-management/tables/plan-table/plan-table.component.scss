@@ -12,6 +12,10 @@ table {
     color: white !important;
 }
 
+tr:last-child td {
+    border-bottom-width: 0;
+}
+
 /* color */
 p.table-title {
     span {
