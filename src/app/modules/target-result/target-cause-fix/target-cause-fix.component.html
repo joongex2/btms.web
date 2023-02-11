@@ -109,27 +109,35 @@
                         <mat-divider class="mb-4"></mat-divider>
 
                         <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4">
-                            <div class="col-span-4 font-medium">Running No.</div>
-                            <div class="col-span-8">:<span class="ml-2"><a (click)="openLastComment()"
-                                        class="underline text-blue-600 cursor-pointer">{{document ? document.documentNo
-                                        : ''}}</a></span></div>
-                            <div class="col-span-4 font-medium">เป้าหมายหลัก</div>
-                            <div class="col-span-8">:<span class="ml-2">{{target?.targetName}}</span></div>
-                            <div class="col-span-4 font-medium">เป้าหมายย่อย</div>
-                            <div class="col-span-8">:<span class="ml-2">{{subTarget?.targetDetailDescription}}</span>
+                            <div class="col-span-12 md:col-span-6">
+                                <div class="w-full grid gap-x-4 gap-y-4 grid-cols-12">
+                                    <div class="col-span-4 font-medium">Running No.</div>
+                                    <div class="col-span-8">:<span class="ml-2"><a (click)="openLastComment()"
+                                                class="underline text-blue-600 cursor-pointer">{{document ? document.documentNo
+                                                : ''}}</a></span></div>
+                                    <div class="col-span-4 font-medium">เป้าหมายหลัก</div>
+                                    <div class="col-span-8">:<span class="ml-2">{{target?.targetName}}</span></div>
+                                    <div class="col-span-4 font-medium">เป้าหมายย่อย</div>
+                                    <div class="col-span-8">:<span class="ml-2">{{subTarget?.targetDetailDescription}}</span>
+                                    </div>
+                                    <div class="col-span-4 font-medium">การวัดผลเป้าหมาย</div>
+                                    <div class="col-span-8">:<span class="ml-2">{{plan?.planDescription}}</span></div>
+                                </div>
                             </div>
-                            <div class="col-span-4 font-medium">การวัดผลเป้าหมาย</div>
-                            <div class="col-span-8">:<span class="ml-2">{{plan?.planDescription}}</span></div>
-                            <div class="col-span-4 font-medium">ประเภทการวัดผล</div>
-                            <div class="col-span-8">:<span class="ml-2"
-                                    *ngIf="subTarget?.measureType === '1'">เชิงปริมาณ</span><span class="ml-2"
-                                    *ngIf="subTarget?.measureType === '2'">เชิงคุณภาพ</span></div>
-                            <div class="col-span-4 font-medium">ประจำเดือน</div>
-                            <div class="col-span-8">:<span class="ml-2">{{actual?.targetMonth | thaiMonth}}</span></div>
-                            <div class="col-span-4 font-medium">ประจำปี</div>
-                            <div class="col-span-8">:<span class="ml-2">{{actual?.targetYear}}</span></div>
-                            <div class="col-span-4 font-medium">สถานะ</div>
-                            <div class="col-span-8">:<span class="ml-2">{{actual?.targetActualStatusName}}</span>
+                            <div class="col-span-12 md:col-span-6">
+                                <div class="w-full grid gap-x-4 gap-y-4 grid-cols-12">
+                                    <div class="col-span-4 font-medium">ประเภทการวัดผล</div>
+                                    <div class="col-span-8">:<span class="ml-2"
+                                            *ngIf="subTarget?.measureType === '1'">เชิงปริมาณ</span><span class="ml-2"
+                                            *ngIf="subTarget?.measureType === '2'">เชิงคุณภาพ</span></div>
+                                    <div class="col-span-4 font-medium">ประจำเดือน</div>
+                                    <div class="col-span-8">:<span class="ml-2">{{actual?.targetMonth | thaiMonth}}</span></div>
+                                    <div class="col-span-4 font-medium">ประจำปี</div>
+                                    <div class="col-span-8">:<span class="ml-2">{{actual?.targetYear}}</span></div>
+                                    <div class="col-span-4 font-medium">สถานะ</div>
+                                    <div class="col-span-8">:<span class="ml-2">{{actual?.targetActualStatusName}}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
