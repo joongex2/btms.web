@@ -15,8 +15,11 @@
     </div> -->
     <div *ngIf="!isUpload" class="mt-2">
         <input id="{{name}}" class="absolute h-0 w-0 opacity-0 invisible pointer-events-none" type="file" [multiple]="false" [accept]="accept" (change)="uploadFile(inputFile)" #inputFile>
-        <label class="relative p-2 text-white px-3 cursor-pointer" for="{{name}}" matRipple 
-            [ngClass]="{ 'upload-button': isButton }">
+        <label class="relative py-2 text-white cursor-pointer" for="{{name}}" matRipple 
+            [ngClass]="{ 
+                'upload-button': isButton,
+                'px-3': isButton
+            }">
             <mat-icon [ngClass]="{ 'upload-text': !isButton }" svgIcon="heroicons_outline:upload" class="absolute top-2.5 icon-size-4 mr-1 text-white"></mat-icon>
             <span class="ml-5" [ngClass]="{ 'upload-text': !isButton }">{{labelButton}}</span>
         </label>
