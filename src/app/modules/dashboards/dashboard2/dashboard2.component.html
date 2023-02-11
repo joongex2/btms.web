@@ -1,1 +1,70 @@
-<p>dashboard2 works!</p>
+<div class="w-full bg-card shadow p-3">
+    <div class="text-xl font-medium text-center">Action Plan Status</div>
+    <div class="grid grid-cols-2 gap-1 py-1 px-3">
+        <div>
+            <apx-chart
+                [series]="donutChart1Options.series"
+                [chart]="donutChart1Options.chart"
+                [legend]="donutChart1Options.legend"
+                [labels]="donutChart1Options.labels"
+                [responsive]="donutChart1Options.responsive"
+            ></apx-chart>
+        </div>
+        <div>
+            <apx-chart
+                [series]="donutChart2Options.series"
+                [chart]="donutChart2Options.chart"
+                [legend]="donutChart2Options.legend"
+                [labels]="donutChart2Options.labels"
+                [responsive]="donutChart2Options.responsive"
+            ></apx-chart>
+        </div>
+    </div>
+</div>
+<div class="shadow my-3">
+    <div class="flex flex-col flex-auto p-1 bg-card overflow-hidden">
+        <div class="flex flex-col flex-auto overflow-x-auto">
+            <table class="min-w-100 overflow-y-visible" mat-table
+                [dataSource]="actionPlanDetails.rows">
+                <ng-container matColumnDef="documentNo" sticky>
+                    <th mat-header-cell *matHeaderCellDef>
+                        เลขที่เอกสาร
+                    </th>
+                    <td mat-cell *matCellDef="let actionPlan">
+                        <span class="flex items-center">
+                            <span class="leading-4">{{actionPlan.documentNo}}</span>
+                        </span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="subTarget">
+                    <th mat-header-cell *matHeaderCellDef>
+                        เป้าหมายย่อย
+                    </th>
+                    <td mat-cell *matCellDef="let actionPlan">
+                        <span class="font-medium text-right">
+                            {{actionPlan.subTarget}}
+                        </span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>
+                        สถานะเอกสาร
+                    </th>
+                    <td mat-cell *matCellDef="let actionPlan">
+                        {{actionPlan.status}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="contact">
+                    <th mat-header-cell *matHeaderCellDef>
+                        ผู้รับผิดชอบ
+                    </th>
+                    <td mat-cell *matCellDef="let actionPlan">
+                        {{actionPlan.contact}}
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="actionPlanDetails.columns"></tr>
+                <tr mat-row *matRowDef="let row; columns: actionPlanDetails.columns;"></tr>
+            </table>
+        </div>
+    </div>
+</div>

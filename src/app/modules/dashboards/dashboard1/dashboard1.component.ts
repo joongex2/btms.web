@@ -1,426 +1,363 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApexOptions } from 'ng-apexcharts';
-import { Subject, takeUntil } from 'rxjs';
-import { Dashboard1Service } from './dashboard1.service';
+import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexNonAxisChartSeries, ApexPlotOptions, ApexResponsive, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent } from 'ng-apexcharts';
+import { DashboardService } from '../dashboard.service';
+
+export type PieChartOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: any;
+  colors: any[];
+};
+
+export type RadarChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  title: ApexTitleSubtitle;
+  xaxis: ApexXAxis;
+  colors: any[];
+};
+
+export type StackBarChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  title: ApexTitleSubtitle;
+  tooltip: ApexTooltip;
+  fill: ApexFill;
+  legend: ApexLegend;
+  colors: any[];
+};
+
+export type BarChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  yaxis: ApexYAxis;
+  xaxis: ApexXAxis;
+  fill: ApexFill;
+  tooltip: ApexTooltip;
+  stroke: ApexStroke;
+  legend: ApexLegend;
+};
+
+export type DonutChartOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  legend: ApexLegend;
+  responsive: ApexResponsive[];
+  labels: any;
+  colors: any[];
+};
+
+export type GaugeChartOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  labels: string[];
+  plotOptions: ApexPlotOptions;
+  fill: ApexFill;
+  stroke: ApexStroke;
+  colors: any[];
+};
 
 @Component({
   selector: 'dashboard1',
   templateUrl: './dashboard1.component.html',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./dashboard1.component.scss'],
+  // encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Dashboard1Component implements OnInit, OnDestroy {
-  chartGithubIssues: ApexOptions = {};
-  chartTaskDistribution: ApexOptions = {};
-  chartBudgetDistribution: ApexOptions = {};
-  chartWeeklyExpenses: ApexOptions = {};
-  chartMonthlyExpenses: ApexOptions = {};
-  chartYearlyExpenses: ApexOptions = {};
-  data: any;
-  selectedProject: string = 'Dashboard 1';
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
+  @ViewChild("pieChart") pieChart: ChartComponent;
+  @ViewChild("radarChart") radarChart: ChartComponent;
+  @ViewChild("stackBarChart") stackBarChart: ChartComponent;
+  @ViewChild("barChart") barChart: ChartComponent;
+  @ViewChild("donutChart") donutChart: ChartComponent;
+  @ViewChild("chart") chart: ChartComponent;
+  public pieChartOptions: Partial<PieChartOptions>;
+  public radarChartOptions: Partial<RadarChartOptions>;
+  public stackBarChartOptions: Partial<StackBarChartOptions>;
+  public barChartOptions: Partial<BarChartOptions>;
+  public donutChartOptions: Partial<DonutChartOptions>;
+  public gaugeChartOptions: Partial<GaugeChartOptions>;
+
+  kpiDetails = {
+    columns: ['kpi', 'number', 'result'],
+    rows: [
+      {
+        id: 1,
+        kpi: 'Send documents to pay for shipping',
+        number: 7,
+        result: 'A'
+      },
+      {
+        id: 2,
+        kpi: 'Send documents to pay for shipping',
+        number: 1,
+        result: 'U'
+      },
+      {
+        id: 3,
+        kpi: 'Delivery complaint',
+        number: 4,
+        result: 'A'
+      },
+      {
+        id: 4,
+        kpi: 'Delivery complaint',
+        number: 4,
+        result: 'U'
+      },
+      {
+        id: 5,
+        kpi: '%Delivery on time',
+        number: 34,
+        result: 'A'
+      },
+      {
+        id: 6,
+        kpi: '%Delivery on time',
+        number: 20,
+        result: 'U'
+      }
+    ]
+  }
 
   /**
    * Constructor
    */
   constructor(
-    private _dashboardService: Dashboard1Service,
+    private _dashboardService: DashboardService,
     private _router: Router
   ) {
-  }
-
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * On init
-   */
-  ngOnInit(): void {
-    // Get the data
-    this._dashboardService.data$
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((data) => {
-
-        // Store the data
-        this.data = data;
-
-        // Prepare the chart data
-        this._prepareChartData();
-      });
-
-    // Attach SVG fill fixer to all ApexCharts
-    window['Apex'] = {
+    this.pieChartOptions = {
+      series: [9.09, 90.91],
       chart: {
-        events: {
-          mounted: (chart: any, options?: any): void => {
-            this._fixSvgFill(chart.el);
-          },
-          updated: (chart: any, options?: any): void => {
-            this._fixSvgFill(chart.el);
+        width: 300,
+        type: "pie"
+      },
+      labels: ["Food", "Agro"],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 150
+            },
+            legend: {
+              position: "bottom"
+            }
           }
         }
-      }
+      ],
+      colors: ["#40E0D0", "#2E8B57"]
     };
-  }
 
-  /**
-   * On destroy
-   */
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next(null);
-    this._unsubscribeAll.complete();
-  }
-
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * Track by function for ngFor loops
-   *
-   * @param index
-   * @param item
-   */
-  trackByFn(index: number, item: any): any {
-    return item.id || index;
-  }
-
-  // -----------------------------------------------------------------------------------------------------
-  // @ Private methods
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * Fix the SVG fill references. This fix must be applied to all ApexCharts
-   * charts in order to fix 'black color on gradient fills on certain browsers'
-   * issue caused by the '<base>' tag.
-   *
-   * Fix based on https://gist.github.com/Kamshak/c84cdc175209d1a30f711abd6a81d472
-   *
-   * @param element
-   * @private
-   */
-  private _fixSvgFill(element: Element): void {
-    // Current URL
-    const currentURL = this._router.url;
-
-    // 1. Find all elements with 'fill' attribute within the element
-    // 2. Filter out the ones that doesn't have cross reference so we only left with the ones that use the 'url(#id)' syntax
-    // 3. Insert the 'currentURL' at the front of the 'fill' attribute value
-    Array.from(element.querySelectorAll('*[fill]'))
-      .filter(el => el.getAttribute('fill').indexOf('url(') !== -1)
-      .forEach((el) => {
-        const attrVal = el.getAttribute('fill');
-        el.setAttribute('fill', `url(${currentURL}${attrVal.slice(attrVal.indexOf('#'))}`);
-      });
-  }
-
-  /**
-   * Prepare the chart data from the data
-   *
-   * @private
-   */
-  private _prepareChartData(): void {
-    // Github issues
-    this.chartGithubIssues = {
-      chart: {
-        fontFamily: 'inherit',
-        foreColor: 'inherit',
-        height: '100%',
-        type: 'line',
-        toolbar: {
-          show: false
+    this.radarChartOptions = {
+      series: [
+        {
+          name: "%Archive",
+          data: [90, 70, 70, 70, 80, 80]
         },
-        zoom: {
-          enabled: false
+        {
+          name: "%Unarchive",
+          data: [10, 30, 30, 30, 20, 20]
         }
+      ],
+      chart: {
+        height: 350,
+        type: "radar",
+        width: "100%"
       },
-      colors: ['#64748B', '#94A3B8'],
-      dataLabels: {
-        enabled: true,
-        enabledOnSeries: [0],
-        background: {
-          borderWidth: 0
+      xaxis: {
+        categories: ["SHE", "Cost&Control", "Manpower", "Protection", "Food Safety", "Delivery"]
+      },
+      colors: ['#32CD32', '#FF0000']
+    };
+
+    this.stackBarChartOptions = {
+      series: [
+        {
+          name: "A",
+          data: [80, 83, 86, 88]
+        },
+        {
+          name: "U",
+          data: [20, 17, 14, 12]
         }
-      },
-      grid: {
-        borderColor: 'var(--fuse-border)'
-      },
-      labels: this.data.githubIssues.labels,
-      legend: {
-        show: false
+      ],
+      chart: {
+        type: "bar",
+        height: 350,
+        stacked: true,
+        stackType: "100%"
       },
       plotOptions: {
         bar: {
-          columnWidth: '50%'
-        }
-      },
-      series: this.data.githubIssues.series,
-      states: {
-        hover: {
-          filter: {
-            type: 'darken',
-            value: 0.75
-          }
+          horizontal: true
         }
       },
       stroke: {
-        width: [3, 0]
-      },
-      tooltip: {
-        followCursor: true,
-        theme: 'dark'
+        width: 1,
+        colors: ["#fff"]
       },
       xaxis: {
-        axisBorder: {
-          show: false
-        },
-        axisTicks: {
-          color: 'var(--fuse-border)'
-        },
-        labels: {
-          style: {
-            colors: 'var(--fuse-text-secondary)'
-          }
-        },
-        tooltip: {
-          enabled: false
-        }
-      },
-      yaxis: {
-        labels: {
-          offsetX: -16,
-          style: {
-            colors: 'var(--fuse-text-secondary)'
-          }
-        }
-      }
-    };
-
-    // Task distribution
-    this.chartTaskDistribution = {
-      chart: {
-        fontFamily: 'inherit',
-        foreColor: 'inherit',
-        height: '100%',
-        type: 'polarArea',
-        toolbar: {
-          show: false
-        },
-        zoom: {
-          enabled: false
-        }
-      },
-      labels: this.data.taskDistribution.labels,
-      legend: {
-        position: 'bottom'
-      },
-      plotOptions: {
-        polarArea: {
-          spokes: {
-            connectorColors: 'var(--fuse-border)'
-          },
-          rings: {
-            strokeColor: 'var(--fuse-border)'
-          }
-        }
-      },
-      series: this.data.taskDistribution.series,
-      states: {
-        hover: {
-          filter: {
-            type: 'darken',
-            value: 0.75
-          }
-        }
-      },
-      stroke: {
-        width: 2
-      },
-      theme: {
-        monochrome: {
-          enabled: true,
-          color: '#93C5FD',
-          shadeIntensity: 0.75,
-          shadeTo: 'dark'
-        }
+        categories: ['Food Processing', 'Swine Slauther', 'Poultry Slauther', 'BP']
       },
       tooltip: {
-        followCursor: true,
-        theme: 'dark'
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: 'var(--fuse-text-secondary)'
-          }
-        }
-      }
-    };
-
-    // Budget distribution
-    this.chartBudgetDistribution = {
-      chart: {
-        fontFamily: 'inherit',
-        foreColor: 'inherit',
-        height: '100%',
-        type: 'radar',
-        sparkline: {
-          enabled: true
-        }
-      },
-      colors: ['#818CF8'],
-      dataLabels: {
-        enabled: true,
-        formatter: (val: number): string | number => `${val}%`,
-        textAnchor: 'start',
-        style: {
-          fontSize: '13px',
-          fontWeight: 500
-        },
-        background: {
-          borderWidth: 0,
-          padding: 4
-        },
-        offsetY: -15
-      },
-      markers: {
-        strokeColors: '#818CF8',
-        strokeWidth: 4
-      },
-      plotOptions: {
-        radar: {
-          polygons: {
-            strokeColors: 'var(--fuse-border)',
-            connectorColors: 'var(--fuse-border)'
-          }
-        }
-      },
-      series: this.data.budgetDistribution.series,
-      stroke: {
-        width: 2
-      },
-      tooltip: {
-        theme: 'dark',
         y: {
-          formatter: (val: number): string => `${val}%`
-        }
-      },
-      xaxis: {
-        labels: {
-          show: true,
-          style: {
-            fontSize: '12px',
-            fontWeight: '500'
+          formatter: function (val) {
+            return val + "K";
           }
-        },
-        categories: this.data.budgetDistribution.categories
+        }
       },
-      yaxis: {
-        max: (max: number): number => parseInt((max + 10).toFixed(0), 10),
-        tickAmount: 7
-      }
+      fill: {
+        opacity: 1
+      },
+      legend: {
+        position: "top",
+        horizontalAlign: "left",
+        offsetX: 40
+      },
+      colors: ['#32CD32', '#FF0000']
     };
 
-    // Weekly expenses
-    this.chartWeeklyExpenses = {
+    this.barChartOptions = {
+      series: [
+        {
+          name: "%Archive",
+          data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+        }
+      ],
       chart: {
-        animations: {
-          enabled: false
-        },
-        fontFamily: 'inherit',
-        foreColor: 'inherit',
-        height: '100%',
-        type: 'line',
-        sparkline: {
-          enabled: true
+        type: "bar",
+        height: 140
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "55%",
+          // endingShape: "rounded"
         }
       },
-      colors: ['#22D3EE'],
-      series: this.data.weeklyExpenses.series,
-      stroke: {
-        curve: 'smooth'
+      dataLabels: {
+        enabled: false
       },
-      tooltip: {
-        theme: 'dark'
+      stroke: {
+        show: true,
+        width: 2,
+        colors: ["transparent"]
       },
       xaxis: {
-        type: 'category',
-        categories: this.data.weeklyExpenses.labels
+        categories: [
+          "Plant1",
+          "Plant2",
+          "Plant3",
+          "Plant4",
+          "Plant5",
+          "Plant6",
+          "Plant7",
+          "Plant8",
+          "Plant9"
+        ]
       },
       yaxis: {
-        labels: {
-          formatter: (val): string => `$${val}`
-        }
-      }
-    };
-
-    // Monthly expenses
-    this.chartMonthlyExpenses = {
-      chart: {
-        animations: {
-          enabled: false
-        },
-        fontFamily: 'inherit',
-        foreColor: 'inherit',
-        height: '100%',
-        type: 'line',
-        sparkline: {
-          enabled: true
+        title: {
+          text: "%"
         }
       },
-      colors: ['#4ADE80'],
-      series: this.data.monthlyExpenses.series,
-      stroke: {
-        curve: 'smooth'
+      fill: {
+        opacity: 1
       },
       tooltip: {
-        theme: 'dark'
-      },
-      xaxis: {
-        type: 'category',
-        categories: this.data.monthlyExpenses.labels
-      },
-      yaxis: {
-        labels: {
-          formatter: (val): string => `$${val}`
+        y: {
+          formatter: function (val) {
+            return val + " %";
+          }
         }
       }
     };
 
-    // Yearly expenses
-    this.chartYearlyExpenses = {
+    this.donutChartOptions = {
+      series: [44, 55, 13, 43, 22],
       chart: {
-        animations: {
-          enabled: false
-        },
-        fontFamily: 'inherit',
-        foreColor: 'inherit',
-        height: '100%',
-        type: 'line',
-        sparkline: {
-          enabled: true
+        type: "donut",
+        width: "100%"
+      },
+      labels: ["Food 1", "Food 2", "Food 3", "Food 4", "Food 5"],
+      legend: {
+        position: "bottom"
+      },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ],
+      colors: ["#40E0D0", "#2E8B57", "#2E8B90", "#2E8E90", "#2E8BF0", , "#2E8B1A"]
+    };
+
+    // setTimeout(() => this.donutChartOptions.chart.width = '100%', 100);
+
+    this.gaugeChartOptions = {
+      series: [67],
+      chart: {
+        height: 150,
+        type: "radialBar",
+        offsetY: -10
+      },
+      plotOptions: {
+        radialBar: {
+          startAngle: -135,
+          endAngle: 135,
+          dataLabels: {
+            name: {
+              fontSize: "16px",
+              color: undefined,
+              offsetY: 80
+            },
+            value: {
+              offsetY: 40,
+              fontSize: "16px",
+              color: undefined,
+              formatter: function (val) {
+                return val + "%";
+              }
+            }
+          }
         }
       },
-      colors: ['#FB7185'],
-      series: this.data.yearlyExpenses.series,
+      fill: {
+        type: "gradient",
+        gradient: {
+          shade: "dark",
+          shadeIntensity: 0.15,
+          inverseColors: false,
+          opacityFrom: 1,
+          opacityTo: 1,
+          stops: [0, 50, 65, 91]
+        }
+      },
       stroke: {
-        curve: 'smooth'
+        dashArray: 4
       },
-      tooltip: {
-        theme: 'dark'
-      },
-      xaxis: {
-        type: 'category',
-        categories: this.data.yearlyExpenses.labels
-      },
-      yaxis: {
-        labels: {
-          formatter: (val): string => `$${val}`
-        }
-      }
+      labels: [""],
+      colors: ["#2E8B57"]
     };
   }
+
+  ngOnInit(): void { }
+  ngOnDestroy(): void { }
 }

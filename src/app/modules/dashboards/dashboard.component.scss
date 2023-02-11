@@ -1,0 +1,51 @@
+$header-color: rgb(68, 123, 102);
+$success-color: rgb(50, 205, 50);
+$unsuccess-color: rgb(255, 0, 0);
+
+.top-header {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.top-header-col {
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-bg {
+  background-color: $header-color;
+  color: white;
+  text-align: center;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: unset;
+}
+
+.success-bg {
+  background-color: $success-color;
+  color: white;
+  text-align: center;
+}
+
+.unsuccess-bg {
+  background-color: $unsuccess-color;
+  color: white;
+  text-align: center;
+}
+
+.unit-box {
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  height: 30px;
+}
