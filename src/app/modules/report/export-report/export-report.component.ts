@@ -140,8 +140,10 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
     this.paginator.page.subscribe((v) => {
       const jobApplicantParams = this.getDocumentParams();
       let toggleAll = false;
-      if (this.isAllSelected()) {
+      if (v.previousPageIndex !== v.pageIndex && this.isAllSelected()) {
         toggleAll = true;
+      } else {
+        this.selection.clear();
       }
       this.loadDocuments(v.pageIndex + 1, v.pageSize, this.sort.active, this.sort.direction, jobApplicantParams, toggleAll);
       this.addQueryParam({ page: v.pageIndex + 1, size: v.pageSize });
