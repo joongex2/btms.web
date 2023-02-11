@@ -16,6 +16,7 @@ export const resultInfoRoutes: Route[] = [
                 path: '',
                 component: TargetListComponent,
                 resolve: {
+                    user: UserResolver,
                     organizes: OrganizesResolver,
                     statuses: StatusesResolver,
                     documentTypes: DocumentTypesResolver,

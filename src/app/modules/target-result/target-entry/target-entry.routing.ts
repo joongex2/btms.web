@@ -20,6 +20,7 @@ export const targetEntryRoutes: Route[] = [
                 path: '',
                 component: TargetListComponent,
                 resolve: {
+                    user: UserResolver,
                     organizes: OrganizesResolver,
                     statuses: StatusesResolver,
                     documentTypes: DocumentTypesResolver,

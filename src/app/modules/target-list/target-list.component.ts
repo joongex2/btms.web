@@ -3,11 +3,12 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
+import { User } from 'app/core/user/user.types';
 import { Document, DocumentParams } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { DocumentService } from 'app/shared/services/document.service';
+import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { firstValueFrom } from 'rxjs';
-
 
 @Component({
   selector: 'target-list',
@@ -22,6 +23,7 @@ export class TargetListComponent implements OnInit, AfterViewInit {
   resultsLength = 0;
   documents: Document[];
   fromUrl: string; // my-target/ target-entry/ result-info
+  user: User;
 
   // bind value
   selectedOrganize: any;
@@ -85,12 +87,15 @@ export class TargetListComponent implements OnInit, AfterViewInit {
     private _documentService: DocumentService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
-    private _confirmationService: ConfirmationService
+    private _confirmationService: ConfirmationService,
+    private _snackBarService: SnackBarService
   ) {
     this.setDefault();
   }
 
   ngOnInit(): void {
+    this.user = this._activatedRoute.snapshot.data.user;
+
     this.setTitle();
     if (this.fromUrl === 'my-target') this.displayedColumns.splice(0, 0, 'radio');
     const organizes = this._activatedRoute.snapshot.data.organizes;
@@ -268,15 +273,27 @@ export class TargetListComponent implements OnInit, AfterViewInit {
   }
 
   copyDocument() {
-    this._confirmationService.save('ยืนยัน', `ต้องการ copy ข้อมูล document's runningNo: ${this.selectedRow.documentNo} ใช่หรือไม่`).afterClosed().subscribe(async (result) => {
-      if (result == 'confirmed') {
-        const res = (await firstValueFrom(this._documentService.copyDocument(this.selectedRow.id)));
-        if (!res.didError) {
-          this._router.navigate([`./${res.model}`], { relativeTo: this._activatedRoute });
-        } else {
-          this._confirmationService.warning(res.errorMessage);
+    if (!this.checkCopyPrivillege(this.selectedRow)) {
+      this._snackBarService.warn('คุณไม่มีสิทธิ์สร้างเอกสารที่เลือก');
+    } else {
+      this._confirmationService.save('ยืนยัน', `ต้องการ copy ข้อมูล document's runningNo: ${this.selectedRow.documentNo} ใช่หรือไม่`).afterClosed().subscribe(async (result) => {
+        if (result == 'confirmed') {
+          const res = (await firstValueFrom(this._documentService.copyDocument(this.selectedRow.id)));
+          if (!res.didError) {
+            this._snackBarService.success('copy ข้อมูลเสร็จสิ้น');
+            this._router.navigate([`./${res.model}`], { relativeTo: this._activatedRoute });
+          } else {
+            this._confirmationService.warning(res.errorMessage);
+          }
         }
-      }
-    });
+      });
+    };
+  }
+
+  checkCopyPrivillege(document: Document): boolean {
+    if (this.user?.organizes && document) {
+      const organize = this.user.organizes.find((v) => v.organizeCode === document.organizeCode);
+      return organize?.roles.findIndex(v => v.roleCode === 'D01') !== -1;
+    }
   }
 }
