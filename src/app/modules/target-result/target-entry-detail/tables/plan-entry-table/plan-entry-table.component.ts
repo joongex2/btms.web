@@ -179,6 +179,7 @@ export class PlanEntryTableComponent implements OnInit {
 
   solveUnarchiveColor(plan: Plan, month: number) {
     const actual = this.getActual(plan, month);
+    if (!actual) return 'none';
     // range
     if (actual.targetActualResult === 'N') return 'none';
     for (let condition of this.subTarget.conditions) {
