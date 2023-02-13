@@ -117,15 +117,18 @@
             </div>
         </div>
 
-        <!-- Actions -->
+        <!-- Actions arrow-circle-right-->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 self-end">
             <a (click)="goBack()" class="flex items-center cursor-pointer">
                 <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>&nbsp;<span>Back</span>
             </a>
-            <a (click)="send()" class="flex items-center cursor-pointer ml-3">
-                <mat-icon svgIcon="heroicons_outline:arrow-circle-right"></mat-icon>&nbsp;
+            <!-- <a (click)="send()" class="flex items-center cursor-pointer ml-3">
+                <mat-icon svgIcon="heroicons_outline:paper-airplane"></mat-icon>&nbsp;
                 <span>Send</span>
-            </a>
+            </a> -->
+            <div (click)="send()" class="cursor-pointer flex items-center ml-3">
+                <mat-icon svgIcon="heroicons_outline:paper-airplane" class="rotate-90"></mat-icon>&nbsp;<span>Send</span>
+            </div>
         </div>
     </div>
 
