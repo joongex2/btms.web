@@ -301,7 +301,7 @@ export class TargetSaveComponent implements OnInit {
       if (this.subTarget.targetCondition === '1') {
         // single
         const targetOperator = this.subTarget.conditions[0].targetOperator;
-        const targetValue = this.subTarget.conditions[0].targetValue;
+        const targetValue = this.plan[`valueMonth${this.month}`];
         const targetResultNum = this.targetResult;
         if (targetOperator === '>') {
           if (targetResultNum > targetValue) {

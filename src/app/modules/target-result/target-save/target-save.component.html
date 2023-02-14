@@ -121,7 +121,10 @@
                             <div class="col-span-4 font-medium">ผู้รายงานผล</div>
                             <div class="col-span-8">:<span class="ml-2">{{actual?.createdBy}}</span></div>
                             <div class="col-span-4 font-medium">ผลการดำเนินงานที่ตั้งไว้</div>
-                            <div class="col-span-8">:<span class="ml-2">{{subTarget?.targetValue}}</span></div>
+                            <div class="col-span-8">:<span class="ml-2">
+                                <ng-container *ngIf="subTarget?.targetCondition === '1'">{{subTarget?.conditions[0]?.targetOperator}}{{plan?.['valueMonth'+month]}}</ng-container>
+                                <ng-container *ngIf="subTarget?.targetCondition === '2'">{{subTarget?.targetValue}}</ng-container>
+                            </span></div>
                             <div class="col-span-4 font-medium">ผลการดำเนินงานที่ทำได้</div>
                             <ng-container *ngIf="true">
                                 <ng-container *ngIf="subTarget?.measureType === '1'">

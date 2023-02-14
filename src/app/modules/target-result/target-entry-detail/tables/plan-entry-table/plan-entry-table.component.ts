@@ -170,7 +170,7 @@ export class PlanEntryTableComponent implements OnInit {
   }
 
   isDisplay(plan: Plan, month: number) {
-    return !this.isFilter || (this.isFilter && this.isElementSelected(month, plan));
+    return (!this.isFilter || (this.isFilter && this.isElementSelected(month, plan))) && plan[`useMonth${month}`];
   }
 
   AtleastOneSelected() {
