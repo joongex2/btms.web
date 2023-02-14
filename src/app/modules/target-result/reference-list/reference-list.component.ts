@@ -52,7 +52,8 @@ export class ReferenceListComponent implements OnInit, AfterViewInit {
     'documentNo',
     'runningNo',
     'createdDate',
-    'documentYear',
+    'targetYear',
+    'targetMonth',
     'targetReferenceStatusName',
     'createdBy',
     'detail'
@@ -64,7 +65,8 @@ export class ReferenceListComponent implements OnInit, AfterViewInit {
     'documentNo':'Document No.',
     'runningNo': 'Running No.',
     'createdDate': 'Create Date',
-    'documentYear': 'Year',
+    'targetYear': 'Year',
+    'targetMonth': 'Month',
     'targetReferenceStatusName': 'Status',
     'createdBy': 'Creator',
     'detail': ''

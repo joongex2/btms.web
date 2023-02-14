@@ -170,12 +170,15 @@
                                     <ng-container *ngIf="key === 'createdDate'">
                                         {{ element[key] | date : 'dd/MM/YYYY' }}
                                     </ng-container>
+                                    <ng-container *ngIf="key === 'targetMonth'">
+                                        {{ element[key] | thaiMonth }}
+                                    </ng-container>
                                     <ng-container *ngIf="key === 'detail'">
                                         <a class="flex items-center" [routerLink]="'./documents/'+element.documentId+'/references/'+element.id">
                                             <mat-icon svgIcon="heroicons_solid:menu" class="text-primary icon-size-4 cursor-pointer"></mat-icon>
                                         </a>
                                     </ng-container>
-                                    <ng-container *ngIf="key !== 'createdDate' && key !== 'detail'">{{ element[key] }}</ng-container>
+                                    <ng-container *ngIf="key !== 'createdDate' && key !== 'targetMonth' && key !== 'detail'">{{ element[key] }}</ng-container>
                                 </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

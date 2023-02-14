@@ -62,14 +62,18 @@ table {
   width: 20%;
 }
 .mat-column-runningNo {
-  width: 15%;
+  width: 12.5%;
 }
 .mat-column-createdDate {
   width: 12%;
 }
 
-.mat-column-documentYear {
-  width: 7.5%;
+.mat-column-targetYear {
+  width: 5%;
+}
+
+.mat-column-targetMonth {
+  width: 10%
 }
 
 .mat-column-targetReferenceStatusName {
@@ -77,7 +81,7 @@ table {
 }
 
 .mat-column-createdBy {
-  width: 15%;
+  width: 10%;
 }
 
 .mat-column-detail {
