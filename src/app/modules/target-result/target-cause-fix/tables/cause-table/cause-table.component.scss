@@ -50,11 +50,11 @@ p.cause-header {
 }
  
 .mat-column-sequenceNo {
-    width: 17.5%;
+    width: 10%;
 }
 
 .mat-column-causeTopic {
-    width: 22.5%;
+    width: 25%;
 }
 
 .mat-column-causeDescription {
@@ -66,5 +66,9 @@ p.cause-header {
 }
 
 .mat-column-editIcon {
-    width: 2.5%;
+    width: 5%;
+}
+
+.mat-column-deleteIcon {
+    width: 5%;
 }

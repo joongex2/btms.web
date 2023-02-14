@@ -147,6 +147,13 @@ export class TargetCauseFixComponent implements OnInit {
   }
 
   save() {
+    if (this.causes?.filter(v => !v.markForDelete)?.length === 0) {
+      this._snackBarService.warn('กรุณาระบุสาเหตุและการแก้ไข!');
+      this.showError('กรุณาระบุสาเหตุและการแก้ไข!');
+      document.getElementById('causeTable').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
     for (let cause of this.causes) {
       const fixTable = this.causeTable.fixTables.find(fixTable => fixTable.causeId === cause.id);
       const protectTable = this.causeTable.protectTables.find(protectTable => protectTable.causeId === cause.id);

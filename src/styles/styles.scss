@@ -89,3 +89,7 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+th.mat-column-expandIcon mat-icon {
+    margin-top: 5px;
+}

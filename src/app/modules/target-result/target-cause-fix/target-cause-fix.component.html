@@ -184,6 +184,7 @@
                         <!-- Cause Table -->
                         <div class="mb-4">
                             <app-cause-table 
+                                id="causeTable"
                                 [readonly]="readonly || (!this.isEdit && mode !== 'add')"
                                 [causes]="causes"
                                 [targetReferenceId]="reference?.targetReference?.id"
