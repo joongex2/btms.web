@@ -222,6 +222,7 @@ export class TargetCauseFixComponent implements OnInit {
   goBack() {
     if (!this.previousUrl
       || this.previousUrl.includes('redirectURL')
+      || this.previousUrl.includes('add-cause-and-fix')
     ) {
       // if from refresh/ redirect or other page -> check from current url
       if (this.fromUrl === 'target-entry') {

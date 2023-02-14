@@ -229,6 +229,8 @@ export class TargetSaveComponent implements OnInit {
     if (!this.form.valid) {
       this.form.form.markAllAsTouched();
       document.getElementById('resultForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      this._snackBarService.warn('กรุณาบันทึกผลการดำเนินงาน!');
+      this.showError('กรุณาบันทึกผลการดำเนินงาน!');
     } else {
       this._confirmationService.save().afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {

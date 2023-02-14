@@ -148,13 +148,20 @@
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="subTarget?.measureType === '2'">
-                                    <div id="resultForm" class="col-span-6 flex items-center">
-                                        :
-                                        <mat-radio-group class="ml-2" aria-label="Select an option" [(ngModel)]="targetResult" name="choice" [disabled]="readonly || (!this.isEdit && mode !== 'add')">
-                                            <mat-radio-button [color]="'primary'" value="A">Archive</mat-radio-button>
-                                            <mat-radio-button [color]="'primary'" value="U" class="ml-2">Unarchive</mat-radio-button>
-                                            <mat-radio-button [color]="'primary'" value="N" class="ml-2">N/A</mat-radio-button>
-                                        </mat-radio-group>
+                                    <div id="resultForm" class="col-span-6">
+                                        <div class="flex items-center">
+                                            :
+                                            <mat-radio-group class="ml-2" aria-label="Select an option" [(ngModel)]="targetResult" #targetResultModel="ngModel" name="targetResult" [disabled]="readonly || (!this.isEdit && mode !== 'add')" required
+                                                [ngClass]="{'text-warn': f?.form?.get('targetResult')?.touched && f?.form?.get('targetResult')?.hasError('required')}"
+                                            >
+                                                <mat-radio-button [color]="'primary'" value="A">Archive</mat-radio-button>
+                                                <mat-radio-button [color]="'primary'" value="U" class="ml-2">Unarchive</mat-radio-button>
+                                                <mat-radio-button [color]="'primary'" value="N" class="ml-2">N/A</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <span *ngIf="f?.form?.get('targetResult')?.touched && f?.form?.get('targetResult')?.hasError('required')" class="error-text">
+                                            ผลการดำเนินงาน is required
+                                        </span>
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="actual?.targetActualResult === 'U'">
