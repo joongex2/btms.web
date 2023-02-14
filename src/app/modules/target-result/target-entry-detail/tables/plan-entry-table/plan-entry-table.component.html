@@ -18,7 +18,8 @@
     </ng-container>
     <ng-container *ngFor="let col of months; let colIndex = index" [matColumnDef]="col">
         <th mat-header-cell *matHeaderCellDef>{{capitalizeFirstLetter(col)}}</th>
-        <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-month text-center bg-status-default" [ngClass]="{
+        <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-month text-center" [ngClass]="{
+                'bg-status-default': isDisplay(element, colIndex+1),    
                 'border-solid-white': col=='dec',
                 'italic': [PlanFlow.VISITED, PlanFlow.ACCEPT, PlanFlow.REJECT].includes(element['flowMonth' + (colIndex + 1)]) && isDisplay(element, colIndex+1),
                 'bg-accept': [PlanFlow.ACCEPT].includes(element['flowMonth' + (colIndex + 1)]) && isDisplay(element, colIndex+1),
