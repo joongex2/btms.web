@@ -6,7 +6,10 @@ import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Document, DocumentParams } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
-import { DocumentService } from 'app/shared/services/document.service';
+import * as FileSaver from 'file-saver';
+import { firstValueFrom } from 'rxjs';
+import * as XLSX from 'xlsx';
+import { ReportService } from '../report.service';
 
 @Component({
   selector: 'export-report',
@@ -83,7 +86,7 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
   ];
 
   constructor(
-    private _documentService: DocumentService,
+    private _reportService: ReportService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private _confirmationService: ConfirmationService
@@ -241,7 +244,7 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
   }
 
   loadDocuments(page: number, size: number, sort?: string, order?: string, params?: DocumentParams, toggleSelectAll?: boolean) {
-    this._documentService.getDocuments(page, size, sort, order, params).subscribe({
+    this._reportService.getReports(page, size, sort, order, params).subscribe({
       next: (v) => {
         this.documents = v.model;
         this.paginator.pageIndex = v.pageNumber - 1;
@@ -260,8 +263,59 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  export() {
+  async export() {
+    if (this.selection.selected.length === 0) {
+      return;
+    }
 
+    let documents: Document[] = [];
+    if (this.isAllSelected()) {
+      const jobApplicantParams = this.getDocumentParams();
+      // fire api
+      const _documents = await firstValueFrom(this._reportService.getReports(
+        this.paginator.pageIndex + 1,
+        -1,
+        this.sort.active,
+        this.sort.direction,
+        jobApplicantParams
+      ));
+      documents = _documents?.model;
+      const ids = documents.map(v => v.id);
+    } else {
+      // use selection
+      documents = this.selection.selected;
+      const ids = documents.map(v => v.id);
+    }
+
+    const Heading = [['ลำดับ']];
+    const exportTemplate = [];
+
+    for (let i = 0; i <= documents.length - 1; i++) {
+      if (i === 0) {
+        for (let key of Object.keys(documents[0])) {
+          Heading[0].push(key);
+        }
+      }
+      exportTemplate.push({ index: i + 1, ...documents[i] });
+    }
+
+    const ws = XLSX.utils.aoa_to_sheet(Heading);
+    XLSX.utils.sheet_add_json(ws, exportTemplate, { origin: 'A2', skipHeader: true });
+    const workbook: XLSX.WorkBook = {
+      Sheets: { Sheet1: ws },
+      SheetNames: ['Sheet1'],
+    };
+
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+
+    const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const data: Blob = new Blob([excelBuffer], { type: EXCEL_TYPE });
+    const fileName = 'export_report_';
+
+    FileSaver.saveAs(data, fileName + new Date().getTime() + '.xlsx');
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

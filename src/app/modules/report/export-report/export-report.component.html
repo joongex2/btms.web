@@ -142,7 +142,9 @@
                 <div class="example-table-container">
                     <p class="table-title flex flex-row justify-between items-center">
                         <span>รายงาน</span>
-                        <span class="flex items-center cursor-pointer" (click)="export();">
+                        <span class="flex items-center cursor-pointer"
+                            [ngClass]="{ 'cursor-pointer': selection?.selected?.length > 0 }"
+                            (click)="export();">
                             <img src="assets/images/icons/excel.png" alt="" class="excel-icon">Export
                         </span>
                     </p>

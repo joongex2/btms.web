@@ -229,7 +229,6 @@ export class TargetCauseFixComponent implements OnInit {
   goBack() {
     if (!this.previousUrl
       || this.previousUrl.includes('redirectURL')
-      || this.previousUrl.includes('add-cause-and-fix')
     ) {
       // if from refresh/ redirect or other page -> check from current url
       if (this.fromUrl === 'target-entry') {
@@ -237,6 +236,8 @@ export class TargetCauseFixComponent implements OnInit {
       } else {
         this._router.navigate(['./../../../..'], { relativeTo: this._activatedRoute })
       }
+    } else if (this.previousUrl.includes('add-cause-and-fix')) {
+      this._location.historyGo(-2);
     } else {
       this._location.back();
     }
