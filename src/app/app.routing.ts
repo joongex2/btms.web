@@ -96,6 +96,7 @@ export const appRoutes: Route[] = [
             {
                 path: 'report', children: [
                     { path: 'export-report', loadChildren: () => import('app/modules/report/export-report/export-report.module').then(m => m.ExportReportModule) },
+                    { path: 'document-report', loadChildren: () => import('app/modules/report/document-report/document-report.module').then(m => m.DocumentReportModule) },
                     { path: 'standard-form', loadChildren: () => import('app/modules/report/standard-form/standard-form.module').then(m => m.StandardFormModule) },
                     { path: 'annual-report', loadChildren: () => import('app/modules/report/annual-report/annual-report.module').then(m => m.AnnualReportModule) },
                     { path: 'target-track', loadChildren: () => import('app/modules/report/target-track/target-track.module').then(m => m.TargetTrackModule) },

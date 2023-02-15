@@ -1,0 +1,143 @@
+.example-action-buttons {
+    padding-bottom: 20px;
+  }
+  
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+    // margin-left: 8px;
+}
+
+.example-table-container {
+  // max-height: 350px;
+  overflow: auto;
+}
+
+:host ::ng-deep .mat-expansion-panel-body {
+  padding: 0 24px !important;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  min-width: 800px;
+}
+
+.mat-header-cell,
+.mat-cell {
+  border-bottom-color: white !important;
+}
+
+.mat-header-cell {
+  color: white !important
+}
+
+::ng-deep .mat-sort-header-arrow {
+  color: white !important;
+}
+
+/* color */
+.mat-header-row {
+  background-color: rgb(132, 189, 0) !important;
+}
+
+.mat-row {
+  background-color: rgb(229, 240, 203) !important;
+}
+
+/* column width */
+.mat-column-checkbox {
+  width: 7.5%;
+}
+
+.mat-column-organizeCode {
+  width: 17.5%;
+}
+
+.mat-column-documentNo {
+  width: 15%;
+}
+
+.mat-column-revisionNo {
+  width: 8%;
+}
+
+.mat-column-createDate {
+  width: 10%;
+}
+
+.mat-column-issueDate {
+  width: 10%;
+}
+
+.mat-column-documentYear {
+  width: 7.5%;
+}
+
+.mat-column-documentStatus {
+  width: 12.5%;
+}
+
+.mat-column-creator {
+  width: 12%;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+  margin-bottom: 0 !important;
+}
+
+// radio size
+:host ::ng-deep .mat-radio-container{
+  height: 15px;
+  width: 15px;
+}
+:host ::ng-deep .mat-radio-outer-circle{
+  height: 15px;
+  width: 15px;
+}
+:host ::ng-deep .mat-radio-inner-circle{
+  height: 15px;
+  width: 15px;
+}
+:host ::ng-deep .mat-radio-button .mat-radio-ripple{
+  height: 30px; /*double of your required circle radius*/
+  width: 30px;  /*double of your required circle radius*/
+  left: calc(50% - 15px); /*'10px'-same as your required circle radius*/
+  top: calc(50% - 15px); /*'10px'-same as your required circle radius*/
+}
+
+/* color */
+p.table-title {
+  span {
+    font-weight: 400;
+  }
+  border-bottom: 1px solid white;
+  padding: 3px 7px;
+  background-color: rgb(97, 138, 2);
+  color: white !important;
+}
+
+
+tr th:not(:first-child),
+tr td:not(:first-child) { 
+  padding: 0 4px; 
+}
+
+:host ::ng-deep .mat-column-checkbox label.mat-checkbox-layout {
+  // vertical-align: top;
+  span.mat-checkbox-inner-container {
+      width: 16px;
+      height: 16px;
+      span.mat-checkbox-frame {
+          border-width: 1.6px;
+      }
+  }
+}

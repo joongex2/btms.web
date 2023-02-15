@@ -12,11 +12,11 @@ import * as XLSX from 'xlsx';
 import { ReportService } from '../report.service';
 
 @Component({
-  selector: 'export-report',
-  templateUrl: './export-report.component.html',
-  styleUrls: ['./export-report.component.scss'],
+  selector: 'document-report',
+  templateUrl: './document-report.component.html',
+  styleUrls: ['./document-report.component.scss'],
 })
-export class ExportReportComponent implements OnInit, AfterViewInit {
+export class DocumentReportComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatExpansionPanel) matExpansionPanel: MatExpansionPanel;
@@ -244,7 +244,7 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
   }
 
   loadDocuments(page: number, size: number, sort?: string, order?: string, params?: DocumentParams, toggleSelectAll?: boolean) {
-    this._reportService.getReportDocuments(page, size, sort, order, params).subscribe({
+    this._reportService.getReportActuals(page, size, sort, order, params).subscribe({
       next: (v) => {
         this.documents = v.model;
         this.paginator.pageIndex = v.pageNumber - 1;
@@ -272,7 +272,7 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
     if (this.isAllSelected()) {
       const jobApplicantParams = this.getDocumentParams();
       // fire api
-      const _documents = await firstValueFrom(this._reportService.getReportDocuments(
+      const _documents = await firstValueFrom(this._reportService.getReportActuals(
         this.paginator.pageIndex + 1,
         -1,
         this.sort.active,
@@ -313,7 +313,7 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
 
     const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const data: Blob = new Blob([excelBuffer], { type: EXCEL_TYPE });
-    const fileName = 'export_report_';
+    const fileName = 'document_report_';
 
     FileSaver.saveAs(data, fileName + new Date().getTime() + '.xlsx');
   }
