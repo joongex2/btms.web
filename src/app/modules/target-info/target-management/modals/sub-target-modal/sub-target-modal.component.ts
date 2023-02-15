@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { SubTarget } from 'app/shared/interfaces/document.interface';
+import { MeasureTypePipe } from 'app/shared/pipes/measure-type.pipe';
 import { TargetConditionPipe } from 'app/shared/pipes/target-condition.pipe';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import * as moment from 'moment';
@@ -48,6 +49,7 @@ export class SubTargetModalComponent implements OnInit {
     public matDialogRef: MatDialogRef<SubTargetModalComponent>,
     private _formBuilder: FormBuilder,
     private _targetConditionPipe: TargetConditionPipe,
+    private _measureTypePipe: MeasureTypePipe,
     private _confirmationService: ConfirmationService
   ) { }
 
@@ -79,7 +81,7 @@ export class SubTargetModalComponent implements OnInit {
         this.resultColors = [{ title: 'GREEN', value: 'GREEN' }];
         const condition = (conditions as FormArray).controls.find((v => v.get('targetCondition').value === '1' && !v.get('markForDelete').value));
         if (!condition) {
-          conditions.push(this.newCondition('1'));
+          if (measureType === '1') conditions.push(this.newCondition('1'));
         } else {
           if (condition.get('resultColor').value !== 'GREEN') {
             condition.get('resultColor').setValue('GREEN');
@@ -108,8 +110,8 @@ export class SubTargetModalComponent implements OnInit {
       measureType: [measureType, [Validators.required]],
       targetDetailDescription: [targetDetailDescription, [Validators.required]],
       targetIndex: [targetIndex, [Validators.required]],
-      targetValue: [targetValue, [Validators.required]],
-      targetCondition: [targetCondition],
+      targetValue: [{ value: targetValue, disabled: measureType === '2' }, [Validators.required]],
+      targetCondition: [{ value: targetCondition, disabled: measureType === '2' }],
       conditions: conditions,
       targetUnit: [targetUnit, [Validators.required]],
       currentTarget: [currentTarget, [Validators.required]],
@@ -121,12 +123,24 @@ export class SubTargetModalComponent implements OnInit {
 
     this.subTargetForm.get('measureType').valueChanges.subscribe(value => {
       if (value === '2') {
-        if (this.subTargetForm.get('targetCondition').value === '2') {
-          this.subTargetForm.get('targetCondition').setValue('1');
+        this.subTargetForm.get('targetCondition').setValue('1');
+        this.subTargetForm.get('targetValue').setValue('Archive');
+        const newConditions = this.subTargetForm.get('conditions').value.filter(v => v.id !== 0);
+        this.subTargetForm.setControl('conditions', this._formBuilder.array([]));
+        for (let condition of newConditions) {
+          (this.subTargetForm.get('conditions') as FormArray).push(this._formBuilder.group(condition));
         }
-        this.targetCondition2Disabled = true;
+        for (let condition of (this.subTargetForm.get('conditions') as FormArray).controls) {
+          if (condition.get('id').value !== 0) condition.get('markForDelete').setValue(true);
+        }
+        this.subTargetForm.get('targetValue').disable({ emitEvent: false });
+        this.subTargetForm.get('targetCondition').disable({ emitEvent: false });
       } else {
-        this.targetCondition2Disabled = false;
+        this.subTargetForm.get('targetValue').reset();
+        this.subTargetForm.get('targetValue').enable({ emitEvent: false });
+        this.subTargetForm.get('targetCondition').enable({ emitEvent: false });
+        const condition = (this.subTargetForm.get('conditions') as FormArray).controls.find((v => v.get('targetCondition').value === '1' && !v.get('markForDelete').value));
+        if (!condition) (this.subTargetForm.get('conditions') as FormArray).push(this.newCondition('1'));
       }
     });
 
@@ -279,15 +293,16 @@ export class SubTargetModalComponent implements OnInit {
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
     } else {
-      if (this.isEdit && this.subTarget.targetCondition !== this.subTargetForm.get('targetCondition').value) {
-        this._confirmationService.warning(
-          'ยินยัน',
-          `ประเภทของเป้าหมายเปลี่ยนจาก 
-          ${this._targetConditionPipe.transform(this.subTarget.targetCondition)} 
-          เป็น ${this._targetConditionPipe.transform(this.subTargetForm.get('targetCondition').value)} 
-          ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`,
-          true
-        ).afterClosed().subscribe((result) => {
+      const targetConditionDiff = this.subTarget.targetCondition !== this.subTargetForm.get('targetCondition').value;
+      const measureTypeDiff = this.subTarget.measureType !== this.subTargetForm.get('measureType').value;
+      if (this.isEdit && (targetConditionDiff || measureTypeDiff)) {
+        let warnText;
+        if (targetConditionDiff) {
+          warnText = `ประเภทของเป้าหมายเปลี่ยนจาก ${this._targetConditionPipe.transform(this.subTarget.targetCondition)} เป็น ${this._targetConditionPipe.transform(this.subTargetForm.get('targetCondition').value)} ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`
+        } else {
+          warnText = `ประเภทการวัดผลเปลี่ยนจาก ${this._targetConditionPipe.transform(this.subTarget.measureType)} เป็น ${this._targetConditionPipe.transform(this.subTargetForm.get('measureType').value)} ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`
+        }
+        this._confirmationService.warning('ยินยัน', warnText, true).afterClosed().subscribe((result) => {
           if (result === 'confirmed') {
             for (let plan of this.subTarget.plans) {
               plan.markForEdit = true;

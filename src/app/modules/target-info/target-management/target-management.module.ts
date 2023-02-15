@@ -20,6 +20,7 @@ import { RouterModule } from "@angular/router";
 import { FuseAlertModule } from "@fuse/components/alert";
 import { DatePickerFormatDirectiveModule } from "app/shared/directives/date-picker-format.module";
 import { IntegerOnlyModule } from "app/shared/directives/integer-only.module";
+import { MeasureTypePipe } from "app/shared/pipes/measure-type.pipe";
 import { TargetConditionPipe } from "app/shared/pipes/target-condition.pipe";
 import { SharedModule } from "app/shared/shared.module";
 import { ConfirmationComponent } from "./components/confirmation/confirmation.component";
@@ -88,7 +89,8 @@ import { TopicTableComponent } from "./tables/topic-table/topic-table.component"
     ConfirmationComponent
   ],
   providers: [
-    TargetConditionPipe
+    TargetConditionPipe,
+    MeasureTypePipe
   ]
 })
 export class TargetManagementModule { }

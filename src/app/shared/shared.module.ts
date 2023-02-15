@@ -25,6 +25,7 @@ import { IntegerOnlyModule } from './directives/integer-only.module';
 import { RequireMatchDirective } from './directives/require-match.directive';
 import { BaseUrlPipe } from './pipes/base-url.pipe';
 import { IsActivePipe } from './pipes/is-active.pipe';
+import { MeasureTypePipe } from './pipes/measure-type.pipe';
 import { PipeModule } from './pipes/pipe.module';
 import { TargetActualResultPipe } from './pipes/target-actual-result-pipe';
 import { TargetValueStatusPipe } from './pipes/target-value-status';
@@ -44,6 +45,7 @@ import { SnackBarService } from './services/snack-bar.service';
         BaseUrlPipe,
         ThaiMonthPipe,
         TargetActualResultPipe,
+        MeasureTypePipe,
         RequireMatchDirective,
         FormErrorComponent,
         FormMultiSelectDropdownComponent,
@@ -81,6 +83,7 @@ import { SnackBarService } from './services/snack-bar.service';
         BaseUrlPipe,
         ThaiMonthPipe,
         TargetActualResultPipe,
+        MeasureTypePipe,
         IntegerOnlyModule,
         RequireMatchDirective,
         LastCommentModalComponent,
