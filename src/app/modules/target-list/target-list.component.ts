@@ -110,7 +110,7 @@ export class TargetListComponent implements OnInit, AfterViewInit {
     const divisions = this._activatedRoute.snapshot.data.divisions;
 
     this.organizes = organizes.map((org) => ({ title: org.organizeName, value: org.organizeCode }));
-    this.statuses = statuses.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+    this.statuses = statuses.map((v) => ({ title: v.workflowStatusName, value: v.workflowStatus }));
     this.documentTypes = documentTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
     this.targetTypes = targetTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
     this.bus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));

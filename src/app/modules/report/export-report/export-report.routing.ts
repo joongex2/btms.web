@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { MenuGuard } from 'app/core/auth/guards/menu.guard';
-import { BusResolver, DivisionsResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, StatusesResolver, SubBusResolver, TargetTypesResolver } from 'app/shared/resolver';
+import { BusResolver, DivisionsResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, DocumentStatusesResolver, SubBusResolver, TargetTypesResolver } from 'app/shared/resolver';
 import { ExportReportComponent } from './export-report.component';
 
 
@@ -11,7 +11,7 @@ export const exportReportRoutes: Route[] = [
         component: ExportReportComponent,
         resolve: {
             organizes: OrganizesResolver,
-            statuses: StatusesResolver,
+            statuses: DocumentStatusesResolver,
             documentTypes: DocumentTypesResolver,
             targetTypes: TargetTypesResolver,
             bus: BusResolver,

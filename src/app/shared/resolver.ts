@@ -24,12 +24,30 @@ export class OrganizesResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-export class StatusesResolver implements Resolve<any>
+export class DocumentStatusesResolver implements Resolve<any>
 {
     constructor(private _lookupService: LookupService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this._lookupService.getLookups('BTMS_01_STATUS');
+        return this._lookupService.getLookupWorkflows().pipe(map(v => {
+            const model = v.model;
+            return model.filter(res => res.workflowCode === 'BTMS_01')
+        }));
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class TargetActualStatusesResolver implements Resolve<any>
+{
+    constructor(private _lookupService: LookupService) { }
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        return this._lookupService.getLookupWorkflows().pipe(map(v => {
+            const model = v.model;
+            return model.filter(res => res.workflowCode === 'BTMS_02')
+        }));
     }
 }
 

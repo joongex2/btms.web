@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { MenuGuard } from 'app/core/auth/guards/menu.guard';
-import { OrganizesResolver, StatusesResolver, DocumentTypesResolver, TargetTypesResolver, BusResolver, SubBusResolver, PlantsResolver, DivisionsResolver } from 'app/shared/resolver';
+import { OrganizesResolver, DocumentStatusesResolver, DocumentTypesResolver, TargetTypesResolver, BusResolver, SubBusResolver, PlantsResolver, DivisionsResolver } from 'app/shared/resolver';
 import { SaveCauseTrackComponent } from './save-cause-track.component';
 
 
@@ -11,7 +11,7 @@ export const saveCauseTrackRoutes: Route[] = [
         component: SaveCauseTrackComponent,
         resolve: {
             organizes: OrganizesResolver,
-            statuses: StatusesResolver,
+            statuses: DocumentStatusesResolver,
             documentTypes: DocumentTypesResolver,
             targetTypes: TargetTypesResolver,
             bus: BusResolver,
