@@ -121,7 +121,7 @@ export class TargetTemplateDetailComponent implements OnInit {
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
     } else if (!this.checkAtLeastOneEach()) {
-      this.showError('แต่ละ document ต้องมี 1 ขั้นต่ำเป้าหมายหลักที่มี 1 ขึ้นต่ำเป้าหมายย่อยที่มี 1 ขั้นต่ำ แผนงานและการวัดผลเป้าหมาย', true);
+      this.showError('กรุณากำหนดเป้าหมายหลัก ป้าหมายย่อย แผนงานและการวัดผลเป้าหมาย อย่างน้อย 1 รายการ!', true);
     } else {
       this._confirmationService.save().afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {
