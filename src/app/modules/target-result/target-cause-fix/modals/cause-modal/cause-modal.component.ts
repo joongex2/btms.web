@@ -45,8 +45,8 @@ export class CauseModalComponent implements OnInit {
     this.causeForm = this._formBuilder.group({
       sequenceNo: [{ value: sequenceNo, disabled: true }],
       causeTopic: [this.cause?.causeTopic || null, [Validators.required]],
-      causeDescription: [this.cause?.causeDescription || null, [Validators.required]],
-      causeStatus: [this.cause?.causeStatus || null, [Validators.required]]
+      causeDescription: [this.cause?.causeDescription || null, null],
+      causeStatus: [this.cause?.causeStatus || 'On process', [Validators.required]]
     });
   }
 

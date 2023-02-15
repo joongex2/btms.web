@@ -161,8 +161,8 @@ export class TargetCauseFixComponent implements OnInit {
   save() {
     // check
     if (!this.checkAtLeaseOneCauseOneFix()) {
-      this._snackBarService.warn('กรุณาระบุอย่างน้อย 1 สาเหตุที่มี 1 การแก้ไข!');
-      this.showError('กรุณาระบุอย่างน้อย 1 สาเหตุที่มี 1 การแก้ไข!');
+      this._snackBarService.warn('กรุณาระบุสาเหตุ และการแก้ไขอย่างน้อย 1 รายการ!');
+      //this.showError('กรุณาระบุอย่างน้อย 1 สาเหตุที่มี 1 การแก้ไข!');
       document.getElementById('causeTable').scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }

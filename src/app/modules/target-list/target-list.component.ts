@@ -278,11 +278,11 @@ export class TargetListComponent implements OnInit, AfterViewInit {
     if (!this.checkCopyPrivillege(this.selectedRow)) {
       this._snackBarService.warn('คุณไม่มีสิทธิ์สร้างเอกสารที่เลือก');
     } else {
-      this._confirmationService.save('ยืนยัน', `ต้องการ copy ข้อมูล document's runningNo: ${this.selectedRow.documentNo} ใช่หรือไม่`).afterClosed().subscribe(async (result) => {
+      this._confirmationService.save('ยืนยัน', `ต้องการสำเนาเอกสารเป้าหมาย เลขที่: ${this.selectedRow.documentNo} ใช่หรือไม่`).afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {
           const res = (await firstValueFrom(this._documentService.copyDocument(this.selectedRow.id)));
           if (!res.didError) {
-            this._snackBarService.success('copy ข้อมูลเสร็จสิ้น');
+            this._snackBarService.success('สำเนาเอกสารเป้าหมายเสร็จสมบูรณ์');
             this._router.navigate([`./${res.model}`], { relativeTo: this._activatedRoute });
           } else {
             this._confirmationService.warning(res.errorMessage);
