@@ -51,7 +51,7 @@
     <ng-container matColumnDef="deleteIcon">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <mat-icon *ngIf="!readonly" (click)="deleteFix(i)" svgIcon="heroicons_outline:x" class="text-warn icon-size-4 cursor-pointer"
+            <mat-icon *ngIf="!readonly" (click)="deleteFix(element, i)" svgIcon="heroicons_outline:x" class="text-warn icon-size-4 cursor-pointer"
                 title="Delete การแก้ไข"></mat-icon>
         </td>
     </ng-container>

@@ -56,7 +56,7 @@ export class ProtectTableComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe((protect: Solution) => {
         if (!protect) return; // cancel
-        this.protects.push({
+        this.solutions.push({
           id: 0,
           targetCauseId: this.causeId,
           targetSolutionType: TARGET_SOLUTION_TYPE.PREVENTION,
@@ -67,6 +67,7 @@ export class ProtectTableComponent implements OnInit {
           solutionDescription: protect.solutionDescription,
           actionDate: protect.actionDate
         });
+        this.protects = this.solutions.filter(v => v.targetSolutionType === TARGET_SOLUTION_TYPE.PREVENTION);
         this.protectTable.renderRows();
       });
   };
@@ -92,10 +93,12 @@ export class ProtectTableComponent implements OnInit {
         this.markForEdit.emit(this.causeId);
       });
   };
-  deleteProtect(index: number): void {
+  deleteProtect(element: Solution, index: number): void {
     this._confirmationService.delete().afterClosed().subscribe((result) => {
       if (result == 'confirmed') {
         if (this.protects[index].id === 0) {
+          const solutionIndex = this.solutions.findIndex(v => v === element);
+          this.solutions.splice(solutionIndex, 1);
           this.protects.splice(index, 1);
         } else {
           this.protects[index].markForDelete = true;

@@ -37,8 +37,8 @@ export class ProtectModalComponent implements OnInit {
     this.protect = this.isEdit ? this.modalData.data : null;
     const targetReferenceStatus = this.modalData.targetReferenceStatus;
     const sequenceNo = this.isEdit ? this.protect.sequenceNo : this.modalData.index;
-    const finishDate = this.isEdit ? moment(this.protect.finishDate, 'YYYY-MM-DD') : moment();
-    const actionDate = this.isEdit ? moment(this.protect.actionDate, 'YYYY-MM-DD') : null;
+    const finishDate = this.isEdit && this.protect.finishDate ? moment(this.protect.finishDate, 'YYYY-MM-DD') : moment();
+    const actionDate = this.isEdit && this.protect.actionDate ? moment(this.protect.actionDate, 'YYYY-MM-DD') : null;
 
     this.protectForm = this._formBuilder.group({
       sequenceNo: [{ value: sequenceNo, disabled: true }],

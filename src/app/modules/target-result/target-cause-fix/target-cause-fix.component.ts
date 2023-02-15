@@ -13,6 +13,7 @@ import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { UrlService } from 'app/shared/services/url.service';
 import moment from 'moment';
 import { firstValueFrom } from 'rxjs';
+import { TARGET_SOLUTION_TYPE } from '../target-result.interface';
 import { TargetResultService } from '../target-result.service';
 import { Attachment } from '../target-result.types';
 import { CauseTableComponent } from './tables/cause-table/cause-table.component';
@@ -113,7 +114,7 @@ export class TargetCauseFixComponent implements OnInit {
       this.attachments = JSON.parse(JSON.stringify(this.reference.attachments));
       this.result = this.targetReference.result;
       this.resultValue = this.targetReference.resultValue;
-      this.resultApprovedDate = this.targetReference.resultApprovedDate ? moment(this.targetReference.resultApprovedDate) : null;
+      this.resultApprovedDate = this.targetReference.resultApprovedDate ? moment(this.targetReference.resultApprovedDate, 'YYYY-MM-DD') : null;
     } else {
       this.causes = [];
       this.attachments = [];
@@ -146,19 +147,26 @@ export class TargetCauseFixComponent implements OnInit {
     // this._targetResultService.clear();
   }
 
+  checkAtLeaseOneCauseOneFix(): boolean {
+    const notDeleteCauses = this.causes?.filter(v => !v.markForDelete);
+    if (!notDeleteCauses || notDeleteCauses?.length === 0) return false;
+    for (let cause of notDeleteCauses) {
+      const notDeleteFixes = cause.solutions.filter(v => !v.markForDelete && v.targetSolutionType === TARGET_SOLUTION_TYPE.SOLUTION);
+      if (!notDeleteFixes || notDeleteFixes?.length === 0) return false;
+    }
+    return true;
+  }
+
+
   save() {
-    if (this.causes?.filter(v => !v.markForDelete)?.length === 0) {
-      this._snackBarService.warn('กรุณาระบุสาเหตุและการแก้ไข!');
-      this.showError('กรุณาระบุสาเหตุและการแก้ไข!');
+    // check
+    if (!this.checkAtLeaseOneCauseOneFix()) {
+      this._snackBarService.warn('กรุณาระบุอย่างน้อย 1 สาเหตุที่มี 1 การแก้ไข!');
+      this.showError('กรุณาระบุอย่างน้อย 1 สาเหตุที่มี 1 การแก้ไข!');
       document.getElementById('causeTable').scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
 
-    for (let cause of this.causes) {
-      const fixTable = this.causeTable.fixTables.find(fixTable => fixTable.causeId === cause.id);
-      const protectTable = this.causeTable.protectTables.find(protectTable => protectTable.causeId === cause.id);
-      cause.solutions = [...fixTable.fixs, ...protectTable.protects];
-    }
     this._confirmationService.save().afterClosed().subscribe(async (result) => {
       if (result == 'confirmed') {
         try {

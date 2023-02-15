@@ -56,7 +56,7 @@ export class FixTableComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe((fix: Solution) => {
         if (!fix) return; // cancel
-        this.fixs.push({
+        this.solutions.push({
           id: 0,
           targetCauseId: this.causeId,
           targetSolutionType: TARGET_SOLUTION_TYPE.SOLUTION,
@@ -67,6 +67,7 @@ export class FixTableComponent implements OnInit {
           solutionDescription: fix.solutionDescription,
           actionDate: fix.actionDate
         });
+        this.fixs = this.solutions.filter(v => v.targetSolutionType === TARGET_SOLUTION_TYPE.SOLUTION);
         this.fixTable.renderRows();
       });
   };
@@ -93,10 +94,12 @@ export class FixTableComponent implements OnInit {
       });
   };
 
-  deleteFix(index: number): void {
+  deleteFix(element: Solution, index: number): void {
     this._confirmationService.delete().afterClosed().subscribe((result) => {
       if (result == 'confirmed') {
         if (this.fixs[index].id === 0) {
+          const solutionIndex = this.solutions.findIndex(v => v === element);
+          this.solutions.splice(solutionIndex, 1);
           this.fixs.splice(index, 1);
         } else {
           this.fixs[index].markForDelete = true;

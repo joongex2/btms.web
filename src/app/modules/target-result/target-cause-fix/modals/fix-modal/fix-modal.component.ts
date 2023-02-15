@@ -37,8 +37,8 @@ export class FixModalComponent implements OnInit {
     this.fix = this.isEdit ? this.modalData.data : null;
     const targetReferenceStatus = this.modalData.targetReferenceStatus;
     const sequenceNo = this.isEdit ? this.fix.sequenceNo : this.modalData.index;
-    const finishDate = this.isEdit ? moment(this.fix.finishDate, 'YYYY-MM-DD') : moment();
-    const actionDate = this.isEdit ? moment(this.fix.actionDate, 'YYYY-MM-DD') : null;
+    const finishDate = this.isEdit && this.fix.finishDate ? moment(this.fix.finishDate, 'YYYY-MM-DD') : moment();
+    const actionDate = this.isEdit && this.fix.actionDate ? moment(this.fix.actionDate, 'YYYY-MM-DD') : null;
 
     this.fixForm = this._formBuilder.group({
       sequenceNo: [{ value: sequenceNo, disabled: true }],
