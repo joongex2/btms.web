@@ -85,6 +85,7 @@ export class TargetEntryDetailComponent implements OnInit {
             }
           }
           this.planEntryTables = planEntryTables;
+          this.canConfirm = this.atLeaseOneCheckbox();
         });
 
         setTimeout(() => this.expandAll());
@@ -218,7 +219,7 @@ export class TargetEntryDetailComponent implements OnInit {
         subTarget.hideSubTargetIds = [];
       }
       this.targetEntryTableComponent.hideTargetIds = [];
-      this.canConfirm = true;
+      this.canConfirm = this.atLeaseOneCheckbox();
       this.canSubmit = false;
       this.canReject = false;
     } else {
@@ -242,5 +243,12 @@ export class TargetEntryDetailComponent implements OnInit {
       queryParams: param,
       queryParamsHandling: 'merge'
     })
+  }
+
+  atLeaseOneCheckbox(): boolean {
+    for (let planTable of this.planEntryTables) {
+      if (planTable.atLeastOneCheckbox()) return true;
+    }
+    return false;
   }
 }

@@ -49,6 +49,10 @@ export class PlanEntryTableComponent implements OnInit {
 
   }
 
+  ngAfterViewInit() {
+    this.defaultCheck();
+  }
+
   saveTargetEntry(plan: Plan, month: string) {
     if (!this.isDisplay(plan, parseInt(month)) || this.isFilter) return;
 
@@ -69,7 +73,7 @@ export class PlanEntryTableComponent implements OnInit {
   toggleElement(month: number, plan: Plan) {
     const findElement = this.isElementSelected(month, plan);
     if (findElement) {
-      this.selection.toggle(findElement)
+      this.selection.toggle(findElement);
     } else {
       // create new
       this.selection.toggle({ month, plan });
@@ -158,7 +162,7 @@ export class PlanEntryTableComponent implements OnInit {
 
   filter() {
     this.isFilter = true;
-    return this.AtleastOneSelected();
+    return this.atleastOneSelected();
   }
 
   cancelFilter() {
@@ -173,7 +177,7 @@ export class PlanEntryTableComponent implements OnInit {
     return (!this.isFilter || (this.isFilter && this.isElementSelected(month, plan))) && plan[`useMonth${month}`];
   }
 
-  AtleastOneSelected() {
+  atleastOneSelected() {
     return this.plans.findIndex(v => this.selection.selected.findIndex(s => s.plan.id === v.id) !== -1) !== -1;
   }
 
@@ -196,5 +200,22 @@ export class PlanEntryTableComponent implements OnInit {
       }
     }
     return 'none';
+  }
+
+  atLeastOneCheckbox() {
+    for (let plan of this.plans) {
+      for (let i = 1; i <= 12; i++) {
+        if (this.checkPrivillege(this.getActual(plan, i)) && this.isDisplay(plan, i)) return true;
+      }
+    }
+    return false;
+  }
+
+  defaultCheck() {
+    for (let plan of this.plans) {
+      for (let i = 1; i <= 12; i++) {
+        if (this.checkPrivillege(this.getActual(plan, i)) && this.isDisplay(plan, i)) this.toggleElement(i, plan);
+      }
+    }
   }
 }

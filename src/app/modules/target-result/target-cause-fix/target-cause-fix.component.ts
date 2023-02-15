@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -7,6 +8,7 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { User } from 'app/core/user/user.types';
 import { FileUploadTableComponent } from 'app/shared/components/file-upload-table/file-upload-table.component';
 import { LastCommentModalComponent } from 'app/shared/components/last-comment-modal/last-comment-modal.component';
+import { isNullOrUndefined } from 'app/shared/helpers/is-null-or-undefined';
 import { Actual, Cause, DocumentDetail, Plan, ReferenceDetail, SubTarget, Target, TargetReference } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
@@ -25,6 +27,7 @@ import { CauseTableComponent } from './tables/cause-table/cause-table.component'
   animations: fuseAnimations
 })
 export class TargetCauseFixComponent implements OnInit {
+  @ViewChild('f') form: NgForm;
   user: User;
   // document
   document: Partial<DocumentDetail>;
@@ -157,6 +160,20 @@ export class TargetCauseFixComponent implements OnInit {
     return true;
   }
 
+  checkSolutionDescriptionActionDateNotNull(): boolean {
+    const notDeleteCauses = this.causes?.filter(v => !v.markForDelete);
+    for (let cause of notDeleteCauses) {
+      const notDeleteFixes = cause.solutions.filter(v => !v.markForDelete && v.targetSolutionType === TARGET_SOLUTION_TYPE.SOLUTION);
+      for (let fix of notDeleteFixes) {
+        if (isNullOrUndefined(fix.actionDate) || isNullOrUndefined(fix.solutionDescription)) return false;
+      }
+      const notDeletePreventions = cause.solutions.filter(v => !v.markForDelete && v.targetSolutionType === TARGET_SOLUTION_TYPE.PREVENTION);
+      for (let prevention of notDeletePreventions) {
+        if (isNullOrUndefined(prevention.actionDate) || isNullOrUndefined(prevention.solutionDescription)) return false;
+      }
+    }
+    return true;
+  }
 
   save() {
     // check
@@ -227,6 +244,20 @@ export class TargetCauseFixComponent implements OnInit {
   }
 
   submit() {
+    if (this.targetReference.targetReferenceStatus === 'SOLVE_INPROCESS' && !this.checkSolutionDescriptionActionDateNotNull()) {
+      this._snackBarService.warn('กรุณาระบุการติดตามและวันที่ดำเนินการ ทุกการแก้ไขและป้องกัน');
+      document.getElementById('causeTable').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    if (this.targetReference.targetReferenceStatus === 'SOLVE_INPROCESS' && (isNullOrUndefined(this.result) || isNullOrUndefined(this.resultApprovedDate))) {
+      this.form.form.markAllAsTouched();
+      document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      this.showError('กรุณาระบุผลลัพธ์การติดตามและวันที่อนุมัติผลลัพธ์การติดตาม!');
+      this._snackBarService.warn('กรุณาระบุผลลัพธ์การติดตามและวันที่อนุมัติผลลัพธ์การติดตาม!');
+      return;
+    }
+
     this._router.navigate(['./confirm-submit'], { relativeTo: this._activatedRoute })
   }
 
