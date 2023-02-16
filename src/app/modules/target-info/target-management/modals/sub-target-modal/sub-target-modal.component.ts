@@ -293,28 +293,37 @@ export class SubTargetModalComponent implements OnInit {
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
     } else {
-      const targetConditionDiff = this.subTarget.targetCondition !== this.subTargetForm.get('targetCondition').value;
-      const measureTypeDiff = this.subTarget.measureType !== this.subTargetForm.get('measureType').value;
-      if (this.isEdit && (targetConditionDiff || measureTypeDiff)) {
-        let warnText;
-        if (targetConditionDiff) {
-          warnText = `ประเภทของเป้าหมายเปลี่ยนจาก ${this._targetConditionPipe.transform(this.subTarget.targetCondition)} เป็น ${this._targetConditionPipe.transform(this.subTargetForm.get('targetCondition').value)} ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`
-        } else {
-          warnText = `ประเภทการวัดผลเปลี่ยนจาก ${this._targetConditionPipe.transform(this.subTarget.measureType)} เป็น ${this._targetConditionPipe.transform(this.subTargetForm.get('measureType').value)} ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`
-        }
-        this._confirmationService.warning('ยินยัน', warnText, true).afterClosed().subscribe((result) => {
-          if (result === 'confirmed') {
-            for (let plan of this.subTarget.plans) {
-              plan.markForEdit = true;
-              for (let index of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) {
-                // plan[`useMonth${index}`] = null;
-                plan[`valueMonth${index}`] = null;
-              }
-            }
-            this.closeWithValue();
+      const measureType =  this.subTargetForm.get('measureType').value;
+
+      if(measureType == '1')
+      {
+        const targetConditionDiff = this.subTarget == undefined ? false : this.subTarget.targetCondition !== this.subTargetForm.get('targetCondition').value;
+        const measureTypeDiff = this.subTarget == undefined ? false : this.subTarget.measureType !== measureType;
+        if (this.isEdit && (targetConditionDiff || measureTypeDiff)) {
+          let warnText;
+          if (targetConditionDiff) {
+            warnText = `ประเภทของเป้าหมายเปลี่ยนจาก ${this._targetConditionPipe.transform(this.subTarget.targetCondition)} เป็น ${this._targetConditionPipe.transform(this.subTargetForm.get('targetCondition').value)} ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`
+          } else {
+            warnText = `ประเภทการวัดผลเปลี่ยนจาก ${this._targetConditionPipe.transform(this.subTarget.measureType)} เป็น ${this._targetConditionPipe.transform(this.subTargetForm.get('measureType').value)} ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`
           }
-        });
-      } else {
+          this._confirmationService.warning('ยินยัน', warnText, true).afterClosed().subscribe((result) => {
+            if (result === 'confirmed') {
+              for (let plan of this.subTarget.plans) {
+                plan.markForEdit = true;
+                for (let index of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) {
+                  // plan[`useMonth${index}`] = null;
+                  plan[`valueMonth${index}`] = null;
+                }
+              }
+              this.closeWithValue();
+            }
+          });
+        } else {
+          this.closeWithValue();
+        }
+      }
+      else
+      {
         this.closeWithValue();
       }
     }
