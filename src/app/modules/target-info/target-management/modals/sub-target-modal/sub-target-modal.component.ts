@@ -293,13 +293,10 @@ export class SubTargetModalComponent implements OnInit {
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
     } else {
-      const measureType =  this.subTargetForm.get('measureType').value;
-
-      if(measureType == '1')
-      {
+      if (this.isEdit) {
         const targetConditionDiff = this.subTarget == undefined ? false : this.subTarget.targetCondition !== this.subTargetForm.get('targetCondition').value;
-        const measureTypeDiff = this.subTarget == undefined ? false : this.subTarget.measureType !== measureType;
-        if (this.isEdit && (targetConditionDiff || measureTypeDiff)) {
+        const measureTypeDiff = this.subTarget == undefined ? false : this.subTarget.measureType !== this.subTargetForm.get('measureType').value;
+        if (targetConditionDiff || measureTypeDiff) {
           let warnText;
           if (targetConditionDiff) {
             warnText = `ประเภทของเป้าหมายเปลี่ยนจาก ${this._targetConditionPipe.transform(this.subTarget.targetCondition)} เป็น ${this._targetConditionPipe.transform(this.subTargetForm.get('targetCondition').value)} ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`
@@ -321,9 +318,7 @@ export class SubTargetModalComponent implements OnInit {
         } else {
           this.closeWithValue();
         }
-      }
-      else
-      {
+      } else {
         this.closeWithValue();
       }
     }
