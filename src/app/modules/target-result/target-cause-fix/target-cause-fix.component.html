@@ -230,10 +230,8 @@
                                 <mat-form-field class="flex-auto ml-2">
                                     <input 
                                         matInput
-                                        type="number"
-                                        (blur)="onBlur($event)"
                                         [(ngModel)]="resultValue"
-                                        name="resultValue"   
+                                        name="resultValue"
                                         [disabled]="readonly || (!this.isEdit && mode !== 'add') || targetReference?.targetReferenceStatus !== 'SOLVE_INPROCESS'"
                                     >
                                 </mat-form-field>

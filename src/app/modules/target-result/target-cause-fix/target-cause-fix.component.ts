@@ -45,7 +45,7 @@ export class TargetCauseFixComponent implements OnInit {
   causes: Cause[];
   attachments: Attachment[];
   result: string;
-  resultValue: number;
+  resultValue: string;
   resultApprovedDate: any;
 
   mode: string;
@@ -360,11 +360,5 @@ export class TargetCauseFixComponent implements OnInit {
 
   isShowError() {
     return this.showAlert || this.hasApiError;
-  }
-
-  onBlur(evt) {
-    if (evt?.target?.valueAsNumber) {
-      this.resultValue = Math.round(evt.target.valueAsNumber * 10 ** 4) / 10 ** 4;
-    }
   }
 }

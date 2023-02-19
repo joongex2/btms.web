@@ -256,7 +256,7 @@ export interface TargetReference {
     createdDate: string;
     createdBy: string;
     resultApprovedDate: string;
-    resultValue: number;
+    resultValue: string;
     result: string;
     resultReportor: string;
     causes: Cause[];

@@ -203,7 +203,7 @@ export class TargetResultService {
         causes: Cause[],
         attachments: Attachment[],
         result: string,
-        resultValue: number,
+        resultValue: string,
         resultApprovedDate: any
     ) {
         return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/References'), {
