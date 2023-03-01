@@ -12,7 +12,6 @@ import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { firstValueFrom } from 'rxjs';
 import { OrgRoleTreeComponent } from '../org-role-tree/org-role-tree.component';
-import { TreeChecklistComponent } from '../tree-check-list/tree-checklist';
 import { UserService } from '../user.service';
 import { User } from '../user.types';
 
@@ -100,39 +99,45 @@ export class UserDetailComponent implements OnInit {
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
     } else {
-      this._confirmationService.save().afterClosed().subscribe(async (result) => {
-        if (result == 'confirmed') {
-          try {
-            if (this.isEdit) {
-              await firstValueFrom(this._userService.updateUser(
-                this.user.id,
-                this.name,
-                this.email,
-                this.selectedUserGroup,
-                this.selectedIsActive,
-                this.orgRoleTree.getOutput()
-              ));
-            } else {
-              // add
-              await firstValueFrom(this._userService.createUser(
-                this.name,
-                this.email,
-                this.username,
-                this.selectedUserGroup,
-                this.selectedIsActive,
-                this.orgRoleTree.getOutput(),
-              ));
+      const output = this.orgRoleTree.getOutput();
+      if (!output) {
+        this.showError('กรุณาบันทึกข้อมูลก่อน');
+        return;
+      } else {
+        this._confirmationService.save().afterClosed().subscribe(async (result) => {
+          if (result == 'confirmed') {
+            try {
+              if (this.isEdit) {
+                await firstValueFrom(this._userService.updateUser(
+                  this.user.id,
+                  this.name,
+                  this.email,
+                  this.selectedUserGroup,
+                  this.selectedIsActive,
+                  this.orgRoleTree.getOutput()
+                ));
+              } else {
+                // add
+                await firstValueFrom(this._userService.createUser(
+                  this.name,
+                  this.email,
+                  this.username,
+                  this.selectedUserGroup,
+                  this.selectedIsActive,
+                  this.orgRoleTree.getOutput(),
+                ));
+              }
+              this._snackBarService.success();
+              this.loadUser(this.id);
+            } catch (e) {
+              this._snackBarService.error();
+              this.showError(e.error, true);
+              return;
             }
-            this._snackBarService.success();
-            this.loadUser(this.id);
-          } catch (e) {
-            this._snackBarService.error();
-            this.showError(e.error, true);
-            return;
+            this.hideError();
           }
-          this.hideError();
-        }
-      });
+        });
+      }
     }
   }
 
@@ -155,7 +160,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   isShowError() {
-    return (this.showAlert && !this.f.valid) || this.hasApiError;
+    return (this.showAlert && (!this.f.valid || !this.orgRoleTree.valid)) || this.hasApiError;
   }
 
   loadUser(id: number) {

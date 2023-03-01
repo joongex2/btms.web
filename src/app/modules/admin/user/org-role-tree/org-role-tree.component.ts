@@ -23,6 +23,7 @@ export class OrgRoleTreeComponent implements OnInit {
   organizeCodeNameMapper: { [key: string]: string };
   roleCodeNameMapper: { [key: string]: string };
   private _unsubscribeAll: Subject<any> = new Subject<any>();
+  valid: boolean = true;
 
   JSON = JSON;
 
@@ -135,11 +136,16 @@ export class OrgRoleTreeComponent implements OnInit {
     organizeNode.roles.splice(index, 1);
   }
 
-  getOutput() {
+  getOutput(): any {
     let res = JSON.parse(JSON.stringify(this.organizeNodes));
     for (let _res of res) {
       delete _res.expand;
+      if (_res.organizeCode === '') {
+        this.valid = false;
+        return false;
+      }
     }
+    this.valid = true;
     return res;
   }
 
