@@ -86,62 +86,12 @@ export class TargetEntryDetailComponent implements OnInit {
           }
           this.planEntryTables = planEntryTables;
           this.canConfirm = this.atLeaseOneCheckbox();
-
-          this.checkDefaultCheck();
         });
 
         setTimeout(() => this.expandAll());
       },
       error: (e) => console.error(e)
     });
-  }
-
-  checkDefaultCheck() {
-    // default tick if meet condition
-    let defaultTick = true;
-    let checkNum = 0;
-    let latestStatus = '';
-    let latestYear: number;
-    let latestMonth: number;
-    for (let planTable of this.planEntryTables) {
-      for (let plan of planTable.plans) {
-        for (let i = 1; i <= 12; i++) {
-          const actual = planTable.getActual(plan, i);
-          if (planTable.checkPrivillege(actual) && planTable.isDisplay(plan, i)) {
-            checkNum++;
-            if (!latestStatus) {
-              latestStatus = actual.targetActualStatus;
-            } else if (latestStatus && actual.targetActualStatus !== latestStatus) {
-              defaultTick = false;
-              break;
-            }
-            if (!latestYear) {
-              latestYear = plan.planYear;
-            } else if (latestYear && plan.planYear !== latestYear) {
-              defaultTick = false;
-              break;
-            }
-            if (!latestMonth) {
-              latestMonth = i;
-            } else if (latestYear && i !== latestMonth) {
-              defaultTick = false;
-              break;
-            }
-            if (actual.targetActualResult === 'U' && actual.targetReferenceId === null) {
-              defaultTick = false;
-              break;
-            }
-          }
-        }
-      }
-    }
-    if (checkNum === 0) defaultTick = false;
-
-    if (defaultTick) {
-      for (let planTable of this.planEntryTables) {
-        planTable.defaultCheck();
-      }
-    }
   }
 
   // check status from cookie
@@ -164,10 +114,10 @@ export class TargetEntryDetailComponent implements OnInit {
     // check
     this.canSubmit = false;
     this.canReject = false;
-    if (this.checkAtleastOneAndSameStatusAndSameYearMonth()) {
+    if (this.checkAtleastOneAndSameStatus()) {
       this.canSubmit = true;
     }
-    if (this.checkAtleastOneAndSameStatusAndSameYearMonth() && this.checkAllCanReject()) {
+    if (this.checkAtleastOneAndSameStatus() && this.checkAllCanReject()) {
       this.canReject = true;
     }
   }
@@ -181,7 +131,6 @@ export class TargetEntryDetailComponent implements OnInit {
     return checkNum > 0;
   }
 
-  // old
   checkAtleastOneAndSameStatus(): boolean {
     let checkNum = 0;
     let latestAllSameStatus = true;
@@ -195,44 +144,6 @@ export class TargetEntryDetailComponent implements OnInit {
         latestStatus = status;
       } else if (latestStatus !== '' && latestStatus !== status) {
         return false;
-      }
-    }
-    return checkNum > 0 && latestAllSameStatus;
-  }
-
-  checkAtleastOneAndSameStatusAndSameYearMonth(): boolean {
-    let checkNum = 0;
-    let latestAllSameStatus = true;
-    let latestStatus = '';
-    let latestYear: number;
-    let latestMonth: number;
-    for (let planTable of this.planEntryTables) {
-      checkNum += planTable.selection.selected.length;
-      const { allSameStatus, status } = planTable.checkAllSameStatus();
-      latestAllSameStatus = latestAllSameStatus && allSameStatus;
-      if (status === '') continue;
-      if (latestStatus === '' && latestStatus !== status) {
-        latestStatus = status;
-      } else if (latestStatus !== '' && latestStatus !== status) {
-        return false;
-      }
-
-      // check year months
-      for (let select of planTable.selection.selected) {
-        // check year;
-        const year = select.plan.planYear;
-        if (!latestYear) {
-          latestYear = year;
-        } else if (latestYear && latestYear !== year) {
-          return false;
-        }
-        // check month;
-        const month = select.month;
-        if (!latestMonth) {
-          latestMonth = month;
-        } else if (latestMonth && latestMonth !== month) {
-          return false;
-        }
       }
     }
     return checkNum > 0 && latestAllSameStatus;
@@ -266,12 +177,8 @@ export class TargetEntryDetailComponent implements OnInit {
       this._snackBarService.warn('กรุณาเลือกผลการดำเนินงานอย่างน้อยหนึ่งรายการ');
       return;
     }
-    // if (!this.checkAtleastOneAndSameStatus()) {
-    //   this._snackBarService.warn('กรุณาเลือกสถานะของผลดำเนินการให้เหมือนกัน');
-    //   return;
-    // }
-    if (!this.checkAtleastOneAndSameStatusAndSameYearMonth()) {
-      this._snackBarService.warn('กรุณาเลือกการวัดผลเป้าหมายใน ปี/เดือน/สถานะ เดียวกัน');
+    if (!this.checkAtleastOneAndSameStatus()) {
+      this._snackBarService.warn('กรุณาเลือกสถานะของผลดำเนินการให้เหมือนกัน');
       return;
     }
     if (!this.checkAllUnarchiveHaveReference()) {

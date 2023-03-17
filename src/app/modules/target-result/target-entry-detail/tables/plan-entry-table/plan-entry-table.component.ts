@@ -50,7 +50,7 @@ export class PlanEntryTableComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    // this.defaultCheck();
+    this.defaultCheck();
   }
 
   saveTargetEntry(plan: Plan, month: string) {
