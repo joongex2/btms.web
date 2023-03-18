@@ -310,7 +310,10 @@ export class TargetCauseFixComponent implements OnInit {
       } else {
         // edit
         if (this.isEdit && haveT01) this.canSave = true;
-        if (!this.isEdit && this.targetReference.targetReferenceStatus === 'SOLVE_DRAFT' && haveT01) this.canEdit = true;
+        if (!this.isEdit && this.targetReference.targetReferenceStatus === 'SOLVE_DRAFT' && haveT01) {
+          this.canEdit = true;
+          if (this.actual.targetActualStatus === 'TARGET_RELEASED') { this.canSubmit = true; }
+        }
         if (!this.isEdit && this.targetReference.targetReferenceStatus === 'SOLVE_INPROCESS' && haveT01) {
           this.canEdit = true;
           this.canSubmit = true;
