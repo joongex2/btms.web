@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from "@angular/core";
+import { Component, EventEmitter, Input, Output, SimpleChanges } from "@angular/core";
 import { ControlContainer, NgForm } from "@angular/forms";
 
 
@@ -9,7 +9,7 @@ import { ControlContainer, NgForm } from "@angular/forms";
     styleUrls: ['./autocomplete.component.scss'],
     viewProviders: [{ provide: ControlContainer, useExisting: NgForm }]
 })
-export class AutocompleteComponent implements OnInit {
+export class AutocompleteComponent {
     @Input() label;
     @Input() name;
     @Input() options: any[] = [];
@@ -34,13 +34,13 @@ export class AutocompleteComponent implements OnInit {
 
     constructor() { }
 
-    ngOnInit(): void {
-        this.filteredOptions = this.options.slice();
-    }
-
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.options && !changes.options.isFirstChange()) {
-            this.filteredOptions = this.options.slice();
+        if (changes.options) {
+            if (this.value) {
+                this.optionFilter(this.value);
+            } else {
+                this.filteredOptions = this.options.slice();
+            }
         }
     }
 

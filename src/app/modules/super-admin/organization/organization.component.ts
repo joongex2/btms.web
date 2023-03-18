@@ -99,7 +99,7 @@ export class OrganizationComponent implements OnInit {
     this.dataSource.filterPredicate = this.customFilterPredicate();
 
     this.currentUser = await firstValueFrom(this._userService.user$);
-    if (this.currentUser?.groupId === 1) {
+    if ([1, 2].includes(this.currentUser?.groupId)) {
       this.displayedColumns.push('editDeleteIcon');
     }
   }
