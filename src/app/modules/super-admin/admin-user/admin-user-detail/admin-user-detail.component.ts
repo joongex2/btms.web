@@ -24,9 +24,6 @@ export interface AdminPermission {
   businessUnitCode: string;
   subBusinessUnitCode: string;
   plantCode: string;
-  businessUnitName: string;
-  subBusinessUnitName: string;
-  plantName: string;
   isActive: boolean;
 }
 
@@ -61,6 +58,9 @@ export class AdminUserDetailComponent implements OnInit {
   selectedBu: string | any;
   selectedSubBu: string | any;
   selectedPlant: string | any;
+  busMap: any[] = [];
+  subBusMap: any[] = [];
+  plantsMap: any[] = [];
 
   organizeForm: FormArray;
 
@@ -74,17 +74,17 @@ export class AdminUserDetailComponent implements OnInit {
 
   // table setting
   displayedColumns: string[] = [
-    'businessUnitName',
-    'subBusinessUnitName',
-    'plantName',
+    'businessUnitCode',
+    'subBusinessUnitCode',
+    'plantCode',
     'isActive',
     'editIcon'
   ];
 
   keyToColumnName: any = {
-    'businessUnitName': 'Business Unit',
-    'subBusinessUnitName': 'Sub-Business Unit',
-    'plantName': 'Plant',
+    'businessUnitCode': 'Business Unit',
+    'subBusinessUnitCode': 'Sub-Business Unit',
+    'plantCode': 'Plant',
     'isActive': 'Status'
   };
 
@@ -142,6 +142,11 @@ export class AdminUserDetailComponent implements OnInit {
       this.previousUrl = previousUrl;
     });
     this.bus = this._activatedRoute.snapshot.data.bus;
+
+    // map
+    this.busMap = this._activatedRoute.snapshot.data.bus;
+    this.subBusMap = this._activatedRoute.snapshot.data.subBus;
+    this.plantsMap = this._activatedRoute.snapshot.data.plants;
   }
 
   ngAfterViewInit() {
@@ -161,9 +166,6 @@ export class AdminUserDetailComponent implements OnInit {
         businessUnitCode: this.selectedBu.value,
         subBusinessUnitCode: this.selectedSubBu?.value || null,
         plantCode: this.selectedPlant?.value || null,
-        businessUnitName: this.selectedBu.title,
-        subBusinessUnitName: this.selectedSubBu?.title || null,
-        plantName: this.selectedPlant?.title || null,
         isActive: true
       })
       this.dataSource.data = this.dataSource.data;

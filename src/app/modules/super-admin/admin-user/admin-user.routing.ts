@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { BusResolver } from 'app/shared/resolver';
+import { BusResolver, PlantsResolver, SubBusResolver } from 'app/shared/resolver';
 import { AdminUserDetailComponent } from './admin-user-detail/admin-user-detail.component';
 import { AdminUserListComponent } from './admin-user-list/admin-user-list.component';
 import { AdminUserComponent } from './admin-user.component';
@@ -18,14 +18,18 @@ export const userRoutes: Route[] = [
                 path: 'add-user',
                 component: AdminUserDetailComponent,
                 resolve: {
-                    bus: BusResolver
+                    bus: BusResolver,
+                    subBus: SubBusResolver,
+                    plants: PlantsResolver
                 }
             },
             {
                 path: ':id',
                 component: AdminUserDetailComponent,
                 resolve: {
-                    bus: BusResolver
+                    bus: BusResolver,
+                    subBus: SubBusResolver,
+                    plants: PlantsResolver
                 }
             }
         ]

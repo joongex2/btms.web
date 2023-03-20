@@ -78,9 +78,6 @@ export class AdminPermissionModalComponent implements OnInit {
           businessUnitCode: this.selectedBu.value,
           subBusinessUnitCode: this.selectedSubBu?.value || null,
           plantCode: this.selectedPlant?.value || null,
-          businessUnitName: this.selectedBu.title,
-          subBusinessUnitName: this.selectedSubBu?.title || null,
-          plantName: this.selectedPlant?.title || null,
           isActive: this.isActive
         } as AdminPermission);
       } catch (e) {
