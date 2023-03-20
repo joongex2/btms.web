@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { getBaseUrl } from "app/shared/helpers/get-base-url";
 import { ResultMapper } from "app/shared/interfaces/result-mapper.interface";
-import { map, Observable } from "rxjs";
+import { firstValueFrom, map, Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -13,12 +13,14 @@ export class MasterService {
     createMaster(
         type: string,
         code: string,
-        name: string
+        name: string,
+        parentId: number
     ): Observable<any> {
         return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Masters'), {
             type,
             code,
-            name
+            name,
+            parentId
         }).pipe(map(data => data.model));
     }
 
@@ -36,12 +38,14 @@ export class MasterService {
         type: string,
         code: string,
         name: string,
+        parentId: number,
         isActive: boolean
     ): Observable<any> {
         return this._httpClient.put<ResultMapper>(getBaseUrl(`/v1/Masters/${id}`), {
             type,
             code,
             name,
+            parentId,
             isActive
         }).pipe(map(data => data.model));
     }
@@ -52,5 +56,45 @@ export class MasterService {
 
     getMasterTypes(): Observable<any> {
         return this._httpClient.get<ResultMapper>(getBaseUrl('/v1/Masters/types')).pipe(map(data => data.model));
+    }
+
+    // code
+    getBus(): Observable<any> {
+        return this.getMasters('BUSINESS_UNIT').pipe(map((bus) => (bus.map(bu => ({ title: bu.name, value: bu.code, id: bu.id })))));
+    }
+
+    getSubBus(buId?: number): Observable<any> {
+        return this.getMasters('SUB_BUSINESS_UNIT').pipe(map((subBus) => (subBus
+            .filter(subBu => buId ? subBu.parentId === buId : true)
+            .map(subBu => ({ title: subBu.name, value: subBu.code, id: subBu.id }))
+        )));
+    }
+
+    getPlants(subBuId?: number): Observable<any> {
+        return this.getMasters('PLANT').pipe(map((plants) => (plants
+            .filter(plant => subBuId ? plant.parentId === subBuId : true)
+            .map(plant => ({ title: plant.name, value: plant.code, id: plant.id }))
+        )));
+    }
+
+    getDivisions(): Observable<any> {
+        return this.getMasters('DIVISION').pipe(map((divisions) => (divisions.map(division => ({ title: division.name, value: division.code, id: division.id })))));
+    }
+
+    // id
+    async getBuIds(): Promise<any> {
+        return (await firstValueFrom(this.getMasters('BUSINESS_UNIT'))).map(bu => ({ title: bu.name, value: bu.id }));
+    }
+
+    async getSubBuIds(): Promise<any> {
+        return (await firstValueFrom(this.getMasters('SUB_BUSINESS_UNIT'))).map(subBu => ({ title: subBu.name, value: subBu.id }));
+    }
+
+    async getPlantIds(): Promise<any> {
+        return (await firstValueFrom(this.getMasters('PLANT'))).map(plant => ({ title: plant.name, value: plant.id }));
+    }
+
+    async getDivisionIds(): Promise<any> {
+        return (await firstValueFrom(this.getMasters('DIVISION'))).map(division => ({ title: division.name, value: division.id }));
     }
 }

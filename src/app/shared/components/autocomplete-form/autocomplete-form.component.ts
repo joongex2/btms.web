@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Optional, SimpleChanges } from "@angular/core";
 import { ControlContainer, FormBuilder, FormGroup } from "@angular/forms";
 import { requireMatchValidator } from "app/shared/directives/require-match.directive";
-import { map, Observable, startWith } from "rxjs";
+import { map, Observable, of, startWith } from "rxjs";
 
 
 // autocomplete use with formControl
@@ -28,9 +28,8 @@ export class AutocompleteFormComponent implements OnInit {
     ngOnChanges(changes: SimpleChanges): void {
         // trigger new filteredOptions
         if (changes['options'] && !changes['options'].firstChange) {
-            const temp = this.form.value;
-            this.form.reset();
-            this.form.setValue(temp);
+            const value = typeof this.form.value === 'string' ? this.form.value : this.form.value?.title;
+            this.filteredOptions = of(value ? this._filterOption(value) : this.options.slice());
         }
     }
 
@@ -46,8 +45,9 @@ export class AutocompleteFormComponent implements OnInit {
             this.parentForm.get(this.name).updateValueAndValidity();
         }
 
+        const startValue = this.parentForm.get(this.name).value ? this.parentForm.get(this.name).value : '';
         this.filteredOptions = this.parentForm.get(this.name).valueChanges.pipe(
-            startWith(''),
+            startWith(startValue),
             map(value => (typeof value === 'string' ? value : value?.title)),
             map(name => (name ? this._filterOption(name) : this.options.slice())),
         );
@@ -56,9 +56,7 @@ export class AutocompleteFormComponent implements OnInit {
     private _filterOption(search: string): Partial<any>[] {
         const filterValue = search.toLowerCase();
 
-        return this.options.filter(option =>
-            option.value.includes(search) || option.title.toLowerCase().includes(filterValue)
-        );
+        return this.options.filter(option => option.title.toLowerCase().includes(filterValue));
     }
 
     displayFn(value: any): string {

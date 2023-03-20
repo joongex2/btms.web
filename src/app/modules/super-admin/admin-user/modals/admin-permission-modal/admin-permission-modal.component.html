@@ -12,11 +12,11 @@
     <form class="grid gap-4 grid-cols-12 p-6 sm:p-8 overflow-y-auto items-center" #f="ngForm">
         <div class="col-span-4 font-medium">Business Unit</div>
         <div class="col-span-8">
-            <autocomplete label="Business Unit" name="bu" [options]="bus" [required]="true" [(value)]="selectedBu"></autocomplete>
+            <autocomplete label="Business Unit" name="bu" [options]="bus" [required]="true" [(value)]="selectedBu" (valueChange)="buChange($event)"></autocomplete>
         </div>
         <div class="col-span-4 font-medium">Sub Business Unit</div>
         <div class="col-span-8">
-            <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu"></autocomplete>
+            <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu" (valueChange)="subBuChange($event)"></autocomplete>
         </div>
         <div class="col-span-4 font-medium">Plant</div>
         <div class="col-span-8">

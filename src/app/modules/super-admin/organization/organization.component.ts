@@ -10,6 +10,7 @@ import { ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { firstValueFrom } from 'rxjs';
+import { MasterService } from '../master/master.service';
 import { OrganizationModalComponent } from './modals/organization-modal/organization-modal.component';
 import { OrganizationService } from './organization.service';
 import { Organization } from './organization.types';
@@ -81,20 +82,15 @@ export class OrganizationComponent implements OnInit {
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
     private _matDialog: MatDialog,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _masterService: MasterService
   ) {
     this.loadOrganizations();
   }
 
   async ngOnInit(): Promise<void> {
-    const bus = this._activatedRoute.snapshot.data.bus;
-    const subBus = this._activatedRoute.snapshot.data.subBus;
-    const plants = this._activatedRoute.snapshot.data.plants;
-    const divisions = this._activatedRoute.snapshot.data.divisions;
-    this.bus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
-    this.subBus = subBus.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
-    this.plants = plants.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.name, value: master.code }));
-    this.divisions = divisions.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.name, value: master.code }));
+    this.bus = this._activatedRoute.snapshot.data.bus;
+    this.divisions = this._activatedRoute.snapshot.data.divisions;
     // default
     this.dataSource.filterPredicate = this.customFilterPredicate();
 
@@ -147,11 +143,13 @@ export class OrganizationComponent implements OnInit {
     this.selectedIsActive = undefined;
   }
 
-  addOrganization(): void {
+  async addOrganization(): Promise<void> {
     const dialogRef = this._matDialog.open(OrganizationModalComponent, {
       data: {
         mode: ModalMode.ADD,
-        data: undefined
+        data: undefined,
+        bus: (await firstValueFrom(this._masterService.getBus())),
+        divisions: (await firstValueFrom(this._masterService.getDivisions()))
       }
     });
     dialogRef.afterClosed()
@@ -163,11 +161,13 @@ export class OrganizationComponent implements OnInit {
 
   editOrganization(element: Organization) {
     this._organizationService.getOrganization(element.id).subscribe({
-      next: (organization: Organization) => {
+      next: async (organization: Organization) => {
         const dialogRef = this._matDialog.open(OrganizationModalComponent, {
           data: {
             mode: ModalMode.EDIT,
-            data: organization
+            data: organization,
+            bus: (await firstValueFrom(this._masterService.getBus())),
+            divisions: (await firstValueFrom(this._masterService.getDivisions()))
           }
         });
         dialogRef.afterClosed()
@@ -209,5 +209,22 @@ export class OrganizationComponent implements OnInit {
 
   onClick() {
     return false;
+  }
+
+  async buChange(bu: any) {
+    if (typeof bu === 'string') {
+      this.selectedSubBu = null;
+      this.selectedPlant = null;
+    } else {
+      this.subBus = await firstValueFrom(this._masterService.getSubBus(bu.id));
+    }
+  }
+
+  async subBuChange(subBu: any) {
+    if (typeof subBu === 'string') {
+      this.selectedPlant = null;
+    } else {
+      this.plants = await firstValueFrom(this._masterService.getPlants(subBu.id));
+    }
   }
 }

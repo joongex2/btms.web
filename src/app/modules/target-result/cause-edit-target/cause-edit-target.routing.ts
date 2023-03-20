@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { MenuGuard } from 'app/core/auth/guards/menu.guard';
 import { ConfirmationComponent } from 'app/modules/target-info/target-management/components/confirmation/confirmation.component';
-import { BusResolver, DivisionsResolver, DocumentResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, ReferenceDataResolver, ReferenceStatusesResolver, SubBusResolver, TargetTypesResolver, UserResolver } from 'app/shared/resolver';
+import { BusResolver, DivisionsResolver, DocumentResolver, DocumentTypesResolver, OrganizesResolver, ReferenceDataResolver, ReferenceStatusesResolver, TargetTypesResolver, UserResolver } from 'app/shared/resolver';
 import { ReferenceListComponent } from '../reference-list/reference-list.component';
 import { TargetCauseFixComponent } from '../target-cause-fix/target-cause-fix.component';
 import { CauseEditTargetComponent } from './cause-edit-target.component';
@@ -21,8 +21,6 @@ export const causeEditTargetRoutes: Route[] = [
                     documentTypes: DocumentTypesResolver,
                     targetTypes: TargetTypesResolver,
                     bus: BusResolver,
-                    subBus: SubBusResolver,
-                    plants: PlantsResolver,
                     divisions: DivisionsResolver
                 }
             },

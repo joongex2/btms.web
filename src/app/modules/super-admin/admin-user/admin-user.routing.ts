@@ -1,6 +1,5 @@
 import { Route } from '@angular/router';
-import { MenuGuard } from 'app/core/auth/guards/menu.guard';
-import { BusResolver, OrganizesResolver, PlantsResolver, SubBusResolver } from 'app/shared/resolver';
+import { BusResolver } from 'app/shared/resolver';
 import { AdminUserDetailComponent } from './admin-user-detail/admin-user-detail.component';
 import { AdminUserListComponent } from './admin-user-list/admin-user-list.component';
 import { AdminUserComponent } from './admin-user.component';
@@ -19,18 +18,14 @@ export const userRoutes: Route[] = [
                 path: 'add-user',
                 component: AdminUserDetailComponent,
                 resolve: {
-                    bus: BusResolver,
-                    subBus: SubBusResolver,
-                    plants: PlantsResolver,
+                    bus: BusResolver
                 }
             },
             {
                 path: ':id',
                 component: AdminUserDetailComponent,
                 resolve: {
-                    bus: BusResolver,
-                    subBus: SubBusResolver,
-                    plants: PlantsResolver,
+                    bus: BusResolver
                 }
             }
         ]

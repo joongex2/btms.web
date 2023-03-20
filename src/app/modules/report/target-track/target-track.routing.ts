@@ -15,8 +15,6 @@ export const targetTrackRoutes: Route[] = [
             documentTypes: DocumentTypesResolver,
             targetTypes: TargetTypesResolver,
             bus: BusResolver,
-            subBus: SubBusResolver,
-            plants: PlantsResolver,
             divisions: DivisionsResolver
         }
     }

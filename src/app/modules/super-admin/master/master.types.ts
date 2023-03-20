@@ -3,5 +3,6 @@ export interface Master {
     type: string;
     code: string;
     name: string;
+    parentId: number;
     isActive: boolean;
 }

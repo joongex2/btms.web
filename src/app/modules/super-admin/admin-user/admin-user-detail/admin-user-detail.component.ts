@@ -14,6 +14,7 @@ import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { UrlService } from 'app/shared/services/url.service';
 import { firstValueFrom } from 'rxjs';
+import { MasterService } from '../../master/master.service';
 import { AdminUserService } from '../admin-user.service';
 import { AdminUser } from '../admin-user.types';
 import { AdminPermissionModalComponent } from '../modals/admin-permission-modal/admin-permission-modal.component';
@@ -62,7 +63,7 @@ export class AdminUserDetailComponent implements OnInit {
   organizeForm: FormArray;
 
   // bind value
-  dataSource: MatTableDataSource<AdminPermission> = new MatTableDataSource([]);
+  dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
   username: string;
   name: string;
   email: string;
@@ -71,17 +72,17 @@ export class AdminUserDetailComponent implements OnInit {
 
   // table setting
   displayedColumns: string[] = [
-    'businessUnitCode',
-    'subBusinessUnitCode',
-    'plantCode',
+    'businessUnitName',
+    'subBusinessUnitName',
+    'plantName',
     'isActive',
     'editIcon'
   ];
 
   keyToColumnName: any = {
-    'businessUnitCode': 'Business Unit',
-    'subBusinessUnitCode': 'Sub-Business Unit',
-    'plantCode': 'Plant',
+    'businessUnitName': 'Business Unit',
+    'subBusinessUnitName': 'Sub-Business Unit',
+    'plantName': 'Plant',
     'isActive': 'Status'
   };
 
@@ -104,6 +105,7 @@ export class AdminUserDetailComponent implements OnInit {
     private _location: Location,
     private _userGroupService: UserGroupService,
     private _adminUserService: AdminUserService,
+    private _masterService: MasterService,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
     private _urlService: UrlService,
@@ -137,12 +139,7 @@ export class AdminUserDetailComponent implements OnInit {
     this._urlService.previousUrl$.subscribe((previousUrl: string) => {
       this.previousUrl = previousUrl;
     });
-    const bus = this._activatedRoute.snapshot.data.bus;
-    const subBus = this._activatedRoute.snapshot.data.subBus;
-    const plants = this._activatedRoute.snapshot.data.plants;
-    this.bus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
-    this.subBus = subBus.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
-    this.plants = plants.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.name, value: master.code }));
+    this.bus = this._activatedRoute.snapshot.data.bus;
   }
 
   ngAfterViewInit() {
@@ -160,8 +157,11 @@ export class AdminUserDetailComponent implements OnInit {
       this.dataSource.data.push({
         id: 0,
         businessUnitCode: this.selectedBu.value,
-        subBusinessUnitCode: this.selectedSubBu ? this.selectedSubBu.value : null,
-        plantCode: this.selectedPlant ? this.selectedPlant.value : null,
+        subBusinessUnitCode: this.selectedSubBu?.value || null,
+        plantCode: this.selectedPlant?.value || null,
+        businessUnitName: this.selectedBu.title,
+        subBusinessUnitName: this.selectedSubBu?.title || null,
+        plantName: this.selectedPlant?.title || null,
         isActive: true
       })
       this.dataSource.data = this.dataSource.data;
@@ -169,18 +169,20 @@ export class AdminUserDetailComponent implements OnInit {
       // reset
       this.adminPermissionForm.form.get('bu').reset('');
       this.adminPermissionForm.form.get('subBu').reset('');
+      this.subBus = [];
       this.adminPermissionForm.form.get('plant').reset('');
+      this.plants = [];
     }
   }
 
-  editPermission(element: AdminPermission, index: number) {
+  async editPermission(element: AdminPermission, index: number) {
+    const bus = await firstValueFrom(this._masterService.getBus());
+
     const dialogRef = this._matDialog.open(AdminPermissionModalComponent, {
       data: {
         data: {
           adminPermission: element,
-          bus: this.bus,
-          subBus: this.subBus,
-          plants: this.plants
+          bus
         }
       },
       autoFocus: false
@@ -315,6 +317,23 @@ export class AdminUserDetailComponent implements OnInit {
       this._router.navigate(['/super-admin/admin-user']);
     } else {
       this._location.back();
+    }
+  }
+
+  async buChange(bu: any) {
+    if (typeof bu === 'string') {
+      this.selectedSubBu = null;
+      this.selectedPlant = null;
+    } else {
+      this.subBus = await firstValueFrom(this._masterService.getSubBus(bu.id));
+    }
+  }
+
+  async subBuChange(subBu: any) {
+    if (typeof subBu === 'string') {
+      this.selectedPlant = null;
+    } else {
+      this.plants = await firstValueFrom(this._masterService.getPlants(subBu.id));
     }
   }
 }

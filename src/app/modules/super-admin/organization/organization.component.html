@@ -58,11 +58,11 @@
                             </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Business Unit</div>
                             <div class="col-span-6 sm:col-span-3">
-                                <autocomplete label="Business Unit" name="bu" [options]="bus" [(value)]="selectedBu"></autocomplete>
+                                <autocomplete label="Business Unit" name="bu" [options]="bus" [(value)]="selectedBu" (valueChange)="buChange($event)"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Sub Business Unit</div>
                             <div class="col-span-6 sm:col-span-3">
-                                <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu"></autocomplete>
+                                <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu" (valueChange)="subBuChange($event)"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-3 font-medium">Plant</div>
                             <div class="col-span-6 sm:col-span-3">

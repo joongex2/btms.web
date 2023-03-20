@@ -118,11 +118,11 @@
                 <form #adminPermissionForm="ngForm" class="grid gap-x-4 gap-y-4 grid-cols-12 items-center">
                     <div class="col-span-6 md:col-span-3 font-medium">Business Unit<span class="text-warn">*</span></div>
                     <div class="col-span-6 md:col-span-3">
-                        <autocomplete label="Business Unit" name="bu" [options]="bus" [required]="true" [(value)]="selectedBu"></autocomplete>
+                        <autocomplete label="Business Unit" name="bu" [options]="bus" [required]="true" [(value)]="selectedBu" (valueChange)="buChange($event)"></autocomplete>
                     </div>
                     <div class="col-span-6 md:col-span-3 font-medium">Sub Business Unit</div>
                     <div class="col-span-6 md:col-span-3">
-                        <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu"></autocomplete>
+                        <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu" (valueChange)="subBuChange($event)"></autocomplete>
                     </div>
                     <div class="col-span-6 md:col-span-3 font-medium">Plant</div>
                     <div class="col-span-6 md:col-span-9">
@@ -143,9 +143,9 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ keyToColumnName[key] }}</th>
                             </ng-container>
                             <td mat-cell *matCellDef="let element; let i = index">
-                                <ng-container *ngIf="key == 'businessUnitCode'">{{ element[key] | titleValue:bus }}</ng-container>
-                                <ng-container *ngIf="key == 'subBusinessUnitCode'">{{ element[key] | titleValue:subBus }}</ng-container>
-                                <ng-container *ngIf="key == 'plantCode'">{{ element[key] | titleValue:plants }}</ng-container>
+                                <ng-container *ngIf="key == 'businessUnitName'">{{ element[key] }}</ng-container>
+                                <ng-container *ngIf="key == 'subBusinessUnitName'">{{ element[key] }}</ng-container>
+                                <ng-container *ngIf="key == 'plantName'">{{ element[key] }}</ng-container>
                                 <ng-container *ngIf="key == 'isActive'">{{ element[key] | isActive }}</ng-container>
                                 <ng-container *ngIf="key == 'editIcon'">
                                     <div class="flex items-center justify-center">

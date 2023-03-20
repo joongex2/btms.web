@@ -4,6 +4,7 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MasterService } from 'app/modules/super-admin/master/master.service';
 import { Document, DocumentParams } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import * as FileSaver from 'file-saver';
@@ -89,7 +90,8 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     private _reportService: ReportService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
-    private _confirmationService: ConfirmationService
+    private _confirmationService: ConfirmationService,
+    private _masterService: MasterService
   ) {
     this.setDefault();
   }
@@ -99,19 +101,13 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     const statuses = this._activatedRoute.snapshot.data.statuses;
     const documentTypes = this._activatedRoute.snapshot.data.documentTypes;
     const targetTypes = this._activatedRoute.snapshot.data.targetTypes;
-    const bus = this._activatedRoute.snapshot.data.bus;
-    const subBus = this._activatedRoute.snapshot.data.subBus;
-    const plants = this._activatedRoute.snapshot.data.plants;
-    const divisions = this._activatedRoute.snapshot.data.divisions;
+    this.bus = this._activatedRoute.snapshot.data.bus;
+    this.divisions = this._activatedRoute.snapshot.data.divisions;
 
     this.organizes = organizes.map((org) => ({ title: org.organizeName, value: org.organizeCode }));
-    this.statuses = statuses.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+    this.statuses = statuses.map((v) => ({ title: v.workflowStatusName, value: v.workflowStatus }));
     this.documentTypes = documentTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
     this.targetTypes = targetTypes.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
-    this.bus = bus.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
-    this.subBus = subBus.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.name, value: master.code }));
-    this.plants = plants.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.name, value: master.code }));
-    this.divisions = divisions.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.name, value: master.code }));
 
     const params = (this._activatedRoute.snapshot.queryParamMap as any).params;
     if (params.expand === 'true') setTimeout(() => this.matExpansionPanel.open());
@@ -197,7 +193,7 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     if (typeof selectedOption === 'string') {
       return selectedOption ? selectedOption : undefined;
     } else {
-      return selectedOption.value ? selectedOption.value : undefined;
+      return selectedOption?.value ? selectedOption.value : undefined;
     }
   }
 
@@ -328,5 +324,22 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ? this.selection.clear() : this.documents.forEach(row => this.selection.select(row));
+  }
+
+  async buChange(bu: any) {
+    if (typeof bu === 'string') {
+      this.selectedSubBu = null;
+      this.selectedPlant = null;
+    } else {
+      this.subBus = await firstValueFrom(this._masterService.getSubBus(bu.id));
+    }
+  }
+
+  async subBuChange(subBu: any) {
+    if (typeof subBu === 'string') {
+      this.selectedPlant = null;
+    } else {
+      this.plants = await firstValueFrom(this._masterService.getPlants(subBu.id));
+    }
   }
 }

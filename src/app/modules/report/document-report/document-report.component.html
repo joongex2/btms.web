@@ -58,7 +58,7 @@
                             
                             <div class="col-span-6 sm:col-span-2 font-medium">Business Unit</div>
                             <div class="col-span-6 sm:col-span-4">
-                                <autocomplete label="Business Unit" name="bu" [options]="bus" [(value)]="selectedBu"></autocomplete>
+                                <autocomplete label="Business Unit" name="bu" [options]="bus" [(value)]="selectedBu" (valueChange)="buChange($event)"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Running No.</div>
                             <div class="col-span-6 sm:col-span-4 flex items-center">
@@ -69,7 +69,7 @@
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Sub Business Unit</div>
                             <div class="col-span-6 sm:col-span-4">
-                                <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu"></autocomplete>
+                                <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu" (valueChange)="subBuChange($event)"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">From Document Year</div>
                             <div class="col-span-6 sm:col-span-4 flex items-center">

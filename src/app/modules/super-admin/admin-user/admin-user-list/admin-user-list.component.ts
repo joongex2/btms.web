@@ -17,11 +17,6 @@ import { Organization } from '../../organization/organization.types';
 import { AdminUserService } from '../admin-user.service';
 import { AdminUser } from '../admin-user.types';
 
-
-
-
-
-
 @Component({
   selector: 'admin-user-list',
   templateUrl: './admin-user-list.component.html',

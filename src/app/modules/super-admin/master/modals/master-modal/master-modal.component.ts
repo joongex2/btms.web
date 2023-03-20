@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
-import { ModalData, ModalMode } from 'app/shared/interfaces/modal.interface';
+import { requireMatchValidator } from 'app/shared/directives/require-match.directive';
+import { ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { firstValueFrom } from 'rxjs';
@@ -27,6 +28,9 @@ export class MasterModalComponent implements OnInit {
     { title: 'Active', value: true },
     { title: 'Inactive', value: false }
   ];
+  organizeGroups: any[] = [];
+  bus: any[] = [];
+  subBus: any[] = [];
 
   // alert
   showAlert: boolean = false;
@@ -37,7 +41,7 @@ export class MasterModalComponent implements OnInit {
   };
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public modalData: ModalData,
+    @Inject(MAT_DIALOG_DATA) public modalData: any,
     public matDialogRef: MatDialogRef<MasterModalComponent>,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
@@ -48,13 +52,25 @@ export class MasterModalComponent implements OnInit {
   ngOnInit(): void {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
     this.master = this.modalData.data;
+    this.bus = this.modalData.bus;
+    this.subBus = this.modalData.subBus;
+    if (this.isEdit) {
+      if (this.master.type === 'SUB_BUSINESS_UNIT') {
+        this.organizeGroups = this.bus;
+      } else if (this.master.type === 'PLANT') {
+        this.organizeGroups = this.subBus;
+      }
+    }
     const type = this.isEdit ? this.master.type : undefined;
+    const organizeGroup = this.isEdit ? this.organizeGroups.find(v => v.value === this.master.parentId) : null;
     const code = this.isEdit ? this.master.code : '';
     const name = this.isEdit ? this.master.name : '';
     const isActive = this.isEdit ? this.master.isActive : false;
+    const organizeGroupValidators = this.isEdit && ['SUB_BUSINESS_UNIT', 'PLANT'].includes(this.master.type) ? [Validators.required, requireMatchValidator] : [];
 
     this.masterForm = this._formBuilder.group({
       type: [type, [Validators.required]],
+      organizeGroup: [organizeGroup, organizeGroupValidators],
       code: [code, [Validators.required]],
       name: [name, [Validators.required]],
       isActive: [{ value: isActive, disabled: !this.isEdit }, [Validators.required]]
@@ -63,6 +79,26 @@ export class MasterModalComponent implements OnInit {
     this._masterService.getMasterTypes().subscribe({
       next: (types: any[]) => this.types = types.map((type) => ({ title: type.name, value: type.type })),
       error: (e) => console.log(e)
+    });
+
+    this.masterForm.get('type').valueChanges.subscribe((type) => {
+      this.masterForm.get('organizeGroup').reset();
+      if (type === 'BUSINESS_UNIT') {
+        this.organizeGroups = [];
+        this.masterForm.get('organizeGroup').clearValidators();
+        this.masterForm.get('organizeGroup').setValue(0);
+      } else if (type === 'SUB_BUSINESS_UNIT') {
+        this.organizeGroups = this.bus;
+        this.masterForm.get('organizeGroup').setValidators(Validators.required);
+      } else if (type === 'PLANT') {
+        this.organizeGroups = this.subBus;
+        this.masterForm.get('organizeGroup').setValidators(Validators.required);
+      } else if (type === 'DIVISION') {
+        this.organizeGroups = [];
+        this.masterForm.get('organizeGroup').clearValidators();
+        this.masterForm.get('organizeGroup').setValue(null);
+      }
+      this.masterForm.get('organizeGroup').updateValueAndValidity();
     });
   }
 
@@ -74,6 +110,8 @@ export class MasterModalComponent implements OnInit {
     } else {
       this._confirmationService.save().afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {
+          let organizeGroup = this.masterForm.get('organizeGroup').value;
+          organizeGroup = organizeGroup ? organizeGroup.value : organizeGroup;
           try {
             if (this.isEdit) {
               await firstValueFrom(this._masterService.updateMaster(
@@ -81,6 +119,7 @@ export class MasterModalComponent implements OnInit {
                 this.masterForm.get('type').value,
                 this.masterForm.get('code').value,
                 this.masterForm.get('name').value,
+                organizeGroup,
                 this.masterForm.get('isActive').value
               ));
             } else {
@@ -88,7 +127,8 @@ export class MasterModalComponent implements OnInit {
               await firstValueFrom(this._masterService.createMaster(
                 this.masterForm.get('type').value,
                 this.masterForm.get('code').value,
-                this.masterForm.get('name').value
+                this.masterForm.get('name').value,
+                organizeGroup
               ));
             }
             this._snackBarService.success();

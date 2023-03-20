@@ -4,12 +4,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { requireMatchValidator } from 'app/shared/directives/require-match.directive';
-import { ModalData, ModalMode } from 'app/shared/interfaces/modal.interface';
+import { ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { firstValueFrom } from 'rxjs';
 import { MasterService } from '../../../master/master.service';
-import { Master } from '../../../master/master.types';
 import { OrganizationService } from '../../organization.service';
 import { Organization } from '../../organization.types';
 
@@ -44,7 +43,7 @@ export class OrganizationModalComponent implements OnInit {
   };
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public modalData: ModalData,
+    @Inject(MAT_DIALOG_DATA) public modalData: any,
     public matDialogRef: MatDialogRef<OrganizationModalComponent>,
     private _confirmationService: ConfirmationService,
     private _snackBarService: SnackBarService,
@@ -53,12 +52,14 @@ export class OrganizationModalComponent implements OnInit {
     private _formBuilder: FormBuilder
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.isEdit = this.modalData.mode === ModalMode.EDIT;
     this.organization = this.modalData.data;
     const organizeCode = this.isEdit ? this.organization.organizeCode : '';
     const organizeName = this.isEdit ? this.organization.organizeName : '';
     const isActive = this.isEdit ? this.organization.isActive : false;
+    this.businessUnitCodes = this.modalData.bus;
+    this.divisionCodes = this.modalData.divisions;
 
     this.organizationForm = this._formBuilder.group({
       organizeCode: [organizeCode, [Validators.required]],
@@ -70,24 +71,29 @@ export class OrganizationModalComponent implements OnInit {
       isActive: [{ value: isActive, disabled: !this.isEdit }, [Validators.required]]
     });
 
-    this._masterService.getMasters().subscribe({
-      next: (masters: Master[]) => {
-        // TODO: not sure can load type from api
-        this.businessUnitCodes = masters.filter((master) => master.type == 'BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
-        this.subBusinessUnitCodes = masters.filter((master) => master.type == 'SUB_BUSINESS_UNIT').map((master) => ({ title: master.code, value: master.code }));
-        this.plantCodes = masters.filter((master) => master.type == 'PLANT').map((master) => ({ title: master.code, value: master.code }));
-        this.divisionCodes = masters.filter((master) => master.type == 'DIVISION').map((master) => ({ title: master.code, value: master.code }));
-        const businessUnitCode = this.isEdit ? this.businessUnitCodes.find(v => v.value === this.organization.businessUnitCode) || null : undefined;
-        const subBusinessUnitCode = this.isEdit ? this.subBusinessUnitCodes.find(v => v.value === this.organization.subBusinessUnitCode) || null : undefined;
-        const plantCode = this.isEdit ? this.plantCodes.find(v => v.value === this.organization.plantCode) || null : undefined;
-        const divisionCode = this.isEdit ? this.divisionCodes.find(v => v.value === this.organization.divisionCode) || null : undefined;
-        this.organizationForm.get('businessUnitCode').setValue(businessUnitCode);
-        this.organizationForm.get('subBusinessUnitCode').setValue(subBusinessUnitCode);
-        this.organizationForm.get('plantCode').setValue(plantCode);
-        this.organizationForm.get('divisionCode').setValue(divisionCode);
-      },
-      error: (e) => console.log(e)
+    if (this.isEdit) {
+      const businessUnitCode = this.businessUnitCodes.find(v => v.value === this.organization.businessUnitCode);
+      this.subBusinessUnitCodes = await firstValueFrom(this._masterService.getSubBus(businessUnitCode.id));
+      const subBusinessUnitCode = this.subBusinessUnitCodes.find(v => v.value === this.organization.subBusinessUnitCode);
+      this.plantCodes = await firstValueFrom(this._masterService.getPlants(subBusinessUnitCode.id));
+      const plantCode = this.plantCodes.find(v => v.value === this.organization.plantCode);
+      const divisionCode = this.divisionCodes.find(v => v.value === this.organization.divisionCode);
+      this.organizationForm.get('businessUnitCode').setValue(businessUnitCode);
+      this.organizationForm.get('subBusinessUnitCode').setValue(subBusinessUnitCode);
+      this.organizationForm.get('plantCode').setValue(plantCode);
+      this.organizationForm.get('divisionCode').setValue(divisionCode);
+    }
+
+    this.organizationForm.get('businessUnitCode').valueChanges.subscribe(async (v) => {
+      this.organizationForm.get('subBusinessUnitCode').reset(null, { emitEvent: false });
+      this.organizationForm.get('plantCode').reset(null, { emitEvent: false });
+      if (typeof v !== 'string') this.subBusinessUnitCodes = await firstValueFrom(this._masterService.getSubBus(v.id));
     });
+
+    this.organizationForm.get('subBusinessUnitCode').valueChanges.subscribe(async (v) => {
+      this.organizationForm.get('plantCode').reset(null, { emitEvent: false });
+      if (typeof v !== 'string') this.plantCodes = await firstValueFrom(this._masterService.getPlants(v.id));
+    })
   }
 
   async saveAndClose() {

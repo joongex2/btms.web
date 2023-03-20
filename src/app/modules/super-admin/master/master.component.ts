@@ -121,11 +121,13 @@ export class MasterComponent implements OnInit {
     this.selectedIsActive = undefined;
   }
 
-  addMaster(): void {
+  async addMaster(): Promise<void> {
     const dialogRef = this._matDialog.open(MasterModalComponent, {
       data: {
         mode: ModalMode.ADD,
-        data: undefined
+        data: undefined,
+        bus: await this._masterService.getBuIds(),
+        subBus: await this._masterService.getSubBuIds()
       }
     });
     dialogRef.afterClosed()
@@ -137,11 +139,13 @@ export class MasterComponent implements OnInit {
 
   editMaster(element: Master) {
     this._masterService.getMaster(element.id).subscribe({
-      next: (master: Master) => {
+      next: async (master: Master) => {
         const dialogRef = this._matDialog.open(MasterModalComponent, {
           data: {
             mode: ModalMode.EDIT,
-            data: master
+            data: master,
+            bus: (await this._masterService.getBuIds()),
+            subBus: (await this._masterService.getSubBuIds())
           }
         });
         dialogRef.afterClosed()

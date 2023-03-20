@@ -99,7 +99,7 @@ export class BusResolver implements Resolve<any>
     constructor(private _masterService: MasterService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this._masterService.getMasters('BUSINESS_UNIT');
+        return this._masterService.getBus();
     }
 }
 
@@ -111,7 +111,7 @@ export class SubBusResolver implements Resolve<any>
     constructor(private _masterService: MasterService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this._masterService.getMasters('SUB_BUSINESS_UNIT');
+        return this._masterService.getSubBus();
     }
 }
 
@@ -123,7 +123,7 @@ export class PlantsResolver implements Resolve<any>
     constructor(private _masterService: MasterService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this._masterService.getMasters('PLANT');
+        return this._masterService.getPlants();
     }
 }
 
@@ -135,7 +135,7 @@ export class DivisionsResolver implements Resolve<any>
     constructor(private _masterService: MasterService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this._masterService.getMasters('DIVISION');
+        return this._masterService.getDivisions();
     }
 }
 

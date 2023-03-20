@@ -107,7 +107,7 @@ export class TargetTemplateListComponent implements OnInit {
     if (typeof selectedOption === 'string') {
       return selectedOption ? selectedOption : undefined;
     } else {
-      return selectedOption.value ? selectedOption.value : undefined;
+      return selectedOption?.value ? selectedOption.value : undefined;
     }
   }
 

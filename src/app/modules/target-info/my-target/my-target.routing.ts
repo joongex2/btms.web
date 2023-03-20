@@ -23,8 +23,6 @@ export const myTargetRoutes: Route[] = [
                     documentTypes: DocumentTypesResolver,
                     targetTypes: TargetTypesResolver,
                     bus: BusResolver,
-                    subBus: SubBusResolver,
-                    plants: PlantsResolver,
                     divisions: DivisionsResolver
                 }
             },
