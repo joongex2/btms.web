@@ -20,7 +20,7 @@ import { AdminPermission } from '../../admin-user-detail/admin-user-detail.compo
 })
 export class AdminPermissionModalComponent implements OnInit {
   @ViewChild('f') adminPermissionForm: NgForm;
-  adminPermission: any;
+  adminPermission: AdminPermission;
 
   bus: any[] = [];
   subBus: any[] = [];

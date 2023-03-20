@@ -19,12 +19,14 @@ import { AdminUserService } from '../admin-user.service';
 import { AdminUser } from '../admin-user.types';
 import { AdminPermissionModalComponent } from '../modals/admin-permission-modal/admin-permission-modal.component';
 
-
 export interface AdminPermission {
   id: number;
   businessUnitCode: string;
   subBusinessUnitCode: string;
   plantCode: string;
+  businessUnitName: string;
+  subBusinessUnitName: string;
+  plantName: string;
   isActive: boolean;
 }
 
@@ -63,7 +65,7 @@ export class AdminUserDetailComponent implements OnInit {
   organizeForm: FormArray;
 
   // bind value
-  dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
+  dataSource: MatTableDataSource<AdminPermission> = new MatTableDataSource([]);
   username: string;
   name: string;
   email: string;
