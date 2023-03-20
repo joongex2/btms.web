@@ -14,7 +14,7 @@
         "lint": "ng lint",
         "build:prod": "ng build --configuration production --vendor-chunk --aot --output-hashing=all",
         "build:uat": "ng build --configuration uat --vendor-chunk --aot --output-hashing=all",
-        "build:staging": "ng build --configuration dev --vendor-chunk --aot --output-hashing=all"
+        "build:dev": "ng build --configuration dev --vendor-chunk --aot --output-hashing=all"
     },
     "dependencies": {
         "@angular/animations": "13.1.1",
