@@ -293,12 +293,15 @@ export class TargetManagementComponent implements OnInit {
       let haveD03 = false;
       let haveD04 = false;
       const organize = this.user.organizes.find((v) => v.organizeCode === this.document.organizeCode);
-      for (let role of organize.roles) {
-        if (role.roleCode === 'D01') haveD01 = true;
-        if (role.roleCode === 'D02') haveD02 = true;
-        if (role.roleCode === 'D03') haveD03 = true;
-        if (role.roleCode === 'D04') haveD04 = true;
+      if (organize) {
+        for (let role of organize.roles) {
+          if (role.roleCode === 'D01') haveD01 = true;
+          if (role.roleCode === 'D02') haveD02 = true;
+          if (role.roleCode === 'D03') haveD03 = true;
+          if (role.roleCode === 'D04') haveD04 = true;
+        }
       }
+
       this.canSave = false;
       this.canEdit = false;
       this.canSubmit = false;

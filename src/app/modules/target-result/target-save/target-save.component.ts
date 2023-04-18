@@ -170,12 +170,15 @@ export class TargetSaveComponent implements OnInit {
       let haveT03 = false;
       let haveT04 = false;
       const organize = this.user.organizes.find((v) => v.organizeCode === this.document.organizeCode);
-      for (let role of organize.roles) {
-        if (role.roleCode === 'T01') haveT01 = true;
-        if (role.roleCode === 'T02') haveT02 = true;
-        if (role.roleCode === 'T03') haveT03 = true;
-        if (role.roleCode === 'T04') haveT04 = true;
+      if (organize) {
+        for (let role of organize.roles) {
+          if (role.roleCode === 'T01') haveT01 = true;
+          if (role.roleCode === 'T02') haveT02 = true;
+          if (role.roleCode === 'T03') haveT03 = true;
+          if (role.roleCode === 'T04') haveT04 = true;
+        }
       }
+
       this.canSave = false;
       this.canEdit = false;
       this.canSubmit = false;
