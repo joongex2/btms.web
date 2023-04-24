@@ -1,7 +1,7 @@
 <div class="flex items-center">
     <div *ngIf="showLabel">{{label}}</div>
     <div class="flex flex-1 items-center">
-        :
+        <ng-container *ngIf="showColon">:</ng-container>
         <mat-form-field class="flex-auto ml-2" appearance="fill">
             <input 
                 type="text"

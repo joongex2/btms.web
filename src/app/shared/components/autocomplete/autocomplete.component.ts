@@ -14,6 +14,7 @@ export class AutocompleteComponent {
     @Input() name;
     @Input() options: any[] = [];
     @Input() showLabel = false;
+    @Input() showColon = true;
     @Input() required = false;
     @Input() requireMatch = true;
     @Input() disabled = false;

@@ -118,7 +118,10 @@
             </mat-accordion>
     
             <div [ngClass]="{ invisible: selectedUserGroup === 1 }" class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden p-6">
-                <org-role-tree [organizeNodes]="organizes"></org-role-tree>
+                <form #f2="ngForm" class="mb-4">
+                    <autocomplete label="Organize" name="organize" [options]="mapOrganizes" [(value)]="selectedOrganize" [requireMatch]="false" [showColon]="false"></autocomplete>
+                </form>
+                <org-role-tree [organizeNodes]="organizes" [selectedOrganize]="selectedOrganize"></org-role-tree>
             </div>
         </div>
     </div>

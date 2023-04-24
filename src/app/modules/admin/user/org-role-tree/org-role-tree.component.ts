@@ -18,6 +18,8 @@ import { OrganizeNode, RoleNode } from './node.interface';
 })
 export class OrgRoleTreeComponent implements OnInit {
   @Input() organizeNodes: OrganizeNode[];
+  @Input() selectedOrganize: any;
+  originOrganizeNodes: OrganizeNode[];
   organizations: { title: string, value: string }[];
   roles: { title: string, value: string }[];
   organizeCodeNameMapper: { [key: string]: string };
@@ -62,7 +64,16 @@ export class OrgRoleTreeComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('organizeNodes' in changes && this.organizeNodes) {
-      this.organizeNodes = this.organizeNodes.map((v) => ({ ...v, expand: false }))
+      this.organizeNodes = this.organizeNodes.map((v) => ({ ...v, expand: false }));
+      this.originOrganizeNodes = [...this.organizeNodes];
+    } else if ('selectedOrganize' in changes) {
+      if (!this.selectedOrganize) {
+        this.organizeNodes = [...this.originOrganizeNodes];
+      } else if (typeof this.selectedOrganize === 'string') {
+        this.organizeNodes = this.originOrganizeNodes.filter(v => v.organizeCode.toLowerCase().includes(this.selectedOrganize.toLowerCase()));
+      } else {
+        this.organizeNodes = this.originOrganizeNodes.filter(v => v.organizeCode.toLowerCase() === this.selectedOrganize.title.toLowerCase());
+      }
     }
   }
 

@@ -46,7 +46,9 @@ export class UserDetailComponent implements OnInit {
   email: string;
   selectedUserGroup: number;
   selectedIsActive: boolean;
-  organizes: any;
+  organizes: any = [];
+  selectedOrganize: any;
+  mapOrganizes: any = [];
 
   // alert
   showAlert: boolean = false;
@@ -173,6 +175,7 @@ export class UserDetailComponent implements OnInit {
         this.selectedUserGroup = this.user.groupId;
         this.selectedIsActive = this.user.isActive;
         this.organizes = this.user.organizes;
+        this.mapOrganizes = this.user.organizes.map(v => ({ title: v.organizeCode, value: v }));
       },
       error: (e) => console.error(e)
     });
