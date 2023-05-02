@@ -70,4 +70,12 @@ export class ReportService {
         if (queryString) queryString = `?${queryString}`;
         return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Reports/actuals${queryString}`));
     }
+
+    getReportDocumentsExcel(ids: number[]) {
+        return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Reports/documents/excel'), ids);
+    }
+
+    getReportActualsExcel(ids: number[]) {
+        return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Reports/actuals/excel'), ids);
+    }
 }

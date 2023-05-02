@@ -265,6 +265,7 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     }
 
     let documents: Document[] = [];
+    let reportActuals: any[] = [];
     if (this.isAllSelected()) {
       const jobApplicantParams = this.getDocumentParams();
       // fire api
@@ -277,22 +278,24 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
       ));
       documents = _documents?.model;
       const ids = documents.map(v => v.id);
+      reportActuals = (await firstValueFrom(this._reportService.getReportActualsExcel(ids))).model;
     } else {
       // use selection
       documents = this.selection.selected;
       const ids = documents.map(v => v.id);
+      reportActuals = (await firstValueFrom(this._reportService.getReportActualsExcel(ids))).model;
     }
 
     const Heading = [['ลำดับ']];
     const exportTemplate = [];
 
-    for (let i = 0; i <= documents.length - 1; i++) {
+    for (let i = 0; i <= reportActuals.length - 1; i++) {
       if (i === 0) {
-        for (let key of Object.keys(documents[0])) {
+        for (let key of Object.keys(reportActuals[0])) {
           Heading[0].push(key);
         }
       }
-      exportTemplate.push({ index: i + 1, ...documents[i] });
+      exportTemplate.push({ index: i + 1, ...reportActuals[i] });
     }
 
     const ws = XLSX.utils.aoa_to_sheet(Heading);
