@@ -286,7 +286,8 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
       reportDocuments = (await firstValueFrom(this._reportService.getReportDocumentsExcel(ids))).model;
     }
 
-    const Heading = [['ลำดับ']];
+    // const Heading = [['ลำดับ']];
+    const Heading = [[]];
     const exportTemplate = [];
 
     for (let i = 0; i <= reportDocuments.length - 1; i++) {
@@ -295,7 +296,8 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
           Heading[0].push(key);
         }
       }
-      exportTemplate.push({ index: i + 1, ...reportDocuments[i] });
+      // exportTemplate.push({ index: i + 1, ...reportDocuments[i] });
+      exportTemplate.push({ ...reportDocuments[i] });
     }
 
     const ws = XLSX.utils.aoa_to_sheet(Heading);
