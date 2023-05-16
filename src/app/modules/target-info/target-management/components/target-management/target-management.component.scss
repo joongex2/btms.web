@@ -1,3 +1,7 @@
 :host ::ng-deep .mat-form-field-wrapper {
     margin-bottom: 0 !important;
 }
+
+:host ::ng-deep .fuse-alert-message {
+    white-space: pre-line;
+}

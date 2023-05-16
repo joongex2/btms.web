@@ -29,6 +29,7 @@ export class SubTargetTableComponent implements OnInit {
     'priority',
     'targetDetailDescription',
     'targetIndex',
+    'measureType',
     'targetValue',
     'targetUnit',
     'currentTarget',

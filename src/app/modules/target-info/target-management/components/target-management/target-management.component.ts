@@ -7,6 +7,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { User } from 'app/core/user/user.types';
 import { LastCommentModalComponent } from 'app/shared/components/last-comment-modal/last-comment-modal.component';
+import { isNullOrUndefined } from 'app/shared/helpers/is-null-or-undefined';
 import { DocumentDetail, Target } from 'app/shared/interfaces/document.interface';
 import { Lookup } from 'app/shared/interfaces/lookup.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
@@ -135,12 +136,16 @@ export class TargetManagementComponent implements OnInit {
   }
 
   save() {
+    this.hideError();
+    const quantityPlanErrors = this.checkQuantityPlanHaveValueErrors();
     if (!this.f.valid) {
       this.f.control.markAllAsTouched();
       this.showError('กรุณาใส่ข้อมูลให้ครบถ้วน');
       return;
     } else if (!this.checkAtLeastOneEach()) {
       this.showError('กรุณาป้อนเป้าหมายหลัก เป้าหมายย่อย แผนงานและการวัดผลเป้าหมายอย่างน้อย 1 รายการ!', true);
+    } else if (quantityPlanErrors) {
+      this.showError(quantityPlanErrors.join('\n'), true);
     } else {
       this._confirmationService.save().afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {
@@ -199,6 +204,7 @@ export class TargetManagementComponent implements OnInit {
   }
 
   cancelEdit() {
+    this.hideError();
     // bring back data
     this.targets = JSON.parse(JSON.stringify(this.document.targets));
 
@@ -229,6 +235,7 @@ export class TargetManagementComponent implements OnInit {
       message: error
     };
     if (hasApiError) this.hasApiError = true;
+    document.getElementById('errorMessage').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   hideError() {
@@ -373,6 +380,28 @@ export class TargetManagementComponent implements OnInit {
       }
     }
     return true;
+  }
+
+  checkQuantityPlanHaveValueErrors(): string[] {
+    const messages: string[] = [];
+    const targets = this.targets.filter((v) => !v.markForDelete);
+    for (let i = 0; i < targets.length; i++) {
+      const quantitySubTargets = targets[i].details.filter((v) => !v.markForDelete);
+      for (let j = 0; j < quantitySubTargets.length; j++) {
+        if (quantitySubTargets[j].measureType !== '1' || quantitySubTargets[j].targetCondition === '2') continue;
+        let isFailed = false;
+        const plans = quantitySubTargets[j].plans.filter((v) => !v.markForDelete);
+        for (let plan of plans) {
+          for (let k = 1; k <= 12; k++) {
+            if (plan[`useMonth${k}`] && isNullOrUndefined(plan[`valueMonth${k}`])) isFailed = true;
+          }
+        }
+        if (isFailed) {
+          messages.push(`กรุณาตรวจสอบประเภทการวัดผลของหัวข้อเป้าหมายย่อยที่ No ${j + 1}. ในเป้าหมายหลัก No ${i + 1}`);
+        }
+      }
+    }
+    return messages.length > 0 ? messages : null;
   }
 
   documentTypeChange(documentType: string) {

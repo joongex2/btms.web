@@ -62,7 +62,7 @@ export class PlanModalComponent implements OnInit {
     const planDescription = this.isEdit ? this.plan.planDescription : this.subTarget.targetDetailDescription;
     const undertaker = this.isEdit ? this.plan.undertaker : '';
 
-    this.defaultValueMonth = this.subTarget.targetCondition === '1' ? this.subTarget.conditions[0]?.targetValue : null;
+    this.defaultValueMonth = this.subTarget.targetCondition === '1' ? this.subTarget.conditions.filter(v => !v.markForDelete)[0]?.targetValue : null;
 
     // year select option
     this.years = this.isEdit ? [this.plan.planYear] : this.modalData.leftYears;

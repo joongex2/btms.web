@@ -298,11 +298,11 @@ export class SubTargetModalComponent implements OnInit {
         const measureTypeDiff = this.subTarget == undefined ? false : this.subTarget.measureType !== this.subTargetForm.get('measureType').value;
         if (targetConditionDiff || measureTypeDiff) {
           let warnText;
-          if (targetConditionDiff) {
-            warnText = `ประเภทของเป้าหมายเปลี่ยนจาก ${this._targetConditionPipe.transform(this.subTarget.targetCondition)} เป็น ${this._targetConditionPipe.transform(this.subTargetForm.get('targetCondition').value)} ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`
+          if (measureTypeDiff) {
+            warnText = `ประเภทการวัดผลเปลี่ยนจาก ${this._measureTypePipe.transform(this.subTarget.measureType)} เป็น ${this._measureTypePipe.transform(this.subTargetForm.get('measureType').value)} ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`
           } else {
-            warnText = `ประเภทการวัดผลเปลี่ยนจาก ${this._targetConditionPipe.transform(this.subTarget.measureType)} เป็น ${this._targetConditionPipe.transform(this.subTargetForm.get('measureType').value)} ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`
-          }
+            warnText = `ประเภทของเป้าหมายเปลี่ยนจาก ${this._targetConditionPipe.transform(this.subTarget.targetCondition)} เป็น ${this._targetConditionPipe.transform(this.subTargetForm.get('targetCondition').value)} ค่าแสดงเป้าหมายทุกเดือนจะถูกล้าง`
+          } 
           this._confirmationService.warning('ยินยัน', warnText, true).afterClosed().subscribe((result) => {
             if (result === 'confirmed') {
               for (let plan of this.subTarget.plans) {
