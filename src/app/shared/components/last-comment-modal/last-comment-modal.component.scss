@@ -7,6 +7,9 @@ td.mat-cell {
     // border: 1px solid rgb(100, 116, 139) !important;
     // padding: 0 !important;
 }
+td.mat-cell.mat-column-comment {
+    text-align: left;
+}
 
 // tr {
 //     height: fit-content !important;
