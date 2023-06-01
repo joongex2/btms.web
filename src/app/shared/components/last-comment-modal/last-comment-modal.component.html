@@ -1,4 +1,4 @@
-<div class="flex flex-col w-80v md:w-160 max-h-80v -m-6">
+<div class="flex flex-col w-80v md:w-160 max-h-80v -m-6 overflow-x-hidden">
     <!-- Header -->
     <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
         <div class="text-lg font-medium text-white">
@@ -10,7 +10,7 @@
     </div>
     <!-- Body -->
     <div class="flex flex-col flex-auto"><!-- p-6 sm:p-8--> 
-        <div class="bg-card shadow overflow-x-auto">
+        <div class="bg-card shadow">
             <table [dataSource]="dataSource" mat-table style="min-width: 600px;" matSort>
                 <ng-container matColumnDef="commentDate">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>

@@ -65,8 +65,5 @@ td.mat-footer-cell {
 }
 
 td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-wrap: unset;
+    word-break: break-word;
 }
