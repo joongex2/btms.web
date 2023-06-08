@@ -56,16 +56,10 @@ export class Dashboard3Component implements OnInit {
     {
       name: 'AGRO',
       data: {
-        radar: [
-          {
-            name: "Total KPI",
-            data: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2]
-          },
-          {
-            name: "Critical",
-            data: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
-          }
-        ],
+        radar: {
+          totalKpi: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2],
+          criticalKpi: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
+        },
         totalKpiTable: ['Action Plan 36', 'Close 25', 'Over due 5'],
         totalKpiBar: {
           data: [9, 2, 23, 2],
@@ -81,16 +75,10 @@ export class Dashboard3Component implements OnInit {
     {
       name: 'PET',
       data: {
-        radar: [
-          {
-            name: "Total KPI",
-            data: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2]
-          },
-          {
-            name: "Critical",
-            data: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
-          }
-        ],
+        radar: {
+          totalKpi: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2],
+          criticalKpi: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
+        },
         totalKpiTable: ['Action Plan 4', 'Close 3', 'Over due 1'],
         totalKpiBar: {
           data: [1],
@@ -106,16 +94,10 @@ export class Dashboard3Component implements OnInit {
     {
       name: 'Protein (Livestock)',
       data: {
-        radar: [
-          {
-            name: "Total KPI",
-            data: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2]
-          },
-          {
-            name: "Critical",
-            data: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
-          }
-        ],
+        radar: {
+          totalKpi: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2],
+          criticalKpi: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
+        },
         totalKpiTable: ['Action Plan 20', 'Close 3', 'Over due 1'],
         totalKpiBar: {
           data: [6, 5, 3, 2, 4],
@@ -131,16 +113,10 @@ export class Dashboard3Component implements OnInit {
     {
       name: 'Protein (Factory)',
       data: {
-        radar: [
-          {
-            name: "Total KPI",
-            data: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2]
-          },
-          {
-            name: "Critical",
-            data: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
-          }
-        ],
+        radar: {
+          totalKpi: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2],
+          criticalKpi: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
+        },
         totalKpiTable: ['Action Plan 36', 'Close 25', 'Over due 5'],
         totalKpiBar: {
           data: [25, 15, 12, 3],
@@ -156,16 +132,10 @@ export class Dashboard3Component implements OnInit {
     {
       name: 'Food',
       data: {
-        radar: [
-          {
-            name: "Total KPI",
-            data: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2]
-          },
-          {
-            name: "Critical",
-            data: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
-          }
-        ],
+        radar: {
+          totalKpi: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2],
+          criticalKpi: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
+        },
         totalKpiTable: ['Action Plan 36', 'Close 25', 'Over due 5'],
         totalKpiBar: {
           data: [26],
@@ -285,6 +255,17 @@ export class Dashboard3Component implements OnInit {
 
   parseMockData() {
     for (let data of this.mockData) {
+      // radar
+      data.data.radar.series = [
+        {
+          name: "Total KPI",
+          data: data.data.radar.totalKpi
+        },
+        {
+          name: "Critical KPI",
+          data: data.data.radar.criticalKpi
+        }
+      ];
       // totalkpibarchart
       data.data.totalKpiBar.series = [{
         name: "Total KPI",
