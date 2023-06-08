@@ -1,70 +1,73 @@
-<div class="w-full bg-card shadow p-3">
-    <div class="text-xl font-medium text-center">Action Plan Status</div>
-    <div class="grid grid-cols-2 gap-1 py-1 px-3">
-        <div>
-            <apx-chart
-                [series]="donutChart1Options.series"
-                [chart]="donutChart1Options.chart"
-                [legend]="donutChart1Options.legend"
-                [labels]="donutChart1Options.labels"
-                [responsive]="donutChart1Options.responsive"
-            ></apx-chart>
-        </div>
-        <div>
-            <apx-chart
-                [series]="donutChart2Options.series"
-                [chart]="donutChart2Options.chart"
-                [legend]="donutChart2Options.legend"
-                [labels]="donutChart2Options.labels"
-                [responsive]="donutChart2Options.responsive"
-            ></apx-chart>
+<div class="grid grid-cols-12 gap-3 w-full min-w-0">
+    <div class="col-span-7 shadow top-header">
+        <div class="text-2xl font-semibold">Quality Management Performance By BU</div>
+    </div>
+    <div class="col-span-5 shadow row1">
+        <div class="grid grid-cols-4 gap-2 p-2">
+            <mat-form-field class="flex-auto">
+                <mat-label>Year</mat-label>
+                <mat-select [(ngModel)]="selectedYear" placeholder="select year">
+                    <mat-option *ngFor="let year of years" [value]="year.value">{{year.title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="flex-auto">
+                <mat-label>Month</mat-label>
+                <mat-select [(ngModel)]="selectedMonth" placeholder="select month">
+                    <mat-option *ngFor="let month of months" [value]="month.value">{{month.title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="flex-auto">
+                <mat-label>Bu</mat-label>
+                <mat-select [(ngModel)]="selectedBu" placeholder="select bu">
+                    <mat-option *ngFor="let bu of bus" [value]="bu.value">{{bu.title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="flex-auto">
+                <mat-label>Plant</mat-label>
+                <mat-select [(ngModel)]="selectedPlant" placeholder="select plant">
+                    <mat-option *ngFor="let plant of plants" [value]="plant.value">{{plant.title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
     </div>
-</div>
-<div class="shadow my-3">
-    <div class="flex flex-col flex-auto p-1 bg-card overflow-hidden">
-        <div class="flex flex-col flex-auto overflow-x-auto">
-            <table class="min-w-100 overflow-y-visible" mat-table
-                [dataSource]="actionPlanDetails.rows">
-                <ng-container matColumnDef="documentNo" sticky>
-                    <th mat-header-cell *matHeaderCellDef>
-                        เลขที่เอกสาร
-                    </th>
-                    <td mat-cell *matCellDef="let actionPlan">
-                        <span class="flex items-center">
-                            <span class="leading-4">{{actionPlan.documentNo}}</span>
-                        </span>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="subTarget">
-                    <th mat-header-cell *matHeaderCellDef>
-                        เป้าหมายย่อย
-                    </th>
-                    <td mat-cell *matCellDef="let actionPlan">
-                        <span class="font-medium text-right">
-                            {{actionPlan.subTarget}}
-                        </span>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="status">
-                    <th mat-header-cell *matHeaderCellDef>
-                        สถานะเอกสาร
-                    </th>
-                    <td mat-cell *matCellDef="let actionPlan">
-                        {{actionPlan.status}}
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="contact">
-                    <th mat-header-cell *matHeaderCellDef>
-                        ผู้รับผิดชอบ
-                    </th>
-                    <td mat-cell *matCellDef="let actionPlan">
-                        {{actionPlan.contact}}
-                    </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="actionPlanDetails.columns"></tr>
-                <tr mat-row *matRowDef="let row; columns: actionPlanDetails.columns;"></tr>
-            </table>
+    <div class="col-span-12 shadow">
+        <div class="header-bg">% Achieve KPI Type Group by BU</div>
+        <div class="grid grid-cols-5 gap-2 p-2 w-full">
+            <ng-container *ngFor="let data of mockData">
+                <div class="col-span-1 shadow">
+                    <div class="header2-bg">{{data.name}}</div>
+                    <apx-chart
+                        [series]="data.data.radar"
+                        [chart]="radarChartOptions.chart"
+                        [xaxis]="radarChartOptions.xaxis"
+                        [colors]="radarChartOptions.colors"
+                    ></apx-chart>
+                    <apx-chart
+                        [series]="data.data.barchart.series"
+                        [chart]="barChartOptions.chart"
+                        [dataLabels]="barChartOptions.dataLabels"
+                        [plotOptions]="barChartOptions.plotOptions"
+                        [yaxis]="barChartOptions.yaxis"
+                        [legend]="barChartOptions.legend"
+                        [fill]="barChartOptions.fill"
+                        [stroke]="barChartOptions.stroke"
+                        [tooltip]="barChartOptions.tooltip"
+                        [xaxis]="data.data.barchart.xaxis"
+                    ></apx-chart>
+                    <apx-chart
+                        [series]="data.data.barchart2.series"
+                        [chart]="barChart2Options.chart"
+                        [dataLabels]="barChart2Options.dataLabels"
+                        [plotOptions]="barChart2Options.plotOptions"
+                        [xaxis]="data.data.barchart2.xaxis"
+                        [stroke]="barChart2Options.stroke"
+                    ></apx-chart>
+                </div>
+            </ng-container>
         </div>
     </div>
 </div>

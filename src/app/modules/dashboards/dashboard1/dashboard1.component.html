@@ -1,198 +1,97 @@
 <div class="grid grid-cols-12 gap-3 w-full min-w-0">
-    <div class="col-span-8 shadow header-bg top-header">
-        <div class="text-2xl font-semibold">Betagro Target Management System</div>
+    <div class="col-span-12 shadow top-header">
+        <div class="text-2xl font-semibold">Quality Management Performance</div>
     </div>
-    <div class="col-span-2 shadow success-bg top-header-col">
-        <div class="font-normal leading-4">% Archive</div>
-        <div class="text-2xl font-medium leading-5">82.38</div>
-    </div>
-    <div class="col-span-2 shadow unsuccess-bg top-header-col">
-        <div class="font-normal leading-4">% Unarchive</div>
-        <div class="text-2xl font-medium leading-5">17.62</div>
-    </div>
-    <div class="col-span-3 shadow">
-        <div class="flex flex-col">
-            <div>
-                <div class="header-bg">Business Unit</div>
-                <div class="grid grid-cols-2 gap-1 py-1 px-3">
-                    <div class="unit-box">Agro</div>
-                    <div class="unit-box">Food</div>
+    <div class="col-span-7 shadow row1">
+        <div class="header-bg">% Achieve</div>
+        <div class="grid grid-cols-2">
+            <div class="total-kpi-header">
+                <div class="text-center leading-4">
+                    <span class="text-2xl font-bold">Total KPI {{mockData1.totalKpi.percent}}%</span><br>
+                    <span class="text-xl font-semibold">{{mockData1.totalKpi.amount}} KPI</span>
                 </div>
             </div>
-            <div>
-                <div class="header-bg">Sub Business Unit</div>
-                <div class="grid grid-cols-2 gap-1 py-1 px-3">
-                    <div class="unit-box">BP</div>
-                    <div class="unit-box">Poultry Slauther</div>
-                    <div class="unit-box">Food Processing</div>
-                    <div class="unit-box">Swine Slauther</div>
-                </div>
-            </div>
-            <div>
-                <div class="header-bg">Month</div>
-                <div class="grid grid-cols-2 gap-1 py-1 px-3">
-                    <div class="unit-box">Select all</div>
-                    <div class="unit-box">ธันวาคม</div>
-                    <div class="unit-box">เมษายน</div>
-                    <div class="unit-box">พฤศจิกายน</div>
-                    <div class="unit-box">กรกฎาคม</div>
-                    <div class="unit-box">มกราคม</div>
-                    <div class="unit-box">กันยายน</div>
-                    <div class="unit-box">มิถุนายน</div>
-                    <div class="unit-box">กุมภาพันธ์</div>
-                    <div class="unit-box">มีนาคม</div>
-                    <div class="unit-box">ตุลาคม</div>
-                    <div class="unit-box">สิงหาคม</div>
+            <div class="critical-kpi-header">
+                <div class="text-center leading-4">
+                    <span class="text-2xl font-bold">Critical KPI {{mockData1.criticalKpi.percent}}%</span><br>
+                    <span class="text-xl font-semibold">{{mockData1.criticalKpi.amount}} KPI</span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-span-4 shadow">
-        <div class="flex flex-col gap-2">
-            <div>
-                <div class="header-bg">KPI by BU</div>
-                <div>
-                    <apx-chart
-                        #pieChart
-                        [series]="pieChartOptions.series"
-                        [chart]="pieChartOptions.chart"
-                        [labels]="pieChartOptions.labels"
-                        [responsive]="pieChartOptions.responsive"
-                        [colors]="pieChartOptions.colors"
-                    ></apx-chart>
-                </div>
-            </div>
-            <div>
-                <div class="header-bg">KPI แยกตามประเภท</div>
-                <div>
-                    <apx-chart
-                        [series]="radarChartOptions.series"
-                        [chart]="radarChartOptions.chart"
-                        [xaxis]="radarChartOptions.xaxis"
-                        [colors]="radarChartOptions.colors"
-                    ></apx-chart>
-                </div>
+    <div class="col-span-5 shadow row1">
+        <div class="flex items-center h-full">
+            <div class="grid grid-cols-4 gap-2 p-2">
+                <mat-form-field class="flex-auto">
+                    <mat-label>Year</mat-label>
+                    <mat-select [(ngModel)]="selectedYear" placeholder="select year">
+                        <mat-option *ngFor="let year of years" [value]="year.value">{{year.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <mat-label>Month</mat-label>
+                    <mat-select [(ngModel)]="selectedMonth" placeholder="select month">
+                        <mat-option *ngFor="let month of months" [value]="month.value">{{month.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <mat-label>Bu</mat-label>
+                    <mat-select [(ngModel)]="selectedBu" placeholder="select bu">
+                        <mat-option *ngFor="let bu of bus" [value]="bu.value">{{bu.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <mat-label>Plant</mat-label>
+                    <mat-select [(ngModel)]="selectedPlant" placeholder="select plant">
+                        <mat-option *ngFor="let plant of plants" [value]="plant.value">{{plant.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
         </div>
     </div>
-    <div class="col-span-5 shadow">
-        <div class="flex flex-col gap-2">
-            <div>
-                <div class="header-bg">KPI แยกตามกลุ่มธุรกิจ</div>
-                <div>
-                    <apx-chart
-                        [series]="stackBarChartOptions.series"
-                        [chart]="stackBarChartOptions.chart"
-                        [dataLabels]="stackBarChartOptions.dataLabels"
-                        [plotOptions]="stackBarChartOptions.plotOptions"
-                        [xaxis]="stackBarChartOptions.xaxis"
-                        [stroke]="stackBarChartOptions.stroke"
-                        [fill]="stackBarChartOptions.fill"
-                        [tooltip]="stackBarChartOptions.tooltip"
-                        [legend]="stackBarChartOptions.legend"
-                        [colors]="stackBarChartOptions.colors"
-                    ></apx-chart>
-                </div>
-            </div>
-            <div>
-                <div class="header-bg">KPI แยกตามบริษัท</div>
-                <div class="flex flex-col flex-auto p-1 bg-card overflow-hidden">
-                    <div class="flex flex-col flex-auto overflow-x-auto">
-                        <table class="min-w-100 overflow-y-visible" mat-table
-                            [dataSource]="kpiDetails.rows">
-                            <ng-container matColumnDef="kpi" sticky>
-                                <th mat-header-cell *matHeaderCellDef>
-                                    KPI
-                                </th>
-                                <td mat-cell *matCellDef="let kpi">
-                                    <span class="flex items-center">
-                                        <span class="leading-4">{{kpi.kpi}}</span>
-                                    </span>
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="number">
-                                <th mat-header-cell *matHeaderCellDef>
-                                    จำนวน KPI
-                                </th>
-                                <td mat-cell *matCellDef="let kpi">
-                                    <span class="font-medium text-right">
-                                        {{kpi.number}}
-                                    </span>
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="result">
-                                <th mat-header-cell *matHeaderCellDef>
-                                    ผลการดำเนินงาน KPI
-                                </th>
-                                <td mat-cell *matCellDef="let kpi">
-                                    {{kpi.result}}
-                                </td>
-                            </ng-container>
-                            <tr mat-header-row *matHeaderRowDef="kpiDetails.columns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: kpiDetails.columns;"></tr>
-                        </table>
+    <div class="col-span-12 shadow">
+        <div class="header-bg">% Achieve & Trend Group by KPI Type</div>
+        <div class="grid grid-cols-8 gap-2 p-2 w-full">
+            <ng-container *ngFor="let data of mockData2">
+                <div class="col-span-1 shadow">
+                    <div>
+                        <div class="header2-bg">{{data.name}}</div>
+                        <div class="guage">
+                            <apx-chart
+                                [series]="data.data.guage.series"
+                                [chart]="gaugeChartOptions.chart"
+                                [plotOptions]="gaugeChartOptions.plotOptions"
+                                [labels]="data.data.guage.labels"
+                                [fill]="gaugeChartOptions.fill"
+                                [stroke]="gaugeChartOptions.stroke"
+                                [colors]="gaugeChartOptions.colors"
+                            ></apx-chart>
+                        </div>
+                        <div>
+                            <apx-chart
+                                [series]="data.data.areachart.series"
+                                [chart]="areaChartOptions.chart"
+                                [xaxis]="areaChartOptions.xaxis"
+                                [stroke]="areaChartOptions.stroke"
+                                [dataLabels]="areaChartOptions.dataLabels"
+                                [yaxis]="areaChartOptions.yaxis"
+                                [labels]="areaChartOptions.labels"
+                                [legend]="areaChartOptions.legend"
+                                [title]="areaChartOptions.title"
+                                [subtitle]="areaChartOptions.subtitle"
+                            ></apx-chart>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Sub Dashboard 1 -->
-<div class="grid grid-cols-12 gap-3 w-full min-w-0 my-3">
-    <div class="col-span-3 shadow">
-        <div>
-            <div class="header-bg">FOOD KPI</div>
-            <div>
-                <apx-chart
-                    [series]="donutChartOptions.series"
-                    [chart]="donutChartOptions.chart"
-                    [legend]="donutChartOptions.legend"
-                    [labels]="donutChartOptions.labels"
-                    [responsive]="donutChartOptions.responsive"
-                    [colors]="donutChartOptions.colors"
-                ></apx-chart>
-            </div>
-        </div>
-    </div>
-    <div class="col-span-9">
-        <div class="grid grid-cols-12 gap-3 w-full min-w-0">
-            <div class="col-span-6 barchart shadow">
+            </ng-container>
+            <!-- <div class="col-span-1 shadow">
                 <div>
-                    <div class="header-bg">% Archive FOOD KPI by plant</div>
-                    <div>
-                        <apx-chart
-                            [series]="barChartOptions.series"
-                            [chart]="barChartOptions.chart"
-                            [dataLabels]="barChartOptions.dataLabels"
-                            [plotOptions]="barChartOptions.plotOptions"
-                            [yaxis]="barChartOptions.yaxis"
-                            [legend]="barChartOptions.legend"
-                            [fill]="barChartOptions.fill"
-                            [stroke]="barChartOptions.stroke"
-                            [tooltip]="barChartOptions.tooltip"
-                            [xaxis]="barChartOptions.xaxis"
-                        ></apx-chart>
-                    </div>
-                </div>
-            </div>
-            <div class="col-span-2 sub-point-col shadow success-bg top-header-col">
-                <div class="font-normal leading-4">% Archive</div>
-                <div class="text-2xl font-medium leading-5">81.89</div>
-            </div>
-            <div class="col-span-2 sub-point-col shadow unsuccess-bg top-header-col">
-                <div class="font-normal leading-4">% Unarchive</div>
-                <div class="text-2xl font-medium leading-5">18.11</div>
-            </div>
-            <div class="col-span-2 sub-point-col shadow unsuccess-bg top-header-col">
-                <div class="font-normal leading-4">%Critical Unarchived</div>
-                <div class="text-2xl font-medium leading-5">0.0</div>
-            </div>
-        </div>
-        <div class="grid grid-cols-12 gap-3 w-full min-w-0 mt-3">
-            <div class="col-span-2 gauge shadow">
-                <div>
-                    <div class="header-bg">%A-SHE</div>
-                    <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
                         <apx-chart
                             [series]="[92]"
                             [chart]="gaugeChartOptions.chart"
@@ -203,14 +102,28 @@
                             [colors]="gaugeChartOptions.colors"
                         ></apx-chart>
                     </div>
-                </div>
-            </div>
-            <div class="col-span-2 gauge shadow">
-                <div>
-                    <div class="header-bg">%A-Production</div>
                     <div>
                         <apx-chart
-                            [series]="[74]"
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1 shadow">
+                <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
+                        <apx-chart
+                            [series]="[92]"
                             [chart]="gaugeChartOptions.chart"
                             [plotOptions]="gaugeChartOptions.plotOptions"
                             [labels]="gaugeChartOptions.labels"
@@ -219,14 +132,28 @@
                             [colors]="gaugeChartOptions.colors"
                         ></apx-chart>
                     </div>
-                </div>
-            </div>
-            <div class="col-span-2 gauge shadow">
-                <div>
-                    <div class="header-bg">%A-Manpower</div>
                     <div>
                         <apx-chart
-                            [series]="[78]"
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1 shadow">
+                <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
+                        <apx-chart
+                            [series]="[92]"
                             [chart]="gaugeChartOptions.chart"
                             [plotOptions]="gaugeChartOptions.plotOptions"
                             [labels]="gaugeChartOptions.labels"
@@ -235,14 +162,28 @@
                             [colors]="gaugeChartOptions.colors"
                         ></apx-chart>
                     </div>
-                </div>
-            </div>
-            <div class="col-span-2 gauge shadow">
-                <div>
-                    <div class="header-bg">%A-FS&FQ</div>
                     <div>
                         <apx-chart
-                            [series]="[71]"
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1 shadow">
+                <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
+                        <apx-chart
+                            [series]="[92]"
                             [chart]="gaugeChartOptions.chart"
                             [plotOptions]="gaugeChartOptions.plotOptions"
                             [labels]="gaugeChartOptions.labels"
@@ -251,14 +192,28 @@
                             [colors]="gaugeChartOptions.colors"
                         ></apx-chart>
                     </div>
-                </div>
-            </div>
-            <div class="col-span-2 gauge shadow">
-                <div>
-                    <div class="header-bg">%A-Delivery</div>
                     <div>
                         <apx-chart
-                            [series]="[68]"
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1 shadow">
+                <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
+                        <apx-chart
+                            [series]="[92]"
                             [chart]="gaugeChartOptions.chart"
                             [plotOptions]="gaugeChartOptions.plotOptions"
                             [labels]="gaugeChartOptions.labels"
@@ -267,14 +222,28 @@
                             [colors]="gaugeChartOptions.colors"
                         ></apx-chart>
                     </div>
-                </div>
-            </div>
-            <div class="col-span-2 gauge shadow">
-                <div>
-                    <div class="header-bg">%A-Cost&Sens</div>
                     <div>
                         <apx-chart
-                            [series]="[76]"
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1 shadow">
+                <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
+                        <apx-chart
+                            [series]="[92]"
                             [chart]="gaugeChartOptions.chart"
                             [plotOptions]="gaugeChartOptions.plotOptions"
                             [labels]="gaugeChartOptions.labels"
@@ -283,8 +252,77 @@
                             [colors]="gaugeChartOptions.colors"
                         ></apx-chart>
                     </div>
+                    <div>
+                        <apx-chart
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
                 </div>
             </div>
+            <div class="col-span-1 shadow">
+                <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
+                        <apx-chart
+                            [series]="[92]"
+                            [chart]="gaugeChartOptions.chart"
+                            [plotOptions]="gaugeChartOptions.plotOptions"
+                            [labels]="gaugeChartOptions.labels"
+                            [fill]="gaugeChartOptions.fill"
+                            [stroke]="gaugeChartOptions.stroke"
+                            [colors]="gaugeChartOptions.colors"
+                        ></apx-chart>
+                    </div>
+                    <div>
+                        <apx-chart
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div> -->
         </div>
+    </div>
+    <div class="col-span-6 shadow">
+        <div class="header-bg">%Archieve By Month</div>
+        <apx-chart
+            [series]="mockData3.series"
+            [chart]="barChartOptions.chart"
+            [dataLabels]="barChartOptions.dataLabels"
+            [plotOptions]="barChartOptions.plotOptions"
+            [yaxis]="barChartOptions.yaxis"
+            [legend]="barChartOptions.legend"
+            [fill]="barChartOptions.fill"
+            [stroke]="barChartOptions.stroke"
+            [tooltip]="barChartOptions.tooltip"
+            [xaxis]="barChartOptions.xaxis"
+        ></apx-chart>
+    </div>
+    <div class="col-span-6 shadow">
+        <div class="header-bg">%Archieve By BU</div>
+        <apx-chart
+            [series]="mockData4.series"
+            [chart]="barChart2Options.chart"
+            [dataLabels]="barChart2Options.dataLabels"
+            [plotOptions]="barChart2Options.plotOptions"
+            [xaxis]="mockData4.xaxis"
+        ></apx-chart>
     </div>
 </div>

@@ -1,6 +1,7 @@
-$header-color: rgb(68, 123, 102);
-$success-color: rgb(50, 205, 50);
-$unsuccess-color: rgb(255, 0, 0);
+$header-color: rgb(197, 224, 181);
+$header2-color: rgb(68, 123, 102);
+$total-kpi-color: rgb(146, 208, 81);
+$critical-kpi-color: rgb(6, 176, 80);
 
 .top-header {
   height: 60px;
@@ -9,60 +10,40 @@ $unsuccess-color: rgb(255, 0, 0);
   align-items: center;
 }
 
-.top-header-col {
-  height: 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 .header-bg {
   background-color: $header-color;
-  color: white;
+  font-weight: 400;
   text-align: center;
 }
 
-.success-bg {
-  background-color: $success-color;
+.header2-bg {
+  background-color: $header2-color;
   color: white;
+  font-weight: 400;
   text-align: center;
 }
 
-.unsuccess-bg {
-  background-color: $unsuccess-color;
-  color: white;
-  text-align: center;
+// mat-form-field
+:host ::ng-deep .mat-form-field-wrapper {
+  margin-bottom: 0px !important;
 }
 
-.unit-box {
-  background-color: black;
-  color: white;
+:host ::ng-deep .mat-form-field.mat-form-field-appearance-fill .mat-form-field-wrapper .mat-form-field-flex {
+  min-height: 24px !important;
+}
+
+.total-kpi-header {
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: 10px;
-  height: 30px;
-  cursor: pointer;
+  align-items: center;
+  background-color: $total-kpi-color;
+  height: 67px;
 }
 
-.sub-point-col {
-  height: 100px;
-}
-
-.barchart {
-  height: 140px;
-}
-
-.gauge {
-  height: 140px;
-}
-
-th {
-  background-color:rgb(65, 164, 255) !important;
-  color: white !important;
-}
-
-tr:nth-child(even) {
-  background-color: rgb(238, 237, 237) !important;
+.critical-kpi-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $critical-kpi-color;
+  height: 67px;
 }
