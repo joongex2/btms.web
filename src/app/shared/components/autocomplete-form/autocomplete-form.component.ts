@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Optional, SimpleChanges } from "@angular/core";
 import { ControlContainer, FormBuilder, FormGroup } from "@angular/forms";
 import { requireMatchValidator } from "app/shared/directives/require-match.directive";
-import { map, Observable, of, startWith } from "rxjs";
+import { map, Observable, startWith } from "rxjs";
 
 
 // autocomplete use with formControl
@@ -29,7 +29,7 @@ export class AutocompleteFormComponent implements OnInit {
         // trigger new filteredOptions
         if (changes['options'] && !changes['options'].firstChange) {
             const value = typeof this.form.value === 'string' ? this.form.value : this.form.value?.title;
-            this.filteredOptions = of(value ? this._filterOption(value) : this.options.slice());
+            this.form.setValue(value)
         }
     }
 
@@ -41,12 +41,12 @@ export class AutocompleteFormComponent implements OnInit {
         }
 
         if (this.addRequireMatch) {
-            this.parentForm.get(this.name).addValidators(requireMatchValidator);
-            this.parentForm.get(this.name).updateValueAndValidity();
+            this.form.addValidators(requireMatchValidator);
+            this.form.updateValueAndValidity();
         }
 
-        const startValue = this.parentForm.get(this.name).value ? this.parentForm.get(this.name).value : '';
-        this.filteredOptions = this.parentForm.get(this.name).valueChanges.pipe(
+        const startValue = this.form.value ? this.form.value : '';
+        this.filteredOptions = this.form.valueChanges.pipe(
             startWith(startValue),
             map(value => (typeof value === 'string' ? value : value?.title)),
             map(name => (name ? this._filterOption(name) : this.options.slice())),
