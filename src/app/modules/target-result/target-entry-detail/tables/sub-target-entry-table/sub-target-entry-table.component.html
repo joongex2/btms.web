@@ -20,6 +20,10 @@
         <th mat-header-cell *matHeaderCellDef>ดัชนี</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.targetIndex}}</td>
     </ng-container>
+    <ng-container matColumnDef="measureType">
+        <th mat-header-cell *matHeaderCellDef>ประเภทการวัดผล</th>
+        <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.measureType | measureType}}</td>
+    </ng-container>
     <ng-container matColumnDef="targetValue">
         <th mat-header-cell *matHeaderCellDef>ค่าเป้าหมาย</th>
         <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.targetValue}}</td>
@@ -49,7 +53,7 @@
         <td mat-cell *matCellDef="let element; let i = dataIndex">{{element.finishYear}}</td>
     </ng-container>
     <ng-container matColumnDef="expandedDetail">
-        <td class="expand-cell" mat-cell *matCellDef="let element; let i = dataIndex" [attr.colspan]="11">
+        <td class="expand-cell" mat-cell *matCellDef="let element; let i = dataIndex" [attr.colspan]="12">
             <div class="expand-element"
                 [@detailExpand]="checkExpanded(element) ? 'expanded' : 'collapsed'">
                 <app-plan-entry-table

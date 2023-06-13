@@ -57,11 +57,15 @@ table tr:not(.mat-header-row):hover {
 }
 
 .mat-column-targetDetailDescription {
-    width: 20%;
+    width: 15%;
 }
 
 .mat-column-targetIndex {
-    width: 10%;
+    width: 7.5;
+}
+
+.mat-column-measureType {
+    width: 12.5%;
 }
 
 .mat-column-targetValue {
@@ -69,11 +73,11 @@ table tr:not(.mat-header-row):hover {
 }
 
 .mat-column-targetUnit {
-    width: 10%;
+    width: 7.5%;
 }
 
 .mat-column-currentTarget {
-    width: 10%;
+    width: 7.5%;
 }
 
 .mat-column-startMonth {

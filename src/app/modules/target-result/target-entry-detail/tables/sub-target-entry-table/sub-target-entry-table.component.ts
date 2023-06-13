@@ -18,8 +18,8 @@ export class SubTargetEntryTableComponent implements OnInit {
   @Input() user: User;
   hideSubTargetIds: number[] = [];
 
-  subTargetHeader = ['expandIcon', 'priority', 'targetDetailDescription', 'targetIndex', 'targetValue', 'targetUnit', 'currentTarget', 'startMonth', 'startYear', 'finishMonth', 'finishYear']
-  subTargetRow1 = ['expandIcon', 'priority', 'targetDetailDescription', 'targetIndex', 'targetValue', 'targetUnit', 'currentTarget', 'startMonth', 'startYear', 'finishMonth', 'finishYear'];
+  subTargetHeader = ['expandIcon', 'priority', 'targetDetailDescription', 'targetIndex', 'measureType', 'targetValue', 'targetUnit', 'currentTarget', 'startMonth', 'startYear', 'finishMonth', 'finishYear']
+  subTargetRow1 = ['expandIcon', 'priority', 'targetDetailDescription', 'targetIndex', 'measureType', 'targetValue', 'targetUnit', 'currentTarget', 'startMonth', 'startYear', 'finishMonth', 'finishYear'];
   subTargetRow2 = ['expandedDetail'];
 
   expandedSubtargets: SubTarget[] = [];
