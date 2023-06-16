@@ -4,16 +4,16 @@
     }
 
     .multiselect-dropdown .dropdown-btn .selected-item {
-        background: #bf5f80;
-        border: 2px solid #bf5f80;
+        background: #84bd00 !important;
+        border: 2px solid #84bd00 !important;
     }
 
     .multiselect-item-checkbox input[type=checkbox]+div:before {
-        color: #bf5f80;
-        border: 2px solid #bf5f80;
+        color: #84bd00 !important;
+        border: 2px solid #84bd00 !important;
     }
 
     .multiselect-item-checkbox input[type=checkbox]:checked+div:before {
-        background: #bf5f80;
+        background: #84bd00 !important;
     }
 }

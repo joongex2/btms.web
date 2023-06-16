@@ -19,7 +19,7 @@ import { ErrorIconComponent } from './components/error-icon/error-icon.component
 import { FileUploadTableComponent } from './components/file-upload-table/file-upload-table.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { FormErrorComponent } from './components/form-error/form-error.component';
-import { FormMultiSelectDropdownComponent } from './components/form-multi-select-dropdown/form-multi-select-dropdown.component';
+import { MultiSelectDropdownFormComponent } from './components/multi-select-dropdown-form/multi-select-dropdown-form.component';
 import { LastCommentLinkComponent } from './components/last-comment-link/last-comment-link.component';
 import { LastCommentModalComponent } from './components/last-comment-modal/last-comment-modal.component';
 import { SuccessIconComponent } from './components/success-icon/success-icon.component';
@@ -51,7 +51,7 @@ import { SnackBarService } from './services/snack-bar.service';
         MeasureTypePipe,
         RequireMatchDirective,
         FormErrorComponent,
-        FormMultiSelectDropdownComponent,
+        MultiSelectDropdownFormComponent,
         SuccessIconComponent,
         ErrorIconComponent,
         FileUploadTableComponent,
@@ -95,7 +95,7 @@ import { SnackBarService } from './services/snack-bar.service';
         AutocompleteComponent,
         AutocompleteFormComponent,
         FormErrorComponent,
-        FormMultiSelectDropdownComponent,
+        MultiSelectDropdownFormComponent,
         SuccessIconComponent,
         ErrorIconComponent,
         FileUploadTableComponent,

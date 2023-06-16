@@ -52,9 +52,9 @@
     <div class="flex-auto border-t -mt-px py-4 sm:pt-6">
         <div class="w-full max-w-screen-xl mx-auto">
             <div class="sm:px-2">
-                <dashboard1 *ngIf="selectedProject === 'dashboard1'"></dashboard1>
-                <dashboard2 *ngIf="selectedProject === 'dashboard2'"></dashboard2>
-                <dashboard3 *ngIf="selectedProject === 'dashboard3'"></dashboard3>
+                <dashboard1 *ngIf="selectedProject === 'dashboard1'" [bus]="bus" [plants]="plants"></dashboard1>
+                <dashboard2 *ngIf="selectedProject === 'dashboard2'" [bus]="bus" [plants]="plants"></dashboard2>
+                <dashboard3 *ngIf="selectedProject === 'dashboard3'" [bus]="bus" [plants]="plants"></dashboard3>
             </div>
         </div>
     </div>

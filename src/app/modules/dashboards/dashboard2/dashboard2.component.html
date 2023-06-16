@@ -1,44 +1,51 @@
 <div class="grid grid-cols-12 gap-3 w-full min-w-0">
-    <div class="col-span-7 shadow top-header">
-        <div class="text-2xl font-semibold">Quality Management Performance By BU</div>
+    <div class="col-span-4 shadow top-header">
+        <div class="text-base font-semibold text-center">Quality Management Performance By BU</div>
     </div>
-    <div class="col-span-5 shadow row1">
-        <div class="grid grid-cols-4 gap-2 p-2">
-            <mat-form-field class="flex-auto">
-                <mat-label>Year</mat-label>
-                <mat-select [(ngModel)]="selectedYear" placeholder="select year">
-                    <mat-option *ngFor="let year of years" [value]="year.value">{{year.title}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field class="flex-auto">
-                <mat-label>Month</mat-label>
-                <mat-select [(ngModel)]="selectedMonth" placeholder="select month">
-                    <mat-option *ngFor="let month of months" [value]="month.value">{{month.title}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field class="flex-auto">
-                <mat-label>Bu</mat-label>
-                <mat-select [(ngModel)]="selectedBu" placeholder="select bu">
-                    <mat-option *ngFor="let bu of bus" [value]="bu.value">{{bu.title}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field class="flex-auto">
-                <mat-label>Plant</mat-label>
-                <mat-select [(ngModel)]="selectedPlant" placeholder="select plant">
-                    <mat-option *ngFor="let plant of plants" [value]="plant.value">{{plant.title}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+    <div class="col-span-8 shadow row1">
+        <div class="flex items-center h-full p-2">
+            <div class="grid grid-cols-4 gap-2 p-1 items-center w-full" [formGroup]="form">
+                <mat-form-field>
+                    <mat-label>Year</mat-label>
+                    <mat-select [formControlName]="'year'" placeholder="select year">
+                        <mat-option *ngFor="let year of years" [value]="year.value">{{year.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Month</mat-label>
+                    <mat-select [formControlName]="'month'" placeholder="select month">
+                        <mat-option *ngFor="let month of months" [value]="month.value">{{month.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <multi-select-dropdown-form
+                    [label]="'Bus'"
+                    [name]="'bus'"
+                    [placeholder]="'bus'"
+                    [options]="bus"
+                    [itemsShowLimit]="1"    
+                >
+                </multi-select-dropdown-form>
+                <multi-select-dropdown-form
+                    [label]="'Plants'"
+                    [name]="'plants'"
+                    [placeholder]="'plants'"
+                    [options]="plants"
+                    [itemsShowLimit]="1"    
+                >
+                </multi-select-dropdown-form>
+            </div>
+            <div class="flex items-center justify-center">
+                <mat-icon class="cursor-pointer icon-size-5" [svgIcon]="'heroicons_solid:arrow-path'"></mat-icon>
+            </div>
         </div>
     </div>
     <div class="col-span-12 shadow">
         <div class="header-bg">% Achieve KPI Type Group by BU</div>
-        <div class="grid grid-cols-5 gap-2 p-2 w-full">
+        <div class="flex overflow-x-auto gap-2 p-2 w-full">
             <ng-container *ngFor="let data of mockData">
-                <div class="col-span-1 shadow">
+                <div class="shadow flex-item">
                     <div class="header2-bg">{{data.name}}</div>
                     <apx-chart
                         [series]="data.data.radar"
