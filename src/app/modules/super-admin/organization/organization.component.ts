@@ -110,10 +110,10 @@ export class OrganizationComponent implements OnInit {
       let searchString = JSON.parse(filter);
       return (!searchString.organizeCode || data.organizeCode.toString().trim().toLowerCase().indexOf(searchString.organizeCode.toLowerCase()) !== -1)
         && (!searchString.organizeName || data.organizeName.toString().trim().toLowerCase().indexOf(searchString.organizeName.toLowerCase()) !== -1)
-        && (searchString.businessUnitCode == undefined || data.businessUnitCode == searchString.businessUnitCode)
-        && (searchString.subBusinessUnitCode == undefined || data.subBusinessUnitCode == searchString.subBusinessUnitCode)
-        && (searchString.plantCode == undefined || data.plantCode == searchString.plantCode)
-        && (searchString.divisionCode == undefined || data.divisionCode == searchString.divisionCode)
+        && (searchString.businessUnitCode == undefined || data.businessUnitCode.toString().trim().toLowerCase().indexOf(searchString.businessUnitCode.toLowerCase()) !== -1)
+        && (searchString.subBusinessUnitCode == undefined || data.subBusinessUnitCode.toString().trim().toLowerCase().indexOf(searchString.subBusinessUnitCode.toLowerCase()) !== -1)
+        && (searchString.plantCode == undefined || data.plantCode.toString().trim().toLowerCase().indexOf(searchString.plantCode.toLowerCase()) !== -1)
+        && (searchString.divisionCode == undefined || data.divisionCode.toString().trim().toLowerCase().indexOf(searchString.divisionCode.toLowerCase()) !== -1)
         && (searchString.isActive == undefined || data.isActive == searchString.isActive);
     }
     return myFilterPredicate;
