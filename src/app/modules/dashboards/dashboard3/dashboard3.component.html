@@ -1,153 +1,147 @@
 <div class="grid grid-cols-12 gap-3 w-full min-w-0">
     <div class="col-span-12 shadow top-header relative h-40">
         <div class="text-2xl font-semibold">Action Plan Status</div>
-        <div class="flex items-center shadow p-1 absolute right-2 top-2">
-            <div class="grid grid-cols-12 w-80 gap-1" [formGroup]="form">
-                <div class="col-span-12">
-                    <mat-form-field class="w-full">
-                        <mat-label>Date Update</mat-label>
-                        <input
-                            matInput
-                            [ngxMatDatetimePicker]="dashboard3DatePicker" 
-                            placeholder="date update"
-                            [formControlName]="'dateUpdate'"
-                            name="dateUpdate"
-                            [min]="today"
-                        >
-                        <mat-datepicker-toggle 
-                            matSuffix 
-                            [for]="$any(dashboard3DatePicker)">
-                        </mat-datepicker-toggle>
-                        <ngx-mat-datetime-picker 
-                            #dashboard3DatePicker 
-                            [showSpinners]="true" 
-                            [showSeconds]="false"
-                            [stepHour]="1"
-                            [stepMinute]="5"
-                            [touchUi]="false"
-                            [enableMeridian]="false"
-                        >
-                        </ngx-mat-datetime-picker>
-                        <mat-error *ngIf="form.get('dateUpdate').errors?.['matDatetimePickerParse']">
-                            รูปแบบวันที่สัมภาษณ์ไม่ถูกต้อง
-                        </mat-error>
-                        <mat-error *ngIf="form.get('dateUpdate').errors?.['matDatetimePickerMin']">
-                            ไม่สามารถเลือกวันที่ย้อนหลังได้
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-span-6">
-                    <multi-select-dropdown-form
-                        [label]="'Bus'"
-                        [name]="'bus'"
-                        [placeholder]="'bus'"
-                        [options]="bus"
-                        [itemsShowLimit]="1"    
+        <div class="grid grid-cols-12 gap-1 shadow w-60 p-1 absolute right-2 top-2">
+            <div class="col-span-12">
+                <mat-form-field class="w-full">
+                    <mat-label>Date Update</mat-label>
+                    <input
+                        matInput
+                        [ngxMatDatetimePicker]="dashboard3DatePicker" 
+                        placeholder="date update"
+                        [(ngModel)]="dateUpdate"
+                        name="dateUpdate"
+                        #dateUpdateModel="ngModel"
+                        [min]="today"
                     >
-                    </multi-select-dropdown-form>
-                </div>
-                <div class="col-span-6">
-                    <multi-select-dropdown-form
-                        [label]="'Plants'"
-                        [name]="'plants'"
-                        [placeholder]="'plants'"
-                        [options]="plants"
-                        [itemsShowLimit]="1"    
+                    <mat-datepicker-toggle 
+                        matSuffix 
+                        [for]="$any(dashboard3DatePicker)">
+                    </mat-datepicker-toggle>
+                    <ngx-mat-datetime-picker 
+                        #dashboard3DatePicker 
+                        [showSpinners]="true" 
+                        [showSeconds]="false"
+                        [stepHour]="1"
+                        [stepMinute]="5"
+                        [touchUi]="false"
+                        [enableMeridian]="false"
                     >
-                    </multi-select-dropdown-form>
-                </div>
+                    </ngx-mat-datetime-picker>
+                    <mat-error *ngIf="dateUpdateModel.errors?.['matDatetimePickerParse']">
+                        รูปแบบวันที่สัมภาษณ์ไม่ถูกต้อง
+                    </mat-error>
+                    <mat-error *ngIf="dateUpdateModel.errors?.['matDatetimePickerMin']">
+                        ไม่สามารถเลือกวันที่ย้อนหลังได้
+                    </mat-error>
+                </mat-form-field>
             </div>
-            <div class="flex items-center justify-center">
-                <mat-icon class="cursor-pointer icon-size-5" [svgIcon]="'heroicons_solid:arrow-path'"></mat-icon>
+            <div class="col-span-6">
+                <mat-form-field class="w-full">
+                    <mat-label>Bu</mat-label>
+                    <mat-select [(ngModel)]="selectedBu" placeholder="select bu">
+                        <mat-option *ngFor="let bu of bus" [value]="bu.value">{{bu.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-span-6">
+                <mat-form-field class="w-full">
+                    <mat-label>Plant</mat-label>
+                    <mat-select [(ngModel)]="selectedPlant" placeholder="select plant">
+                        <mat-option *ngFor="let plant of plants" [value]="plant.value">{{plant.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
         </div>
     </div>
-    <div class="col-span-12 shadow relative">
-        <div class="w-full flex flex-col gap-2 p-2 overflow-x-auto">
-            <div class="flex gap-2">
-                <ng-container *ngFor="let data of mockData">
-                    <div class="flex-item shadow">
-                        <div class="header2-bg">{{data.name}}</div>
-                        <apx-chart
-                            [series]="data.data.radar.series"
-                            [chart]="radarChartOptions.chart"
-                            [xaxis]="radarChartOptions.xaxis"
-                            [colors]="radarChartOptions.colors"
-                        ></apx-chart>
-                    </div>
-                </ng-container>
-            </div>
-            <div class="header-plan"><div class="header-bg absolute">Number of Action Plan & Status</div></div>
-            <div class="flex gap-2">
-                <ng-container *ngFor="let data of mockData">
-                    <div class="flex-item shadow">
-                        <div class="grid grid-cols-3 w-full">
-                            <div class="col-span-1">
-                                <table class="total-kpi overflow-y-visible">
-                                    <tr>
-                                        <th>
-                                            Total KPI
-                                        </th>
-                                    </tr>
-                                    <tr *ngFor="let elem of data.data.totalKpiTable">
-                                        <td>
-                                            <span class="flex items-center">
-                                                <span class="leading-4">{{elem}}</span>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="col-span-2">
-                                <apx-chart
-                                    [series]="data.data.totalKpiBar.series"
-                                    [chart]="barChartOptions.chart"
-                                    [dataLabels]="barChartOptions.dataLabels"
-                                    [plotOptions]="barChartOptions.plotOptions"
-                                    [yaxis]="barChartOptions.yaxis"
-                                    [legend]="barChartOptions.legend"
-                                    [fill]="barChartOptions.fill"
-                                    [stroke]="barChartOptions.stroke"
-                                    [tooltip]="barChartOptions.tooltip"
-                                    [xaxis]="data.data.totalKpiBar.xaxis"
-                                ></apx-chart>
-                            </div>
+    <div class="col-span-12 shadow">
+        <div class="grid grid-cols-5 gap-2 p-2 w-full">
+            <ng-container *ngFor="let data of mockData">
+                <div class="col-span-1 shadow">
+                    <div class="header2-bg">{{data.name}}</div>
+                    <apx-chart
+                        [series]="data.data.radar.series"
+                        [chart]="radarChartOptions.chart"
+                        [xaxis]="radarChartOptions.xaxis"
+                        [colors]="radarChartOptions.colors"
+                    ></apx-chart>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="col-span-12 shadow">
+        <div class="header-bg">Number of Action Plan & Status</div>
+        <div class="grid grid-cols-5 gap-2 p-2 w-full">
+            <ng-container *ngFor="let data of mockData">
+                <div class="col-span-1 shadow">
+                    <div class="grid grid-cols-3 w-full">
+                        <div class="col-span-1">
+                            <table class="total-kpi overflow-y-visible">
+                                <tr>
+                                    <th>
+                                        Total KPI
+                                    </th>
+                                </tr>
+                                <tr *ngFor="let elem of data.data.totalKpiTable">
+                                    <td>
+                                        <span class="flex items-center">
+                                            <span class="leading-4">{{elem}}</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
-                        <div class="grid grid-cols-3 w-full">
-                            <div class="col-span-1">
-                                <table class="critical-kpi overflow-y-visible">
-                                    <tr>
-                                        <th>
-                                            Critical KPI
-                                        </th>
-                                    </tr>
-                                    <tr *ngFor="let elem of data.data.criticalKpiTable">
-                                        <td>
-                                            <span class="flex items-center">
-                                                <span class="leading-4">{{elem}}</span>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="col-span-2">
-                                <apx-chart
-                                    [series]="data.data.criticalKpiBar.series"
-                                    [chart]="barChart2Options.chart"
-                                    [dataLabels]="barChart2Options.dataLabels"
-                                    [plotOptions]="barChart2Options.plotOptions"
-                                    [yaxis]="barChart2Options.yaxis"
-                                    [legend]="barChart2Options.legend"
-                                    [fill]="barChart2Options.fill"
-                                    [stroke]="barChart2Options.stroke"
-                                    [tooltip]="barChart2Options.tooltip"
-                                    [xaxis]="data.data.criticalKpiBar.xaxis"
-                                ></apx-chart>
-                            </div>
+                        <div class="col-span-2">
+                            <apx-chart
+                                [series]="data.data.totalKpiBar.series"
+                                [chart]="barChartOptions.chart"
+                                [dataLabels]="barChartOptions.dataLabels"
+                                [plotOptions]="barChartOptions.plotOptions"
+                                [yaxis]="barChartOptions.yaxis"
+                                [legend]="barChartOptions.legend"
+                                [fill]="barChartOptions.fill"
+                                [stroke]="barChartOptions.stroke"
+                                [tooltip]="barChartOptions.tooltip"
+                                [xaxis]="data.data.totalKpiBar.xaxis"
+                            ></apx-chart>
                         </div>
                     </div>
-                </ng-container>
-            </div>
+                    <div class="grid grid-cols-3 w-full">
+                        <div class="col-span-1">
+                            <table class="critical-kpi overflow-y-visible">
+                                <tr>
+                                    <th>
+                                        Critical KPI
+                                    </th>
+                                </tr>
+                                <tr *ngFor="let elem of data.data.criticalKpiTable">
+                                    <td>
+                                        <span class="flex items-center">
+                                            <span class="leading-4">{{elem}}</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-span-2">
+                            <apx-chart
+                                [series]="data.data.criticalKpiBar.series"
+                                [chart]="barChart2Options.chart"
+                                [dataLabels]="barChart2Options.dataLabels"
+                                [plotOptions]="barChart2Options.plotOptions"
+                                [yaxis]="barChart2Options.yaxis"
+                                [legend]="barChart2Options.legend"
+                                [fill]="barChart2Options.fill"
+                                [stroke]="barChart2Options.stroke"
+                                [tooltip]="barChart2Options.tooltip"
+                                [xaxis]="data.data.criticalKpiBar.xaxis"
+                            ></apx-chart>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
         </div>
     </div>
 </div>

@@ -2,7 +2,7 @@
     <div class="col-span-12 shadow top-header">
         <div class="text-2xl font-semibold">Quality Management Performance</div>
     </div>
-    <div class="col-span-4 shadow row1">
+    <div class="col-span-7 shadow row1">
         <div class="header-bg">% Achieve</div>
         <div class="grid grid-cols-2">
             <div class="total-kpi-header">
@@ -19,42 +19,37 @@
             </div>
         </div>
     </div>
-    <div class="col-span-8 shadow row1">
-        <div class="flex items-center h-full p-2">
-            <div class="grid grid-cols-4 gap-2 p-1 items-center w-full" [formGroup]="form">
-                <mat-form-field>
+    <div class="col-span-5 shadow row1">
+        <div class="flex items-center h-full">
+            <div class="grid grid-cols-4 gap-2 p-2">
+                <mat-form-field class="flex-auto">
                     <mat-label>Year</mat-label>
-                    <mat-select [formControlName]="'year'" placeholder="select year">
+                    <mat-select [(ngModel)]="selectedYear" placeholder="select year">
                         <mat-option *ngFor="let year of years" [value]="year.value">{{year.title}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field>
+                <mat-form-field class="flex-auto">
                     <mat-label>Month</mat-label>
-                    <mat-select [formControlName]="'month'" placeholder="select month">
+                    <mat-select [(ngModel)]="selectedMonth" placeholder="select month">
                         <mat-option *ngFor="let month of months" [value]="month.value">{{month.title}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <multi-select-dropdown-form
-                    [label]="'Bus'"
-                    [name]="'bus'"
-                    [placeholder]="'bus'"
-                    [options]="bus"
-                    [itemsShowLimit]="1"    
-                >
-                </multi-select-dropdown-form>
-                <multi-select-dropdown-form
-                    [label]="'Plants'"
-                    [name]="'plants'"
-                    [placeholder]="'plants'"
-                    [options]="plants"
-                    [itemsShowLimit]="1"    
-                >
-                </multi-select-dropdown-form>
-            </div>
-            <div class="flex items-center justify-center">
-                <mat-icon class="cursor-pointer icon-size-5" [svgIcon]="'heroicons_solid:arrow-path'"></mat-icon>
+                <mat-form-field class="flex-auto">
+                    <mat-label>Bu</mat-label>
+                    <mat-select [(ngModel)]="selectedBu" placeholder="select bu">
+                        <mat-option *ngFor="let bu of bus" [value]="bu.value">{{bu.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <mat-label>Plant</mat-label>
+                    <mat-select [(ngModel)]="selectedPlant" placeholder="select plant">
+                        <mat-option *ngFor="let plant of plants" [value]="plant.value">{{plant.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
         </div>
     </div>
@@ -93,6 +88,216 @@
                     </div>
                 </div>
             </ng-container>
+            <!-- <div class="col-span-1 shadow">
+                <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
+                        <apx-chart
+                            [series]="[92]"
+                            [chart]="gaugeChartOptions.chart"
+                            [plotOptions]="gaugeChartOptions.plotOptions"
+                            [labels]="gaugeChartOptions.labels"
+                            [fill]="gaugeChartOptions.fill"
+                            [stroke]="gaugeChartOptions.stroke"
+                            [colors]="gaugeChartOptions.colors"
+                        ></apx-chart>
+                    </div>
+                    <div>
+                        <apx-chart
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1 shadow">
+                <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
+                        <apx-chart
+                            [series]="[92]"
+                            [chart]="gaugeChartOptions.chart"
+                            [plotOptions]="gaugeChartOptions.plotOptions"
+                            [labels]="gaugeChartOptions.labels"
+                            [fill]="gaugeChartOptions.fill"
+                            [stroke]="gaugeChartOptions.stroke"
+                            [colors]="gaugeChartOptions.colors"
+                        ></apx-chart>
+                    </div>
+                    <div>
+                        <apx-chart
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1 shadow">
+                <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
+                        <apx-chart
+                            [series]="[92]"
+                            [chart]="gaugeChartOptions.chart"
+                            [plotOptions]="gaugeChartOptions.plotOptions"
+                            [labels]="gaugeChartOptions.labels"
+                            [fill]="gaugeChartOptions.fill"
+                            [stroke]="gaugeChartOptions.stroke"
+                            [colors]="gaugeChartOptions.colors"
+                        ></apx-chart>
+                    </div>
+                    <div>
+                        <apx-chart
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1 shadow">
+                <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
+                        <apx-chart
+                            [series]="[92]"
+                            [chart]="gaugeChartOptions.chart"
+                            [plotOptions]="gaugeChartOptions.plotOptions"
+                            [labels]="gaugeChartOptions.labels"
+                            [fill]="gaugeChartOptions.fill"
+                            [stroke]="gaugeChartOptions.stroke"
+                            [colors]="gaugeChartOptions.colors"
+                        ></apx-chart>
+                    </div>
+                    <div>
+                        <apx-chart
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1 shadow">
+                <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
+                        <apx-chart
+                            [series]="[92]"
+                            [chart]="gaugeChartOptions.chart"
+                            [plotOptions]="gaugeChartOptions.plotOptions"
+                            [labels]="gaugeChartOptions.labels"
+                            [fill]="gaugeChartOptions.fill"
+                            [stroke]="gaugeChartOptions.stroke"
+                            [colors]="gaugeChartOptions.colors"
+                        ></apx-chart>
+                    </div>
+                    <div>
+                        <apx-chart
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1 shadow">
+                <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
+                        <apx-chart
+                            [series]="[92]"
+                            [chart]="gaugeChartOptions.chart"
+                            [plotOptions]="gaugeChartOptions.plotOptions"
+                            [labels]="gaugeChartOptions.labels"
+                            [fill]="gaugeChartOptions.fill"
+                            [stroke]="gaugeChartOptions.stroke"
+                            [colors]="gaugeChartOptions.colors"
+                        ></apx-chart>
+                    </div>
+                    <div>
+                        <apx-chart
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1 shadow">
+                <div>
+                    <div class="header2-bg">%A-SHE</div>
+                    <div class="guage">
+                        <apx-chart
+                            [series]="[92]"
+                            [chart]="gaugeChartOptions.chart"
+                            [plotOptions]="gaugeChartOptions.plotOptions"
+                            [labels]="gaugeChartOptions.labels"
+                            [fill]="gaugeChartOptions.fill"
+                            [stroke]="gaugeChartOptions.stroke"
+                            [colors]="gaugeChartOptions.colors"
+                        ></apx-chart>
+                    </div>
+                    <div>
+                        <apx-chart
+                            [series]="areaChartOptions.series"
+                            [chart]="areaChartOptions.chart"
+                            [xaxis]="areaChartOptions.xaxis"
+                            [stroke]="areaChartOptions.stroke"
+                            [dataLabels]="areaChartOptions.dataLabels"
+                            [yaxis]="areaChartOptions.yaxis"
+                            [labels]="areaChartOptions.labels"
+                            [legend]="areaChartOptions.legend"
+                            [title]="areaChartOptions.title"
+                            [subtitle]="areaChartOptions.subtitle"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div> -->
         </div>
     </div>
     <div class="col-span-6 shadow">

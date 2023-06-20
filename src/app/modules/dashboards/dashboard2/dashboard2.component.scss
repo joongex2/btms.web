@@ -2,8 +2,7 @@ $header-color: rgb(197, 224, 181);
 $header2-color: rgb(68, 123, 102);
 
 .top-header {
-  // height: 64px;
-  height: 100%;
+  height: 64px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,12 +19,6 @@ $header2-color: rgb(68, 123, 102);
   color: white;
   font-weight: 400;
   text-align: center;
-}
-
-.flex-item {
-  flex-basis: 183px;
-  flex-grow: 1;
-  min-width: 183px;
 }
 
 // mat-form-field

@@ -49,7 +49,7 @@
             </div>
         </div>
         <!-- Actions -->
-        <div class="flex flex-col gap-1 self-end">
+        <div class="flex flex-col self-end">
             <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 justify-end">
                 <a (click)="goBack()" class="flex items-center cursor-pointer">
                     <mat-icon svgIcon="heroicons_outline:arrow-circle-left"></mat-icon>
@@ -75,8 +75,8 @@
                     <mat-icon svgIcon="heroicons_outline:receipt-refund"></mat-icon>&nbsp;<span>Revise</span>
                 </a>
             </div>
-            <last-comment-link [comments]="document?.comments"></last-comment-link>
         </div>
+        
     </div>
 
     <!-- Main -->

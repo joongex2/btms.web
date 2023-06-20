@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { DashboardService } from './dashboard.service';
 
 
@@ -11,19 +11,13 @@ import { DashboardService } from './dashboard.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  selectedProject: string = 'dashboard1';
-  bus: any[] = [];
-  plants: any[] = [];
+  selectedProject: string = 'Quality Management Performance';
 
   constructor(
     private _dashboardService: DashboardService,
-    private _router: Router,
-    private _activatedRoute: ActivatedRoute,
+    private _router: Router
   ) { }
 
-  ngOnInit(): void {
-    this.bus = this._activatedRoute.snapshot.data.bus;
-    this.plants = this._activatedRoute.snapshot.data.plants;
-  }
+  ngOnInit(): void { }
   ngOnDestroy(): void { }
 }

@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexNonAxisChartSeries, ApexPlotOptions, ApexResponsive, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from 'ng-apexcharts';
 import { DashboardService } from '../dashboard.service';
 
@@ -92,27 +90,37 @@ export class Dashboard1Component implements OnInit, OnDestroy {
   public gaugeChartOptions: Partial<GaugeChartOptions>;
   public areaChartOptions: Partial<AreaChartOptions>;
   public barChart2Options: Partial<BarChart2Options>;
-  @Input() bus: any[] = [];
-  @Input() plants: any[] = [];
-  form: FormGroup;
 
-  // combo box options
-  years = [];
+  // combo box options // mock
+  years = [
+    { title: '2023', value: '2023' },
+    { title: '2022', value: '2022' },
+    { title: '2021', value: '2021' }
+  ];
 
   months = [
-    { title: 'Jan', value: 1 },
-    { title: 'Feb', value: 2 },
-    { title: 'Mar', value: 3 },
-    { title: 'Apr', value: 4 },
-    { title: 'May', value: 5 },
-    { title: 'Jun', value: 6 },
-    { title: 'Jul', value: 7 },
-    { title: 'Aug', value: 8 },
-    { title: 'Sep', value: 9 },
-    { title: 'Oct', value: 10 },
-    { title: 'Nov', value: 11 },
-    { title: 'Dec', value: 12 }
+    { title: 'Jan', value: '1' },
+    { title: 'Feb', value: '2' },
+    { title: 'Mar', value: '3' }
   ];
+
+  bus = [
+    { title: 'bu1', value: 'bu1' },
+    { title: 'bu2', value: 'bu2' },
+    { title: 'bu3', value: 'bu3' }
+  ];
+
+  plants = [
+    { title: 'plant1', value: 'plant1' },
+    { title: 'plant2', value: 'plant2' },
+    { title: 'plant3', value: 'plant3' }
+  ];
+
+  // combo box
+  selectedYear: string;
+  selectedMonth: string;
+  selectedBu: string;
+  selectedPlant: string;
 
   mockData1 = {
     totalKpi: {
@@ -240,7 +248,6 @@ export class Dashboard1Component implements OnInit, OnDestroy {
    * Constructor
    */
   constructor(
-    private _formBuilder: FormBuilder,
     private _dashboardService: DashboardService,
     private _router: Router
   ) {
@@ -486,21 +493,6 @@ export class Dashboard1Component implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.parseMockData();
-    const today = moment();
-    const currentMonth = today.month() + 1;
-    const currentYear = today.year();
-    for (let i = 0; i < 10; i++) {
-      this.years.push({ title: (currentYear - i).toString(), value: currentYear - i })
-    }
-    this.form = this._formBuilder.group({
-      month: currentMonth,
-      year: currentYear,
-      bus: null,
-      plants: null
-    });
-    // select all
-    this.form.get('bus').setValue(this.bus);
-    this.form.get('plants').setValue(this.plants);
   }
   ngOnDestroy(): void { }
 }
