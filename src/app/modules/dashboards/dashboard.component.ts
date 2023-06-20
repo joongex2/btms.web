@@ -11,7 +11,7 @@ import { DashboardService } from './dashboard.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  selectedProject: string = 'dashboard1';
+  selectedProject: string = 'Quality Management Performance';
 
   constructor(
     private _dashboardService: DashboardService,

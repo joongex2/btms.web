@@ -33,15 +33,15 @@
                     [xPosition]="'before'">
                     <button
                         mat-menu-item
-                        (click)="selectedProject='dashboard1'">Dashboard 1
+                        (click)="selectedProject='Quality Management Performance'">Quality Management Performance
                     </button>
                     <button
                         mat-menu-item
-                        (click)="selectedProject='dashboard2'">Dashboard 2
+                        (click)="selectedProject='Quality Management Performance By BU'">Quality Management Performance By BU
                     </button>
                     <button
                         mat-menu-item
-                        (click)="selectedProject='dashboard3'">Dashboard 3
+                        (click)="selectedProject='Action Plan Status'">Action Plan Status
                     </button>
                 </mat-menu>
             </div>
@@ -52,9 +52,9 @@
     <div class="flex-auto border-t -mt-px py-4 sm:pt-6">
         <div class="w-full max-w-screen-xl mx-auto">
             <div class="sm:px-2">
-                <dashboard1 *ngIf="selectedProject === 'dashboard1'"></dashboard1>
-                <dashboard2 *ngIf="selectedProject === 'dashboard2'"></dashboard2>
-                <dashboard3 *ngIf="selectedProject === 'dashboard3'"></dashboard3>
+                <dashboard1 *ngIf="selectedProject === 'Quality Management Performance'"></dashboard1>
+                <dashboard2 *ngIf="selectedProject === 'Quality Management Performance By BU'"></dashboard2>
+                <dashboard3 *ngIf="selectedProject === 'Action Plan Status'"></dashboard3>
             </div>
         </div>
     </div>
