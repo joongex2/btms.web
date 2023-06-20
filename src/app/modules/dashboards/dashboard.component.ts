@@ -12,6 +12,8 @@ import { DashboardService } from './dashboard.service';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   selectedProject: string = 'Quality Management Performance';
+  bus: any[] = [];
+  plants: any[] = [];
 
   constructor(
     private _dashboardService: DashboardService,
