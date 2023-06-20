@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MasterService } from 'app/modules/super-admin/master/master.service';
+import { firstUpperCase } from 'app/shared/helpers/first-upper-case';
 import { Document, DocumentParams } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import * as FileSaver from 'file-saver';
@@ -293,7 +294,7 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     for (let i = 0; i <= reportActuals.length - 1; i++) {
       if (i === 0) {
         for (let key of Object.keys(reportActuals[0])) {
-          Heading[0].push(key);
+          Heading[0].push(firstUpperCase(key));
         }
       }
       // exportTemplate.push({ index: i + 1, ...reportActuals[i] });
@@ -314,7 +315,7 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
 
     const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const data: Blob = new Blob([excelBuffer], { type: EXCEL_TYPE });
-    const fileName = 'document_report_';
+    const fileName = 'target_actual_report_';
 
     FileSaver.saveAs(data, fileName + new Date().getTime() + '.xlsx');
   }
