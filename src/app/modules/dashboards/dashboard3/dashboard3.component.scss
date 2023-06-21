@@ -14,11 +14,24 @@ $header2-color: rgb(68, 123, 102);
   text-align: center;
 }
 
+.header-plan {
+  height: 21px;
+  div {
+    width: calc(100% - 16px);
+  }
+}
+
 .header2-bg {
   background-color: $header2-color;
   color: white;
   font-weight: 400;
   text-align: center;
+}
+
+.flex-item {
+  flex-basis: 183px;
+  flex-grow: 1;
+  min-width: 183px;
 }
 
 // mat-form-field

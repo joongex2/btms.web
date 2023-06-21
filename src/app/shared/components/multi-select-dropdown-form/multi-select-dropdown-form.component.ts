@@ -3,11 +3,11 @@ import { ControlContainer, FormGroup } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
-  selector: 'form-multi-select-dropdown',
-  templateUrl: './form-multi-select-dropdown.component.html',
-  styleUrls: ['./form-multi-select-dropdown.component.scss'],
+  selector: 'multi-select-dropdown-form',
+  templateUrl: './multi-select-dropdown-form.component.html',
+  styleUrls: ['./multi-select-dropdown-form.component.scss'],
 })
-export class FormMultiSelectDropdownComponent implements OnInit {
+export class MultiSelectDropdownFormComponent implements OnInit {
   dropdownList = [];
   selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
@@ -17,6 +17,7 @@ export class FormMultiSelectDropdownComponent implements OnInit {
   @Input() name: string;
   @Input() placeholder: string;
   @Input() options: any;
+  @Input() itemsShowLimit: number = 3;
 
   constructor(private controlContainer: ControlContainer) { }
 
@@ -29,7 +30,7 @@ export class FormMultiSelectDropdownComponent implements OnInit {
       textField: 'title',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
+      itemsShowLimit: this.itemsShowLimit,
       allowSearchFilter: true
     };
   }

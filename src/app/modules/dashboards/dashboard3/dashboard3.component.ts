@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from 'ng-apexcharts';
 
@@ -32,24 +33,11 @@ export class Dashboard3Component implements OnInit {
   public radarChartOptions: Partial<RadarChartOptions>;
   public barChartOptions: Partial<BarChartOptions>;
   public barChart2Options: Partial<BarChartOptions>;
-
-  // combo box options // mock
-  bus = [
-    { title: 'bu1', value: 'bu1' },
-    { title: 'bu2', value: 'bu2' },
-    { title: 'bu3', value: 'bu3' }
-  ];
-
-  plants = [
-    { title: 'plant1', value: 'plant1' },
-    { title: 'plant2', value: 'plant2' },
-    { title: 'plant3', value: 'plant3' }
-  ];
+  @Input() bus: any[] = [];
+  @Input() plants: any[] = [];
+  form: FormGroup;
 
   // bind value
-  selectedBu: string;
-  selectedPlant: string;
-  dateUpdate: any;
   today: any;
 
   mockData: any = [
@@ -101,12 +89,12 @@ export class Dashboard3Component implements OnInit {
         totalKpiTable: ['Action Plan 20', 'Close 3', 'Over due 1'],
         totalKpiBar: {
           data: [6, 5, 3, 2, 4],
-          categories: ["Breeder","Broilet Farm", "Hatchery", "Pullet&Layout", "ECC"]
+          categories: ["Breeder", "Broilet Farm", "Hatchery", "Pullet&Layout", "ECC"]
         },
         criticalKpiTable: ['Action Plan 5', 'Close 4', 'Over due 1'],
         criticalKpiBar: {
           data: [0, 2, 1, 1, 1],
-          categories: ["Breeder","Broilet Farm", "Hatchery", "Pullet&Layout", "ECC"]
+          categories: ["Breeder", "Broilet Farm", "Hatchery", "Pullet&Layout", "ECC"]
         }
       }
     },
@@ -148,9 +136,9 @@ export class Dashboard3Component implements OnInit {
         }
       }
     }
-  ]
+  ];
 
-  constructor() {
+  constructor(private _formBuilder: FormBuilder) {
     this.radarChartOptions = {
       series: [
         {
@@ -289,5 +277,13 @@ export class Dashboard3Component implements OnInit {
   ngOnInit(): void {
     this.today = moment();
     this.parseMockData();
+    this.form = this._formBuilder.group({
+      dateUpdate: { value: this.today, disabled: true },
+      bus: null,
+      plants: null
+    });
+    // select all
+    this.form.get('bus').setValue(this.bus);
+    this.form.get('plants').setValue(this.plants);
   }
 }
