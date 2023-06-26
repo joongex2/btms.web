@@ -113,9 +113,7 @@
                             <div class="col-span-12 md:col-span-6">
                                 <div class="w-full grid gap-x-4 gap-y-4 grid-cols-12">
                                     <div class="col-span-4 font-medium">Running No.</div>
-                                    <div class="col-span-8">:<span class="ml-2"><a (click)="openLastComment()"
-                                                class="underline text-blue-600 cursor-pointer">{{document ? document.documentNo
-                                                : ''}}</a></span></div>
+                                    <div class="col-span-8">:<span class="ml-2">{{document ? document.documentNo : ''}}</span></div>
                                     <div class="col-span-4 font-medium">เป้าหมายหลัก</div>
                                     <div class="col-span-8">:<span class="ml-2">{{target?.targetName}}</span></div>
                                     <div class="col-span-4 font-medium">เป้าหมายย่อย</div>
