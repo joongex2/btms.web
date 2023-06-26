@@ -43,6 +43,8 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
   searchText: string;
   isCritical: boolean;
   selectedRow: Document;
+  fromMonth: number;
+  toMonth: number;
 
   // select option
   organizes: any[] = [];
@@ -53,39 +55,90 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
   statuses: any[] = [];
   documentTypes: any[] = [];
   targetTypes: any[] = [];
+  months = [
+    { title: 'January', value: 1 },
+    { title: 'February', value: 2 },
+    { title: 'March', value: 3 },
+    { title: 'April', value: 4 },
+    { title: 'May', value: 5 },
+    { title: 'June', value: 6 },
+    { title: 'July', value: 7 },
+    { title: 'August', value: 8 },
+    { title: 'September', value: 9 },
+    { title: 'October', value: 10 },
+    { title: 'November', value: 11 },
+    { title: 'December', value: 12 }
+  ];
 
   // table setting
-  displayedColumns: string[] = [
+  initialHeader = [
     'checkbox',
     'organizeCode',
     'documentNo',
     'revisionNo',
-    'createDate',
-    'issueDate',
+    'documentDate',
+    'issuedDate',
     'documentYear',
     'documentStatus',
-    'creator',
+    'userHolder',
     'detail'
   ];
+
+  displayedHeaders1: string[] = [...this.initialHeader];
+  displayedHeaders2: string[] = [];
+  displayedColumns: string[] = [...this.initialHeader];
 
   keyToColumnName: any = {
     'checkbox': '',
     'organizeCode': 'Organize Code',
     'documentNo': 'Running',
     'revisionNo': 'Revision',
-    'createDate': 'Create Date',
-    'issueDate': 'Issued Date',
+    'documentDate': 'Create Date',
+    'issuedDate': 'Issued Date',
     'documentYear': 'Year',
     'documentStatus': 'Status',
-    'creator': 'Creator',
-    'detail': ''
+    'userHolder': 'Creator',
+    'detail': '',
+
+    'jan': 'Jan',
+    'feb': 'Feb',
+    'mar': 'Mar',
+    'apr': 'Apr',
+    'may': 'May',
+    'jun': 'Jun',
+    'jul': 'Jul',
+    'aug': 'Aug',
+    'sep': 'Sep',
+    'oct': 'Oct',
+    'nov': 'Nov',
+    'dec': 'Dec',
+
+    'UseReport': 'Use Report',
+    'ActualValue': 'Actual Value',
+    'ActualResult': 'Actual Result',
+    'ActualStatus': 'Actual Status',
+    'ReferenceNo': 'Reference No',
+    'ReferenceStatus': 'Reference Status',
+    'Cause': 'Cause',
+    'Corrective': 'Corrective',
+    'CorrectiveDueDate': 'Corrective Due Date',
+    'CorrectiveActual': 'Corrective Actual',
+    'CorrectiveActualDate': 'Corrective Actual Date',
+    'Preventive': 'Preventive',
+    'PreventiveDueDate': 'Preventive Due Date',
+    'PreventiveActual': 'Preventive Actual',
+    'PreventiveActualDate': 'Preventive Actual Date'
   };
+
+  monthColumns: string[] = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
   notSortColumn: string[] = [
     'index',
     'detail',
     'checkbox'
-  ];
+  ].concat(this.monthColumns);
+
+  monthsSplit = /jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec/;
 
   constructor(
     private _reportService: ReportService,
@@ -129,8 +182,11 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     this.selectedTargetType = this.targetTypes.find((v) => v.value === params.TargetType) || '';
     this.searchText = params.SearchText || undefined;
     this.isCritical = params.IsCritical || false;
+    this.fromMonth = params.FromMonth ? parseInt(params.FromMonth) : undefined;
+    this.toMonth = params.ToMonth ? parseInt(params.ToMonth) : undefined;
 
     // this.loadDocuments(page, size, sort, order, this.getDocumentParams());
+    this.appendColumns(0, 12);
   }
 
   ngAfterViewInit() {
@@ -187,6 +243,8 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     filter.TargetType = this.getOptionValue(this.selectedTargetType);
     filter.SearchText = this.searchText ? this.searchText : undefined;
     filter.IsCritical = this.isCritical ? this.isCritical.toString() : undefined;
+    filter.FromMonth = this.fromMonth ? this.fromMonth.toString() : undefined;
+    filter.ToMonth = this.toMonth ? this.toMonth.toString() : undefined;
     return filter;
   }
 
@@ -213,6 +271,8 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     filter.TargetType = undefined;
     filter.SearchText = undefined;
     filter.IsCritical = undefined;
+    filter.FromMonth = undefined;
+    filter.ToMonth = undefined;
     return filter;
   }
 
@@ -230,6 +290,8 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     this.toDocumentYear = undefined;
     this.searchText = undefined;
     this.isCritical = false;
+    this.fromMonth = undefined;
+    this.toMonth = undefined;
   }
 
   private addQueryParam(param?: object): void {
@@ -244,6 +306,8 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     this._reportService.getReportActuals(page, size, sort, order, params).subscribe({
       next: (v) => {
         this.documents = v.model;
+        // this.mockData(); // mock
+        this.changeColumns();
         this.paginator.pageIndex = v.pageNumber - 1;
         this.paginator.pageSize = v.pageSize;
         this.resultsLength = v.itemsCount;
@@ -291,12 +355,25 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     const Heading = [[]];
     const exportTemplate = [];
 
+    const fromMonth = this.fromMonth ? this.fromMonth - 1 : 0;
+    const toMonth = this.toMonth ? this.toMonth : 12;
+    const selectedMonthColumns = this.monthColumns.slice(fromMonth, toMonth);
+    const monthsRegExp = new RegExp(selectedMonthColumns.join('|'));
+    const generalCols = ['id', 'organizeCode', 'businessUnitCode', 'subBusinessUnitCode', 'plantCode', 'divisionCode', 'documentNo', 'documentYear', 'revisionNo', 'modifyNo', 'documentType', 'documentStatus', 'documentDate', 'issuedDate', 'userHolder', 'targetName', 'targetType', 'standard', 'measureType', 'targetDetailDescription', 'targetIndex', 'targetValue', 'targetUnit', 'currentTarget', 'startMonth', 'startYear', 'finishMonth', 'finishYear', 'isCritical', 'planDescription', 'planYear'];
+
     for (let i = 0; i <= reportActuals.length - 1; i++) {
-      if (i === 0) {
-        for (let key of Object.keys(reportActuals[0])) {
+      for (let key of Object.keys(reportActuals[i])) {
+        if (!key.match(monthsRegExp) && !generalCols.includes(key)) {
+          // filter key
+          delete reportActuals[i][key];
+          continue;
+        }
+
+        if (i === 0) {
           Heading[0].push(firstUpperCase(key));
         }
       }
+
       // exportTemplate.push({ index: i + 1, ...reportActuals[i] });
       exportTemplate.push({ ...reportActuals[i] });
     }
@@ -346,6 +423,27 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
       this.selectedPlant = null;
     } else {
       this.plants = await firstValueFrom(this._masterService.getPlants(subBu.id));
+    }
+  }
+
+  changeColumns() {
+    // reset
+    this.displayedHeaders1 = [...this.initialHeader];
+    this.displayedHeaders2 = [];
+    this.displayedColumns = [...this.initialHeader];
+
+    const fromMonth = this.fromMonth ? this.fromMonth - 1 : 0;
+    const toMonth = this.toMonth ? this.toMonth : 12;
+    this.appendColumns(fromMonth, toMonth);
+  }
+
+  appendColumns(from: number, to: number) {
+    const selectedMonthColumns = this.monthColumns.slice(from, to);
+    for (let month of selectedMonthColumns) {
+      const appendColumn2 = ['UseReport', 'ActualValue', 'ActualResult', 'ActualStatus', 'ReferenceNo', 'ReferenceStatus', 'Cause', 'Corrective', 'CorrectiveDueDate', 'CorrectiveActual', 'CorrectiveActualDate', 'Preventive', 'PreventiveDueDate', 'PreventiveActual', 'PreventiveActualDate']
+      this.displayedHeaders1.push(month);
+      this.displayedHeaders2 = this.displayedHeaders2.concat(appendColumn2.map(v => `${month}${v}`));
+      this.displayedColumns = this.displayedColumns.concat(appendColumn2.map(v => `${month}${v}`));
     }
   }
 }

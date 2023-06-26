@@ -66,7 +66,6 @@
                     </a>
                 </ng-container>
             </div>
-            <last-comment-link [comments]="document?.comments"></last-comment-link>
         </div>
     </div>
 
@@ -76,8 +75,9 @@
             <form #f="ngForm">
                 <div class="flex flex-col px-8 py-4 bg-card shadow rounded overflow-y-auto">
                     <div class="flex flex-col gt-xs:flex-row gt-xs:items-start" style="color: rgb(30, 41, 59)">
-                        <div class="gt-xs:max-w-80 gt-xs:pr-12">
+                        <div class="gt-xs:max-w-80 gt-xs:pr-12 flex justify-between items-center">
                             <p class="text-lg font-medium">ข้อมูลเป้าหมาย</p>
+                            <last-comment-link [comments]="document?.comments"></last-comment-link>
                         </div>
     
                         <mat-divider class="mb-4"></mat-divider>
@@ -112,8 +112,9 @@
                 </div>
                 <div class="mt-6 flex flex-col px-8 py-4 bg-card shadow rounded overflow-y-auto">
                     <div class="flex flex-col gt-xs:flex-row gt-xs:items-start" style="color: rgb(30, 41, 59)">
-                        <div class="gt-xs:max-w-80 gt-xs:pr-12">
+                        <div class="gt-xs:max-w-80 gt-xs:pr-12 flex justify-between items-center">
                             <p class="text-lg font-medium">ข้อมูลการรายงานผล</p>
+                            <last-comment-link [comments]="actual?.comments"></last-comment-link>
                         </div>
     
                         <mat-divider class="mb-4"></mat-divider>

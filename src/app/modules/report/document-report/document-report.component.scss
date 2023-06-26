@@ -26,9 +26,10 @@
 }
 
 table {
-  width: 100%;
-  table-layout: fixed;
-  min-width: 800px;
+  // width: 100%;
+  // table-layout: fixed;
+  // min-width: 800px;
+  width: max-content;
 }
 
 .mat-header-cell,
@@ -53,41 +54,123 @@ table {
   background-color: rgb(229, 240, 203) !important;
 }
 
+:host ::ng-deep .header-2 {
+  height: 28px;
+  th {
+    top: 28px !important;
+  }
+}
+
 /* column width */
 .mat-column-checkbox {
-  width: 7.5%;
+  width: 50px;
 }
 
 .mat-column-organizeCode {
-  width: 17.5%;
+  width: 200px;
 }
 
 .mat-column-documentNo {
-  width: 15%;
+  width: 200px;
 }
 
 .mat-column-revisionNo {
-  width: 8%;
+  width: 100px;
 }
 
 .mat-column-createDate {
-  width: 10%;
+  width: 150px;
 }
 
 .mat-column-issueDate {
-  width: 10%;
+  width: 150px;
 }
 
 .mat-column-documentYear {
-  width: 7.5%;
+  width: 100px;
 }
 
 .mat-column-documentStatus {
-  width: 12.5%;
+  width: 100px;
 }
 
 .mat-column-creator {
-  width: 12%;
+  width: 100px;
+}
+
+.mat-column-detail {
+  width: 50px;
+}
+
+$base-class: mat-column;
+$months: jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec;
+
+@each $month in $months {
+  th.#{$base-class}-#{$month},
+  th.#{$base-class}-#{$month}UseReport {
+    border-left: 1px solid white;
+  }
+
+  .#{$base-class}-#{$month}UseReport {
+    width: 100px;
+    padding-left: 5px !important;
+  }
+  
+  .#{$base-class}-#{$month}ActualValue {
+    width: 100px;
+  }
+  
+  .#{$base-class}-#{$month}ActualResult {
+    width: 100px;
+  }
+  
+  .#{$base-class}-#{$month}ActualStatus {
+    width: 100px;
+  }
+  
+  .#{$base-class}-#{$month}ReferenceNo {
+    width: 150px;
+  }
+
+  .#{$base-class}-#{$month}ReferenceStatus {
+    width: 150px;
+  }
+  
+  .#{$base-class}-#{$month}Cause {
+    width: 100px;
+  }
+  
+  .#{$base-class}-#{$month}Corrective {
+    width: 100px;
+  }
+  
+  .#{$base-class}-#{$month}CorrectiveDueDate {
+    width: 200px;
+  }
+  
+  .#{$base-class}-#{$month}CorrectiveActual {
+    width: 200px;
+  }
+  
+  .#{$base-class}-#{$month}CorrectiveActualDate {
+    width: 200px;
+  }
+
+  .#{$base-class}-#{$month}Preventive {
+    width: 100px;
+  }
+
+  .#{$base-class}-#{$month}PreventiveDueDate {
+    width: 200px;
+  }
+  
+  .#{$base-class}-#{$month}PreventiveActual {
+    width: 200px;
+  }
+  
+  .#{$base-class}-#{$month}PreventiveActualDate {
+    width: 200px;
+  } 
 }
 
 :host ::ng-deep .mat-form-field-wrapper {

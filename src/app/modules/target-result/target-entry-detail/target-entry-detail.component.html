@@ -60,7 +60,6 @@
                     </a>
                 </ng-container>
             </div>
-            <last-comment-link [comments]="document?.comments"></last-comment-link>
         </div>
     </div>
     <!-- Main -->
@@ -77,32 +76,33 @@
                     </mat-expansion-panel-header>
                     <div class="grid gap-x-4 md:gap-x-12 gap-y-4 grid-cols-12 mb-4 items-center"
                         style="color: rgb(30, 41, 59)">
+                        <div class="col-span-12"><last-comment-link [comments]="document?.comments"></last-comment-link></div>
                         <div class="col-span-6 sm:col-span-2 font-medium">Document Type</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentTypeDescription : '-'}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Year</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentYear : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Running No.</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentNo : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Business Unit</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.businessUnit : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Status</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentStatusDescription : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Sub Business Unit</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.subBusinessUnit : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Revision No.</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.revisionNo : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Plant</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.plant : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Modify No.</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.modifyNo : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Division/Department</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.division : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Date Create</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? (document.documentDate | date : 'dd/MM/YYYY') : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Creator</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.userHolder : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Date Due</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? (document.dueDate | date : 'dd/MM/YYYY')  : ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentTypeDescription : '-'}}</span></div>
+                        <div class="col-span-6 sm:col-span-2 font-medium">Year</div>
+                        <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentYear : ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-2 font-medium">Running No.</div>
+                        <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentNo : ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-2 font-medium">Business Unit</div>
+                        <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.businessUnit : ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-2 font-medium">Status</div>
+                        <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentStatusDescription : ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-2 font-medium">Sub Business Unit</div>
+                        <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.subBusinessUnit : ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-2 font-medium">Revision No.</div>
+                        <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.revisionNo : ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-2 font-medium">Plant</div>
+                        <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.plant : ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-2 font-medium">Modify No.</div>
+                        <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.modifyNo : ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-2 font-medium">Division/Department</div>
+                        <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.division : ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-2 font-medium">Date Create</div>
+                        <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? (document.documentDate | date : 'dd/MM/YYYY') : ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-2 font-medium">Creator</div>
+                        <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.userHolder : ''}}</span></div>
+                        <div class="col-span-6 sm:col-span-2 font-medium">Date Due</div>
+                        <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? (document.dueDate | date : 'dd/MM/YYYY')  : ''}}</span></div>
                     </div>
                 </mat-expansion-panel>
             </mat-accordion>

@@ -12,6 +12,37 @@ export interface Document {
     documentYear: string;
     documentStatus: string;
     creator: string;
+
+    // mock for a document-report page
+    jan?: DocReport;
+    feb?: DocReport;
+    mar?: DocReport;
+    apr?: DocReport;
+    may?: DocReport;
+    jun?: DocReport;
+    jul?: DocReport;
+    aug?: DocReport;
+    sep?: DocReport;
+    oct?: DocReport;
+    nov?: DocReport;
+    dec?: DocReport;
+}
+
+export interface DocReport {
+    useReport: any;
+    actualValue: any;
+    actualResult: any;
+    actualStatus: any;
+    sOVNo: any;
+    cause: any;
+    corrective: any;
+    correctiveDueDate: any;
+    actualCorrective: any;
+    correctiveActualDate: any;
+    preventive: any;
+    preventiveDueDate: any;
+    actualPreventive: any;
+    preventiveActualDate: any;
 }
 
 export interface DocumentDetail {
@@ -207,6 +238,7 @@ export interface ReceiveEmail {
 }
 
 export interface Actual {
+    comments: Comment[];
     createdBy: string;
     createdDate: string;
     dueDate: string;

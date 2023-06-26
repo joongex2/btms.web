@@ -1,3 +1,3 @@
-<div *ngIf="comments" class="text-right">
-    <span><span class="text-red-500 font-normal">Last Comment: </span> <span class="more-detail" (click)="openLastComment()">More Detail</span></span>
+<div *ngIf="comments">
+    <span class="flex items-center justify-end gap-1"><span class="text-red-500 font-normal">Last Comment: </span><span class="comment">{{comments?.[0]?.comment}}</span><span class="more-detail" (click)="openLastComment()">More Detail</span></span>
 </div>

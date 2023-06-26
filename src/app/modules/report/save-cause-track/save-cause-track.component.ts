@@ -39,9 +39,9 @@ export class SaveCauseTrackComponent implements OnInit, AfterViewInit {
   selectedReportStatus: any;
   selectedCauseTrackStatus: any;
   selectedTargetResult: any;
-  selectedFromMonth = '';
+  selectedFromMonth: number;
   selectedCauseTrackResult: any;
-  selectedToMonth = '';
+  selectedToMonth: number;
   // documentYear: string;
   // toDocumentYear: string;
   // searchText: string;
@@ -83,7 +83,20 @@ export class SaveCauseTrackComponent implements OnInit, AfterViewInit {
   causeTrackStatuses: any[];
   targetResults: any[];
   causeTrackResults: any[];
-  months: any[];
+  months = [
+    { title: 'January', value: 1 },
+    { title: 'February', value: 2 },
+    { title: 'March', value: 3 },
+    { title: 'April', value: 4 },
+    { title: 'May', value: 5 },
+    { title: 'June', value: 6 },
+    { title: 'July', value: 7 },
+    { title: 'August', value: 8 },
+    { title: 'September', value: 9 },
+    { title: 'October', value: 10 },
+    { title: 'November', value: 11 },
+    { title: 'December', value: 12 }
+  ];
 
   constructor(
     // private _documentService: DocumentService,
@@ -123,20 +136,6 @@ export class SaveCauseTrackComponent implements OnInit, AfterViewInit {
       { title: 'ผลการดำเนินงาน 1', value: 'target_result_1' },
       { title: 'ผลการดำเนินงาน 2', value: 'target_result_2' },
       { title: 'ผลการดำเนินงาน 3', value: 'target_result_3' }
-    ];
-    this.months = [
-      { title: 'January', value: 'January' },
-      { title: 'February', value: 'February' },
-      { title: 'March', value: 'March' },
-      { title: 'April', value: 'April' },
-      { title: 'May', value: 'May' },
-      { title: 'June', value: 'June' },
-      { title: 'July', value: 'July' },
-      { title: 'August', value: 'August' },
-      { title: 'September', value: 'September' },
-      { title: 'October', value: 'October' },
-      { title: 'November', value: 'November' },
-      { title: 'December', value: 'December' }
     ];
     this.causeTrackResults = [
       { title: 'ผลการติดตามสาเหตุฯ 1', value: 'cause_track_result_1' },
@@ -227,9 +226,9 @@ export class SaveCauseTrackComponent implements OnInit, AfterViewInit {
     filter.ReportStatus = this.getOptionValue(this.selectedReportStatus);
     filter.CauseTrackStatus = this.getOptionValue(this.selectedCauseTrackStatus);
     filter.TargetResult = this.getOptionValue(this.selectedTargetResult);
-    filter.FromMonth = this.selectedFromMonth;
+    filter.FromMonth = this.selectedFromMonth.toString();
     filter.CauseTrackResult = this.getOptionValue(this.selectedCauseTrackResult);
-    filter.ToMonth = this.selectedToMonth;
+    filter.ToMonth = this.selectedToMonth.toString();
     // filter.SearchText = this.searchText ? this.searchText : undefined;
     // filter.IsCritical = this.isCritical ? this.isCritical.toString() : undefined;
     return filter;
@@ -274,9 +273,9 @@ export class SaveCauseTrackComponent implements OnInit, AfterViewInit {
     this.selectedReportStatus = '';
     this.selectedCauseTrackStatus = '';
     this.selectedTargetResult = '';
-    this.selectedFromMonth = '';
+    this.selectedFromMonth = undefined;
     this.selectedCauseTrackResult = '';
-    this.selectedToMonth = '';
+    this.selectedToMonth = undefined;
     // this.documentYear = undefined;
     // this.toDocumentYear = undefined;
     // this.searchText = undefined;
