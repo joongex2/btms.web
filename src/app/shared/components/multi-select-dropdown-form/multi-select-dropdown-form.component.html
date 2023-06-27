@@ -1,5 +1,6 @@
 <form [formGroup]="form">
-    <div class="flex items-center">
+    <div class="flex flex-col items-start">
+        <div *ngIf="label">{{label}}</div>
         <ng-multiselect-dropdown
             class="w-full"
             [placeholder]="placeholder"
