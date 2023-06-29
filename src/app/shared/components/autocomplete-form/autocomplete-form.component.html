@@ -9,6 +9,7 @@
                     matInput
                     [formControlName]="name"
                     [matAutocomplete]="matAutoRef"
+                    (blur)="blurHandler()"
                 >
                 <mat-autocomplete #matAutoRef="matAutocomplete" [displayWith]="displayFn">
                     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">

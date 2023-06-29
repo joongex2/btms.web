@@ -73,4 +73,12 @@ export class AutocompleteComponent {
     displayFn(value: any): string {
         return value && value.title ? value.title : '';
     }
+
+    blurHandler() {
+        const value = this.options.find(v => v.title === this.value);
+        if (this.requireMatch && typeof this.value === 'string' && value) {
+            this.value = value;
+            this.valueChange.emit(this.value);
+        }
+    }
 }

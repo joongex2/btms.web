@@ -16,6 +16,7 @@
                 [requireMatch]="passOptions"
                 [disabled]="disabled"
                 #model="ngModel"
+                (blur)="blurHandler()"
             >
             <mat-autocomplete #matAutoRef="matAutocomplete" [displayWith]="displayFn">
                 <mat-option *ngFor="let option of filteredOptions" [value]="option">
