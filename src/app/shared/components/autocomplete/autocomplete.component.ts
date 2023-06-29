@@ -75,10 +75,12 @@ export class AutocompleteComponent {
     }
 
     blurHandler() {
-        const value = this.options.find(v => v.title === this.value);
-        if (this.requireMatch && typeof this.value === 'string' && value) {
-            this.value = value;
-            this.valueChange.emit(this.value);
+        if (this.requireMatch && typeof this.value === 'string') {
+            const matchedOption = this.options.find(v => v.title === this.value);
+            if (matchedOption) {
+                this.value = matchedOption;
+                this.valueChange.emit(this.value);
+            }
         }
     }
 }

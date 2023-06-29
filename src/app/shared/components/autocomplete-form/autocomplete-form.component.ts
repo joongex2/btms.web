@@ -80,9 +80,9 @@ export class AutocompleteFormComponent implements OnInit {
     }
 
     blurHandler() {
-        const value = this.options.find(v => v.title === this.value);
-        if (this.requireMatch && typeof this.value === 'string' && value) {
-            this.form.setValue(value);
+        if (this.requireMatch && typeof this.value === 'string') {
+            const matchedOption = this.options.find(v => v.title === this.value);
+            if (matchedOption) this.form.setValue(matchedOption);
         }
     }
 }
