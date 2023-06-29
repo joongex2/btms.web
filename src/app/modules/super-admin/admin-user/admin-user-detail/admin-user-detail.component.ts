@@ -10,6 +10,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { UserGroupService } from 'app/modules/super-admin/user-group/user-group.service';
 import { UserGroup } from 'app/modules/super-admin/user-group/user-group.types';
+import { getOptionValue } from 'app/shared/helpers/get-option-value';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { UrlService } from 'app/shared/services/url.service';
@@ -163,9 +164,9 @@ export class AdminUserDetailComponent implements OnInit {
     } else {
       this.dataSource.data.push({
         id: 0,
-        businessUnitCode: this.selectedBu.value,
-        subBusinessUnitCode: this.selectedSubBu?.value || null,
-        plantCode: this.selectedPlant?.value || null,
+        businessUnitCode: getOptionValue(this.selectedBu),
+        subBusinessUnitCode: getOptionValue(this.selectedSubBu) || null,
+        plantCode: getOptionValue(this.selectedPlant) || null,
         isActive: true
       })
       this.dataSource.data = this.dataSource.data;

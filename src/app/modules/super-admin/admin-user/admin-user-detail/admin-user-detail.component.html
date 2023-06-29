@@ -118,15 +118,15 @@
                 <form #adminPermissionForm="ngForm" class="grid gap-x-4 gap-y-4 grid-cols-12 items-center">
                     <div class="col-span-6 md:col-span-3 font-medium">Business Unit<span class="text-warn">*</span></div>
                     <div class="col-span-6 md:col-span-3">
-                        <autocomplete label="Business Unit" name="bu" [options]="bus" [required]="true" [(value)]="selectedBu" (valueChange)="buChange($event)"></autocomplete>
+                        <autocomplete label="Business Unit" name="bu" [options]="bus" [required]="true" [(value)]="selectedBu" (valueChange)="buChange($event)" [requireMatch]="true"></autocomplete>
                     </div>
                     <div class="col-span-6 md:col-span-3 font-medium">Sub Business Unit</div>
                     <div class="col-span-6 md:col-span-3">
-                        <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu" (valueChange)="subBuChange($event)"></autocomplete>
+                        <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu" (valueChange)="subBuChange($event)" [requireMatch]="true"></autocomplete>
                     </div>
                     <div class="col-span-6 md:col-span-3 font-medium">Plant</div>
                     <div class="col-span-6 md:col-span-9">
-                        <autocomplete label="Plant" name="plant" [options]="plants" [(value)]="selectedPlant"></autocomplete>
+                        <autocomplete label="Plant" name="plant" [options]="plants" [(value)]="selectedPlant" [requireMatch]="true"></autocomplete>
                     </div>
                     <span class="col-span-12 col-start-1 flex justify-end items-center cursor-pointer" (click)="addPermission()">
                         <mat-icon class="text-current" [svgIcon]="'heroicons_outline:plus'"></mat-icon>&nbsp;<span>Add Permission</span>

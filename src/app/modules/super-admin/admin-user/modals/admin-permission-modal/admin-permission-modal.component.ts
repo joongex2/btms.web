@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { MasterService } from 'app/modules/super-admin/master/master.service';
+import { getOptionValue } from 'app/shared/helpers/get-option-value';
 import { ModalData } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
@@ -75,9 +76,9 @@ export class AdminPermissionModalComponent implements OnInit {
       try {
         this.matDialogRef.close({
           id: this.adminPermission.id,
-          businessUnitCode: this.selectedBu.value,
-          subBusinessUnitCode: this.selectedSubBu?.value || null,
-          plantCode: this.selectedPlant?.value || null,
+          businessUnitCode: getOptionValue(this.selectedBu),
+          subBusinessUnitCode: getOptionValue(this.selectedSubBu) || null,
+          plantCode: getOptionValue(this.selectedPlant) || null,
           isActive: this.isActive
         } as AdminPermission);
       } catch (e) {

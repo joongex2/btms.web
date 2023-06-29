@@ -49,16 +49,16 @@
                         <div class="grid gap-x-4 sm:gap-x-8 gap-y-4 grid-cols-12 mb-4 items-center" style="color: rgb(30, 41, 59)">
                             <div class="col-span-6 sm:col-span-2 font-medium">Organize</div>
                             <div class="col-span-6 sm:col-span-4">
-                                <autocomplete label="Organize" name="organize" [options]="organizes" [(value)]="selectedOrganize"></autocomplete>
+                                <autocomplete label="Organize" name="organize" [options]="organizes" [(value)]="selectedOrganize" [requireMatch]="true"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Status</div>
                             <div class="col-span-6 sm:col-span-4">
-                                <autocomplete label="Status" name="status" [options]="statuses" [(value)]="selectedStatus"></autocomplete>
+                                <autocomplete label="Status" name="status" [options]="statuses" [(value)]="selectedStatus" [requireMatch]="true"></autocomplete>
                             </div>
                             
                             <div class="col-span-6 sm:col-span-2 font-medium">Business Unit</div>
                             <div class="col-span-6 sm:col-span-4">
-                                <autocomplete label="Business Unit" name="bu" [options]="bus" [(value)]="selectedBu" (valueChange)="buChange($event)"></autocomplete>
+                                <autocomplete label="Business Unit" name="bu" [options]="bus" [(value)]="selectedBu" (valueChange)="buChange($event)" [requireMatch]="true"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Running No.</div>
                             <div class="col-span-6 sm:col-span-4 flex items-center">
@@ -69,7 +69,7 @@
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Sub Business Unit</div>
                             <div class="col-span-6 sm:col-span-4">
-                                <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu" (valueChange)="subBuChange($event)"></autocomplete>
+                                <autocomplete label="Sub Business Unit" name="subBu" [options]="subBus" [(value)]="selectedSubBu" (valueChange)="subBuChange($event)" [requireMatch]="true"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">From Document Year</div>
                             <div class="col-span-6 sm:col-span-4 flex items-center">
@@ -80,7 +80,7 @@
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Plant</div>
                             <div class="col-span-6 sm:col-span-4">
-                                <autocomplete label="Plant" name="plant" [options]="plants" [(value)]="selectedPlant"></autocomplete>
+                                <autocomplete label="Plant" name="plant" [options]="plants" [(value)]="selectedPlant" [requireMatch]="true"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">To Document Year</div>
                             <div class="col-span-6 sm:col-span-4 flex items-center">
@@ -91,7 +91,7 @@
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Division/Department</div>
                             <div class="col-span-6 sm:col-span-4">
-                                <autocomplete label="Division/Department" name="division" [options]="divisions" [(value)]="selectedDivision"></autocomplete>
+                                <autocomplete label="Division/Department" name="division" [options]="divisions" [(value)]="selectedDivision" [requireMatch]="true"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">From Month</div>
                             <div class="col-span-6 sm:col-span-4 flex items-center">
@@ -106,7 +106,7 @@
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Document Type</div>
                             <div class="col-span-6 sm:col-span-4">
-                                <autocomplete label="Document Type" name="documentType" [options]="documentTypes" [(value)]="selectedDocumentType"></autocomplete>
+                                <autocomplete label="Document Type" name="documentType" [options]="documentTypes" [(value)]="selectedDocumentType" [requireMatch]="true"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">To Month</div>
                             <div class="col-span-6 sm:col-span-4 flex items-center">
@@ -121,7 +121,7 @@
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Target Type</div>
                             <div class="col-span-6 sm:col-span-4">
-                                <autocomplete label="Target Type" name="targetType" [options]="targetTypes" [(value)]="selectedTargetType"></autocomplete>
+                                <autocomplete label="Target Type" name="targetType" [options]="targetTypes" [(value)]="selectedTargetType" [requireMatch]="true"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Critical KPI</div>
                             <div class="col-span-6 sm:col-span-4 flex items-center">

@@ -4,8 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MasterService } from 'app/modules/super-admin/master/master.service';
+import { getOptionValue } from 'app/shared/helpers/get-option-value';
 import { DocumentParams } from 'app/shared/interfaces/document.interface';
-import { DocumentService } from 'app/shared/services/document.service';
 import { firstValueFrom } from 'rxjs';
 import { SaveCauseTrackService } from './save-cause-track.service';
 import { SaveCauseTrack } from './save-cause-track.types';
@@ -142,7 +142,7 @@ export class SaveCauseTrackComponent implements OnInit, AfterViewInit {
       { title: 'ผลการติดตามสาเหตุฯ 2', value: 'cause_track_result_2' },
       { title: 'ผลการติดตามสาเหตุฯ 3', value: 'cause_track_result_3' }
     ];
-  
+
     const params = (this._activatedRoute.snapshot.queryParamMap as any).params;
     if (params.expand === 'true') setTimeout(() => this.matExpansionPanel.open());
     const page = params.page ? parseInt(params.page) : 1;
@@ -212,34 +212,26 @@ export class SaveCauseTrackComponent implements OnInit, AfterViewInit {
 
   getDocumentParams(): DocumentParams {
     const filter = new DocumentParams();
-    filter.OrganizeCode = this.getOptionValue(this.selectedOrganize);
-    filter.BusinessUnitCode = this.getOptionValue(this.selectedBu);
-    filter.SubBusinessUnitCode = this.getOptionValue(this.selectedSubBu);
-    filter.PlantCode = this.getOptionValue(this.selectedPlant);
-    filter.DivisionCode = this.getOptionValue(this.selectedDivision);
+    filter.OrganizeCode = getOptionValue(this.selectedOrganize);
+    filter.BusinessUnitCode = getOptionValue(this.selectedBu);
+    filter.SubBusinessUnitCode = getOptionValue(this.selectedSubBu);
+    filter.PlantCode = getOptionValue(this.selectedPlant);
+    filter.DivisionCode = getOptionValue(this.selectedDivision);
     filter.DocumentNo = this.documentNo ? this.documentNo : undefined;
     // filter.DocumentYear = this.documentYear ? this.documentYear : undefined;
     // filter.ToDocumentYear = this.toDocumentYear ? this.toDocumentYear : undefined;
-    // filter.DocumentStatus = this.getOptionValue(this.selectedStatus);
-    filter.DocumentType = this.getOptionValue(this.selectedDocumentType);
-    filter.TargetType = this.getOptionValue(this.selectedTargetType);
-    filter.ReportStatus = this.getOptionValue(this.selectedReportStatus);
-    filter.CauseTrackStatus = this.getOptionValue(this.selectedCauseTrackStatus);
-    filter.TargetResult = this.getOptionValue(this.selectedTargetResult);
+    // filter.DocumentStatus = getOptionValue(this.selectedStatus);
+    filter.DocumentType = getOptionValue(this.selectedDocumentType);
+    filter.TargetType = getOptionValue(this.selectedTargetType);
+    filter.ReportStatus = getOptionValue(this.selectedReportStatus);
+    filter.CauseTrackStatus = getOptionValue(this.selectedCauseTrackStatus);
+    filter.TargetResult = getOptionValue(this.selectedTargetResult);
     filter.FromMonth = this.selectedFromMonth.toString();
-    filter.CauseTrackResult = this.getOptionValue(this.selectedCauseTrackResult);
+    filter.CauseTrackResult = getOptionValue(this.selectedCauseTrackResult);
     filter.ToMonth = this.selectedToMonth.toString();
     // filter.SearchText = this.searchText ? this.searchText : undefined;
     // filter.IsCritical = this.isCritical ? this.isCritical.toString() : undefined;
     return filter;
-  }
-
-  getOptionValue(selectedOption: any) {
-    if (typeof selectedOption === 'string') {
-      return selectedOption ? selectedOption : undefined;
-    } else {
-      return selectedOption?.value ? selectedOption.value : undefined;
-    }
   }
 
   getClearDocumentParams(): DocumentParams {

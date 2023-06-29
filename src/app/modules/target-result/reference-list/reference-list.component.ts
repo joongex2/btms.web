@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MasterService } from 'app/modules/super-admin/master/master.service';
+import { getOptionValue } from 'app/shared/helpers/get-option-value';
 import { Document, DocumentParams, ReferenceDetail as Reference } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { firstValueFrom } from 'rxjs';
@@ -64,7 +65,7 @@ export class ReferenceListComponent implements OnInit, AfterViewInit {
   keyToColumnName: any = {
     'radio': '',
     'organizeCode': 'Organize Code',
-    'documentNo':'Document No.',
+    'documentNo': 'Document No.',
     'runningNo': 'Running No.',
     'createdDate': 'Create Date',
     'targetYear': 'Year',
@@ -159,28 +160,20 @@ export class ReferenceListComponent implements OnInit, AfterViewInit {
 
   getDocumentParams(): DocumentParams {
     const filter = new DocumentParams();
-    filter.OrganizeCode = this.getOptionValue(this.selectedOrganize);
-    filter.BusinessUnitCode = this.getOptionValue(this.selectedBu);
-    filter.SubBusinessUnitCode = this.getOptionValue(this.selectedSubBu);
-    filter.PlantCode = this.getOptionValue(this.selectedPlant);
-    filter.DivisionCode = this.getOptionValue(this.selectedDivision);
+    filter.OrganizeCode = getOptionValue(this.selectedOrganize);
+    filter.BusinessUnitCode = getOptionValue(this.selectedBu);
+    filter.SubBusinessUnitCode = getOptionValue(this.selectedSubBu);
+    filter.PlantCode = getOptionValue(this.selectedPlant);
+    filter.DivisionCode = getOptionValue(this.selectedDivision);
     filter.DocumentNo = this.documentNo ? this.documentNo : undefined;
     filter.DocumentYear = this.documentYear ? this.documentYear : undefined;
     filter.ToDocumentYear = this.toDocumentYear ? this.toDocumentYear : undefined;
-    filter.DocumentStatus = this.getOptionValue(this.selectedStatus);
-    filter.DocumentType = this.getOptionValue(this.selectedDocumentType);
-    filter.TargetType = this.getOptionValue(this.selectedTargetType);
+    filter.DocumentStatus = getOptionValue(this.selectedStatus);
+    filter.DocumentType = getOptionValue(this.selectedDocumentType);
+    filter.TargetType = getOptionValue(this.selectedTargetType);
     filter.SearchText = this.searchText ? this.searchText : undefined;
     filter.IsCritical = this.isCritical ? this.isCritical.toString() : undefined;
     return filter;
-  }
-
-  getOptionValue(selectedOption: any) {
-    if (typeof selectedOption === 'string') {
-      return selectedOption ? selectedOption : undefined;
-    } else {
-      return selectedOption?.value ? selectedOption.value : undefined;
-    }
   }
 
   getClearDocumentParams(): DocumentParams {

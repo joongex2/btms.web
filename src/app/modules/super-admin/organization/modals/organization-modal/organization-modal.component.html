@@ -33,22 +33,22 @@
 
         <div class="col-span-4 font-medium">Business Unit Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
-            <autocomplete-form class="w-full" label="Business Unit Code" name="businessUnitCode" [options]="businessUnitCodes"></autocomplete-form>
+            <autocomplete-form class="w-full" label="Business Unit Code" name="businessUnitCode" [options]="businessUnitCodes" [requireMatch]="true"></autocomplete-form>
         </div>
 
         <div class="col-span-4 font-medium">Sub Business Unit Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
-            <autocomplete-form class="w-full" label="Sub Business UnitCode" name="subBusinessUnitCode" [options]="subBusinessUnitCodes"></autocomplete-form>
+            <autocomplete-form class="w-full" label="Sub Business UnitCode" name="subBusinessUnitCode" [options]="subBusinessUnitCodes" [requireMatch]="true"></autocomplete-form>
         </div>
 
         <div class="col-span-4 font-medium">Plant Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
-            <autocomplete-form class="w-full" label="Plant Code" name="plantCode" [options]="plantCodes"></autocomplete-form>
+            <autocomplete-form class="w-full" label="Plant Code" name="plantCode" [options]="plantCodes" [requireMatch]="true"></autocomplete-form>
         </div>
 
         <div class="col-span-4 font-medium">Division Code<span class="text-warn">*</span></div>
         <div class="col-span-8 flex items-center">
-            <autocomplete-form class="w-full" label="Division Code" name="divisionCode" [options]="divisionCodes"></autocomplete-form>
+            <autocomplete-form class="w-full" label="Division Code" name="divisionCode" [options]="divisionCodes" [requireMatch]="true"></autocomplete-form>
         </div>
 
         <ng-container *ngIf="isEdit">

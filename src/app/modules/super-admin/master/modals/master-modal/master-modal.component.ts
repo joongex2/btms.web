@@ -3,15 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
-import { requireMatchValidator } from 'app/shared/directives/require-match.directive';
+import { getOptionValue } from 'app/shared/helpers/get-option-value';
 import { ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { firstValueFrom } from 'rxjs';
 import { MasterService } from '../../master.service';
 import { Master } from '../../master.types';
-
-
 
 @Component({
   selector: 'master-modal',
@@ -66,7 +64,7 @@ export class MasterModalComponent implements OnInit {
     const code = this.isEdit ? this.master.code : '';
     const name = this.isEdit ? this.master.name : '';
     const isActive = this.isEdit ? this.master.isActive : false;
-    const organizeGroupValidators = this.isEdit && ['SUB_BUSINESS_UNIT', 'PLANT'].includes(this.master.type) ? [Validators.required, requireMatchValidator] : [];
+    const organizeGroupValidators = this.isEdit && ['SUB_BUSINESS_UNIT', 'PLANT'].includes(this.master.type) ? [Validators.required] : [];
 
     this.masterForm = this._formBuilder.group({
       type: [type, [Validators.required]],
@@ -89,10 +87,10 @@ export class MasterModalComponent implements OnInit {
         this.masterForm.get('organizeGroup').setValue(0);
       } else if (type === 'SUB_BUSINESS_UNIT') {
         this.organizeGroups = this.bus;
-        this.masterForm.get('organizeGroup').setValidators(Validators.required);
+        this.masterForm.get('organizeGroup').addValidators(Validators.required);
       } else if (type === 'PLANT') {
         this.organizeGroups = this.subBus;
-        this.masterForm.get('organizeGroup').setValidators(Validators.required);
+        this.masterForm.get('organizeGroup').addValidators(Validators.required);
       } else if (type === 'DIVISION') {
         this.organizeGroups = [];
         this.masterForm.get('organizeGroup').clearValidators();
@@ -111,7 +109,7 @@ export class MasterModalComponent implements OnInit {
       this._confirmationService.save().afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {
           let organizeGroup = this.masterForm.get('organizeGroup').value;
-          organizeGroup = organizeGroup ? organizeGroup.value : organizeGroup;
+          organizeGroup = organizeGroup ? getOptionValue(organizeGroup) : organizeGroup;
           try {
             if (this.isEdit) {
               await firstValueFrom(this._masterService.updateMaster(

@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
+import { getOptionValue } from 'app/shared/helpers/get-option-value';
 import { ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
@@ -123,10 +124,10 @@ export class OrganizationComponent implements OnInit {
     const filterValue: any = {
       organizeCode: this.organizeCode,
       organizeName: this.organizeName,
-      businessUnitCode: typeof this.selectedBu === 'string' ? this.selectedBu : this.selectedBu?.value,
-      subBusinessUnitCode: typeof this.selectedSubBu === 'string' ? this.selectedSubBu : this.selectedSubBu?.value,
-      plantCode: typeof this.selectedPlant === 'string' ? this.selectedPlant : this.selectedPlant?.value,
-      divisionCode: typeof this.selectedDivision === 'string' ? this.selectedDivision : this.selectedDivision?.value,
+      businessUnitCode: getOptionValue(this.selectedBu),
+      subBusinessUnitCode: getOptionValue(this.selectedSubBu),
+      plantCode: getOptionValue(this.selectedPlant),
+      divisionCode: getOptionValue(this.selectedDivision),
       isActive: this.selectedIsActive
     }
     this.dataSource.filter = JSON.stringify(filterValue);

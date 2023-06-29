@@ -4,16 +4,13 @@ import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autoc
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
-import { requireMatchValidator } from 'app/shared/directives/require-match.directive';
+import { getOptionValue } from 'app/shared/helpers/get-option-value';
 import { ModalMode } from 'app/shared/interfaces/modal.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { firstValueFrom } from 'rxjs';
 import { DocumentControlService } from '../../document-control.service';
 import { DocumentControl } from '../../document-control.types';
-
-
-
 
 @Component({
   selector: 'document-control-modal',
@@ -74,7 +71,7 @@ export class DocumentControlModalComponent implements OnInit {
     const isActive = this.isEdit ? this.modalData.data.isActive : true;
 
     this.documentControlForm = this._formBuilder.group({
-      organizeCode: [organizeCode, [Validators.required, requireMatchValidator]],
+      organizeCode: [organizeCode, [Validators.required]],
       documentCode: [documentCode, [Validators.required]],
       documentType: [documentType, [Validators.required]],
       prefix: [prefix, [Validators.required]],
@@ -98,7 +95,7 @@ export class DocumentControlModalComponent implements OnInit {
             if (this.isEdit) {
               await firstValueFrom(this._documentControlService.updateDocumentControl(
                 this.documentControl.id,
-                this.documentControlForm.get('organizeCode').value.value,
+                getOptionValue(this.documentControlForm.get('organizeCode').value),
                 this.documentControlForm.get('documentCode').value,
                 this.documentControlForm.get('documentType').value,
                 this.documentControlForm.get('prefix').value,
@@ -111,7 +108,7 @@ export class DocumentControlModalComponent implements OnInit {
             } else {
               // add
               await firstValueFrom(this._documentControlService.createDocumentControl(
-                this.documentControlForm.get('organizeCode').value.value,
+                getOptionValue(this.documentControlForm.get('organizeCode').value),
                 this.documentControlForm.get('documentCode').value,
                 this.documentControlForm.get('documentType').value,
                 this.documentControlForm.get('prefix').value,

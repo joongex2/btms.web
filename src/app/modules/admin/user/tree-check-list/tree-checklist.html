@@ -42,7 +42,7 @@
                     [name]="'organization'"
                     [options]="organizations"
                     [standAlone]="true"
-                    [addRequireMatch]="true">
+                    [requireMatch]="true">
                 </autocomplete-form>
                 <span class="flex items-center cursor-pointer ml-2" (click)="itemValue.form.valid && saveNode(node, itemValue.value.value)">
                     <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>

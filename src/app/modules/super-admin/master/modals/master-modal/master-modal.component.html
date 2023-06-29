@@ -28,14 +28,7 @@
         <ng-container *ngIf="['SUB_BUSINESS_UNIT', 'PLANT'].includes(masterForm?.get('type')?.value)">
             <div class="col-span-4 font-medium">Organize Group<span class="text-warn">*</span></div>
             <div class="col-span-8 flex items-center">
-                <!-- <mat-form-field class="flex-auto">
-                    <mat-select [formControlName]="'organizeGroup'" placeholder="Organize Group">
-                        <mat-option *ngFor="let organizeGroup of organizeGroups" [value]="organizeGroup.value">{{organizeGroup.title}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error>Organize Group is required</mat-error>
-                </mat-form-field> -->
-                <autocomplete-form class="w-full" label="Organize Group" name="organizeGroup" [options]="organizeGroups"></autocomplete-form>
+                <autocomplete-form class="w-full" label="Organize Group" name="organizeGroup" [options]="organizeGroups" [requireMatch]="isEdit && ['SUB_BUSINESS_UNIT', 'PLANT'].includes(master.type)"></autocomplete-form>
             </div>
         </ng-container>
 

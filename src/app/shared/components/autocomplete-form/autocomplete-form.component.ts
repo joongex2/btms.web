@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Optional, SimpleChanges } from "@angular/core";
-import { ControlContainer, FormBuilder, FormGroup } from "@angular/forms";
-import { requireMatchValidator } from "app/shared/directives/require-match.directive";
+import { ControlContainer, FormBuilder, FormGroup, ValidatorFn } from "@angular/forms";
+import { getRequireMatchValidator } from "app/shared/directives/require-match.directive";
 import { map, Observable, startWith } from "rxjs";
 
 
@@ -17,7 +17,8 @@ export class AutocompleteFormComponent implements OnInit {
     @Input() options: any[] = [];
     @Input() showLabel = false;
     @Input() standAlone = false;
-    @Input() addRequireMatch = false;
+    @Input() requireMatch = false;
+    requireMatchFn: ValidatorFn;
     filteredOptions: Observable<any[]>;
 
     constructor(
@@ -29,7 +30,8 @@ export class AutocompleteFormComponent implements OnInit {
         // trigger new filteredOptions
         if (changes['options'] && !changes['options'].firstChange) {
             const value = typeof this.form.value === 'string' ? this.form.value : this.form.value?.title;
-            this.form.setValue(value)
+            this.form.setValue(value);
+            this.addRequireMatch();
         }
     }
 
@@ -40,10 +42,7 @@ export class AutocompleteFormComponent implements OnInit {
             this.parentForm = this.controlContainer.control as FormGroup;
         }
 
-        if (this.addRequireMatch) {
-            this.form.addValidators(requireMatchValidator);
-            this.form.updateValueAndValidity();
-        }
+        this.addRequireMatch();
 
         const startValue = this.form.value ? this.form.value : '';
         this.filteredOptions = this.form.valueChanges.pipe(
@@ -61,6 +60,15 @@ export class AutocompleteFormComponent implements OnInit {
 
     displayFn(value: any): string {
         return value && value.title ? value.title : value;
+    }
+
+    addRequireMatch() {
+        if (this.requireMatch !== false) {
+            this.form.removeValidators(this.requireMatchFn);
+            this.requireMatchFn = getRequireMatchValidator(this.options);
+            this.form.addValidators(this.requireMatchFn);
+            this.form.updateValueAndValidity();
+        }
     }
 
     get value() {

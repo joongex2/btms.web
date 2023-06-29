@@ -13,6 +13,7 @@ import { RoleService } from 'app/modules/super-admin/role/role.service';
 import { Role } from 'app/modules/super-admin/role/role.types';
 import { UserGroupService } from 'app/modules/super-admin/user-group/user-group.service';
 import { UserGroup } from 'app/modules/super-admin/user-group/user-group.types';
+import { getOptionValue } from 'app/shared/helpers/get-option-value';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { BehaviorSubject, distinctUntilChanged, firstValueFrom } from 'rxjs';
@@ -197,7 +198,7 @@ export class UserListComponent implements OnInit {
       email: this.email,
       name: this.name,
       userGroup: this.selectedUserGroup,
-      organization: this.selectedOrganization?.value,
+      organization: getOptionValue(this.selectedOrganization),
       role: this.selectedRole,
       isActive: this.selectedIsActive
     }

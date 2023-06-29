@@ -1,16 +1,14 @@
 import { Location } from '@angular/common';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FuseLoadingService } from '@fuse/services/loading';
 import { FormErrorComponent } from 'app/shared/components/form-error/form-error.component';
-import { requireMatchValidator } from 'app/shared/directives/require-match.directive';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { LookupService } from 'app/shared/services/lookup.service';
 import { SnackBarService } from 'app/shared/services/snack-bar.service';
 import { UrlService } from 'app/shared/services/url.service';
-import { LookupModalComponent } from '../../lookup/modals/lookup-modal/lookup-modal.component';
 import { MasterService } from '../../master/master.service';
 import { Master } from '../../master/master.types';
 import { OrganizationService } from '../../organization/organization.service';
@@ -68,10 +66,10 @@ export class TargetDeployComponent implements OnInit {
     });
 
     this.filterOrganizeForm = this._formBuilder.group({
-      businessUnitCode: [null, [requireMatchValidator]],
-      subBusinessUnitCode: [null, [requireMatchValidator]],
-      plantCode: [null, [requireMatchValidator]],
-      divisionCode: [null, [requireMatchValidator]]
+      businessUnitCode: [null],
+      subBusinessUnitCode: [null],
+      plantCode: [null],
+      divisionCode: [null]
     });
 
     this.deployForm = this._formBuilder.group({

@@ -16,7 +16,7 @@ export class AutocompleteComponent {
     @Input() showLabel = false;
     @Input() showColon = true;
     @Input() required = false;
-    @Input() requireMatch = true;
+    @Input() requireMatch = false;
     @Input() disabled = false;
     @Input()
     get value() {
@@ -32,6 +32,7 @@ export class AutocompleteComponent {
 
     private _value: string | any;
     filteredOptions: any[] = [];
+    passOptions: any[];
 
     constructor() { }
 
@@ -41,6 +42,16 @@ export class AutocompleteComponent {
                 this.optionFilter(this.value);
             } else {
                 this.filteredOptions = this.options.slice();
+            }
+            if (this.requireMatch !== false) {
+                this.passOptions = this.options;
+            }
+        }
+        if (changes.requireMatch) {
+            if (changes.requireMatch.currentValue !== false) {
+                this.passOptions = this.options;
+            } else {
+                this.passOptions = undefined;
             }
         }
     }

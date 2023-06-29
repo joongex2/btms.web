@@ -15,7 +15,7 @@
     <form class="grid gap-4 grid-cols-12 p-6 sm:p-8 overflow-y-auto items-center" [formGroup]="documentControlForm">
         <div class="col-span-4 font-medium">Organize Code<span class="text-warn">*</span></div>
         <div class="col-span-8">
-            <autocomplete-form label="Organize Code" name="organizeCode" [options]="organizes"></autocomplete-form>
+            <autocomplete-form label="Organize Code" name="organizeCode" [options]="organizes" [requireMatch]="true"></autocomplete-form>
         </div>
 
         <div class="col-span-4 font-medium">Document Code<span class="text-warn">*</span></div>

@@ -71,25 +71,25 @@
                             <div class="col-span-6 sm:col-span-3 font-medium">Business Unit Code</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
-                                <autocomplete-form class="ml-2 w-full" label="Business Unit Code" name="businessUnitCode" [options]="businessUnitCodes"></autocomplete-form>
+                                <autocomplete-form class="ml-2 w-full" label="Business Unit Code" name="businessUnitCode" [options]="businessUnitCodes" [requireMatch]="true"></autocomplete-form>
                             </div>
                     
                             <div class="col-span-6 sm:col-span-3 font-medium">Plant Code</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
-                                <autocomplete-form class="ml-2 w-full" label="Plant Code" name="plantCode" [options]="plantCodes"></autocomplete-form>
+                                <autocomplete-form class="ml-2 w-full" label="Plant Code" name="plantCode" [options]="plantCodes" [requireMatch]="true"></autocomplete-form>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3 font-medium">Sub Business Unit Code</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
-                                <autocomplete-form class="ml-2 w-full" label="Sub Business Unit Code" name="subBusinessUnitCode" [options]="subBusinessUnitCodes"></autocomplete-form>
+                                <autocomplete-form class="ml-2 w-full" label="Sub Business Unit Code" name="subBusinessUnitCode" [options]="subBusinessUnitCodes" [requireMatch]="true"></autocomplete-form>
                             </div>
                     
                             <div class="col-span-6 sm:col-span-3 font-medium">Division Code</div>
                             <div class="col-span-6 sm:col-span-3 flex items-center">
                                 :
-                                <autocomplete-form class="ml-2 w-full" label="Division Code" name="divisionCode" [options]="divisionCodes"></autocomplete-form>
+                                <autocomplete-form class="ml-2 w-full" label="Division Code" name="divisionCode" [options]="divisionCodes" [requireMatch]="true"></autocomplete-form>
                             </div>
                             <form-error class="col-span-12" #filterOrgError></form-error>
                         </div>
