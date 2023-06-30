@@ -28,6 +28,7 @@ export class MultiSelectDropdownFormComponent implements OnInit {
       singleSelection: false,
       idField: 'value',
       textField: 'title',
+      tooltipField: 'title',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: this.itemsShowLimit,

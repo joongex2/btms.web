@@ -3,6 +3,10 @@
         overflow: hidden;
     }
 
+    .multiselect-dropdown .dropdown-btn {
+        min-height: 43.4px;
+    }
+
     .multiselect-dropdown .dropdown-btn .selected-item {
         background: #84bd00 !important;
         border: 2px solid #84bd00 !important;
@@ -15,5 +19,14 @@
 
     .multiselect-item-checkbox input[type=checkbox]:checked+div:before {
         background: #84bd00 !important;
+    }
+
+    .multiselect-dropdown .dropdown-btn .selected-item-container .selected-item:not([hidden]) {
+        display: flex; 
+        span {
+            display: inline-block;
+            max-width: 45px;
+            white-space: nowrap;
+        }
     }
 }
