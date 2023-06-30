@@ -19,7 +19,13 @@
 <div class="bg-card shadow rounded overflow-hidden">
     <p class="table-title flex flex-row justify-end items-center" style="min-height: 44px;">
         <span class="flex items-center cursor-pointer">
-            <file-upload *ngIf="!readonly" (complete)="uploadFile($event)" [isButton]="false"></file-upload>
+            <file-upload *ngIf="!readonly" (complete)="uploadFile($event)" [isButton]="false"
+                [accept]="'.png, image/png, .jpg, image/jpeg, .jpeg, image/jpeg, 
+                .gif, image/gif, .pdf, application/pdf, .xls, application/vdn.ms-excel, 
+                .xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, 
+                .doc, application/msword, 
+                .docx, application/vnd.openxmlformats-officedocument.wordprocessingml.document, .csv, text/csv'"
+            ></file-upload>
         </span>
     </p>
     <table [dataSource]="dataSource" mat-table style="min-width: 500px;" matSort>

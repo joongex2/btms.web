@@ -77,6 +77,13 @@ export class MasterService {
         )));
     }
 
+    getDashboardPlants(subBuId?: number): Observable<any> {
+        return this.getMasters('PLANT').pipe(map((plants) => (plants
+            .filter(plant => subBuId ? plant.parentId === subBuId : true)
+            .map(plant => ({ title: `${plant.code} (${plant.name})`, value: plant.code, id: plant.id }))
+        )));
+    }
+
     getDivisions(): Observable<any> {
         return this.getMasters('DIVISION').pipe(map((divisions) => (divisions.map(division => ({ title: division.name, value: division.code, id: division.id })))));
     }

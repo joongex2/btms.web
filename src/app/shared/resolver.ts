@@ -130,6 +130,18 @@ export class PlantsResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
+export class DashboardPlatnsResolver implements Resolve<any>
+{
+    constructor(private _masterService: MasterService) { }
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        return this._masterService.getDashboardPlants();
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class DivisionsResolver implements Resolve<any>
 {
     constructor(private _masterService: MasterService) { }

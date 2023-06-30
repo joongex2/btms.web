@@ -2,26 +2,26 @@
     <div class="col-span-12 shadow top-header">
         <div class="text-2xl font-semibold">Quality Management Performance</div>
     </div>
-    <div class="col-span-4 shadow row1">
+    <div class="col-span-6 shadow row1">
         <div class="header-bg">% Achieve</div>
-        <div class="grid grid-cols-2">
+        <div class="grid grid-cols-2" style="height: calc(100% - 21px);">
             <div class="total-kpi-header">
-                <div class="text-center leading-4">
+                <div class="text-center leading-6">
                     <span class="text-2xl font-bold">Total KPI {{mockData1.totalKpi.percent}}%</span><br>
                     <span class="text-xl font-semibold">{{mockData1.totalKpi.amount}} KPI</span>
                 </div>
             </div>
             <div class="critical-kpi-header">
-                <div class="text-center leading-4">
+                <div class="text-center leading-6">
                     <span class="text-2xl font-bold">Critical KPI {{mockData1.criticalKpi.percent}}%</span><br>
                     <span class="text-xl font-semibold">{{mockData1.criticalKpi.amount}} KPI</span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-span-8 shadow row1">
+    <div class="col-span-6 shadow row1">
         <div class="flex items-center h-full p-2">
-            <div class="grid grid-cols-4 gap-2 p-1 items-center w-full" [formGroup]="form">
+            <div class="grid grid-cols-2 gap-2 p-1 items-center w-full" [formGroup]="form">
                 <mat-form-field>
                     <mat-label>Year</mat-label>
                     <mat-select [formControlName]="'year'" placeholder="select year">
@@ -54,7 +54,7 @@
                 </multi-select-dropdown-form>
             </div>
             <div class="flex items-center justify-center">
-                <mat-icon class="cursor-pointer icon-size-5" [svgIcon]="'heroicons_solid:arrow-path'"></mat-icon>
+                <mat-icon class="cursor-pointer icon-size-7" [svgIcon]="'heroicons_solid:arrow-path'"></mat-icon>
             </div>
         </div>
     </div>
