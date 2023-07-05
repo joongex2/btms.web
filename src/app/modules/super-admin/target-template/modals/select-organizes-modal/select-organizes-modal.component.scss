@@ -1,0 +1,14 @@
+:host ::ng-deep .mat-form-field-wrapper {
+    margin-bottom: 0 !important;
+}
+
+.error-text-area {
+    overflow-y: auto;
+    height: 120px !important;
+    resize: none;
+    color: red;
+}
+
+:host ::ng-deep .dropdown-list {
+    position: inherit !important;
+}

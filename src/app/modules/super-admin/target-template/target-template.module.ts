@@ -19,6 +19,7 @@ import { RouterModule } from '@angular/router';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { TargetManagementModule } from 'app/modules/target-info/target-management/target-management.module';
 import { SharedModule } from 'app/shared/shared.module';
+import { SelectOrganizesModalComponent } from './modals/select-organizes-modal/select-organizes-modal.component';
 import { TemplateDeployModalComponent } from './modals/template-deploy-modal/template-deploy-modal.component';
 import { TargetDeployComponent } from './target-deploy/target-deploy.component';
 import { TargetTemplateDetailComponent } from './target-template-detail/target-template-detail.component';
@@ -33,7 +34,8 @@ import { targetTemplateRoutes } from './target-template.routing';
     TargetTemplateListComponent,
     TargetTemplateComponent,
     TargetTemplateDetailComponent,
-    TargetDeployComponent,
+    TargetDeployComponent, // use select organizes modal instead
+    SelectOrganizesModalComponent,
     TemplateDeployModalComponent
   ],
   imports: [

@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { TargetTemplateService } from '../target-template.service';
+import { SelectOrganizesModalComponent } from './../modals/select-organizes-modal/select-organizes-modal.component';
 
 @Component({
   selector: 'target-template-list',
@@ -141,6 +142,10 @@ export class TargetTemplateListComponent implements OnInit {
       },
       error: (e) => console.error(e)
     });
+  }
+
+  deployTemplate(index: number) {
+    this._matDialog.open(SelectOrganizesModalComponent, { data: { templateId: index } });
   }
 
   onClick() {

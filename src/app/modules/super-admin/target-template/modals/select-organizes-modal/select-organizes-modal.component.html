@@ -1,0 +1,36 @@
+<div class="flex flex-col w-80v sm:w-60v max-h-85v -m-6">
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium text-white">เลือก Organizes</div>
+        <button mat-icon-button (click)="close()" [tabIndex]="-1">
+            <mat-icon class="text-current text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <!-- Body -->
+    <div class="p-6 sm:p-8">
+        <form [formGroup]="form">
+            <div class="font-medium">Organizes</div>
+            <div>
+                <multi-select-dropdown-form
+                    [label]="''"
+                    [name]="'organizes'"
+                    [placeholder]="'organizes'"
+                    [options]="organizes">
+                </multi-select-dropdown-form>
+            </div>
+            <div class="mt-2">
+                <form-error class="col-span-12" #deployError></form-error>
+            </div>
+        </form>
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-end mt-4">
+            <div class="flex-none flex items-center cursor-pointer" (click)="close()">
+                <mat-icon svgIcon="heroicons_outline:x-circle"></mat-icon>&nbsp;<span>Close</span>
+            </div>
+            <div class="flex-none sm:ml-2 flex items-center cursor-pointer" (click)="deploy()">
+                <mat-icon svgIcon="heroicons_outline:paper-airplane" class="rotate-90"></mat-icon>&nbsp;<span>Send</span>
+            </div>
+        </div>
+    </div>
+</div>

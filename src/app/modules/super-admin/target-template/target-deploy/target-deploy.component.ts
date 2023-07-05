@@ -17,6 +17,7 @@ import { TemplateDeployModalComponent } from '../modals/template-deploy-modal/te
 import { TargetTemplate } from '../target-template.interface';
 import { TargetTemplateService } from '../target-template.service';
 
+// use select organizes modal instead
 @Component({
   selector: 'target-deploy',
   templateUrl: './target-deploy.component.html',

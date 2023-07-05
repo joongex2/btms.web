@@ -27,10 +27,10 @@ export const targetTemplateRoutes: Route[] = [
                 path: ':id',
                 component: TargetTemplateDetailComponent
             },
-            {
-                path: 'deploy/:id',
-                component: TargetDeployComponent
-            }
+            // {
+            //     path: 'deploy/:id',
+            //     component: TargetDeployComponent
+            // }
         ]
     }
 ];
