@@ -51,6 +51,14 @@
                 <a (click)="save()" class="flex items-center cursor-pointer ml-3">
                     <mat-icon svgIcon="heroicons_outline:save"></mat-icon>&nbsp;<span>Save</span>
                 </a>
+                <ng-container *ngIf="isEdit">
+                    <a (click)="deploy()" class="flex items-center cursor-pointer ml-3">
+                        <mat-icon svgIcon="heroicons_solid:paper-airplane" class="rotate-90"></mat-icon>&nbsp;<span>Send</span>
+                    </a>
+                    <a (click)="showDeployLog()" class="flex items-center cursor-pointer ml-3">
+                        <mat-icon svgIcon="heroicons_outline:clock"></mat-icon>&nbsp;<span>Deploy Logs</span>
+                    </a>
+                </ng-container>
             </div>
         </div>
         

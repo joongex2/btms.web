@@ -111,6 +111,9 @@
                                             <a class="ml-[8px] flex items-center" (click)="deployTemplate(element.id)" title="ส่งเทมเพลทเอกสารเป้าหมาย">
                                                 <mat-icon svgIcon="heroicons_solid:paper-airplane" class="text-primary icon-size-4 cursor-pointer rotate-90"></mat-icon>
                                             </a>
+                                            <a class="ml-[8px] flex items-center" (click)="showDeployLog(element.id)" title="deploy log">
+                                                <mat-icon svgIcon="heroicons_outline:clock" class="text-primary icon-size-4 cursor-pointer"></mat-icon>
+                                            </a>
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="key !== 'documentNo' && key !== 'createDate' && key !== 'issueDate' && key !== 'detail'">{{ element[key] }}</ng-container>

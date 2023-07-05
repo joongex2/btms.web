@@ -4,7 +4,10 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DeployLogModalComponent } from 'app/shared/components/deploy-log-modal/deploy-log-modal.component';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
+import { firstValueFrom } from 'rxjs';
+import { TargetTemplate } from '../target-template.interface';
 import { TargetTemplateService } from '../target-template.service';
 import { SelectOrganizesModalComponent } from './../modals/select-organizes-modal/select-organizes-modal.component';
 
@@ -146,6 +149,11 @@ export class TargetTemplateListComponent implements OnInit {
 
   deployTemplate(index: number) {
     this._matDialog.open(SelectOrganizesModalComponent, { data: { templateId: index } });
+  }
+
+  async showDeployLog(index: number) {
+    const targetTemplate: TargetTemplate = await firstValueFrom(this._targetTemplateService.getTargetTemplate(index));
+    this._matDialog.open(DeployLogModalComponent, { data: { deployLogs: targetTemplate.deployLogs } });
   }
 
   onClick() {

@@ -6,4 +6,13 @@ export interface TargetTemplate {
     documentType: string;
     documentYear: number;
     targets: Target[];
+    deployLogs: DeployLog[];
+}
+
+export interface DeployLog {
+    id: number;
+    templateId: number;
+    description: string;
+    deployDate: string;
+    deployBy: string;
 }

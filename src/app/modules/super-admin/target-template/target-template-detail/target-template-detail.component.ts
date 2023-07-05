@@ -7,6 +7,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { User } from 'app/core/user/user.types';
 import { TargetTableComponent } from 'app/modules/target-info/target-management/tables/target-table/target-table.component';
+import { DeployLogModalComponent } from 'app/shared/components/deploy-log-modal/deploy-log-modal.component';
 import { Target } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import { LookupService } from 'app/shared/services/lookup.service';
@@ -15,6 +16,7 @@ import { UrlService } from 'app/shared/services/url.service';
 import moment from 'moment';
 import { firstValueFrom } from 'rxjs';
 import { Lookup } from '../../lookup/lookup.interface';
+import { SelectOrganizesModalComponent } from '../modals/select-organizes-modal/select-organizes-modal.component';
 import { TargetTemplate } from '../target-template.interface';
 import { TargetTemplateService } from '../target-template.service';
 
@@ -248,5 +250,13 @@ export class TargetTemplateDetailComponent implements OnInit {
       },
       error: (e) => console.error(e)
     });
+  }
+
+  deploy() {
+    this._matDialog.open(SelectOrganizesModalComponent, { data: { templateId: this.targetTemplate.id } });
+  }
+
+  showDeployLog() {
+    this._matDialog.open(DeployLogModalComponent, { data: { deployLogs: this.targetTemplate.deployLogs } });
   }
 }

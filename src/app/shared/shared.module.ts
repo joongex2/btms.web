@@ -11,17 +11,19 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { AutocompleteFormComponent } from './components/autocomplete-form/autocomplete-form.component';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
+import { DeployLogModalComponent } from './components/deploy-log-modal/deploy-log-modal.component';
 import { ErrorIconComponent } from './components/error-icon/error-icon.component';
 import { FileUploadTableComponent } from './components/file-upload-table/file-upload-table.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { FormErrorComponent } from './components/form-error/form-error.component';
-import { MultiSelectDropdownFormComponent } from './components/multi-select-dropdown-form/multi-select-dropdown-form.component';
 import { LastCommentLinkComponent } from './components/last-comment-link/last-comment-link.component';
 import { LastCommentModalComponent } from './components/last-comment-modal/last-comment-modal.component';
+import { MultiSelectDropdownFormComponent } from './components/multi-select-dropdown-form/multi-select-dropdown-form.component';
 import { SuccessIconComponent } from './components/success-icon/success-icon.component';
 import { IntegerOnlyModule } from './directives/integer-only.module';
 import { RequireMatchDirective } from './directives/require-match.directive';
@@ -39,6 +41,7 @@ import { SnackBarService } from './services/snack-bar.service';
 @NgModule({
     declarations: [
         LastCommentModalComponent,
+        DeployLogModalComponent,
         LastCommentLinkComponent,
         AutocompleteComponent,
         AutocompleteFormComponent,
@@ -74,6 +77,7 @@ import { SnackBarService } from './services/snack-bar.service';
         MatSelectModule,
         MatButtonModule,
         MatDialogModule,
+        MatTooltipModule,
         NgMultiSelectDropDownModule.forRoot()
     ],
     exports: [
