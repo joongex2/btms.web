@@ -10,6 +10,7 @@ import { getOptionValue } from 'app/shared/helpers/get-option-value';
 import { Document, DocumentParams } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import * as FileSaver from 'file-saver';
+import moment from 'moment';
 import { firstValueFrom } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { ReportService } from '../report.service';
@@ -176,15 +177,15 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     this.selectedPlant = this.plants.find((v) => v.value === params.PlantCode) || '';
     this.selectedDivision = this.divisions.find((v) => v.value === params.DivisionCode) || '';
     this.documentNo = params.DocumentNo || undefined;
-    this.documentYear = params.DocumentYear || undefined;
-    this.toDocumentYear = params.ToDocumentYear || undefined;
+    this.documentYear = params.DocumentYear || moment().year();
+    this.toDocumentYear = params.ToDocumentYear || moment().year();
     this.selectedStatus = this.statuses.find((v) => v.value === params.DocumentStatus) || '';
     this.selectedDocumentType = this.documentTypes.find((v) => v.value === params.DocumentType) || '';
     this.selectedTargetType = this.targetTypes.find((v) => v.value === params.TargetType) || '';
     this.searchText = params.SearchText || undefined;
     this.isCritical = params.IsCritical || false;
-    this.fromMonth = params.FromMonth ? parseInt(params.FromMonth) : undefined;
-    this.toMonth = params.ToMonth ? parseInt(params.ToMonth) : undefined;
+    this.fromMonth = params.FromMonth ? parseInt(params.FromMonth) : 1;
+    this.toMonth = params.ToMonth ? parseInt(params.ToMonth) : moment().month() + 1;
 
     // this.loadDocuments(page, size, sort, order, this.getDocumentParams());
     this.appendColumns(0, 12);

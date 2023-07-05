@@ -14,7 +14,7 @@
             <table [dataSource]="dataSource" mat-table style="min-width: 600px;" matSort>
                 <ng-container matColumnDef="description">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-                    <td mat-cell *matCellDef="let element" [matTooltip]="element.description">
+                    <td mat-cell *matCellDef="let element">
                         {{element.description}}
                     </td>
                 </ng-container>
