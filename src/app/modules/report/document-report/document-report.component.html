@@ -175,7 +175,7 @@
                                 <ng-container *ngIf="notSortColumn.includes(key)">
                                     <ng-container *ngIf="key !== 'checkbox'">
                                         <ng-container *ngIf="monthColumns.includes(key)">
-                                            <th mat-header-cell *matHeaderCellDef [attr.colspan]="15" class="text-center">{{ keyToColumnName[key] }}</th>    
+                                            <th mat-header-cell *matHeaderCellDef [attr.colspan]="12" class="text-center">{{ keyToColumnName[key] }}</th>    
                                         </ng-container>
                                         <ng-container *ngIf="!monthColumns.includes(key)">
                                             <th mat-header-cell *matHeaderCellDef [attr.rowspan]="displayedHeaders2.length > 0 ? 2: 1" [ngClass]="{ 'text-center' : key == 'detail' }">{{ keyToColumnName[key] }}</th>    

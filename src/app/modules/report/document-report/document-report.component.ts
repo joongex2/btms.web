@@ -121,15 +121,16 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     'ActualStatus': 'Actual Status',
     'ReferenceNo': 'Reference No',
     'ReferenceStatus': 'Reference Status',
-    'Cause': 'Cause',
-    'Corrective': 'Corrective',
-    'CorrectiveDueDate': 'Corrective Due Date',
-    'CorrectiveActual': 'Corrective Actual',
-    'CorrectiveActualDate': 'Corrective Actual Date',
-    'Preventive': 'Preventive',
-    'PreventiveDueDate': 'Preventive Due Date',
-    'PreventiveActual': 'Preventive Actual',
-    'PreventiveActualDate': 'Preventive Actual Date'
+    'CauseTopic': 'Cause Topic',
+    'SolutionType': 'Solution Type',
+    'SolutionTopic': 'Solution Topic',
+    'SolutionDueDate': 'Solution Due Date',
+    'SolutionActual': 'Solution Actual',
+    'SolutionActualDate': 'Solution Actual Date',
+    // 'Preventive': 'Preventive',
+    // 'PreventiveDueDate': 'Preventive Due Date',
+    // 'PreventiveActual': 'Preventive Actual',
+    // 'PreventiveActualDate': 'Preventive Actual Date'
   };
 
   monthColumns: string[] = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
@@ -434,7 +435,7 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
   appendColumns(from: number, to: number) {
     const selectedMonthColumns = this.monthColumns.slice(from, to);
     for (let month of selectedMonthColumns) {
-      const appendColumn2 = ['UseReport', 'ActualValue', 'ActualResult', 'ActualStatus', 'ReferenceNo', 'ReferenceStatus', 'Cause', 'Corrective', 'CorrectiveDueDate', 'CorrectiveActual', 'CorrectiveActualDate', 'Preventive', 'PreventiveDueDate', 'PreventiveActual', 'PreventiveActualDate']
+      const appendColumn2 = ['UseReport', 'ActualValue', 'ActualResult', 'ActualStatus', 'ReferenceNo', 'ReferenceStatus', 'CauseTopic', 'SolutionType', 'SolutionTopic', 'SolutionDueDate', 'SolutionActual', 'SolutionActualDate']
       this.displayedHeaders1.push(month);
       this.displayedHeaders2 = this.displayedHeaders2.concat(appendColumn2.map(v => `${month}${v}`));
       this.displayedColumns = this.displayedColumns.concat(appendColumn2.map(v => `${month}${v}`));
