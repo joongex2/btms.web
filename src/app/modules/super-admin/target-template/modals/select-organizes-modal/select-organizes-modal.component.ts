@@ -48,6 +48,7 @@ export class SelectOrganizesModalComponent implements OnInit {
     } else {
       this._confirmationService.save('ยืนยัน', 'ต้องการสร้าง document จาก template ที่เลือกใช่หรือไม่?').afterClosed().subscribe(async (result) => {
         if (result == 'confirmed') {
+          this.matDialogRef.close();
           this._matDialog.open(TemplateDeployModalComponent, {
             data: {
               templateId: this.templateId,
