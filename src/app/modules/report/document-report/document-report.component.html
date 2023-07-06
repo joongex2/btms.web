@@ -169,7 +169,7 @@
                             <img src="assets/images/icons/excel.png" alt="" class="excel-icon">Export
                         </span>
                     </p>
-                    <div class="overflow-x-auto" style="max-height:350px">
+                    <div class="overflow-x-auto">
                         <table mat-table [dataSource]="documents" class="mat-elevation-z8" matSort>
                             <ng-container *ngFor="let key of displayedHeaders1" [matColumnDef]="key">
                                 <ng-container *ngIf="notSortColumn.includes(key)">
