@@ -1,8 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+/* eslint-disable space-before-function-paren */
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexNonAxisChartSeries, ApexPlotOptions, ApexResponsive, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from 'ng-apexcharts';
+import { AchieveAndTrendGroupByKpiTypeChart, AchieveByBUChart, AchieveByMonthChart, AchieveChart, QualityManagementPerformance } from '../dashboard.interfaces';
 import { DashboardService } from '../dashboard.service';
 
 export type PieChartOptions = {
@@ -70,7 +74,7 @@ export type AreaChartOptions = {
   labels: string[];
   legend: ApexLegend;
   subtitle: ApexTitleSubtitle;
-}
+};
 
 export type BarChart2Options = {
   series: ApexAxisChartSeries;
@@ -83,22 +87,21 @@ export type BarChart2Options = {
 @Component({
   selector: 'dashboard1',
   templateUrl: './dashboard1.component.html',
-  styleUrls: ['./dashboard1.component.scss'],
-  // encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./dashboard1.component.scss']
 })
-export class Dashboard1Component implements OnInit, OnDestroy {
+export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
+  @Input() bus: any[] = [];
+  @Input() subBus: any[] = [];
+  @Input() plants: any[] = [];
   public barChartOptions: Partial<BarChartOptions>;
   public gaugeChartOptions: Partial<GaugeChartOptions>;
   public areaChartOptions: Partial<AreaChartOptions>;
   public barChart2Options: Partial<BarChart2Options>;
-  @Input() bus: any[] = [];
-  @Input() plants: any[] = [];
+  filteredPlants: any[] = [];
   form: FormGroup;
 
   // combo box options
   years = [];
-
   months = [
     { title: 'Jan', value: 1 },
     { title: 'Feb', value: 2 },
@@ -114,127 +117,11 @@ export class Dashboard1Component implements OnInit, OnDestroy {
     { title: 'Dec', value: 12 }
   ];
 
-  mockData1 = {
-    totalKpi: {
-      percent: 90,
-      amount: 4500
-    },
-    criticalKpi: {
-      percent: 99,
-      amount: 200
-    }
-  };
-
-  mockData2: any = [
-    {
-      name: "%A-SHE",
-      data: {
-        guage: {
-          data: 92,
-          labels: "2000 KPI"
-        },
-        areachart: {
-          data: [90, 92, 97, 94, 93, 90, 80, 78, 99, 91, 86, 90]
-        }
-      }
-    },
-    {
-      name: "%A-Quality",
-      data: {
-        guage: {
-          data: 74,
-          labels: "1000 KPI"
-        },
-        areachart: {
-          data: [90, 92, 97, 94, 93, 90, 80, 78, 99, 91, 86, 90]
-        }
-      }
-    },
-    {
-      name: "%A-Food Safety",
-      data: {
-        guage: {
-          data: 78,
-          labels: "1000 KPI"
-        },
-        areachart: {
-          data: [90, 92, 97, 94, 93, 90, 80, 78, 99, 91, 86, 90]
-        }
-      }
-    },
-    {
-      name: "%A-Cost",
-      data: {
-        guage: {
-          data: 71,
-          labels: "500 KPI"
-        },
-        areachart: {
-          data: [90, 92, 97, 94, 93, 90, 80, 78, 99, 91, 86, 90]
-        }
-      }
-    },
-    {
-      name: "%A-Delivery",
-      data: {
-        guage: {
-          data: 68,
-          labels: "1500 KPI"
-        },
-        areachart: {
-          data: [90, 92, 97, 94, 93, 90, 80, 78, 99, 91, 86, 90]
-        }
-      }
-    },
-    {
-      name: "%A-Morale",
-      data: {
-        guage: {
-          data: 92,
-          labels: "2000 KPI"
-        },
-        areachart: {
-          data: [90, 92, 97, 94, 93, 90, 80, 78, 99, 91, 86, 90]
-        }
-      }
-    },
-    {
-      name: "%A-Safety",
-      data: {
-        guage: {
-          data: 76,
-          labels: "200 KPI"
-        },
-        areachart: {
-          data: [90, 92, 97, 94, 93, 90, 80, 78, 99, 91, 86, 90]
-        }
-      }
-    },
-    {
-      name: "%A-Environment",
-      data: {
-        guage: {
-          data: 74,
-          labels: "200 KPI"
-        },
-        areachart: {
-          data: [90, 92, 97, 94, 93, 90, 80, 78, 99, 91, 86, 90]
-        }
-      }
-    }
-  ];
-
-  mockData3: any = {
-    data: {
-      totalKpi: [93, 92, 94, 91, 0, 0, 0, 0, 0, 0, 0, 0],
-      criticalKpi: [98, 97, 97, 95, 0, 0, 0, 0, 0, 0, 0, 0]
-    }
-  };
-
-  mockData4: any = {
-    data: [92, 95, 97, 99, 98],
-    categories: ["Food", "Protein Livestock", "Protein Factory", "Pet", "Agro"]
-  };
+  // bind value
+  archieveChart: AchieveChart;
+  achieveAndTrendGroupByKpiTypeCharts: AchieveAndTrendGroupByKpiTypeChart[];
+  achieveByMonthChart: AchieveByMonthChart;
+  achieveByBUChart: AchieveByBUChart;
 
   /**
    * Constructor
@@ -242,14 +129,13 @@ export class Dashboard1Component implements OnInit, OnDestroy {
   constructor(
     private _formBuilder: FormBuilder,
     private _dashboardService: DashboardService,
-    private _router: Router
+    private _router: Router,
+    private _cdr: ChangeDetectorRef
   ) {
-    // setTimeout(() => this.donutChartOptions.chart.width = '100%', 100);
-
     this.gaugeChartOptions = {
       chart: {
         height: 180,
-        type: "radialBar",
+        type: 'radialBar',
         offsetY: -10
       },
       plotOptions: {
@@ -258,25 +144,25 @@ export class Dashboard1Component implements OnInit, OnDestroy {
           endAngle: 135,
           dataLabels: {
             name: {
-              fontSize: "16px",
+              fontSize: '16px',
               color: undefined,
               offsetY: 80
             },
             value: {
               offsetY: 40,
-              fontSize: "16px",
+              fontSize: '16px',
               color: undefined,
               formatter: function (val) {
-                return val + "%";
+                return val + '%';
               }
             }
           }
         }
       },
       fill: {
-        type: "gradient",
+        type: 'gradient',
         gradient: {
-          shade: "dark",
+          shade: 'dark',
           shadeIntensity: 0.15,
           inverseColors: false,
           opacityFrom: 1,
@@ -287,13 +173,13 @@ export class Dashboard1Component implements OnInit, OnDestroy {
       stroke: {
         dashArray: 4
       },
-      colors: ["#2E8B57"]
+      colors: ['#2E8B57']
     };
 
     this.areaChartOptions = {
       series: [
         {
-          name: "STOCK ABC",
+          name: 'STOCK ABC',
           data: [
             90,
             92,
@@ -311,7 +197,7 @@ export class Dashboard1Component implements OnInit, OnDestroy {
         }
       ],
       chart: {
-        type: "area",
+        type: 'area',
         height: 140,
         zoom: {
           enabled: false
@@ -321,46 +207,46 @@ export class Dashboard1Component implements OnInit, OnDestroy {
         enabled: false
       },
       stroke: {
-        curve: "straight"
+        curve: 'straight'
       },
 
       title: {
-        text: "",
-        align: "left"
+        text: '',
+        align: 'left'
       },
       subtitle: {
-        text: "",
-        align: "left"
+        text: '',
+        align: 'left'
       },
       labels: [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "10",
-        "11",
-        "12"
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '10',
+        '11',
+        '12'
       ],
       xaxis: {
-        type: "category",
+        type: 'category',
         categories: [
-          "1",
-          "",
-          "3",
-          "",
-          "5",
-          "",
-          "7",
-          "",
-          "9",
-          "",
-          "11",
-          ""
+          '1',
+          '',
+          '3',
+          '',
+          '5',
+          '',
+          '7',
+          '',
+          '9',
+          '',
+          '11',
+          ''
         ],
         tickPlacement: 'on'
       },
@@ -370,19 +256,19 @@ export class Dashboard1Component implements OnInit, OnDestroy {
         tickAmount: 6
       },
       legend: {
-        horizontalAlign: "left"
+        horizontalAlign: 'left'
       }
     };
 
     this.barChartOptions = {
       chart: {
-        type: "bar",
+        type: 'bar',
         height: 200
       },
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: "55%",
+          columnWidth: '55%',
           // endingShape: "rounded"
         }
       },
@@ -392,27 +278,27 @@ export class Dashboard1Component implements OnInit, OnDestroy {
       stroke: {
         show: true,
         width: 2,
-        colors: ["transparent"]
+        colors: ['transparent']
       },
       xaxis: {
         categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec'
         ]
       },
       yaxis: {
         title: {
-          text: "%"
+          text: '%'
         }
       },
       fill: {
@@ -421,7 +307,7 @@ export class Dashboard1Component implements OnInit, OnDestroy {
       tooltip: {
         y: {
           formatter: function (val) {
-            return val + " %";
+            return val + ' %';
           }
         }
       }
@@ -429,7 +315,7 @@ export class Dashboard1Component implements OnInit, OnDestroy {
 
     this.barChart2Options = {
       chart: {
-        type: "bar",
+        type: 'bar',
         height: 200
       },
       plotOptions: {
@@ -444,53 +330,18 @@ export class Dashboard1Component implements OnInit, OnDestroy {
     };
   }
 
-  parseMockData() {
-    for (let data of this.mockData2) {
-      // guage
-      data.data.guage.series = [data.data.guage.data]
-      data.data.guage.labels = [data.data.guage.labels]
-
-      // areachart
-      data.data.areachart.series = [
-        {
-          name: "",
-          data: data.data.areachart.data,
-          color: "#5A9BD5"
-        }
-      ]
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.plants) {
+      this.filteredPlants = [];
     }
-
-    this.mockData3.series = [
-      {
-        name: "Total KPI",
-        data: this.mockData3.data.totalKpi,
-        color: "#92D051"
-      },
-      {
-        name: "Critical KPI",
-        data: this.mockData3.data.criticalKpi,
-        color: "#06B050"
-      }
-    ];
-
-    this.mockData4.series = [
-      {
-        name: "archieve",
-        data: this.mockData4.data,
-        color: "#5A9BD5"
-      }
-    ];
-
-    this.mockData4.xaxis = { ...this.barChart2Options.xaxis, categories: this.mockData4.categories }
   }
 
   ngOnInit(): void {
-    this.parseMockData();
     const today = moment();
     const currentMonth = today.month() + 1;
     const currentYear = today.year();
     for (let i = 0; i < 10; i++) {
-      this.years.push({ title: (currentYear - i).toString(), value: currentYear - i })
+      this.years.push({ title: (currentYear - i).toString(), value: currentYear - i });
     }
     this.form = this._formBuilder.group({
       month: currentMonth,
@@ -498,9 +349,120 @@ export class Dashboard1Component implements OnInit, OnDestroy {
       bus: null,
       plants: null
     });
+
+    this.initForm();
+  }
+
+  ngOnDestroy(): void { }
+
+  async initForm(): Promise<void> {
     // select all
     this.form.get('bus').setValue(this.bus);
-    this.form.get('plants').setValue(this.plants);
+    await this.filterPlants();
+    this.form.get('plants').setValue(this.filteredPlants);
+    this.form.get('bus').valueChanges.subscribe((v) => {
+      if (v.length === 0) { this.form.get('plants').disable(); }
+    });
+    this.refresh();
   }
-  ngOnDestroy(): void { }
+
+  refresh(): void {
+    const businessUnits = [];
+    const bus = this.form.get('bus').value;
+    for (const bu of bus) {
+      businessUnits.push({
+        businessUnitCode: bu.value,
+        plants: []
+      });
+    }
+    const plants = this.form.get('plants').value;
+    if (plants) {
+      for (const plant of plants) {
+        const _plant = this.plants.find(v => v.value === plant.value);
+        const subBu = this.subBus.find(v => v.id === _plant.parentId);
+        const bu = this.bus.find(v => v.id === subBu.parentId);
+        for (const resBu of businessUnits) {
+          if (bu.value === resBu.businessUnitCode) {
+            resBu.plants.push({
+              plantCode: plant.value
+            });
+          }
+        }
+      }
+    }
+    this._dashboardService.qualityManagementPerformance(
+      this.form.get('year').value,
+      this.form.get('month').value,
+      businessUnits
+    ).subscribe((v) => {
+      this.parseQualityManagementPerformance(v);
+      this._cdr.detectChanges();
+    });
+  }
+
+  async selectedBusChange(): Promise<void> {
+    // reload plants
+    await this.filterPlants();
+    this.form.get('plants').reset();
+  }
+
+  filterPlants(): Promise<boolean> {
+    return new Promise((res, rej) => {
+      setTimeout(() => {
+        const buCodes = this.form.get('bus').value.map(v => v.value);
+        const buIds = this.bus.filter(v => buCodes.includes(v.value)).map(v => v.id);
+        const filteredSubBuIds = this.subBus.filter(v => buIds.includes(v.parentId)).map(v => v.id);
+        this.filteredPlants = this.plants.filter(v => filteredSubBuIds.includes(v.parentId));
+        res(true);
+      });
+    });
+  }
+
+  parseQualityManagementPerformance(res: QualityManagementPerformance): void {
+    this.archieveChart = res.archive;
+
+    this.achieveAndTrendGroupByKpiTypeCharts = [];
+    for (const data of res.achieveAndTrendGroupByKpiType) {
+      const archieveAndTrendGroupByKpiTypeChart: AchieveAndTrendGroupByKpiTypeChart = {
+        guage: {
+          series: [data.data.guage.data],
+          labels: [data.data.guage.labels]
+        },
+        areachart: {
+          series: [{
+            name: '',
+            data: data.data.areaChart.data,
+            color: '#5A9BD5'
+          }]
+        }
+      };
+      this.achieveAndTrendGroupByKpiTypeCharts.push(archieveAndTrendGroupByKpiTypeChart);
+    }
+
+    this.achieveByMonthChart = {
+      series: [
+        {
+          name: 'Total KPI',
+          data: res.achieveByMonth.data.totalKpi,
+          color: '#92D051'
+        },
+        {
+          name: 'Critical KPI',
+          data: res.achieveByMonth.data.criticalKpi,
+          color: '#06B050'
+        }
+      ]
+    };
+
+    this.achieveByBUChart = {
+      series: [
+        {
+          name: 'archieve',
+          data: res.achieveByBU.data,
+          color: '#5A9BD5'
+        }
+      ],
+      xaxis: { ...this.barChart2Options.xaxis, categories: res.achieveByBU.categories }
+    };
+  }
 }

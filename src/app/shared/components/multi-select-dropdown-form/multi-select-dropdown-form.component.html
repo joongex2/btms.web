@@ -7,6 +7,11 @@
             [settings]="dropdownSettings"
             [data]="options"
             [formControlName]="name"
+            (onSelect)="onSelectHandler($event)"
+            (onSelectAll)="onSelectAllHandler($event)"
+            (onDeSelect)="onDeSelectHandler($event)"
+            (onDeSelectAll)="onDeSelectAllHandler($event)"
+            (onFilterChange)="onFilterChangeHandler($event)"
         >
         </ng-multiselect-dropdown>
     </div>

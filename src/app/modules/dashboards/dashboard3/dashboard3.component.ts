@@ -1,7 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+/* eslint-disable space-before-function-paren */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from 'ng-apexcharts';
+import { ActionPlanStatus, ActionPlanStatusChart } from '../dashboard.interfaces';
+import { DashboardService } from '../dashboard.service';
 
 export type BarChartOptions = {
   series: ApexAxisChartSeries;
@@ -29,133 +34,43 @@ export type RadarChartOptions = {
   templateUrl: './dashboard3.component.html',
   styleUrls: ['./dashboard3.component.scss']
 })
-export class Dashboard3Component implements OnInit {
+export class Dashboard3Component implements OnInit, OnChanges {
+  @Input() bus: any[] = [];
+  @Input() subBus: any[] = [];
+  @Input() plants: any[] = [];
   public radarChartOptions: Partial<RadarChartOptions>;
   public barChartOptions: Partial<BarChartOptions>;
   public barChart2Options: Partial<BarChartOptions>;
-  @Input() bus: any[] = [];
-  @Input() plants: any[] = [];
+  filteredPlants: any[] = [];
   form: FormGroup;
 
   // bind value
   today: any;
 
-  mockData: any = [
-    {
-      name: 'AGRO',
-      data: {
-        radar: {
-          totalKpi: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2],
-          criticalKpi: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
-        },
-        totalKpiTable: ['Action Plan 36', 'Close 25', 'Over due 5'],
-        totalKpiBar: {
-          data: [9, 2, 23, 2],
-          categories: ["AHTB", "BIT", "Feed", "Other"]
-        },
-        criticalKpiTable: ['Action Plan 6', 'Close 5', 'Over due 2'],
-        criticalKpiBar: {
-          data: [1, 0, 4, 1],
-          categories: ["AHTB", "BIT", "Feed", "Other"]
-        }
-      }
-    },
-    {
-      name: 'PET',
-      data: {
-        radar: {
-          totalKpi: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2],
-          criticalKpi: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
-        },
-        totalKpiTable: ['Action Plan 4', 'Close 3', 'Over due 1'],
-        totalKpiBar: {
-          data: [1],
-          categories: ["PET"]
-        },
-        criticalKpiTable: ['Action Plan 6', 'Close 5', 'Over due 2'],
-        criticalKpiBar: {
-          data: [1],
-          categories: ["PET"]
-        }
-      }
-    },
-    {
-      name: 'Protein (Livestock)',
-      data: {
-        radar: {
-          totalKpi: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2],
-          criticalKpi: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
-        },
-        totalKpiTable: ['Action Plan 20', 'Close 3', 'Over due 1'],
-        totalKpiBar: {
-          data: [6, 5, 3, 2, 4],
-          categories: ["Breeder", "Broilet Farm", "Hatchery", "Pullet&Layout", "ECC"]
-        },
-        criticalKpiTable: ['Action Plan 5', 'Close 4', 'Over due 1'],
-        criticalKpiBar: {
-          data: [0, 2, 1, 1, 1],
-          categories: ["Breeder", "Broilet Farm", "Hatchery", "Pullet&Layout", "ECC"]
-        }
-      }
-    },
-    {
-      name: 'Protein (Factory)',
-      data: {
-        radar: {
-          totalKpi: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2],
-          criticalKpi: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
-        },
-        totalKpiTable: ['Action Plan 36', 'Close 25', 'Over due 5'],
-        totalKpiBar: {
-          data: [25, 15, 12, 3],
-          categories: ["PS", "SS", "FURTHER", "Other-PR"]
-        },
-        criticalKpiTable: ['Action Plan 5', 'Close 4', 'Over due 1'],
-        criticalKpiBar: {
-          data: [1, 0, 4, 1],
-          categories: ["PS", "SS", "FURTHER", "Other-PR"]
-        }
-      }
-    },
-    {
-      name: 'Food',
-      data: {
-        radar: {
-          totalKpi: [1.2, 1.5, 1, 0.8, 0.3, 0.8, 0.3, 0.2],
-          criticalKpi: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
-        },
-        totalKpiTable: ['Action Plan 36', 'Close 25', 'Over due 5'],
-        totalKpiBar: {
-          data: [26],
-          categories: ["Food"]
-        },
-        criticalKpiTable: ['Action Plan 14', 'Close 10', 'Over due 8'],
-        criticalKpiBar: {
-          data: [14],
-          categories: ["Food"]
-        }
-      }
-    }
-  ];
+  actionPlanStatusCharts: ActionPlanStatusChart[];
 
-  constructor(private _formBuilder: FormBuilder) {
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _dashboardService: DashboardService,
+    private _cdr: ChangeDetectorRef
+  ) {
     this.radarChartOptions = {
       series: [
         {
-          name: "Total KPI",
+          name: 'Total KPI',
           data: [1.2, 0.2, 0.3, 0.8, 0.3, 0.8, 1, 1.5]
         },
         {
-          name: "Critical",
+          name: 'Critical',
           data: [0.2, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.2]
         }
       ],
       chart: {
         height: 250,
-        type: "radar"
+        type: 'radar'
       },
       xaxis: {
-        categories: ["Productivity", "Quality", "Food", "Cost", "Delivery", "Morale", "Safety", "Environment"]
+        categories: ['Productivity', 'Quality', 'Food', 'Cost', 'Delivery', 'Morale', 'Safety', 'Environment']
       },
       colors: ['#32CD32', '#FF0000']
     };
@@ -163,19 +78,19 @@ export class Dashboard3Component implements OnInit {
     this.barChartOptions = {
       series: [
         {
-          name: "Total KPI",
-          color: "#5A9BD5",
+          name: 'Total KPI',
+          color: '#5A9BD5',
           data: [93, 92, 94, 91]
         }
       ],
       chart: {
-        type: "bar",
+        type: 'bar',
         height: 150
       },
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: "55%",
+          columnWidth: '55%',
           // endingShape: "rounded"
         }
       },
@@ -185,7 +100,7 @@ export class Dashboard3Component implements OnInit {
       stroke: {
         show: true,
         width: 2,
-        colors: ["transparent"]
+        colors: ['transparent']
       },
       xaxis: {},
       fill: {
@@ -194,7 +109,7 @@ export class Dashboard3Component implements OnInit {
       tooltip: {
         y: {
           formatter: function (val) {
-            return val + " %";
+            return val + ' %';
           }
         }
       }
@@ -203,19 +118,19 @@ export class Dashboard3Component implements OnInit {
     this.barChart2Options = {
       series: [
         {
-          name: "Total KPI",
-          color: "#ED7D31",
+          name: 'Total KPI',
+          color: '#ED7D31',
           data: [93, 92, 94, 91]
         }
       ],
       chart: {
-        type: "bar",
+        type: 'bar',
         height: 150
       },
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: "55%",
+          columnWidth: '55%',
           // endingShape: "rounded"
         }
       },
@@ -225,7 +140,7 @@ export class Dashboard3Component implements OnInit {
       stroke: {
         show: true,
         width: 2,
-        colors: ["transparent"]
+        colors: ['transparent']
       },
       xaxis: {},
       fill: {
@@ -234,56 +149,119 @@ export class Dashboard3Component implements OnInit {
       tooltip: {
         y: {
           formatter: function (val) {
-            return val + " %";
+            return val + ' %';
           }
         }
       }
     };
   }
 
-  parseMockData() {
-    for (let data of this.mockData) {
-      // radar
-      data.data.radar.series = [
-        {
-          name: "Total KPI",
-          data: data.data.radar.totalKpi
-        },
-        {
-          name: "Critical KPI",
-          data: data.data.radar.criticalKpi
-        }
-      ];
-      // totalkpibarchart
-      data.data.totalKpiBar.series = [{
-        name: "Total KPI",
-        color: "#5A9BD5",
-        data: data.data.totalKpiBar.data
-      }]
-      data.data.totalKpiBar.xaxis = { ...this.barChartOptions.xaxis, categories: data.data.totalKpiBar.categories }
-      // criticalkpibarchart
-      data.data.criticalKpiBar.series = [
-        {
-          name: "Total KPI",
-          color: "#ED7D31",
-          data: data.data.criticalKpiBar.data
-        }
-      ]
-      data.data.criticalKpiBar.xaxis = { ...this.barChart2Options.xaxis, categories: data.data.criticalKpiBar.categories }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.plants) {
+      this.filteredPlants = [];
     }
-
   }
 
   ngOnInit(): void {
     this.today = moment();
-    this.parseMockData();
     this.form = this._formBuilder.group({
       dateUpdate: { value: this.today, disabled: true },
       bus: null,
       plants: null
     });
+    this.initForm();
+  }
+
+  async initForm(): Promise<void> {
     // select all
     this.form.get('bus').setValue(this.bus);
-    this.form.get('plants').setValue(this.plants);
+    await this.filterPlants();
+    this.form.get('plants').setValue(this.filteredPlants);
+    this.form.get('bus').valueChanges.subscribe((v) => {
+      if (v.length === 0) { this.form.get('plants').disable(); }
+    });
+    this.refresh();
+  }
+
+  refresh(): void {
+    const businessUnits = [];
+    const bus = this.form.get('bus').value;
+    for (const bu of bus) {
+      businessUnits.push({
+        businessUnitCode: bu.value,
+        plants: []
+      });
+    }
+    const plants = this.form.get('plants').value;
+    if (plants) {
+      for (const plant of plants) {
+        const _plant = this.plants.find(v => v.value === plant.value);
+        const subBu = this.subBus.find(v => v.id === _plant.parentId);
+        const bu = this.bus.find(v => v.id === subBu.parentId);
+        for (const resBu of businessUnits) {
+          if (bu.value === resBu.businessUnitCode) {
+            resBu.plants.push({
+              plantCode: plant.value
+            });
+          }
+        }
+      }
+    }
+    this._dashboardService.actionPlanStatus(businessUnits).subscribe((v) => {
+      this.parseActionPlanStatus(v);
+      this._cdr.detectChanges();
+    });
+  }
+
+  async selectedBusChange(): Promise<void> {
+    // reload plants
+    await this.filterPlants();
+    this.form.get('plants').reset();
+  }
+
+  filterPlants(): Promise<boolean> {
+    return new Promise((res, rej) => {
+      setTimeout(() => {
+        const buCodes = this.form.get('bus').value.map(v => v.value);
+        const buIds = this.bus.filter(v => buCodes.includes(v.value)).map(v => v.id);
+        const filteredSubBuIds = this.subBus.filter(v => buIds.includes(v.parentId)).map(v => v.id);
+        this.filteredPlants = this.plants.filter(v => filteredSubBuIds.includes(v.parentId));
+        res(true);
+      });
+    });
+  }
+
+  parseActionPlanStatus(res: ActionPlanStatus[]) {
+    this.actionPlanStatusCharts = [];
+    for (const data of res) {
+      const actionPlanStatusChart: ActionPlanStatusChart = {
+        name: data.name,
+        data: {
+          radar: {
+            series: data.data.radar.data,
+            xaxis: { categories: data.data.radar.categories }
+          },
+          totalKpiTable: data.data.totalKpiTable,
+          totalKpiBar: {
+            series: [{
+              name: 'Total KPI',
+              color: '#5A9BD5',
+              data: data.data.totalKpiBar.data
+            }],
+            xaxis: { ...this.barChartOptions.xaxis, categories: data.data.totalKpiBar.categories }
+          },
+          // criticalKpiTable: data.data.criticalKpiTable,
+          // criticalKpiBar: {
+          //   series: [{
+          //     name: 'Total KPI',
+          //     color: '#5A9BD5',
+          //     data: data.data.criticalKpiBar.data
+          //   }],
+          //   xaxis: { ...this.barChartOptions.xaxis, categories: data.data.criticalKpiBar.categories }
+          // } // TODO fix api
+        }
+      };
+      this.actionPlanStatusCharts.push(actionPlanStatusChart);
+    }
   }
 }

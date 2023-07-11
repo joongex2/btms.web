@@ -42,7 +42,8 @@
                         [name]="'bus'"
                         [placeholder]="'bus'"
                         [options]="bus"
-                        [itemsShowLimit]="1"    
+                        [itemsShowLimit]="1"
+                        (selectedChange)="selectedBusChange()"  
                     >
                     </multi-select-dropdown-form>
                 </div>
@@ -58,20 +59,20 @@
                 </div>
             </div>
             <div class="flex items-center justify-center">
-                <mat-icon class="cursor-pointer icon-size-7" [svgIcon]="'heroicons_solid:arrow-path'"></mat-icon>
+                <mat-icon class="cursor-pointer icon-size-7" [svgIcon]="'heroicons_solid:arrow-path'" (click)="refresh()"></mat-icon>
             </div>
         </div>
     </div>
     <div class="col-span-12 shadow relative">
         <div class="w-full flex flex-col gap-2 p-2 overflow-x-auto">
             <div class="flex gap-2">
-                <ng-container *ngFor="let data of mockData">
+                <ng-container *ngFor="let actionPlanStatusChart of actionPlanStatusCharts">
                     <div class="flex-item shadow">
-                        <div class="header2-bg">{{data.name}}</div>
+                        <div class="header2-bg">{{actionPlanStatusChart.name}}</div>
                         <apx-chart
-                            [series]="data.data.radar.series"
+                            [series]="actionPlanStatusChart.data.radar.series"
                             [chart]="radarChartOptions.chart"
-                            [xaxis]="radarChartOptions.xaxis"
+                            [xaxis]="actionPlanStatusChart.data.radar.xaxis"
                             [colors]="radarChartOptions.colors"
                         ></apx-chart>
                     </div>
@@ -79,7 +80,7 @@
             </div>
             <div class="header-plan"><div class="header-bg absolute">Number of Action Plan & Status</div></div>
             <div class="flex gap-2">
-                <ng-container *ngFor="let data of mockData">
+                <ng-container *ngFor="let actionPlanStatusChart of actionPlanStatusCharts">
                     <div class="flex-item shadow">
                         <div class="grid grid-cols-3 w-full">
                             <div class="col-span-1">
@@ -89,10 +90,10 @@
                                             Total KPI
                                         </th>
                                     </tr>
-                                    <tr *ngFor="let elem of data.data.totalKpiTable">
+                                    <tr *ngFor="let elem of actionPlanStatusChart.data.totalKpiTable">
                                         <td>
                                             <span class="flex items-center">
-                                                <span class="leading-4">{{elem}}</span>
+                                                <span class="leading-4">{{elem.name}}: {{elem.value}}</span>
                                             </span>
                                         </td>
                                     </tr>
@@ -100,7 +101,7 @@
                             </div>
                             <div class="col-span-2">
                                 <apx-chart
-                                    [series]="data.data.totalKpiBar.series"
+                                    [series]="actionPlanStatusChart.data.totalKpiBar.series"
                                     [chart]="barChartOptions.chart"
                                     [dataLabels]="barChartOptions.dataLabels"
                                     [plotOptions]="barChartOptions.plotOptions"
@@ -109,11 +110,11 @@
                                     [fill]="barChartOptions.fill"
                                     [stroke]="barChartOptions.stroke"
                                     [tooltip]="barChartOptions.tooltip"
-                                    [xaxis]="data.data.totalKpiBar.xaxis"
+                                    [xaxis]="actionPlanStatusChart.data.totalKpiBar.xaxis"
                                 ></apx-chart>
                             </div>
                         </div>
-                        <div class="grid grid-cols-3 w-full">
+                        <!-- <div class="grid grid-cols-3 w-full">
                             <div class="col-span-1">
                                 <table class="critical-kpi overflow-y-visible">
                                     <tr>
@@ -121,10 +122,10 @@
                                             Critical KPI
                                         </th>
                                     </tr>
-                                    <tr *ngFor="let elem of data.data.criticalKpiTable">
+                                    <tr *ngFor="let elem of actionPlanStatusChart.data.criticalKpiTable">
                                         <td>
                                             <span class="flex items-center">
-                                                <span class="leading-4">{{elem}}</span>
+                                                <span class="leading-4">{{elem.name}}: {{elem.value}}</span>
                                             </span>
                                         </td>
                                     </tr>
@@ -132,7 +133,7 @@
                             </div>
                             <div class="col-span-2">
                                 <apx-chart
-                                    [series]="data.data.criticalKpiBar.series"
+                                    [series]="actionPlanStatusChart.data.criticalKpiBar.series"
                                     [chart]="barChart2Options.chart"
                                     [dataLabels]="barChart2Options.dataLabels"
                                     [plotOptions]="barChart2Options.plotOptions"
@@ -141,10 +142,10 @@
                                     [fill]="barChart2Options.fill"
                                     [stroke]="barChart2Options.stroke"
                                     [tooltip]="barChart2Options.tooltip"
-                                    [xaxis]="data.data.criticalKpiBar.xaxis"
+                                    [xaxis]="actionPlanStatusChart.data.criticalKpiBar.xaxis"
                                 ></apx-chart>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </ng-container>
             </div>

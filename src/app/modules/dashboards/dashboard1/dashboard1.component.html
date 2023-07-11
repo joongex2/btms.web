@@ -7,14 +7,14 @@
         <div class="grid grid-cols-2" style="height: calc(100% - 21px);">
             <div class="total-kpi-header">
                 <div class="text-center leading-6">
-                    <span class="text-2xl font-bold">Total KPI {{mockData1.totalKpi.percent}}%</span><br>
-                    <span class="text-xl font-semibold">{{mockData1.totalKpi.amount}} KPI</span>
+                    <span class="text-2xl font-bold">Total KPI {{archieveChart?.totalKpi.percent}}%</span><br>
+                    <span class="text-xl font-semibold">{{archieveChart?.totalKpi.amount}} KPI</span>
                 </div>
             </div>
             <div class="critical-kpi-header">
                 <div class="text-center leading-6">
-                    <span class="text-2xl font-bold">Critical KPI {{mockData1.criticalKpi.percent}}%</span><br>
-                    <span class="text-xl font-semibold">{{mockData1.criticalKpi.amount}} KPI</span>
+                    <span class="text-2xl font-bold">Critical KPI {{archieveChart?.criticalKpi.percent}}%</span><br>
+                    <span class="text-xl font-semibold">{{archieveChart?.criticalKpi.amount}} KPI</span>
                 </div>
             </div>
         </div>
@@ -41,36 +41,37 @@
                     [name]="'bus'"
                     [placeholder]="'bus'"
                     [options]="bus"
-                    [itemsShowLimit]="1"    
+                    [itemsShowLimit]="1"
+                    (selectedChange)="selectedBusChange()"    
                 >
                 </multi-select-dropdown-form>
                 <multi-select-dropdown-form
                     [label]="'Plant'"
                     [name]="'plants'"
                     [placeholder]="'plants'"
-                    [options]="plants"
+                    [options]="filteredPlants"
                     [itemsShowLimit]="1"    
                 >
                 </multi-select-dropdown-form>
             </div>
             <div class="flex items-center justify-center">
-                <mat-icon class="cursor-pointer icon-size-7" [svgIcon]="'heroicons_solid:arrow-path'"></mat-icon>
+                <mat-icon class="cursor-pointer icon-size-7" [svgIcon]="'heroicons_solid:arrow-path'" (click)="refresh()"></mat-icon>
             </div>
         </div>
     </div>
     <div class="col-span-12 shadow">
         <div class="header-bg">% Achieve & Trend Group by KPI Type</div>
-        <div class="grid grid-cols-8 gap-2 p-2 w-full">
-            <ng-container *ngFor="let data of mockData2">
-                <div class="col-span-1 shadow">
+        <div class="flex overflow-x-auto gap-2 p-2 w-full">
+            <ng-container *ngFor="let achieveAndTrendGroupByKpiTypeChart of achieveAndTrendGroupByKpiTypeCharts">
+                <div class="shadow flex-item">
                     <div>
-                        <div class="header2-bg">{{data.name}}</div>
+                        <div class="header2-bg">{{achieveAndTrendGroupByKpiTypeChart.name}}</div>
                         <div class="guage">
                             <apx-chart
-                                [series]="data.data.guage.series"
+                                [series]="achieveAndTrendGroupByKpiTypeChart.guage.series"
                                 [chart]="gaugeChartOptions.chart"
                                 [plotOptions]="gaugeChartOptions.plotOptions"
-                                [labels]="data.data.guage.labels"
+                                [labels]="achieveAndTrendGroupByKpiTypeChart.guage.labels"
                                 [fill]="gaugeChartOptions.fill"
                                 [stroke]="gaugeChartOptions.stroke"
                                 [colors]="gaugeChartOptions.colors"
@@ -78,7 +79,7 @@
                         </div>
                         <div>
                             <apx-chart
-                                [series]="data.data.areachart.series"
+                                [series]="achieveAndTrendGroupByKpiTypeChart.areachart.series"
                                 [chart]="areaChartOptions.chart"
                                 [xaxis]="areaChartOptions.xaxis"
                                 [stroke]="areaChartOptions.stroke"
@@ -97,27 +98,31 @@
     </div>
     <div class="col-span-6 shadow">
         <div class="header-bg">%Archieve By Month</div>
-        <apx-chart
-            [series]="mockData3.series"
-            [chart]="barChartOptions.chart"
-            [dataLabels]="barChartOptions.dataLabels"
-            [plotOptions]="barChartOptions.plotOptions"
-            [yaxis]="barChartOptions.yaxis"
-            [legend]="barChartOptions.legend"
-            [fill]="barChartOptions.fill"
-            [stroke]="barChartOptions.stroke"
-            [tooltip]="barChartOptions.tooltip"
-            [xaxis]="barChartOptions.xaxis"
-        ></apx-chart>
+        <ng-container *ngIf="achieveByMonthChart">
+            <apx-chart
+                [series]="achieveByMonthChart?.series"
+                [chart]="barChartOptions.chart"
+                [dataLabels]="barChartOptions.dataLabels"
+                [plotOptions]="barChartOptions.plotOptions"
+                [yaxis]="barChartOptions.yaxis"
+                [legend]="barChartOptions.legend"
+                [fill]="barChartOptions.fill"
+                [stroke]="barChartOptions.stroke"
+                [tooltip]="barChartOptions.tooltip"
+                [xaxis]="barChartOptions.xaxis"
+            ></apx-chart>
+        </ng-container>
     </div>
     <div class="col-span-6 shadow">
         <div class="header-bg">%Archieve By BU</div>
-        <apx-chart
-            [series]="mockData4.series"
-            [chart]="barChart2Options.chart"
-            [dataLabels]="barChart2Options.dataLabels"
-            [plotOptions]="barChart2Options.plotOptions"
-            [xaxis]="mockData4.xaxis"
-        ></apx-chart>
+        <ng-container *ngIf="achieveByBUChart">
+            <apx-chart
+                [series]="achieveByBUChart?.series"
+                [chart]="barChart2Options.chart"
+                [dataLabels]="barChart2Options.dataLabels"
+                [plotOptions]="barChart2Options.plotOptions"
+                [xaxis]="achieveByBUChart?.xaxis"
+            ></apx-chart>
+        </ng-container>
     </div>
 </div>

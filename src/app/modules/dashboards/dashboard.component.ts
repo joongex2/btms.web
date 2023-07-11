@@ -13,6 +13,7 @@ import { DashboardService } from './dashboard.service';
 export class DashboardComponent implements OnInit, OnDestroy {
   selectedProject: string = 'Quality Management Performance';
   bus: any[] = [];
+  subBus: any[] = [];
   plants: any[] = [];
 
   constructor(
@@ -23,6 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.bus = this._activatedRoute.snapshot.data.bus;
+    this.subBus = this._activatedRoute.snapshot.data.subBus;
     this.plants = this._activatedRoute.snapshot.data.plants;
   }
   ngOnDestroy(): void { }

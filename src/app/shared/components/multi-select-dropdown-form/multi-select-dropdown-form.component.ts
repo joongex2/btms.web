@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlContainer, FormGroup } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
@@ -18,6 +18,7 @@ export class MultiSelectDropdownFormComponent implements OnInit {
   @Input() placeholder: string;
   @Input() options: any;
   @Input() itemsShowLimit: number = 3;
+  @Output() selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private controlContainer: ControlContainer) { }
 
@@ -34,5 +35,25 @@ export class MultiSelectDropdownFormComponent implements OnInit {
       itemsShowLimit: this.itemsShowLimit,
       allowSearchFilter: true
     };
+  }
+
+  onSelectHandler(res: any[]) {
+    this.selectedChange.emit(true);
+  }
+
+  onSelectAllHandler(res: any[]) {
+    this.selectedChange.emit(true);
+  }
+
+  onDeSelectHandler(res: any[]) {
+    this.selectedChange.emit(true);
+  }
+
+  onDeSelectAllHandler(res: any[]) {
+    this.selectedChange.emit(true);
+  }
+
+  onFilterChangeHandler(res: any[]) {
+    this.selectedChange.emit(true);
   }
 }

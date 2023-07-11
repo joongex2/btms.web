@@ -24,7 +24,8 @@
                     [name]="'bus'"
                     [placeholder]="'bus'"
                     [options]="bus"
-                    [itemsShowLimit]="1"    
+                    [itemsShowLimit]="1"
+                    (selectedChange)="selectedBusChange()"    
                 >
                 </multi-select-dropdown-form>
                 <multi-select-dropdown-form
@@ -37,24 +38,24 @@
                 </multi-select-dropdown-form>
             </div>
             <div class="flex items-center justify-center">
-                <mat-icon class="cursor-pointer icon-size-7" [svgIcon]="'heroicons_solid:arrow-path'"></mat-icon>
+                <mat-icon class="cursor-pointer icon-size-7" [svgIcon]="'heroicons_solid:arrow-path'" (click)="refresh()"></mat-icon>
             </div>
         </div>
     </div>
     <div class="col-span-12 shadow">
         <div class="header-bg">% Achieve KPI Type Group by BU</div>
         <div class="flex overflow-x-auto gap-2 p-2 w-full">
-            <ng-container *ngFor="let data of mockData">
+            <ng-container *ngFor="let qualityManagementPerformanceByBuChart of qualityManagementPerformanceByBuCharts">
                 <div class="shadow flex-item">
-                    <div class="header2-bg">{{data.name}}</div>
+                    <div class="header2-bg">{{qualityManagementPerformanceByBuChart.name}}</div>
                     <apx-chart
-                        [series]="data.data.radar"
+                        [series]="qualityManagementPerformanceByBuChart.data.radar"
                         [chart]="radarChartOptions.chart"
                         [xaxis]="radarChartOptions.xaxis"
                         [colors]="radarChartOptions.colors"
                     ></apx-chart>
                     <apx-chart
-                        [series]="data.data.barchart.series"
+                        [series]="qualityManagementPerformanceByBuChart.data.barchart.series"
                         [chart]="barChartOptions.chart"
                         [dataLabels]="barChartOptions.dataLabels"
                         [plotOptions]="barChartOptions.plotOptions"
@@ -63,14 +64,14 @@
                         [fill]="barChartOptions.fill"
                         [stroke]="barChartOptions.stroke"
                         [tooltip]="barChartOptions.tooltip"
-                        [xaxis]="data.data.barchart.xaxis"
+                        [xaxis]="qualityManagementPerformanceByBuChart.data.barchart.xaxis"
                     ></apx-chart>
                     <apx-chart
-                        [series]="data.data.barchart2.series"
+                        [series]="qualityManagementPerformanceByBuChart.data.barchart2.series"
                         [chart]="barChart2Options.chart"
                         [dataLabels]="barChart2Options.dataLabels"
                         [plotOptions]="barChart2Options.plotOptions"
-                        [xaxis]="data.data.barchart2.xaxis"
+                        [xaxis]="qualityManagementPerformanceByBuChart.data.barchart2.xaxis"
                         [stroke]="barChart2Options.stroke"
                     ></apx-chart>
                 </div>

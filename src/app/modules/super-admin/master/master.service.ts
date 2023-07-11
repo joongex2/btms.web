@@ -66,21 +66,21 @@ export class MasterService {
     getSubBus(buId?: number): Observable<any> {
         return this.getMasters('SUB_BUSINESS_UNIT').pipe(map((subBus) => (subBus
             .filter(subBu => buId ? subBu.parentId === buId : true)
-            .map(subBu => ({ title: subBu.name, value: subBu.code, id: subBu.id }))
+            .map(subBu => ({ title: subBu.name, value: subBu.code, id: subBu.id, parentId: subBu.parentId }))
         )));
     }
 
     getPlants(subBuId?: number): Observable<any> {
         return this.getMasters('PLANT').pipe(map((plants) => (plants
             .filter(plant => subBuId ? plant.parentId === subBuId : true)
-            .map(plant => ({ title: plant.name, value: plant.code, id: plant.id }))
+            .map(plant => ({ title: plant.name, value: plant.code, id: plant.id, parentId: plant.parentId }))
         )));
     }
 
     getDashboardPlants(subBuId?: number): Observable<any> {
         return this.getMasters('PLANT').pipe(map((plants) => (plants
             .filter(plant => subBuId ? plant.parentId === subBuId : true)
-            .map(plant => ({ title: `${plant.code} (${plant.name})`, value: plant.code, id: plant.id }))
+            .map(plant => ({ title: `${plant.code} (${plant.name})`, value: plant.code, id: plant.id, parentId: plant.parentId }))
         )));
     }
 
