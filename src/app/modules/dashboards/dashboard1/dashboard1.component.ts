@@ -198,7 +198,7 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
       ],
       chart: {
         type: 'area',
-        height: 140,
+        height: 200,
         zoom: {
           enabled: false
         }
@@ -236,19 +236,20 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
         type: 'category',
         categories: [
           '1',
-          '',
+          '2',
           '3',
-          '',
+          '4',
           '5',
-          '',
+          '6',
           '7',
-          '',
+          '8',
           '9',
-          '',
+          '10',
           '11',
-          ''
+          '12'
         ],
-        tickPlacement: 'on'
+        tickPlacement: 'on',
+        tickAmount: 6
       },
       yaxis: {
         // opposite: true

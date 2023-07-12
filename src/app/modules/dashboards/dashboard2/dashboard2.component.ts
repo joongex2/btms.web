@@ -154,7 +154,7 @@ export class Dashboard2Component implements OnInit, OnChanges {
         offsetX: -6,
         style: {
           fontSize: '12px',
-          colors: ['#fff']
+          colors: ['#000']
         }
       },
       stroke: {
