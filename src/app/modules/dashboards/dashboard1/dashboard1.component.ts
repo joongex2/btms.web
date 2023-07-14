@@ -1,7 +1,7 @@
 /* eslint-disable space-before-function-paren */
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
@@ -368,33 +368,13 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
   }
 
   refresh(): void {
-    const businessUnits = [];
-    const bus = this.form.get('bus').value;
-    for (const bu of bus) {
-      businessUnits.push({
-        businessUnitCode: bu.value,
-        plants: []
-      });
-    }
-    const plants = this.form.get('plants').value;
-    if (plants) {
-      for (const plant of plants) {
-        const _plant = this.plants.find(v => v.value === plant.value);
-        const subBu = this.subBus.find(v => v.id === _plant.parentId);
-        const bu = this.bus.find(v => v.id === subBu.parentId);
-        for (const resBu of businessUnits) {
-          if (bu.value === resBu.businessUnitCode) {
-            resBu.plants.push({
-              plantCode: plant.value
-            });
-          }
-        }
-      }
-    }
+    const bus = this.form.get('bus').value?.map(v => v.value);
+    const plants = this.form.get('plants').value?.map(v => v.value);
     this._dashboardService.qualityManagementPerformance(
       this.form.get('year').value,
       this.form.get('month').value,
-      businessUnits
+      bus,
+      plants
     ).subscribe((v) => {
       this.parseQualityManagementPerformance(v);
       this._cdr.detectChanges();

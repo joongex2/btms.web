@@ -200,33 +200,13 @@ export class Dashboard2Component implements OnInit, OnChanges {
   }
 
   refresh(): void {
-    const businessUnits = [];
-    const bus = this.form.get('bus').value;
-    for (const bu of bus) {
-      businessUnits.push({
-        businessUnitCode: bu.value,
-        plants: []
-      });
-    }
-    const plants = this.form.get('plants').value;
-    if (plants) {
-      for (const plant of plants) {
-        const _plant = this.plants.find(v => v.value === plant.value);
-        const subBu = this.subBus.find(v => v.id === _plant.parentId);
-        const bu = this.bus.find(v => v.id === subBu.parentId);
-        for (const resBu of businessUnits) {
-          if (bu.value === resBu.businessUnitCode) {
-            resBu.plants.push({
-              plantCode: plant.value
-            });
-          }
-        }
-      }
-    }
+    const bus = this.form.get('bus').value?.map(v => v.value);
+    const plants = this.form.get('plants').value?.map(v => v.value);
     this._dashboardService.qualityManagementPerformanceByBu(
       this.form.get('year').value,
       this.form.get('month').value,
-      businessUnits
+      bus,
+      plants
     ).subscribe((v) => {
       this.parseQualityManagementPerformanceByBu(v);
       this._cdr.detectChanges();
