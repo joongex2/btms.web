@@ -2,13 +2,13 @@ import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexXAxis } from 'ng-apexc
 
 // dashboard 1
 export interface QualityManagementPerformance {
-    archive: Archive;
+    achieve: Achieve;
     achieveAndTrendGroupByKpiType: AchieveAndTrendGroupByKpiType[];
     achieveByMonth: AchieveByMonth;
     achieveByBU: AchieveByBU;
 }
 
-export interface Archive {
+export interface Achieve {
     totalKpi: {
         percent: number;
         amount: number;
@@ -144,10 +144,10 @@ export interface ActionPlanStatusChart {
             series: ApexAxisChartSeries;
             xaxis: ApexXAxis;
         };
-        // criticalKpiTable: { name: string; value: number }[];
-        // criticalKpiBar: {
-        //     series: ApexAxisChartSeries;
-        //     xaxis: ApexXAxis;
-        // }; // TODO: fix api
+        criticalKpiTable: { name: string; value: number }[];
+        criticalKpiBar: {
+            series: ApexAxisChartSeries;
+            xaxis: ApexXAxis;
+        };
     };
 }

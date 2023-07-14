@@ -118,7 +118,7 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
   ];
 
   // bind value
-  archieveChart: AchieveChart;
+  achieveChart: AchieveChart;
   achieveAndTrendGroupByKpiTypeCharts: AchieveAndTrendGroupByKpiTypeChart[];
   achieveByMonthChart: AchieveByMonthChart;
   achieveByBUChart: AchieveByBUChart;
@@ -400,11 +400,11 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
   }
 
   parseQualityManagementPerformance(res: QualityManagementPerformance): void {
-    this.archieveChart = res.archive;
+    this.achieveChart = res.achieve;
 
     this.achieveAndTrendGroupByKpiTypeCharts = [];
     for (const data of res.achieveAndTrendGroupByKpiType) {
-      const archieveAndTrendGroupByKpiTypeChart: AchieveAndTrendGroupByKpiTypeChart = {
+      const achieveAndTrendGroupByKpiTypeChart: AchieveAndTrendGroupByKpiTypeChart = {
         guage: {
           series: [data.data.guage.data],
           labels: [data.data.guage.labels]
@@ -417,7 +417,7 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
           }]
         }
       };
-      this.achieveAndTrendGroupByKpiTypeCharts.push(archieveAndTrendGroupByKpiTypeChart);
+      this.achieveAndTrendGroupByKpiTypeCharts.push(achieveAndTrendGroupByKpiTypeChart);
     }
 
     this.achieveByMonthChart = {
@@ -438,7 +438,7 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
     this.achieveByBUChart = {
       series: [
         {
-          name: 'archieve',
+          name: 'achieve',
           data: res.achieveByBU.data,
           color: '#5A9BD5'
         }

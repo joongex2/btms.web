@@ -7,14 +7,14 @@
         <div class="grid grid-cols-2" style="height: calc(100% - 21px);">
             <div class="total-kpi-header">
                 <div class="text-center leading-6">
-                    <span class="text-2xl font-bold">Total KPI {{archieveChart?.totalKpi.percent}}%</span><br>
-                    <span class="text-xl font-semibold">{{archieveChart?.totalKpi.amount}} KPI</span>
+                    <span class="text-2xl font-bold">Total KPI {{achieveChart?.totalKpi.percent}}%</span><br>
+                    <span class="text-xl font-semibold">{{achieveChart?.totalKpi.amount}} KPI</span>
                 </div>
             </div>
             <div class="critical-kpi-header">
                 <div class="text-center leading-6">
-                    <span class="text-2xl font-bold">Critical KPI {{archieveChart?.criticalKpi.percent}}%</span><br>
-                    <span class="text-xl font-semibold">{{archieveChart?.criticalKpi.amount}} KPI</span>
+                    <span class="text-2xl font-bold">Critical KPI {{achieveChart?.criticalKpi.percent}}%</span><br>
+                    <span class="text-xl font-semibold">{{achieveChart?.criticalKpi.amount}} KPI</span>
                 </div>
             </div>
         </div>
@@ -97,7 +97,7 @@
         </div>
     </div>
     <div class="col-span-6 shadow">
-        <div class="header-bg">%Archieve By Month</div>
+        <div class="header-bg">%Achieve By Month</div>
         <ng-container *ngIf="achieveByMonthChart">
             <apx-chart
                 [series]="achieveByMonthChart?.series"
@@ -114,7 +114,7 @@
         </ng-container>
     </div>
     <div class="col-span-6 shadow">
-        <div class="header-bg">%Archieve By BU</div>
+        <div class="header-bg">%Achieve By BU</div>
         <ng-container *ngIf="achieveByBUChart">
             <apx-chart
                 [series]="achieveByBUChart?.series"

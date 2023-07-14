@@ -229,15 +229,15 @@ export class Dashboard3Component implements OnInit, OnChanges {
             }],
             xaxis: { ...this.barChartOptions.xaxis, categories: data.data.totalKpiBar.categories }
           },
-          // criticalKpiTable: data.data.criticalKpiTable,
-          // criticalKpiBar: {
-          //   series: [{
-          //     name: 'Total KPI',
-          //     color: '#5A9BD5',
-          //     data: data.data.criticalKpiBar.data
-          //   }],
-          //   xaxis: { ...this.barChartOptions.xaxis, categories: data.data.criticalKpiBar.categories }
-          // } // TODO fix api
+          criticalKpiTable: data.data.criticalKpiTable,
+          criticalKpiBar: {
+            series: [{
+              name: 'Critical KPI',
+              color: '#ED7D31',
+              data: data.data.criticalKpiBar.data
+            }],
+            xaxis: { ...this.barChartOptions.xaxis, categories: data.data.criticalKpiBar.categories }
+          }
         }
       };
       this.actionPlanStatusCharts.push(actionPlanStatusChart);
