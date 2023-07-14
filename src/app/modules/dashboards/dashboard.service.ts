@@ -46,8 +46,8 @@ export class DashboardService {
     qualityManagementPerformance(year: number, month: number, bus: string[], plants: string[]): Observable<QualityManagementPerformance> {
         const _year = `year=${year}`;
         const _month = `month=${month}`;
-        const _bus = bus && bus.length > 0 ? `businessUnits=${bus.join('|')}` : '';
-        const _plants = plants && plants.length > 0 ? `plants=${plants.join('|')}` : '';
+        const _bus = bus && bus.length > 0 ? `businessUnits=${encodeURIComponent(bus.join('|'))}` : '';
+        const _plants = plants && plants.length > 0 ? `plants=${encodeURIComponent(plants.join('|'))}` : '';
 
         const queryParams = [_year, _month, _bus, _plants].filter((q) => q != '');
         let queryString = queryParams.filter((q) => q != '').join('&');
@@ -59,8 +59,8 @@ export class DashboardService {
     qualityManagementPerformanceByBu(year: number, month: number, bus: string[], plants: string[]): Observable<QualityManagementPerformanceByBu[]> {
         const _year = `year=${year}`;
         const _month = `month=${month}`;
-        const _bus = bus && bus.length > 0 ? `businessUnits=${bus.join('|')}` : '';
-        const _plants = plants && plants.length > 0 ? `plants=${plants.join('|')}` : '';
+        const _bus = bus && bus.length > 0 ? `businessUnits=${encodeURIComponent(bus.join('|'))}` : '';
+        const _plants = plants && plants.length > 0 ? `plants=${encodeURIComponent(plants.join('|'))}` : '';
 
         const queryParams = [_year, _month, _bus, _plants].filter((q) => q != '');
         let queryString = queryParams.filter((q) => q != '').join('&');
@@ -70,8 +70,8 @@ export class DashboardService {
     }
 
     actionPlanStatus(bus: string[], plants: string[]): Observable<ActionPlanStatus[]> {
-        const _bus = bus && bus.length > 0 ? `businessUnits=${bus.join('|')}` : '';
-        const _plants = plants && plants.length > 0 ? `plants=${plants.join('|')}` : '';
+        const _bus = bus && bus.length > 0 ? `businessUnits=${encodeURIComponent(bus.join('|'))}` : '';
+        const _plants = plants && plants.length > 0 ? `plants=${encodeURIComponent(plants.join('|'))}` : '';
 
         const queryParams = [_bus, _plants].filter((q) => q != '');
         let queryString = queryParams.filter((q) => q != '').join('&');
