@@ -56,6 +56,7 @@ export interface AchieveChart {
 }
 
 export interface AchieveAndTrendGroupByKpiTypeChart {
+    name: string;
     guage: {
         series: ApexNonAxisChartSeries;
         labels: string[];

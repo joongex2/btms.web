@@ -405,6 +405,7 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
     this.achieveAndTrendGroupByKpiTypeCharts = [];
     for (const data of res.achieveAndTrendGroupByKpiType) {
       const achieveAndTrendGroupByKpiTypeChart: AchieveAndTrendGroupByKpiTypeChart = {
+        name: data.name,
         guage: {
           series: [data.data.guage.data],
           labels: [data.data.guage.labels]
