@@ -119,7 +119,10 @@ export class Dashboard2Component implements OnInit, OnChanges {
       yaxis: {
         title: {
           text: '%'
-        }
+        },
+        max: 100,
+        tickAmount: 5,
+        decimalsInFloat: 0
       },
       fill: {
         opacity: 1
@@ -162,7 +165,11 @@ export class Dashboard2Component implements OnInit, OnChanges {
         width: 1,
         colors: ['#fff']
       },
-      xaxis: {}
+      xaxis: {
+        max: 100,
+        tickAmount: 5,
+        decimalsInFloat: 0
+      }
     };
   }
 

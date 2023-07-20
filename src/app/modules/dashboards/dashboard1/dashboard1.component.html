@@ -77,15 +77,15 @@
                                 [colors]="gaugeChartOptions.colors"
                             ></apx-chart>
                         </div>
-                        <div>
+                        <div class="pr-4">
                             <apx-chart
                                 [series]="achieveAndTrendGroupByKpiTypeChart.areachart.series"
                                 [chart]="areaChartOptions.chart"
-                                [xaxis]="areaChartOptions.xaxis"
+                                [xaxis]="achieveAndTrendGroupByKpiTypeChart.areachart.xaxis"
                                 [stroke]="areaChartOptions.stroke"
                                 [dataLabels]="areaChartOptions.dataLabels"
                                 [yaxis]="areaChartOptions.yaxis"
-                                [labels]="areaChartOptions.labels"
+                                [labels]="achieveAndTrendGroupByKpiTypeChart.areachart.labels"
                                 [legend]="areaChartOptions.legend"
                                 [title]="areaChartOptions.title"
                                 [subtitle]="areaChartOptions.subtitle"

@@ -1,4 +1,4 @@
-import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexXAxis } from 'ng-apexcharts';
+import { ApexAxisChartSeries, ApexDataLabels, ApexNonAxisChartSeries, ApexXAxis } from 'ng-apexcharts';
 
 // dashboard 1
 export interface QualityManagementPerformance {
@@ -28,6 +28,7 @@ export interface AchieveAndTrendGroupByKpiType {
         };
         areaChart: {
             data: number[];
+            xaxis: string[];
         };
     };
 }
@@ -65,6 +66,8 @@ export interface AchieveAndTrendGroupByKpiTypeChart {
     };
     areachart: {
         series: ApexAxisChartSeries;
+        xaxis: ApexXAxis;
+        labels: string[];
     };
 }
 

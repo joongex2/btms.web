@@ -218,20 +218,6 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
         text: '',
         align: 'left'
       },
-      labels: [
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12'
-      ],
       xaxis: {
         type: 'category',
         categories: [
@@ -331,7 +317,7 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
       dataLabels: {
         enabled: false
       },
-      xaxis: { }
+      xaxis: {}
     };
   }
 
@@ -419,7 +405,9 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
             name: '',
             data: data.data.areaChart.data,
             color: '#5A9BD5'
-          }]
+          }],
+          xaxis: { ...this.areaChartOptions.xaxis, categories: data.data.areaChart.xaxis },
+          labels: data.data.areaChart.xaxis
         }
       };
       this.achieveAndTrendGroupByKpiTypeCharts.push(achieveAndTrendGroupByKpiTypeChart);
@@ -438,7 +426,7 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
           color: '#06B050'
         }
       ],
-      xaxis: { categories: res.achieveByMonth.xaxis, max: 100}
+      xaxis: { categories: res.achieveByMonth.xaxis, max: 100 }
     };
 
     this.achieveByBUChart = {
