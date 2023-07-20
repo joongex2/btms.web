@@ -300,8 +300,7 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
       },
       yaxis: {
         max: 100,
-        min: 0,
-        tickAmount: 10,
+        tickAmount: 5,
         // title: {
         //   text: '%'
         // }
