@@ -85,7 +85,7 @@ export class Dashboard3Component implements OnInit, OnChanges {
       ],
       chart: {
         type: 'bar',
-        height: 150
+        height: 200
       },
       plotOptions: {
         bar: {
@@ -125,7 +125,7 @@ export class Dashboard3Component implements OnInit, OnChanges {
       ],
       chart: {
         type: 'bar',
-        height: 150
+        height: 200
       },
       plotOptions: {
         bar: {

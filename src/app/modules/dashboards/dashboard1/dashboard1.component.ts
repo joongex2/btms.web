@@ -146,11 +146,11 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
             name: {
               fontSize: '16px',
               color: undefined,
-              offsetY: 80
+              offsetY: 0
             },
             value: {
-              offsetY: 40,
-              fontSize: '16px',
+              offsetY: 5,
+              fontSize: '12px',
               color: undefined,
               formatter: function (val) {
                 return val + '%';
@@ -254,7 +254,8 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
       yaxis: {
         // opposite: true
         max: 100,
-        tickAmount: 6
+        tickAmount: 5,
+        decimalsInFloat: 0
       },
       legend: {
         horizontalAlign: 'left'
@@ -304,6 +305,7 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
         // title: {
         //   text: '%'
         // }
+        decimalsInFloat: 0
       },
       fill: {
         opacity: 1

@@ -170,7 +170,7 @@
                                 <ng-container *ngIf="!notSortColumn.includes(key)">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ keyToColumnName[key] }}</th>
                                 </ng-container>
-                                <td mat-cell *matCellDef="let element; let i = dataIndex" [ngClass]="{ 'text-center' : ['modifyNo', 'revisionNo'].includes(key) }">
+                                <td mat-cell *matCellDef="let element; let i = dataIndex" [ngClass]="{ 'text-center' : ['modifyNo', 'revisionNo'].includes(key), 'pr-4': ['modifyNo', 'revisionNo'].includes(key) }">
                                     <ng-container *ngIf="key === 'radio'">
                                         <ng-container *ngIf="fromUrl === 'my-target'">
                                             <mat-radio-group [(ngModel)]="selectedRow" [color]="'primary'">

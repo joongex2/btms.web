@@ -237,7 +237,10 @@ export class Dashboard2Component implements OnInit, OnChanges {
       const qualityManagementPerformanceByBuChart: QualityManagementPerformanceByBuChart = {
         name: data.name,
         data: {
-          radar: [{ data: data.data.radar }],
+          radar: {
+            series: [{ data: data.data.radar.data }],
+            xaxis: { categories: data.data.radar.categories }
+          },
           barchart: {
             series: [
               {

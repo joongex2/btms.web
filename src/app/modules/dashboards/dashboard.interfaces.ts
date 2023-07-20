@@ -82,7 +82,10 @@ export interface AchieveByBUChart {
 export interface QualityManagementPerformanceByBu {
     name: string;
     data: {
-        radar: number[];
+        radar: {
+            data: number[];
+            categories: string[];
+        };
         barchart: {
             data: {
                 totalKpi: number[];
@@ -103,7 +106,10 @@ export interface QualityManagementPerformanceByBu {
 export interface QualityManagementPerformanceByBuChart {
     name: string;
     data: {
-        radar: ApexAxisChartSeries;
+        radar: {
+            series: ApexAxisChartSeries;
+            xaxis: ApexXAxis;
+        };
         barchart: {
             series: ApexAxisChartSeries;
             xaxis: ApexXAxis;

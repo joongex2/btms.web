@@ -49,9 +49,9 @@
                 <div class="shadow flex-item">
                     <div class="header2-bg">{{qualityManagementPerformanceByBuChart.name}}</div>
                     <apx-chart
-                        [series]="qualityManagementPerformanceByBuChart.data.radar"
+                        [series]="qualityManagementPerformanceByBuChart.data.radar.series"
                         [chart]="radarChartOptions.chart"
-                        [xaxis]="radarChartOptions.xaxis"
+                        [xaxis]="qualityManagementPerformanceByBuChart.data.radar.xaxis"
                         [colors]="radarChartOptions.colors"
                     ></apx-chart>
                     <apx-chart
