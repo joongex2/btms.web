@@ -37,11 +37,13 @@ export interface AchieveByMonth {
         totalKpi: number[];
         criticalKpi: number[];
     };
+    xaxis: string[];
 }
 
 export interface AchieveByBU {
     data: number[];
     categories: string[];
+    xaxis: string[];
 }
 
 export interface AchieveChart {
@@ -68,6 +70,7 @@ export interface AchieveAndTrendGroupByKpiTypeChart {
 
 export interface AchieveByMonthChart {
     series: ApexAxisChartSeries;
+    xaxis: ApexXAxis;
 }
 
 export interface AchieveByBUChart {

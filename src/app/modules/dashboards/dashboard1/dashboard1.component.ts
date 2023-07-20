@@ -298,9 +298,12 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
         ]
       },
       yaxis: {
-        title: {
-          text: '%'
-        }
+        max: 100,
+        min: 0,
+        tickAmount: 10,
+        // title: {
+        //   text: '%'
+        // }
       },
       fill: {
         opacity: 1
@@ -327,7 +330,7 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
       dataLabels: {
         enabled: false
       },
-      xaxis: {}
+      xaxis: { }
     };
   }
 
@@ -433,7 +436,8 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
           data: res.achieveByMonth.data.criticalKpi,
           color: '#06B050'
         }
-      ]
+      ],
+      xaxis: { categories: res.achieveByMonth.xaxis, max: 100}
     };
 
     this.achieveByBUChart = {
@@ -444,7 +448,9 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
           color: '#5A9BD5'
         }
       ],
-      xaxis: { ...this.barChart2Options.xaxis, categories: res.achieveByBU.categories }
+      xaxis: { ...this.barChart2Options.xaxis, categories: res.achieveByBU.categories, max: 100 }
     };
   }
 }
+
+////xaxis: { ...res.achieveByBU.xaxis, categories: res.achieveByBU.categories }
