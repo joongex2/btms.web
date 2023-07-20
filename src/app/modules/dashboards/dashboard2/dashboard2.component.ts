@@ -35,6 +35,7 @@ export type RadarChartOptions = {
   chart: ApexChart;
   title: ApexTitleSubtitle;
   xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
   colors: any[];
 };
 
@@ -82,8 +83,11 @@ export class Dashboard2Component implements OnInit, OnChanges {
         height: 250,
         type: 'radar'
       },
-      xaxis: {
-        categories: ['Productivity', 'Quality', 'Food Safety', 'Cost', 'Delivery', 'Morale', 'Safety', 'Environment']
+      yaxis: { 
+        min: 0, 
+        max: 100,
+        tickAmount: 5,
+        decimalsInFloat: 0
       },
       colors: ['#A7FF9B']
     };
@@ -246,7 +250,7 @@ export class Dashboard2Component implements OnInit, OnChanges {
         data: {
           radar: {
             series: [{ data: data.data.radar.data }],
-            xaxis: { categories: data.data.radar.categories }
+            xaxis: { ...this.radarChartOptions.xaxis, categories: data.data.radar.categories }
           },
           barchart: {
             series: [

@@ -26,6 +26,7 @@ export type RadarChartOptions = {
   chart: ApexChart;
   title: ApexTitleSubtitle;
   xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
   colors: any[];
 };
 
@@ -71,6 +72,13 @@ export class Dashboard3Component implements OnInit, OnChanges {
       },
       xaxis: {
         categories: ['Productivity', 'Quality', 'Food', 'Cost', 'Delivery', 'Morale', 'Safety', 'Environment']
+      },
+      yaxis: { 
+        labels: {
+          formatter: function(val) {
+            return val.toFixed(2);
+          }
+        }
       },
       colors: ['#32CD32', '#FF0000']
     };
