@@ -27,7 +27,7 @@
 
 table {
   // width: 100%;
-  // table-layout: fixed;
+  table-layout: fixed;
   // min-width: 800px;
   width: max-content;
 }
@@ -136,41 +136,29 @@ $months: jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec;
     width: 150px;
   }
   
-  .#{$base-class}-#{$month}Cause {
+  .#{$base-class}-#{$month}CauseTopic {
+    width: 200px;
+  }
+  
+  .#{$base-class}-#{$month}SolutionType {
     width: 100px;
   }
   
-  .#{$base-class}-#{$month}Corrective {
-    width: 100px;
-  }
-  
-  .#{$base-class}-#{$month}CorrectiveDueDate {
+  .#{$base-class}-#{$month}SolutionTopic {
     width: 200px;
   }
   
-  .#{$base-class}-#{$month}CorrectiveActual {
-    width: 200px;
+  .#{$base-class}-#{$month}SolutionDueDate {
+    width: 150px;
   }
   
-  .#{$base-class}-#{$month}CorrectiveActualDate {
-    width: 200px;
+  .#{$base-class}-#{$month}SolutionActual {
+    width: 120px;
   }
 
-  .#{$base-class}-#{$month}Preventive {
-    width: 100px;
+  .#{$base-class}-#{$month}SolutionActualDate {
+    width: 150px;
   }
-
-  .#{$base-class}-#{$month}PreventiveDueDate {
-    width: 200px;
-  }
-  
-  .#{$base-class}-#{$month}PreventiveActual {
-    width: 200px;
-  }
-  
-  .#{$base-class}-#{$month}PreventiveActualDate {
-    width: 200px;
-  } 
 }
 
 :host ::ng-deep .mat-form-field-wrapper {

@@ -219,6 +219,7 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     const documentParams = this.getDocumentParams();
     this.loadDocuments(1, this.paginator.pageSize, this.sort.active, this.sort.direction, documentParams);
     this.addQueryParam({ page: undefined, ...documentParams });
+    this.selection.clear();
   }
 
   clear() {
