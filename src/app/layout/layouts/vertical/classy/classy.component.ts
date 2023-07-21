@@ -82,6 +82,10 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
         setTimeout(() => { this.navigationComponent = this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>('mainNavigation')});
     }
 
+    gotoWelcome() {
+        this._router.navigate(['welcome']);
+    }
+
     /**
      * On destroy
      */
