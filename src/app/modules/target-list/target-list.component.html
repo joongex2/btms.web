@@ -154,7 +154,7 @@
                             <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
                                 <ng-container *ngIf="notSortColumn.includes(key)">
                                     <ng-container *ngIf="key !== 'radio'">
-                                        <th mat-header-cell *matHeaderCellDef [ngClass]="{ 'text-center' : ['detail', 'modifyNo', 'revisionNo'].includes(key) }">{{ keyToColumnName[key] }}</th>
+                                        <th mat-header-cell *matHeaderCellDef [ngClass]="{ 'text-center' : ['detail'].includes(key) }">{{ keyToColumnName[key] }}</th>
                                     </ng-container>
                                     <ng-container *ngIf="key === 'radio'">
                                         <th mat-header-cell *matHeaderCellDef >
@@ -168,7 +168,7 @@
                                     </ng-container>
                                 </ng-container>
                                 <ng-container *ngIf="!notSortColumn.includes(key)">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ keyToColumnName[key] }}</th>
+                                    <th mat-header-cell *matHeaderCellDef [ngClass]="{ 'text-center' : ['revisionNo', 'modifyNo'].includes(key) }" mat-sort-header>{{ keyToColumnName[key] }}</th>
                                 </ng-container>
                                 <td mat-cell *matCellDef="let element; let i = dataIndex" [ngClass]="{ 'text-center' : ['modifyNo', 'revisionNo'].includes(key), 'pr-4': ['modifyNo', 'revisionNo'].includes(key) }">
                                     <ng-container *ngIf="key === 'radio'">
@@ -200,17 +200,17 @@
                                     </ng-container>
                                     <ng-container *ngIf="key === 'detail'">
                                         <ng-container *ngIf="fromUrl==='my-target'">
-                                            <a class="flex items-center" [routerLink]="'/target-info/my-target/'+element.id">
+                                            <a class="flex justify-center items-center" [routerLink]="'/target-info/my-target/'+element.id">
                                                 <mat-icon svgIcon="heroicons_solid:menu" class="text-primary icon-size-4 cursor-pointer"></mat-icon>
                                             </a>
                                         </ng-container>
                                         <ng-container *ngIf="fromUrl==='target-entry'">
-                                            <a class="flex items-center" [routerLink]="'/target-result/target-entry/'+element.id">
+                                            <a class="flex justify-center items-center" [routerLink]="'/target-result/target-entry/'+element.id">
                                                 <mat-icon svgIcon="heroicons_solid:menu" class="text-primary icon-size-4 cursor-pointer"></mat-icon>
                                             </a>
                                         </ng-container>
                                         <ng-container *ngIf="fromUrl==='result-info'">
-                                            <a class="flex items-center" [routerLink]="'/target-result/result-info/'+element.id">
+                                            <a class="flex justify-center items-center" [routerLink]="'/target-result/result-info/'+element.id">
                                                 <mat-icon svgIcon="heroicons_solid:menu" class="text-primary icon-size-4 cursor-pointer"></mat-icon>
                                             </a>
                                         </ng-container>

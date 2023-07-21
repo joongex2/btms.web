@@ -93,3 +93,8 @@ input[type=number] {
 th.mat-column-expandIcon mat-icon {
     margin-top: 5px;
 }
+
+th.text-center .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+}
