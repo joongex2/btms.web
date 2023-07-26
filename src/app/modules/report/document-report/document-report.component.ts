@@ -24,7 +24,7 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatExpansionPanel) matExpansionPanel: MatExpansionPanel;
-  defaultPageSize = 20;
+  defaultPageSize = 10;
   resultsLength = 0;
   documents: Document[];
   fromUrl: string; // my-target/ target-entry/ result-info
@@ -340,11 +340,12 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
       ));
       if (_documents.itemsCount === 0) return;
       const getReportActualsPromises: Promise<any>[] = [];
-      for (let i = 1; i <= Math.ceil(_documents.itemsCount / this.paginator.pageSize); i++) {
+      const itemsPerApi = 20;
+      for (let i = 1; i <= Math.ceil(_documents.itemsCount / itemsPerApi); i++) {
         getReportActualsPromises.push(
           firstValueFrom(this._reportService.getReportActuals(
             i,
-            this.paginator.pageSize,
+            itemsPerApi,
             this.sort.active,
             this.sort.direction,
             jobApplicantParams
