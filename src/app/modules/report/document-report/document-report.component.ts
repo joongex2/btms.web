@@ -24,7 +24,7 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatExpansionPanel) matExpansionPanel: MatExpansionPanel;
-  defaultPageSize = 10;
+  defaultPageSize = 20;
   resultsLength = 0;
   documents: Document[];
   fromUrl: string; // my-target/ target-entry/ result-info
@@ -329,17 +329,45 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     let reportActuals: any[] = [];
     if (this.isAllSelected()) {
       const jobApplicantParams = this.getDocumentParams();
-      // fire api
+
+      //// tuning api
       const _documents = await firstValueFrom(this._reportService.getReportActuals(
         this.paginator.pageIndex + 1,
-        -1,
+        this.paginator.pageSize,
         this.sort.active,
         this.sort.direction,
         jobApplicantParams
       ));
-      documents = _documents?.model;
-      const ids = documents.map(v => v.id);
-      reportActuals = (await firstValueFrom(this._reportService.getReportActualsExcel(ids))).model;
+      if (_documents.itemsCount === 0) return;
+      const getReportActualsPromises: Promise<any>[] = [];
+      for (let i = 1; i <= Math.ceil(_documents.itemsCount / this.paginator.pageSize); i++) {
+        getReportActualsPromises.push(
+          firstValueFrom(this._reportService.getReportActuals(
+            i,
+            this.paginator.pageSize,
+            this.sort.active,
+            this.sort.direction,
+            jobApplicantParams
+          )))
+      }
+      const res = (await Promise.all(getReportActualsPromises)).map(v => v.model);
+      let flattenExcel = [];
+      for (var i = 0; i < res.length; i++) {
+        flattenExcel = flattenExcel.concat(res[i]);
+      }
+      reportActuals = flattenExcel;
+
+      //// old fire api
+      // const _documents = await firstValueFrom(this._reportService.getReportActuals(
+      //   this.paginator.pageIndex + 1,
+      //   -1,
+      //   this.sort.active,
+      //   this.sort.direction,
+      //   jobApplicantParams
+      // ));
+      // documents = _documents?.model;
+      // const ids = documents.map(v => v.id);
+      // reportActuals = (await firstValueFrom(this._reportService.getReportActualsExcel(ids))).model;
     } else {
       // use selection
       documents = this.selection.selected;
