@@ -1,4 +1,4 @@
-import { ApexAxisChartSeries, ApexDataLabels, ApexNonAxisChartSeries, ApexXAxis } from 'ng-apexcharts';
+import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexXAxis } from 'ng-apexcharts';
 
 // dashboard 1
 export interface QualityManagementPerformance {
@@ -12,10 +12,12 @@ export interface Achieve {
     totalKpi: {
         percent: number;
         amount: number;
+        achieve: number;
     };
     criticalKpi: {
         percent: number;
         amount: number;
+        achieve: number;
     };
 }
 

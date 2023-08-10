@@ -3,18 +3,21 @@
         <div class="text-2xl font-semibold">Quality Management Performance</div>
     </div>
     <div class="col-span-6 shadow row1">
-        <div class="header-bg text-xl">% Achieve</div>
-        <div class="grid grid-cols-2" style="height: calc(100% - 21px);">
-            <div class="total-kpi-header">
-                <div class="text-center leading-6">
-                    <span class="text-2xl font-bold">Total KPI {{achieveChart?.totalKpi.percent}}%</span><br>
-                    <span class="text-xl font-semibold">{{achieveChart?.totalKpi.amount}} KPI</span>
+        <div class="grid grid-cols-2 h-full">
+            <div class="h-full">
+                <div class="header-bg text-2xl font-bold">Total KPI {{achieveChart?.totalKpi.amount}}</div>
+                <div class="text-center leading-6 total-kpi-header" style="height: calc(100% - 30px);">
+                    <span class="text-base font-medium">% Achieve</span>
+                    <span class="text-2xl font-bold">{{achieveChart?.totalKpi.percent}}%</span>
+                    <span class="text-lg font-semibold">({{achieveChart?.totalKpi.achieve}})</span>
                 </div>
             </div>
-            <div class="critical-kpi-header">
-                <div class="text-center leading-6">
-                    <span class="text-2xl font-bold">Critical KPI {{achieveChart?.criticalKpi.percent}}%</span><br>
-                    <span class="text-xl font-semibold">{{achieveChart?.criticalKpi.amount}} KPI</span>
+            <div class="h-full">
+                <div class="header-bg text-2xl font-bold">Critical KPI {{achieveChart?.totalKpi.amount}}</div>
+                <div class="text-center leading-6 critical-kpi-header" style="height: calc(100% - 30px);">
+                    <span class="text-base font-medium">% Achieve</span>
+                    <span class="text-2xl font-bold"> {{achieveChart?.criticalKpi.percent}}%</span>
+                    <span class="text-lg font-semibold">({{achieveChart?.criticalKpi.achieve}})</span>
                 </div>
             </div>
         </div>

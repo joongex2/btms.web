@@ -12,7 +12,6 @@ $critical-kpi-color: rgb(6, 176, 80);
 
 .header-bg {
   background-color: $header-color;
-  font-weight: 400;
   text-align: center;
 }
 
@@ -36,6 +35,7 @@ $critical-kpi-color: rgb(6, 176, 80);
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   background-color: $total-kpi-color;
 }
 
@@ -43,6 +43,7 @@ $critical-kpi-color: rgb(6, 176, 80);
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   background-color: $critical-kpi-color;
 }
 
