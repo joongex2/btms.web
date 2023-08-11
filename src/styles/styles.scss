@@ -7,6 +7,9 @@
 
 * {
     font-family: 'Prompt', sans-serif;
+}
+
+*:not(.apexcharts-xaxis *):not(.mat-menu-item) {
     font-weight: 300;
 }
 

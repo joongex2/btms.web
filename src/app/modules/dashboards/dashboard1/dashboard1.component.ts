@@ -261,7 +261,10 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
         }
       },
       dataLabels: {
-        enabled: false
+        enabled: true,
+        style: {
+          colors: ['#000']
+        }
       },
       stroke: {
         show: true,
@@ -315,7 +318,10 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
         }
       },
       dataLabels: {
-        enabled: false
+        enabled: true,
+        style: {
+          colors: ['#000']
+        }
       },
       xaxis: {}
     };

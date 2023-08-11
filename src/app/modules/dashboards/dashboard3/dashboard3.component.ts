@@ -28,6 +28,7 @@ export type RadarChartOptions = {
   xaxis: ApexXAxis;
   yaxis: ApexYAxis;
   colors: any[];
+  dataLabels: ApexDataLabels;
 };
 
 @Component({
@@ -73,14 +74,24 @@ export class Dashboard3Component implements OnInit, OnChanges {
       xaxis: {
         categories: ['Productivity', 'Quality', 'Food', 'Cost', 'Delivery', 'Morale', 'Safety', 'Environment']
       },
-      yaxis: { 
+      yaxis: {
         labels: {
-          formatter: function(val) {
+          formatter: function (val) {
             return val.toFixed(2);
           }
         }
       },
-      colors: ['#32CD32', '#FF0000']
+      colors: ['#32CD32', '#FF0000'],
+      dataLabels: {
+        enabled: true,
+        style: {
+          fontSize: '8px',
+          colors: ['#000']
+        },
+        background: {
+          enabled: false
+        }
+      }
     };
 
     this.barChartOptions = {
@@ -103,7 +114,10 @@ export class Dashboard3Component implements OnInit, OnChanges {
         }
       },
       dataLabels: {
-        enabled: false
+        enabled: true,
+        style: {
+          colors: ['#000']
+        }
       },
       stroke: {
         show: true,
@@ -143,7 +157,10 @@ export class Dashboard3Component implements OnInit, OnChanges {
         }
       },
       dataLabels: {
-        enabled: false
+        enabled: true,
+        style: {
+          colors: ['#000']
+        }
       },
       stroke: {
         show: true,
@@ -226,7 +243,7 @@ export class Dashboard3Component implements OnInit, OnChanges {
         data: {
           radar: {
             series: data.data.radar.data,
-            xaxis: { categories: data.data.radar.categories }
+            xaxis: { ...this.radarChartOptions.xaxis, categories: data.data.radar.categories, labels: { show: true, style: { fontSize: '12px', fontWeight: 600, colors: data.data.radar.categories.map(v => '#000') } } }
           },
           totalKpiTable: data.data.totalKpiTable,
           totalKpiBar: {

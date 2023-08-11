@@ -37,6 +37,7 @@ export type RadarChartOptions = {
   xaxis: ApexXAxis;
   yaxis: ApexYAxis;
   colors: any[];
+  dataLabels: ApexDataLabels;
 };
 
 @Component({
@@ -83,13 +84,23 @@ export class Dashboard2Component implements OnInit, OnChanges {
         height: 250,
         type: 'radar'
       },
-      yaxis: { 
-        min: 0, 
+      yaxis: {
+        min: 0,
         max: 100,
         tickAmount: 5,
         decimalsInFloat: 0
       },
-      colors: ['#A7FF9B']
+      colors: ['#A7FF9B'],
+      dataLabels: {
+        enabled: true,
+        style: {
+          fontSize: '8px',
+          colors: ['#000']
+        },
+        background: {
+          enabled: false
+        }
+      }
     };
 
     this.barChartOptions = {
@@ -105,7 +116,10 @@ export class Dashboard2Component implements OnInit, OnChanges {
         }
       },
       dataLabels: {
-        enabled: false
+        enabled: true,
+        style: {
+          colors: ['#000']
+        }
       },
       stroke: {
         show: true,
@@ -250,7 +264,7 @@ export class Dashboard2Component implements OnInit, OnChanges {
         data: {
           radar: {
             series: [{ data: data.data.radar.data }],
-            xaxis: { ...this.radarChartOptions.xaxis, categories: data.data.radar.categories }
+            xaxis: { ...this.radarChartOptions.xaxis, categories: data.data.radar.categories, labels: { show: true, style: { fontSize: '12px', fontWeight: 600, colors: data.data.radar.categories.map(v => '#000') } } }
           },
           barchart: {
             series: [
