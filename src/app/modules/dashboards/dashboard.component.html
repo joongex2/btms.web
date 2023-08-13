@@ -2,7 +2,7 @@
 
     <!-- Header -->
     <div class="bg-card">
-        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+        <div class="flex flex-col w-full px-6 sm:px-8">
             <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-4">
                 <!-- Avatar and name -->
                 <div class="flex flex-auto items-center min-w-0">
@@ -50,8 +50,8 @@
 
     <!-- Main -->
     <div class="flex-auto border-t -mt-px py-4 sm:pt-6">
-        <div class="w-full max-w-screen-xl mx-auto">
-            <div class="sm:px-2">
+        <div class="w-full px-6">
+            <div>
                 <dashboard1 *ngIf="selectedProject === 'Quality Management Performance'" [bus]="bus" [subBus]="subBus" [plants]="plants"></dashboard1>
                 <dashboard2 *ngIf="selectedProject === 'Quality Management Performance By BU'" [bus]="bus" [subBus]="subBus" [plants]="plants"></dashboard2>
                 <dashboard3 *ngIf="selectedProject === 'Action Plan Status'" [bus]="bus" [subBus]="subBus" [plants]="plants"></dashboard3>
