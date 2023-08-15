@@ -163,13 +163,20 @@ export class UserListComponent implements OnInit {
 
       if (data.organizes) {
         for (let org of data.organizes) {
-          if (org.organizeCode == searchString.organization) {
+          if (org.organizeCode == searchString.organization && org.isActive) {
             foundOrg = true;
-          }
-          if (org.roles) {
             for (let role of org.roles) {
-              if (role.roleCode == searchString.role) {
+              if (role.roleCode == searchString.role && role.isActive) {
                 foundRole = true;
+              }
+            }
+          }
+          if (searchString.organization === undefined) {
+            if (org.roles) {
+              for (let role of org.roles) {
+                if (role.roleCode == searchString.role && role.isActive) {
+                  foundRole = true;
+                }
               }
             }
           }
