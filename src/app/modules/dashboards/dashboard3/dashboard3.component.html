@@ -4,9 +4,9 @@
     </div>
     <div class="col-span-12 shadow">
         <div class="flex items-center w-3/4 h-full p-2">
-            <div class="grid grid-cols-12 gap-2 p-1 items-center w-full" [formGroup]="form">
-                <div class="col-span-4">
-                    <mat-form-field class="w-full">
+            <div class="grid grid-cols-4 gap-2 p-1 items-center w-full" [formGroup]="form">
+                <!-- <div class="col-span-4"> -->
+                    <!-- <mat-form-field class="w-full">
                         <mat-label>Date Update</mat-label>
                         <input
                             matInput
@@ -36,9 +36,23 @@
                         <mat-error *ngIf="form.get('dateUpdate').errors?.['matDatetimePickerMin']">
                             ไม่สามารถเลือกวันที่ย้อนหลังได้
                         </mat-error>
+                    </mat-form-field> -->
+                    <mat-form-field>
+                        <mat-label>Year</mat-label>
+                        <mat-select [formControlName]="'year'" placeholder="select year">
+                            <mat-option *ngFor="let year of years" [value]="year.value">{{year.title}}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
-                </div>
-                <div class="col-span-4">
+                    <mat-form-field>
+                        <mat-label>Month</mat-label>
+                        <mat-select [formControlName]="'month'" placeholder="select month">
+                            <mat-option *ngFor="let month of months" [value]="month.value">{{month.title}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                <!-- </div> -->
+                <!-- <div class="col-span-4"> -->
                     <multi-select-dropdown-form
                         [label]="'Business Unit'"
                         [name]="'bus'"
@@ -48,8 +62,8 @@
                         (selectedChange)="selectedBusChange()"  
                     >
                     </multi-select-dropdown-form>
-                </div>
-                <div class="col-span-4">
+                <!-- </div>
+                <div class="col-span-4"> -->
                     <multi-select-dropdown-form
                         [label]="'Plant'"
                         [name]="'plants'"
@@ -58,7 +72,7 @@
                         [itemsShowLimit]="1"    
                     >
                     </multi-select-dropdown-form>
-                </div>
+                <!-- </div> -->
             </div>
             <div class="flex items-center justify-center">
                 <mat-icon class="cursor-pointer icon-size-7" [svgIcon]="'heroicons_solid:arrow-path'" (click)="refresh()"></mat-icon>

@@ -340,7 +340,7 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
       ));
       if (_documents.itemsCount === 0) return;
       const getReportActualsPromises: Promise<any>[] = [];
-      const itemsPerApi = 20;
+      const itemsPerApi = 500;
       for (let i = 1; i <= Math.ceil(_documents.itemsCount / itemsPerApi); i++) {
         getReportActualsPromises.push(
           firstValueFrom(this._reportService.getReportActuals(

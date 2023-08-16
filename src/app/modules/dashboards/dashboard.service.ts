@@ -69,11 +69,13 @@ export class DashboardService {
         return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Dashboard/Quality-Management-Performance-by-BusinessUnit${queryString}`)).pipe(map(data => data.model));
     }
 
-    actionPlanStatus(bus: string[], plants: string[]): Observable<ActionPlanStatus[]> {
+    actionPlanStatus(year: number, month: number,bus: string[], plants: string[]): Observable<ActionPlanStatus[]> {
+        const _year = `year=${year}`;
+        const _month = `month=${month}`;
         const _bus = bus && bus.length > 0 ? `businessUnits=${encodeURIComponent(bus.join('|'))}` : '';
         const _plants = plants && plants.length > 0 ? `plants=${encodeURIComponent(plants.join('|'))}` : '';
 
-        const queryParams = [_bus, _plants].filter((q) => q != '');
+        const queryParams = [_year, _month,_bus, _plants].filter((q) => q != '');
         let queryString = queryParams.filter((q) => q != '').join('&');
         if (queryString) queryString = `?${queryString}`;
 

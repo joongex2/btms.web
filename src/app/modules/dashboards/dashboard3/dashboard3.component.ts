@@ -48,6 +48,21 @@ export class Dashboard3Component implements OnInit, OnChanges {
 
   // bind value
   today: any;
+  years = [];
+  months = [
+    { title: 'Jan', value: 1 },
+    { title: 'Feb', value: 2 },
+    { title: 'Mar', value: 3 },
+    { title: 'Apr', value: 4 },
+    { title: 'May', value: 5 },
+    { title: 'Jun', value: 6 },
+    { title: 'Jul', value: 7 },
+    { title: 'Aug', value: 8 },
+    { title: 'Sep', value: 9 },
+    { title: 'Oct', value: 10 },
+    { title: 'Nov', value: 11 },
+    { title: 'Dec', value: 12 }
+  ];
 
   actionPlanStatusCharts: ActionPlanStatusChart[];
 
@@ -189,8 +204,21 @@ export class Dashboard3Component implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.today = moment();
+    const today = moment();
+    const currentMonth = today.month() + 1;
+    const currentYear = today.year();
+
+    for (let i = 0; i < 10; i++) {
+      this.years.push({ title: (currentYear - i).toString(), value: currentYear - i });
+    }
+    // this.form = this._formBuilder.group({
+    //   dateUpdate: { value: this.today, disabled: true },
+    //   bus: null,
+    //   plants: null
+    // });
     this.form = this._formBuilder.group({
-      dateUpdate: { value: this.today, disabled: true },
+      month: currentMonth,
+      year: currentYear,
       bus: null,
       plants: null
     });
@@ -211,7 +239,9 @@ export class Dashboard3Component implements OnInit, OnChanges {
   refresh(): void {
     const bus = this.form.get('bus').value?.map(v => v.value);
     const plants = this.form.get('plants').value?.map(v => v.value);
-    this._dashboardService.actionPlanStatus(bus, plants).subscribe((v) => {
+    
+    this._dashboardService.actionPlanStatus(this.form.get('year').value,
+    this.form.get('month').value,bus, plants).subscribe((v) => {
       this.parseActionPlanStatus(v);
       this._cdr.detectChanges();
     });
