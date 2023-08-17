@@ -6,7 +6,7 @@ export function getRequireMatchValidator(array: { title: string, value: any }[])
         if (typeof control.value === 'string' &&
             control.value !== '' &&
             array &&
-            (array.length > 0 && array.findIndex(v => v.title === control.value) === -1)
+            (array.length > 0 && array.findIndex(v => [v.title, v.value].includes(control.value)) === -1)
         ) {
             return { requireMatch: true };
         } else {
