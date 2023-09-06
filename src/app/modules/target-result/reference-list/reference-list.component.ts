@@ -54,10 +54,10 @@ export class ReferenceListComponent implements OnInit, AfterViewInit {
     'organizeCode',
     'documentNo',
     'runningNo',
-    'createdDate',
+    'documentDate',
     'targetYear',
     'targetMonth',
-    'targetReferenceStatusName',
+    'targetReferenceStatus',
     'createdBy',
     'detail'
   ];
@@ -67,10 +67,10 @@ export class ReferenceListComponent implements OnInit, AfterViewInit {
     'organizeCode': 'Organize Code',
     'documentNo': 'Document No.',
     'runningNo': 'Running No.',
-    'createdDate': 'Create Date',
+    'documentDate': 'Create Date',
     'targetYear': 'Year',
     'targetMonth': 'Month',
-    'targetReferenceStatusName': 'Status',
+    'targetReferenceStatus': 'Status',
     'createdBy': 'Creator',
     'detail': ''
   };

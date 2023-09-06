@@ -195,7 +195,7 @@
                                             </a>
                                         </ng-container>
                                     </ng-container>
-                                    <ng-container *ngIf="key === 'createDate' || key === 'issueDate'">
+                                    <ng-container *ngIf="key === 'documentDate' || key === 'issuedDate'">
                                         {{ element[key] | date : 'dd/MM/YYYY' }}
                                     </ng-container>
                                     <ng-container *ngIf="key === 'detail'">
@@ -215,7 +215,7 @@
                                             </a>
                                         </ng-container>
                                     </ng-container>
-                                    <ng-container *ngIf="key !== 'documentNo' && key !== 'createDate' && key !== 'issueDate' && key !== 'detail'">{{ element[key] }}</ng-container>
+                                    <ng-container *ngIf="key !== 'documentNo' && key !== 'documentDate' && key !== 'issuedDate' && key !== 'detail'">{{ element[key] }}</ng-container>
                                 </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
