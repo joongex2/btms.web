@@ -157,10 +157,16 @@ table tr:not(.mat-header-row):hover {
 
 .bg-archive {
     background-color: rgb(55, 126, 34) !important;
+    .target-actual-value {
+        color: white;
+    }
 }
 
 .bg-unarchive-red {
     background-color: rgb(233,108,102) !important;
+    .target-actual-value {
+        color: white;
+    }
 }
 
 .bg-unarchive-yellow {

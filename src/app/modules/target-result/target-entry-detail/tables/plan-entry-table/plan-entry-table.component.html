@@ -77,7 +77,7 @@
         }"
         (click)="saveTargetEntry(element, colIndex+1)"
         >
-            <div class="text-xs target-actual-value text-white"
+            <div class="text-xs target-actual-value"
                 [matTooltip]="(getActual(element, colIndex+1)?.targetActualValue | number : '1.0-4')"
                 [matTooltipDisabled]="!getActual(element, colIndex+1)?.targetActualValue && getActual(element, colIndex+1)?.targetActualValue !== 0"
                 *ngIf="subTarget?.measureType === '1' && isDisplay(element, colIndex+1)">
