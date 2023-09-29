@@ -160,7 +160,7 @@ export class Dashboard2Component implements OnInit, OnChanges {
     this.barChart2Options = {
       chart: {
         type: 'bar',
-        height: 300
+        height: 400
       },
       plotOptions: {
         bar: {
@@ -300,5 +300,6 @@ export class Dashboard2Component implements OnInit, OnChanges {
       };
       this.qualityManagementPerformanceByBuCharts.push(qualityManagementPerformanceByBuChart);
     }
+    this.radarChartOptions.chart.height = this.qualityManagementPerformanceByBuCharts.length > 3 ? 250 : 'auto'
   }
 }

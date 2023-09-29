@@ -297,5 +297,6 @@ export class Dashboard3Component implements OnInit, OnChanges {
       };
       this.actionPlanStatusCharts.push(actionPlanStatusChart);
     }
+    this.radarChartOptions.chart.height = this.actionPlanStatusCharts.length > 3 ? 250 : 'auto'
   }
 }
