@@ -160,7 +160,7 @@ export class Dashboard2Component implements OnInit, OnChanges {
     this.barChart2Options = {
       chart: {
         type: 'bar',
-        height: 550
+        height: 'auto'
       },
       plotOptions: {
         bar: {
