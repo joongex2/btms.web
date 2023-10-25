@@ -62,7 +62,7 @@ export class TargetListComponent implements OnInit, AfterViewInit {
     'documentDate',
     'issuedDate',
     'documentYear',
-    'documentStatus',
+    'documentStatusName',
     'creator',
     'detail'
   ];
@@ -76,7 +76,7 @@ export class TargetListComponent implements OnInit, AfterViewInit {
     'documentDate': 'Created Date',
     'issuedDate': 'Issued Date',
     'documentYear': 'Year',
-    'documentStatus': 'Status',
+    'documentStatusName': 'Status',
     'creator': 'Creator',
     'detail': ''
   };

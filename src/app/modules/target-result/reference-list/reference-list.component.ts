@@ -57,7 +57,7 @@ export class ReferenceListComponent implements OnInit, AfterViewInit {
     'documentDate',
     'targetYear',
     'targetMonth',
-    'targetReferenceStatus',
+    'targetReferenceStatusName',
     'createdBy',
     'detail'
   ];
@@ -70,7 +70,7 @@ export class ReferenceListComponent implements OnInit, AfterViewInit {
     'documentDate': 'Create Date',
     'targetYear': 'Year',
     'targetMonth': 'Month',
-    'targetReferenceStatus': 'Status',
+    'targetReferenceStatusName': 'Status',
     'createdBy': 'Creator',
     'detail': ''
   };
@@ -222,6 +222,7 @@ export class ReferenceListComponent implements OnInit, AfterViewInit {
     this._targetResultService.getReferences(page, size, sort, order, params).subscribe({
       next: (v) => {
         this.references = v.model;
+        console.log(this.references)
         this.paginator.pageIndex = v.pageNumber - 1;
         this.paginator.pageSize = v.pageSize;
         this.resultsLength = v.itemsCount;
