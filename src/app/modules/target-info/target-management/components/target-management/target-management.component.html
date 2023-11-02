@@ -155,8 +155,8 @@
                             <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? (document.documentDate | date : 'dd/MM/YYYY') : ''}}</span></div>     
                             <div class="col-span-6 sm:col-span-2 font-medium">Creator</div>
                             <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.userHolder : ''}}</span></div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Date Due</div>
-                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? (document.dueDate | date : 'dd/MM/YYYY')  : ''}}</span></div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Date Issued</div>
+                            <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? (document.issuedDate | date : 'dd/MM/YYYY')  : ''}}</span></div>
                             <div id="errorMessage" style="height: 0"></div>
                             <fuse-alert class="col-span-12 sm:col-start-1" *ngIf="isShowError()" [appearance]="'outline'" [showIcon]="false"
                                 [type]="alert.type" [@shake]="alert.type === 'error'">

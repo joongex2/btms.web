@@ -27,7 +27,7 @@
                 <ng-container matColumnDef="documentStatus">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
                     <td mat-cell *matCellDef="let element">
-                        {{element.documentStatus}}
+                        {{element.documentStatus ?? element.targetActualStatus}}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="comment">
