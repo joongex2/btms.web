@@ -20,21 +20,16 @@ import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { SharedModule } from 'app/shared/shared.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { DashboardComponent } from './dashboard.component';
-import { dashboardRoutes } from './dashboard.routing';
-// import { Dashboard1Component } from './dashboard1/dashboard1.component';
-// import { Dashboard2Component } from './dashboard2/dashboard2.component';
-// import { Dashboard3Component } from './dashboard3/dashboard3.component';
+import { Dashboard2Component } from './dashboard2.component';
+import { dashboard2Routes } from './dashboard2.routing';
+
 
 @NgModule({
   declarations: [
-    DashboardComponent,
-    // Dashboard1Component,
-    // Dashboard2Component,
-    // Dashboard3Component
+    Dashboard2Component
   ],
   imports: [
-    RouterModule.forChild(dashboardRoutes),
+    RouterModule.forChild(dashboard2Routes),
     MatInputModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -59,4 +54,4 @@ import { dashboardRoutes } from './dashboard.routing';
   ],
 
 })
-export class DashboardModule { }
+export class Dashboard2Module { }

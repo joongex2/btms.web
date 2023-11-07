@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from 'ng-apexcharts';
 import { QualityManagementPerformanceByBu, QualityManagementPerformanceByBuChart } from '../dashboard.interfaces';
 import { DashboardService } from '../dashboard.service';
+import { ActivatedRoute } from '@angular/router';
 
 export type BarChartOptions = {
   series: ApexAxisChartSeries;
@@ -77,7 +78,8 @@ export class Dashboard2Component implements OnInit, OnChanges {
   constructor(
     private _formBuilder: FormBuilder,
     private _dashboardService: DashboardService,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
+    private _activatedRoute: ActivatedRoute
   ) {
     this.radarChartOptions = {
       chart: {
@@ -204,6 +206,11 @@ export class Dashboard2Component implements OnInit, OnChanges {
     for (let i = 0; i < 10; i++) {
       this.years.push({ title: (currentYear - i).toString(), value: currentYear - i });
     }
+
+    this.bus = this._activatedRoute.snapshot.data.bus;
+    this.subBus = this._activatedRoute.snapshot.data.subBus;
+    this.plants = this._activatedRoute.snapshot.data.plants;
+
     this.form = this._formBuilder.group({
       month: currentMonth,
       year: currentYear,

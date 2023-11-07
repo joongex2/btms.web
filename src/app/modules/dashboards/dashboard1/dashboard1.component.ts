@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexNonAxisChartSeries, ApexPlotOptions, ApexResponsive, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from 'ng-apexcharts';
 import { AchieveAndTrendGroupByKpiTypeChart, AchieveByBUChart, AchieveByMonthChart, AchieveChart, QualityManagementPerformance } from '../dashboard.interfaces';
@@ -130,7 +130,8 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
     private _formBuilder: FormBuilder,
     private _dashboardService: DashboardService,
     private _router: Router,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
+    private _activatedRoute: ActivatedRoute
   ) {
     this.gaugeChartOptions = {
       chart: {
@@ -340,6 +341,11 @@ export class Dashboard1Component implements OnInit, OnChanges, OnDestroy {
     for (let i = 0; i < 10; i++) {
       this.years.push({ title: (currentYear - i).toString(), value: currentYear - i });
     }
+
+    this.bus = this._activatedRoute.snapshot.data.bus;
+    this.subBus = this._activatedRoute.snapshot.data.subBus;
+    this.plants = this._activatedRoute.snapshot.data.plants;
+    
     this.form = this._formBuilder.group({
       month: currentMonth,
       year: currentYear,

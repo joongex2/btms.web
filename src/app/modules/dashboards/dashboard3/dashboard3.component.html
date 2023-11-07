@@ -1,3 +1,58 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="bg-card">
+        <div class="flex flex-col w-full px-6 sm:px-8">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-4">
+                <!-- Avatar and name -->
+                <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex  min-w-0 ml-4">
+                        <ng-container *transloco="let t">
+                            <div class="text-3xl font-normal text-primary tracking-tight leading-8">Dashboard</div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <!-- Project selector -->
+            <!-- <div
+                class="relative flex self-start pt-2 pb-1 pl-5 pr-4 cursor-pointer overflow-hidden rounded-t-xl border border-b-0 bg-default"
+                matRipple
+                [matMenuTriggerFor]="projectsMenu">
+                <div class="flex items-center">
+                    <div class="overflow-hidden">
+                        <div class="font-medium leading-6 truncate">Quality Management Performance</div>
+                    </div>
+                    <div class="flex items-center justify-center pl-2">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:chevron-down'"></mat-icon>
+                    </div>
+                </div>
+                <mat-menu
+                    #projectsMenu="matMenu"
+                    [xPosition]="'before'">
+                    <button
+                        mat-menu-item
+                        (click)="selectedProject='Quality Management Performance'">Quality Management Performance
+                    </button>
+                    <button
+                        mat-menu-item
+                        (click)="selectedProject='Quality Management Performance By BU'">Quality Management Performance By BU
+                    </button>
+                    <button
+                        mat-menu-item
+                        (click)="selectedProject='Action Plan Status'">Action Plan Status
+                    </button>
+                </mat-menu>
+            </div> -->
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto border-t -mt-px py-4 sm:pt-6">
+        <div class="w-full px-6">
+            <div>
+
 <div class="grid grid-cols-12 gap-3 w-full min-w-0">
     <div class="col-span-12 shadow top-header">
         <div class="text-2xl font-semibold">Action Plan Status</div>
@@ -169,4 +224,9 @@
             </div>
         </div>
     </div>
+</div>
+
+</div>
+</div>
+</div>
 </div>

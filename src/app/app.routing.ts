@@ -81,7 +81,9 @@ export const appRoutes: Route[] = [
             },
             {
                 path: 'dashboards', children: [
-                    { path: 'dashboard1', loadChildren: () => import('app/modules/dashboards/dashboard.module').then(m => m.DashboardModule) }
+                    { path: 'dashboard1', loadChildren: () => import('app/modules/dashboards/dashboard1/dashboard1.module').then(m => m.Dashboard1Module) },
+                    { path: 'dashboard2', loadChildren: () => import('app/modules/dashboards/dashboard2/dashboard2.module').then(m => m.Dashboard2Module) },
+                    { path: 'dashboard3', loadChildren: () => import('app/modules/dashboards/dashboard3/dashboard3.module').then(m => m.Dashboard3Module) }
                 ]
             },
             {
