@@ -32,7 +32,8 @@
         <ng-container matColumnDef="originalFilename">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>ชื่อไฟล์</th>
             <td mat-cell *matCellDef="let element">
-                <a class="text-blue-500 underline" href="{{element.fileUrl | baseUrl}}" target="_blank" rel="noopener noreferrer">{{ element.originalFilename || (element.fileUrl|baseUrl) }}</a>
+                <!-- <a class="text-blue-500 underline" href="{{element.fileUrl | baseUrl}}" target="_blank" rel="noopener noreferrer">{{ element.originalFilename || (element.fileUrl|baseUrl) }}</a> -->
+                <a class="text-blue-500 underline cursor-pointer" (click)="viewFile(element.fileUrl)" target="_blank" rel="noopener noreferrer">{{ element.originalFilename || (element.fileUrl|baseUrl) }}</a>
             </td>
         </ng-container>
         <ng-container matColumnDef="createdBy">

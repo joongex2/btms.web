@@ -67,6 +67,15 @@ export class FileUploadTableComponent implements OnInit {
     this.dataSource.data = this.attachments;
   }
 
+  viewFile(filename: string)
+  {
+    // console.log(filename)
+    this._fileService.loadFile(filename).subscribe(res => {
+      const fileURL = URL.createObjectURL(res);
+      window.open(fileURL, '_blank');
+    });
+  }
+
   deleteAttachment(attachment: Attachment, index: number): void {
     if (attachment.id === 0) {
       const filePath = attachment.fileUrl.split('/');
