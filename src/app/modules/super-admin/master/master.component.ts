@@ -42,6 +42,7 @@ export class MasterComponent implements OnInit {
     'type',
     'code',
     'name',
+    'displaySequence',
     'isActive',
     'editDeleteIcon'
   ];
@@ -51,6 +52,7 @@ export class MasterComponent implements OnInit {
     'type': 'Type',
     'code': 'Code',
     'name': 'Name',
+    'displaySequence': 'Sequence',
     'isActive': 'Status',
     'editDeleteIcon': ''
   };

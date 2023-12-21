@@ -102,12 +102,13 @@ export const appRoutes: Route[] = [
             },
             {
                 path: 'report', children: [
-                    { path: 'export-report', loadChildren: () => import('app/modules/report/export-report/export-report.module').then(m => m.ExportReportModule) },
                     { path: 'document-report', loadChildren: () => import('app/modules/report/document-report/document-report.module').then(m => m.DocumentReportModule) },
-                    { path: 'standard-form', loadChildren: () => import('app/modules/report/standard-form/standard-form.module').then(m => m.StandardFormModule) },
-                    { path: 'annual-report', loadChildren: () => import('app/modules/report/annual-report/annual-report.module').then(m => m.AnnualReportModule) },
-                    { path: 'target-track', loadChildren: () => import('app/modules/report/target-track/target-track.module').then(m => m.TargetTrackModule) },
-                    { path: 'save-cause-track', loadChildren: () => import('app/modules/report/save-cause-track/save-cause-track.module').then(m => m.SaveCauseTrackModule) },
+                    { path: 'actual-report', loadChildren: () => import('app/modules/report/actual-report/actual-report.module').then(m => m.ActualReportModule) },
+                    { path: 'reference-report', loadChildren: () => import('app/modules/report/reference-report/reference-report.module').then(m => m.ReferenceReportModule) },
+                    // { path: 'standard-form', loadChildren: () => import('app/modules/report/standard-form/standard-form.module').then(m => m.StandardFormModule) },
+                    // { path: 'annual-report', loadChildren: () => import('app/modules/report/annual-report/annual-report.module').then(m => m.AnnualReportModule) },
+                    // { path: 'target-track', loadChildren: () => import('app/modules/report/target-track/target-track.module').then(m => m.TargetTrackModule) },
+                    // { path: 'save-cause-track', loadChildren: () => import('app/modules/report/save-cause-track/save-cause-track.module').then(m => m.SaveCauseTrackModule) },
                 ]
             },
             {

@@ -55,39 +55,79 @@ table {
 
 /* column width */
 .mat-column-checkbox {
-  width: 7.5%;
+  width: 50px;
 }
-
-.mat-column-organizeCode {
-  width: 17.5%;
-}
-
 .mat-column-documentNo {
-  width: 15%;
+  width: 170px;
 }
-
-.mat-column-revisionNo {
-  width: 8%;
+.mat-column-runningNo {
+  width: 170px;
 }
-
-.mat-column-createDate {
-  width: 10%;
+.mat-column-targetRunning {
+  width: 130px;
 }
-
-.mat-column-issueDate {
-  width: 10%;
+.mat-column-targetDetailDescription {
+  width: 300px;
 }
-
-.mat-column-documentYear {
-  width: 7.5%;
+.mat-column-targetIndex {
+  width: 150px;
 }
-
-.mat-column-documentStatus {
-  width: 12.5%;
+.mat-column-targetValue {
+  width: 150px;
 }
-
-.mat-column-creator {
-  width: 12%;
+.mat-column-targetUnit {
+  width: 130px;
+}
+.mat-column-targetMonth {
+  width: 120px;
+}
+.mat-column-targetReferenceStatusName {
+  width: 150px;
+}
+.mat-column-result {
+  width: 80px;
+}
+.mat-column-resultValue {
+  width: 120px;
+}
+.mat-column-resultReportor {
+  width: 160px;
+}
+.mat-column-resultApprovedDate {
+  width: 130px;
+}
+.mat-column-caustSequenceNo {
+  width: 80px;
+}
+.mat-column-causeTopic {
+  width: 300px;
+}
+.mat-column-causeDescription {
+  width: 300px;
+}
+.mat-column-causeStatus {
+  width: 120px;
+}
+.mat-column-targetSolutionType {
+  width: 120px;
+}
+.mat-column-solutionSequenceNo {
+  width: 150px;
+}
+.mat-column-solutionTopic {
+  width: 300px;
+}
+.mat-column-finishDate {
+  width: 100px;
+}
+.mat-column-solutionDescription {
+  width: 300px;
+}
+.mat-column-actionDate {
+  width: 120px;
+}
+.mat-column-userResponsibility {
+  width: 200px;
 }
 
 :host ::ng-deep .mat-form-field-wrapper {

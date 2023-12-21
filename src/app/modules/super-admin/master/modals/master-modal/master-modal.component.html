@@ -49,6 +49,15 @@
                 <mat-error>Name is required</mat-error>
             </mat-form-field>
         </div>
+        
+        <div class="col-span-4 font-medium">Display Sequence<span class="text-warn">*</span></div>
+        <div class="col-span-8 flex items-center">
+            <mat-form-field class="flex-auto">
+                <input matInput [formControlName]="'displaySequence'">
+                <div class="copy-fields-toggles" matSuffix></div>
+                <mat-error>Display Sequence is required</mat-error>
+            </mat-form-field>
+        </div>
 
         <ng-container *ngIf="isEdit">
             <div class="col-span-4 font-medium">Status<span class="text-warn">*</span></div>

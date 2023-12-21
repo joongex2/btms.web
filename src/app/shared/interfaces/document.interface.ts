@@ -215,6 +215,29 @@ export class DocumentParams {
     ToMonth?: string;
 }
 
+export class ReferenceReportParams {
+    OrganizeCode?: string;
+    BusinessUnitCode?: string;
+    SubBusinessUnitCode?: string;
+    PlantCode?: string;
+    DivisionCode?: string;
+    DocumentNo?: string;
+    DocumentYear?: string;
+    DocumentStatus?: string;
+    DocumentType?: string;
+    TargetType?: string;
+    ToDocumentYear?: string;
+    SearchText?: string;
+    IsCritical?: string;
+    // save-cause-track
+    ReportStatus?: string;
+    // CauseTrackStatus?: string;
+    // TargetResult?: string;
+    // CauseTrackResult?: string;
+    // FromMonth?: string;
+    // ToMonth?: string;
+}
+
 export interface ConfirmationInfo {
     title: string;
     from: string;

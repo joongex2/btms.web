@@ -6,19 +6,21 @@ import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MasterService } from 'app/modules/super-admin/master/master.service';
 import { getOptionValue } from 'app/shared/helpers/get-option-value';
-import { Document, DocumentParams } from 'app/shared/interfaces/document.interface';
+import { Document } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import * as FileSaver from 'file-saver';
 import { firstValueFrom } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { ReportService } from '../report.service';
+import { ReferenceReportParams } from 'app/shared/interfaces/document.interface';
+import moment from 'moment';
 
 @Component({
-  selector: 'export-report',
-  templateUrl: './export-report.component.html',
-  styleUrls: ['./export-report.component.scss'],
+  selector: 'reference-report',
+  templateUrl: './reference-report.component.html',
+  styleUrls: ['./reference-report.component.scss'],
 })
-export class ExportReportComponent implements OnInit, AfterViewInit {
+export class ReferenceReportComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatExpansionPanel) matExpansionPanel: MatExpansionPanel;
@@ -56,35 +58,67 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
 
   // table setting
   displayedColumns: string[] = [
-    'checkbox',
-    'organizeCode',
+    // 'checkbox',
     'documentNo',
-    'revisionNo',
-    'createDate',
-    'issueDate',
-    'documentYear',
-    'documentStatus',
-    'creator',
+    'runningNo',
+    'targetRunning',
+    'targetDetailDescription',
+    'targetIndex',
+    'targetValue',
+    'targetUnit',
+    'targetMonth',
+    'targetReferenceStatusName',
+    'result',
+    'resultValue',
+    'resultReportor',
+    'resultApprovedDate',
+    'causeSequenceNo',
+    'causeTopic',
+    'causeDescription',
+    'causeStatus',
+    'targetSolutionType',
+    // 'solutionSequenceNo',
+    'solutionTopic',
+    'finishDate',
+    'solutionDescription',
+    'actionDate',
+    'userResponsibility',
     'detail'
   ];
 
   keyToColumnName: any = {
-    'checkbox': '',
-    'organizeCode': 'Organize Code',
-    'documentNo': 'Running',
-    'revisionNo': 'Revision',
-    'createDate': 'Create Date',
-    'issueDate': 'Issued Date',
-    'documentYear': 'Year',
-    'documentStatus': 'Status',
-    'creator': 'Creator',
+    // 'checkbox': '',
+    'documentNo': 'Document No.',
+    'runningNo': 'Reference No.',
+    'targetRunning': 'Target Running',
+    'targetDetailDescription': 'Target Description',
+    'targetIndex': 'TargetIndex',
+    'targetValue': 'Target Value',
+    'targetUnit': 'Target Unit',
+    'targetMonth': 'Target Month',
+    'targetReferenceStatusName': 'Reference Status',
+    'result': 'Result',
+    'resultValue': 'Result Value',
+    'resultReportor': 'Reportor',
+    'resultApprovedDate': 'Approved Date',
+    'causeSequenceNo': 'Sequence No.',
+    'causeTopic': 'Cause Topic',
+    'causeDescription': 'Cause Description',
+    'causeStatus': 'Cause Status',
+    'targetSolutionType': 'Solution Type',
+    // 'solutionSequenceNo': 'Solution Running No.',
+    'solutionTopic': 'Solution Topic',
+    'finishDate': 'Finish Date',
+    'solutionDescription': 'Solution Description',
+    'actionDate': 'Action Date',
+    'userResponsibility': 'User Responsibility',
     'detail': ''
   };
 
   notSortColumn: string[] = [
     'index',
     'detail',
-    'checkbox'
+    // 'checkbox'
   ];
 
   constructor(
@@ -122,8 +156,10 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
     this.selectedPlant = this.plants.find((v) => v.value === params.PlantCode) || '';
     this.selectedDivision = this.divisions.find((v) => v.value === params.DivisionCode) || '';
     this.documentNo = params.DocumentNo || undefined;
-    this.documentYear = params.DocumentYear || undefined;
-    this.toDocumentYear = params.ToDocumentYear || undefined;
+    // this.documentYear = params.DocumentYear || undefined;
+    // this.toDocumentYear = params.ToDocumentYear || undefined;
+    this.documentYear = params.DocumentYear || moment().year();
+    this.toDocumentYear = params.ToDocumentYear || moment().year();
     this.selectedStatus = this.statuses.find((v) => v.value === params.DocumentStatus) || '';
     this.selectedDocumentType = this.documentTypes.find((v) => v.value === params.DocumentType) || '';
     this.selectedTargetType = this.targetTypes.find((v) => v.value === params.TargetType) || '';
@@ -138,27 +174,27 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
     this.matExpansionPanel.closed.subscribe((v) => this.addQueryParam({ expand: undefined }));
 
     this.paginator.page.subscribe((v) => {
-      const jobApplicantParams = this.getDocumentParams();
+      const jobApplicantParams = this.getParams();
       let toggleAll = false;
       if (v.previousPageIndex !== v.pageIndex && this.isAllSelected()) {
         toggleAll = true;
       } else {
         this.selection.clear();
       }
-      this.loadDocuments(v.pageIndex + 1, v.pageSize, this.sort.active, this.sort.direction, jobApplicantParams, toggleAll);
+      this.loadData(v.pageIndex + 1, v.pageSize, this.sort.active, this.sort.direction, jobApplicantParams, toggleAll);
       this.addQueryParam({ page: v.pageIndex + 1, size: v.pageSize });
     });
 
     this.sort.sortChange.subscribe((v) => {
-      const jobApplicantParams = this.getDocumentParams();
-      this.loadDocuments(1, this.paginator.pageSize, this.sort.active, this.sort.direction, jobApplicantParams);
+      const jobApplicantParams = this.getParams();
+      this.loadData(1, this.paginator.pageSize, this.sort.active, this.sort.direction, jobApplicantParams);
       this.addQueryParam({ page: undefined, sort: this.sort.active, order: this.sort.direction });
     });
   }
 
   search() {
-    const documentParams = this.getDocumentParams();
-    this.loadDocuments(1, this.paginator.pageSize, this.sort.active, this.sort.direction, documentParams);
+    const documentParams = this.getParams();
+    this.loadData(1, this.paginator.pageSize, this.sort.active, this.sort.direction, documentParams);
     this.addQueryParam({ page: undefined, ...documentParams });
   }
 
@@ -167,13 +203,13 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
     this.sort.active = undefined;
     this.sort.direction = '';
     this.sort._stateChanges.next(); // fix arrow not disappear
-    this.loadDocuments(1, this.paginator.pageSize, this.sort.active, this.sort.direction, this.getDocumentParams());
-    this.addQueryParam({ page: undefined, sort: undefined, order: undefined, ...this.getClearDocumentParams() });
+    this.loadData(1, this.paginator.pageSize, this.sort.active, this.sort.direction, this.getParams());
+    this.addQueryParam({ page: undefined, sort: undefined, order: undefined, ...this.getClearParams() });
     this.selection.clear();
   }
 
-  getDocumentParams(): DocumentParams {
-    const filter = new DocumentParams();
+  getParams(): ReferenceReportParams {
+    const filter = new ReferenceReportParams();
     filter.OrganizeCode = getOptionValue(this.selectedOrganize);
     filter.BusinessUnitCode = getOptionValue(this.selectedBu);
     filter.SubBusinessUnitCode = getOptionValue(this.selectedSubBu);
@@ -190,8 +226,8 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
     return filter;
   }
 
-  getClearDocumentParams(): DocumentParams {
-    const filter = new DocumentParams();
+  getClearParams(): ReferenceReportParams {
+    const filter = new ReferenceReportParams();
     filter.OrganizeCode = undefined;
     filter.BusinessUnitCode = undefined;
     filter.SubBusinessUnitCode = undefined;
@@ -232,8 +268,8 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
     })
   }
 
-  loadDocuments(page: number, size: number, sort?: string, order?: string, params?: DocumentParams, toggleSelectAll?: boolean) {
-    this._reportService.getReportDocuments(page, size, sort, order, params).subscribe({
+  loadData(page: number, size: number, sort?: string, order?: string, params?: ReferenceReportParams, toggleSelectAll?: boolean) {
+    this._reportService.getReportReferences(page, size, sort, order, params).subscribe({
       next: (v) => {
         this.documents = v.model;
         this.paginator.pageIndex = v.pageNumber - 1;
@@ -252,17 +288,72 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  async export() {
-    if (this.selection.selected.length === 0) {
-      return;
-    }
+  // async export() {
+  //   if (this.selection.selected.length === 0) {
+  //     return;
+  //   }
 
+  //   let documents: Document[] = [];
+  //   let reportDocuments: any[] = [];
+  //   if (this.isAllSelected()) {
+  //     const jobApplicantParams = this.getParams();
+  //     // fire api
+  //     const _documents = await firstValueFrom(this._reportService.getReportDocuments(
+  //       this.paginator.pageIndex + 1,
+  //       -1,
+  //       this.sort.active,
+  //       this.sort.direction,
+  //       jobApplicantParams
+  //     ));
+  //     documents = _documents?.model;
+  //     const ids = documents.map(v => v.id);
+  //     reportDocuments = (await firstValueFrom(this._reportService.getReportDocumentsExcel(ids))).model;
+  //   } else {
+  //     // use selection
+  //     documents = this.selection.selected;
+  //     const ids = documents.map(v => v.id);
+  //     reportDocuments = (await firstValueFrom(this._reportService.getReportDocumentsExcel(ids))).model;
+  //   }
+
+  //   // const Heading = [['ลำดับ']];
+  //   const Heading = [[]];
+  //   const exportTemplate = [];
+
+  //   for (let i = 0; i <= reportDocuments.length - 1; i++) {
+  //     if (i === 0) {
+  //       for (let key of Object.keys(reportDocuments[0])) {
+  //         Heading[0].push(key);
+  //       }
+  //     }
+  //     // exportTemplate.push({ index: i + 1, ...reportDocuments[i] });
+  //     exportTemplate.push({ ...reportDocuments[i] });
+  //   }
+
+  //   const ws = XLSX.utils.aoa_to_sheet(Heading);
+  //   XLSX.utils.sheet_add_json(ws, exportTemplate, { origin: 'A2', skipHeader: true });
+  //   const workbook: XLSX.WorkBook = {
+  //     Sheets: { Sheet1: ws },
+  //     SheetNames: ['Sheet1'],
+  //   };
+
+  //   const excelBuffer: any = XLSX.write(workbook, {
+  //     bookType: 'xlsx',
+  //     type: 'array',
+  //   });
+
+  //   const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  //   const data: Blob = new Blob([excelBuffer], { type: EXCEL_TYPE });
+  //   const fileName = 'export_report_';
+
+  //   FileSaver.saveAs(data, fileName + new Date().getTime() + '.xlsx');
+  // }
+  async export() {
     let documents: Document[] = [];
     let reportDocuments: any[] = [];
-    if (this.isAllSelected()) {
-      const jobApplicantParams = this.getDocumentParams();
+   
+      const jobApplicantParams = this.getParams();
       // fire api
-      const _documents = await firstValueFrom(this._reportService.getReportDocuments(
+      const _documents = await firstValueFrom(this._reportService.getReportReferences(
         this.paginator.pageIndex + 1,
         -1,
         this.sort.active,
@@ -270,27 +361,19 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
         jobApplicantParams
       ));
       documents = _documents?.model;
-      const ids = documents.map(v => v.id);
-      reportDocuments = (await firstValueFrom(this._reportService.getReportDocumentsExcel(ids))).model;
-    } else {
-      // use selection
-      documents = this.selection.selected;
-      const ids = documents.map(v => v.id);
-      reportDocuments = (await firstValueFrom(this._reportService.getReportDocumentsExcel(ids))).model;
-    }
-
+      
     // const Heading = [['ลำดับ']];
     const Heading = [[]];
     const exportTemplate = [];
 
-    for (let i = 0; i <= reportDocuments.length - 1; i++) {
+    for (let i = 0; i <= documents.length - 1; i++) {
       if (i === 0) {
-        for (let key of Object.keys(reportDocuments[0])) {
+        for (let key of Object.keys(documents[0])) {
           Heading[0].push(key);
         }
       }
       // exportTemplate.push({ index: i + 1, ...reportDocuments[i] });
-      exportTemplate.push({ ...reportDocuments[i] });
+      exportTemplate.push({ ...documents[i] });
     }
 
     const ws = XLSX.utils.aoa_to_sheet(Heading);
@@ -307,7 +390,7 @@ export class ExportReportComponent implements OnInit, AfterViewInit {
 
     const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const data: Blob = new Blob([excelBuffer], { type: EXCEL_TYPE });
-    const fileName = 'export_report_';
+    const fileName = 'btms_reference_report_';
 
     FileSaver.saveAs(data, fileName + new Date().getTime() + '.xlsx');
   }

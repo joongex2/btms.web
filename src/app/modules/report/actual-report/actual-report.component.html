@@ -12,7 +12,7 @@
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                         </mat-icon>
-                        <span class="ml-1 text-secondary">รายงานติดตามการขึ้นทะเบียนเป้าหมาย (OBJ)</span>
+                        <span class="ml-1 text-secondary">รายงานผลการดำเนินงาน (Actual Value)</span>
                     </div>
                 </div>
                 <div class="flex sm:hidden">
@@ -26,7 +26,7 @@
             <!-- Title -->
             <div class="mt-2">
                 <div class="text-3xl font-normal text-primary tracking-tight leading-8">
-                    รายงานติดตามการขึ้นทะเบียนเป้าหมาย (OBJ)
+                    รายงานผลการดำเนินงาน (Actual Value)
                 </div>
             </div>
         </div>
@@ -93,18 +93,40 @@
                             <div class="col-span-6 sm:col-span-4">
                                 <autocomplete label="Division/Department" name="division" [options]="divisions" [(value)]="selectedDivision" [requireMatch]="true"></autocomplete>
                             </div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">From Month</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="fromMonth" name="fromMonth" placeholder="ทั้งหมด">
+                                        <mat-option *ngFor="let month of months" [value]="month.value" [disabled]="toMonth && (month.value > toMonth)">
+                                            {{month.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Document Type</div>
                             <div class="col-span-6 sm:col-span-4">
                                 <autocomplete label="Document Type" name="documentType" [options]="documentTypes" [(value)]="selectedDocumentType" [requireMatch]="true"></autocomplete>
+                            </div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">To Month</div>
+                            <div class="col-span-6 sm:col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="toMonth" name="toMonth" placeholder="ทั้งหมด">
+                                        <mat-option *ngFor="let month of months" [value]="month.value" [disabled]="fromMonth && (month.value < fromMonth)">
+                                            {{month.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-span-6 sm:col-span-2 font-medium">Target Type</div>
+                            <div class="col-span-6 sm:col-span-4">
+                                <autocomplete label="Target Type" name="targetType" [options]="targetTypes" [(value)]="selectedTargetType" [requireMatch]="true"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">Critical KPI</div>
                             <div class="col-span-6 sm:col-span-4 flex items-center">
                                 :
                                 <mat-checkbox class="ml-2" [color]="'primary'" [(ngModel)]="isCritical" name="isCritical"></mat-checkbox>
-                            </div>
-                            <div class="col-span-6 sm:col-span-2 font-medium">Target Type</div>
-                            <div class="col-span-6 sm:col-span-4">
-                                <autocomplete label="Target Type" name="targetType" [options]="targetTypes" [(value)]="selectedTargetType" [requireMatch]="true"></autocomplete>
                             </div>
                             <div class="col-span-6 sm:col-span-2 font-medium">คำค้นหา</div>
                             <div class="col-span-6 sm:col-span-10 flex items-center">
@@ -137,7 +159,6 @@
                     Copy
                 </button>
             </div> -->
-    
             <div class="mt-6 xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded overflow-hidden">
                 <div class="example-table-container">
                     <p class="table-title flex flex-row justify-between items-center">
@@ -154,14 +175,19 @@
                         </span>
                     </p>
                     <div class="overflow-x-auto">
-                        <table mat-table [dataSource]="documents" class="mat-elevation-z8" matSort> <!--style="width:100%"-->
-                            <ng-container *ngFor="let key of displayedColumns" [matColumnDef]="key">
+                        <table mat-table [dataSource]="documents" class="mat-elevation-z8" matSort>
+                            <ng-container *ngFor="let key of displayedHeaders1" [matColumnDef]="key">
                                 <ng-container *ngIf="notSortColumn.includes(key)">
                                     <ng-container *ngIf="key !== 'checkbox'">
-                                        <th mat-header-cell *matHeaderCellDef [ngClass]="{ 'text-center' : key == 'detail' }">{{ keyToColumnName[key] }}</th>
+                                        <ng-container *ngIf="monthColumns.includes(key)">
+                                            <th mat-header-cell *matHeaderCellDef [attr.colspan]="5" class="text-center">{{ keyToColumnName[key] }}</th>    
+                                        </ng-container>
+                                        <ng-container *ngIf="!monthColumns.includes(key)">
+                                            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="displayedHeaders2.length > 0 ? 2: 1" [ngClass]="{ 'text-center' : key == 'detail' }">{{ keyToColumnName[key] }}</th>    
+                                        </ng-container>
                                     </ng-container>
                                     <!-- <ng-container *ngIf="key === 'checkbox'">
-                                        <th mat-header-cell *matHeaderCellDef >
+                                        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="displayedHeaders2.length > 0 ? 2: 1">
                                             <mat-checkbox (change)="$event ? masterToggle() : null"
                                               [checked]="selection.hasValue() && isAllSelected()"
                                               [indeterminate]="selection.hasValue() && !isAllSelected()"
@@ -171,29 +197,38 @@
                                     </ng-container> -->
                                 </ng-container>
                                 <ng-container *ngIf="!notSortColumn.includes(key)">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ keyToColumnName[key] }}</th>
+                                    <th mat-header-cell *matHeaderCellDef [attr.rowspan]="displayedHeaders2.length > 0 ? 2: 1" mat-sort-header>{{ keyToColumnName[key] }}</th>
                                 </ng-container>
-                                <td mat-cell *matCellDef="let element; let i = dataIndex">
-                                    <!-- <ng-container *ngIf="key === 'checkbox'">
-                                        <mat-checkbox (click)="$event.stopPropagation()"
-                                            (change)="$event ? selection.toggle(element) : null"
-                                            [checked]="selection.isSelected(element)"
-                                            [color]="'primary'">
-                                        </mat-checkbox>
-                                    </ng-container> -->
-                                    <ng-container *ngIf="key === 'documentNo'">
-                                        <!-- <a class="flex items-center" [routerLink]="'/target-info/my-target/'+element.id">
+                                <ng-container *ngIf="!monthColumns.includes(key)">
+                                    <td mat-cell *matCellDef="let element; let i = dataIndex">
+                                        <!-- <ng-container *ngIf="key === 'checkbox'">
+                                            <mat-checkbox (click)="$event.stopPropagation()"
+                                                (change)="$event ? selection.toggle(element) : null"
+                                                [checked]="selection.isSelected(element)"
+                                                [color]="'primary'">
+                                            </mat-checkbox>
+                                        </ng-container> -->
+                                        <ng-container *ngIf="key === 'documentNo'">
+                                            <!-- <a class="flex items-center" [routerLink]="'/target-info/my-target/'+element.id">
+                                                {{ element[key] }}
+                                            </a> -->
                                             {{ element[key] }}
-                                        </a> -->
-                                        {{ element[key] }}
-                                    </ng-container>
-                                    <ng-container *ngIf="key === 'documentDate' || key === 'issuedDate'">
-                                        {{ element[key] | date : 'dd/MM/YYYY' }}
-                                    </ng-container>
-                                    <ng-container *ngIf="key !== 'checkbox' && key !== 'documentNo' && key !== 'documentDate' && key !== 'issuedDate' && key !== 'detail'">{{ element[key] }}</ng-container>
-                                </td>
+                                        </ng-container>
+                                        <ng-container *ngIf="key === 'documentDate' || key === 'issuedDate'">
+                                            {{ element[key] | date : 'dd/MM/YYYY' }}
+                                        </ng-container>
+                                        <ng-container *ngIf="key !== 'checkbox' && key !== 'documentNo' && key !== 'documentDate' && key !== 'issuedDate' && key !== 'detail'">{{ element[key] }}</ng-container>
+                                    </td>
+                                </ng-container>
                             </ng-container>
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <ng-container *ngFor="let key of displayedHeaders2" [matColumnDef]="key">
+                                <th mat-header-cell *matHeaderCellDef>{{ keyToColumnName[key.split(monthsSplit)[1]] }}</th>
+                                <td mat-cell *matCellDef="let element; let i = dataIndex">{{ element[key] }}</td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedHeaders1; sticky: true" [ngStyle]="{ 'height' : displayedHeaders2.length > 0 ? '28px': '56px' }"></tr>
+                            <ng-container *ngIf="displayedHeaders2.length > 0">
+                                <tr mat-header-row *matHeaderRowDef="displayedHeaders2; sticky: true" class="header-2"></tr>
+                            </ng-container>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         </table>
                     </div>

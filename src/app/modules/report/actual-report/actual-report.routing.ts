@@ -1,14 +1,14 @@
 import { Route } from '@angular/router';
 import { MenuGuard } from 'app/core/auth/guards/menu.guard';
-import { BusResolver, DivisionsResolver, DocumentTypesResolver, OrganizesResolver, PlantsResolver, DocumentStatusesResolver, SubBusResolver, TargetTypesResolver } from 'app/shared/resolver';
-import { ExportReportComponent } from './export-report.component';
+import { BusResolver, DivisionsResolver, DocumentStatusesResolver, DocumentTypesResolver, OrganizesResolver, TargetTypesResolver } from 'app/shared/resolver';
+import { ActualReportComponent } from './actual-report.component';
 
 
-export const exportReportRoutes: Route[] = [
+export const actualReportRoutes: Route[] = [
     {
         path: '',
         canActivate: [MenuGuard],
-        component: ExportReportComponent,
+        component: ActualReportComponent,
         resolve: {
             organizes: OrganizesResolver,
             statuses: DocumentStatusesResolver,

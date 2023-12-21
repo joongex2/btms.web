@@ -5,22 +5,22 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MasterService } from 'app/modules/super-admin/master/master.service';
+import { firstUpperCase } from 'app/shared/helpers/first-upper-case';
 import { getOptionValue } from 'app/shared/helpers/get-option-value';
 import { Document, DocumentParams } from 'app/shared/interfaces/document.interface';
 import { ConfirmationService } from 'app/shared/services/confirmation.service';
 import * as FileSaver from 'file-saver';
+import moment from 'moment';
 import { firstValueFrom } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { ReportService } from '../report.service';
-import { titleCase } from "title-case";
-import moment from 'moment';
 
 @Component({
-  selector: 'document-report',
-  templateUrl: './document-report.component.html',
-  styleUrls: ['./document-report.component.scss'],
+  selector: 'actual-report',
+  templateUrl: './actual-report.component.html',
+  styleUrls: ['./actual-report.component.scss'],
 })
-export class DocumentReportComponent implements OnInit, AfterViewInit {
+export class ActualReportComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatExpansionPanel) matExpansionPanel: MatExpansionPanel;
@@ -45,6 +45,8 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
   searchText: string;
   isCritical: boolean;
   selectedRow: Document;
+  fromMonth: number;
+  toMonth: number;
 
   // select option
   organizes: any[] = [];
@@ -55,57 +57,154 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
   statuses: any[] = [];
   documentTypes: any[] = [];
   targetTypes: any[] = [];
+  months = [
+    { title: 'January', value: 1 },
+    { title: 'February', value: 2 },
+    { title: 'March', value: 3 },
+    { title: 'April', value: 4 },
+    { title: 'May', value: 5 },
+    { title: 'June', value: 6 },
+    { title: 'July', value: 7 },
+    { title: 'August', value: 8 },
+    { title: 'September', value: 9 },
+    { title: 'October', value: 10 },
+    { title: 'November', value: 11 },
+    { title: 'December', value: 12 }
+  ];
 
   // table setting
-  displayedColumns: string[] = [
+  initialHeader = [
     // 'checkbox',
+
+    // 'organizeCode',
+    // 'documentNo',
+    // 'revisionNo',
+    // 'documentDate',
+    // 'issuedDate',
+    // 'documentYear',
+    // 'documentStatus',
+    // 'userHolder',
+
     'organizeCode',
+    'businessUnitCode',
+    'subBusinessUnitCode',
+    'plantCode',
+    'divisionCode',
+    'documentType',
     'documentNo',
-    'revisionNo',
     'documentDate',
-    'issuedDate',
     'documentYear',
     'documentStatusName',
-    'userHolder',
+    'revisionNo',
+    'modifyNo',
+    'issuedDate',
+    'creator',
+    'isCritical',
     'targetType',
     'targetRunning',
     'targetName',
     'targetDetailRunning',
     'targetDetailDescription',
+    'targetIndex',
     'targetValue',
     'targetUnit',
+    'currentTarget',
+    'standard',
+    'measureType',
+    'planYear',
+
     'detail'
   ];
+
+  displayedHeaders1: string[] = [...this.initialHeader];
+  displayedHeaders2: string[] = [];
+  displayedColumns: string[] = [...this.initialHeader];
 
   keyToColumnName: any = {
     // 'checkbox': '',
+
+    // 'organizeCode': 'Organize Code',
+    // 'documentNo': 'Running',
+    // 'revisionNo': 'Revision',
+    // 'documentDate': 'Create Date',
+    // 'issuedDate': 'Issued Date',
+    // 'documentYear': 'Year',
+    // 'documentStatus': 'Status',
+    // 'userHolder': 'Creator',
     'organizeCode': 'Organize Code',
-    'documentNo': 'Running',
-    'revisionNo': 'Revision',
-    'documentDate': 'Create Date',
+    'businessUnitCode': 'Business Unit',
+    'subBusinessUnitCode': 'Sub Business Unit',
+    'plantCode': 'Plant',
+    'divisionCode': 'Division',
+    'documentType': 'Document Type',
+    'documentNo': 'Dcument No.',
+    'documentDate': 'Document Date',
+    'documentYear': 'Document Year',
+    'documentStatusName': 'Document Status',
+    'revisionNo': 'Revision No.',
+    'modifyNo': 'Modify No.',
     'issuedDate': 'Issued Date',
-    'documentYear': 'Year',
-    'documentStatusName': 'Status',
-    'userHolder': 'Creator',
-    'targetType':'TargetType',
-    'targetRunning':'Target No.',
-    'targetName':'TargetName',
-    'targetDetailRunning':'Detail No.',
-    'targetDetailDescription':'Description',
-    'targetValue': 'TargetValue',
-    'targetUnit':'TargetUnit',
-    'detail': ''
+    'creator': 'Creator',
+    'isCritical': 'Critical',
+    'targetType': 'Target Type',
+    'targetRunning': 'Target Running',
+    'targetName':'Target Name',
+    'targetDetailRunning': 'Target Detail Running',
+    'targetDetailDescription': 'Target Detail Description',
+    'targetIndex': 'Target Index',
+    'targetValue': 'Target Value',
+    'targetUnit': 'Target Unit',
+    'currentTarget': 'Current Target',
+    'standard': 'Standard',
+    'measureType': 'Measure Type',
+    'planYear': 'Plan Year',
+
+    'detail': '',
+
+    'jan': 'Jan',
+    'feb': 'Feb',
+    'mar': 'Mar',
+    'apr': 'Apr',
+    'may': 'May',
+    'jun': 'Jun',
+    'jul': 'Jul',
+    'aug': 'Aug',
+    'sep': 'Sep',
+    'oct': 'Oct',
+    'nov': 'Nov',
+    'dec': 'Dec',
+    'UseReport': 'Use Report',
+    'ActualValue': 'Actual Value',
+    'ActualResult': 'Actual Result',
+    'ActualStatus': 'Actual Status',
+    'ReferenceNo': 'Reference',
+    // 'UseReport': 'Use Report',
+    // 'ActualValue': 'Actual Value',
+    // 'ActualResult': 'Actual Result',
+    // 'ActualStatus': 'Actual Status',
+    // 'ReferenceNo': 'Reference No',
+    // 'ReferenceStatus': 'Reference Status',
+    // 'CauseTopic': 'Cause Topic',
+    // 'SolutionType': 'Solution Type',
+    // 'SolutionTopic': 'Solution Topic',
+    // 'SolutionDueDate': 'Solution Due Date',
+    // 'SolutionActual': 'Solution Actual',
+    // 'SolutionActualDate': 'Solution Actual Date',
+    // 'Preventive': 'Preventive',
+    // 'PreventiveDueDate': 'Preventive Due Date',
+    // 'PreventiveActual': 'Preventive Actual',
+    // 'PreventiveActualDate': 'Preventive Actual Date'
   };
 
-  // notSortColumn: string[] = [
-  //   'index',
-  //   'detail',
-  //   'checkbox'
-  // ];
+  monthColumns: string[] = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
   notSortColumn: string[] = [
     'index',
-    'detail'
-  ];
+    'detail',
+    // 'checkbox'
+  ].concat(this.monthColumns);
+
+  monthsSplit = /jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec/;
 
   constructor(
     private _reportService: ReportService,
@@ -142,8 +241,6 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     this.selectedPlant = this.plants.find((v) => v.value === params.PlantCode) || '';
     this.selectedDivision = this.divisions.find((v) => v.value === params.DivisionCode) || '';
     this.documentNo = params.DocumentNo || undefined;
-    // this.documentYear = params.DocumentYear || undefined;
-    // this.toDocumentYear = params.ToDocumentYear || undefined;
     this.documentYear = params.DocumentYear || moment().year();
     this.toDocumentYear = params.ToDocumentYear || moment().year();
     this.selectedStatus = this.statuses.find((v) => v.value === params.DocumentStatus) || '';
@@ -151,8 +248,11 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     this.selectedTargetType = this.targetTypes.find((v) => v.value === params.TargetType) || '';
     this.searchText = params.SearchText || undefined;
     this.isCritical = params.IsCritical || false;
+    this.fromMonth = params.FromMonth ? parseInt(params.FromMonth) : 1;
+    this.toMonth = params.ToMonth ? parseInt(params.ToMonth) : moment().month() + 1;
 
     // this.loadDocuments(page, size, sort, order, this.getDocumentParams());
+    this.appendColumns(0, 12);
   }
 
   ngAfterViewInit() {
@@ -182,6 +282,7 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     const documentParams = this.getDocumentParams();
     this.loadDocuments(1, this.paginator.pageSize, this.sort.active, this.sort.direction, documentParams);
     this.addQueryParam({ page: undefined, ...documentParams });
+    this.selection.clear();
   }
 
   clear() {
@@ -209,6 +310,8 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     filter.TargetType = getOptionValue(this.selectedTargetType);
     filter.SearchText = this.searchText ? this.searchText : undefined;
     filter.IsCritical = this.isCritical ? this.isCritical.toString() : undefined;
+    filter.FromMonth = this.fromMonth ? this.fromMonth.toString() : undefined;
+    filter.ToMonth = this.toMonth ? this.toMonth.toString() : undefined;
     return filter;
   }
 
@@ -227,6 +330,8 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     filter.TargetType = undefined;
     filter.SearchText = undefined;
     filter.IsCritical = undefined;
+    filter.FromMonth = undefined;
+    filter.ToMonth = undefined;
     return filter;
   }
 
@@ -244,6 +349,8 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     this.toDocumentYear = undefined;
     this.searchText = undefined;
     this.isCritical = false;
+    this.fromMonth = undefined;
+    this.toMonth = undefined;
   }
 
   private addQueryParam(param?: object): void {
@@ -255,9 +362,11 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
   }
 
   loadDocuments(page: number, size: number, sort?: string, order?: string, params?: DocumentParams, toggleSelectAll?: boolean) {
-    this._reportService.getReportDocuments(page, size, sort, order, params).subscribe({
+    this._reportService.getReportActuals(page, size, sort, order, params).subscribe({
       next: (v) => {
         this.documents = v.model;
+        // this.mockData(); // mock
+        this.changeColumns();
         this.paginator.pageIndex = v.pageNumber - 1;
         this.paginator.pageSize = v.pageSize;
         this.resultsLength = v.itemsCount;
@@ -280,39 +389,81 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
   //   }
 
   //   let documents: Document[] = [];
-  //   let reportDocuments: any[] = [];
+  //   let reportActuals: any[] = [];
   //   if (this.isAllSelected()) {
   //     const jobApplicantParams = this.getDocumentParams();
-  //     // fire api
-  //     const _documents = await firstValueFrom(this._reportService.getReportDocuments(
+
+  //     //// tuning api
+  //     const _documents = await firstValueFrom(this._reportService.getReportActuals(
   //       this.paginator.pageIndex + 1,
-  //       -1,
+  //       this.paginator.pageSize,
   //       this.sort.active,
   //       this.sort.direction,
   //       jobApplicantParams
   //     ));
-  //     documents = _documents?.model;
-  //     const ids = documents.map(v => v.id);
-  //     reportDocuments = (await firstValueFrom(this._reportService.getReportDocumentsExcel(ids))).model;
+  //     if (_documents.itemsCount === 0) return;
+  //     const getReportActualsPromises: Promise<any>[] = [];
+  //     const itemsPerApi = 500;
+  //     for (let i = 1; i <= Math.ceil(_documents.itemsCount / itemsPerApi); i++) {
+  //       getReportActualsPromises.push(
+  //         firstValueFrom(this._reportService.getReportActuals(
+  //           i,
+  //           itemsPerApi,
+  //           this.sort.active,
+  //           this.sort.direction,
+  //           jobApplicantParams
+  //         )))
+  //     }
+  //     const res = (await Promise.all(getReportActualsPromises)).map(v => v.model);
+  //     let flattenExcel = [];
+  //     for (var i = 0; i < res.length; i++) {
+  //       flattenExcel = flattenExcel.concat(res[i]);
+  //     }
+  //     reportActuals = flattenExcel;
+
+  //     //// old fire api
+  //     // const _documents = await firstValueFrom(this._reportService.getReportActuals(
+  //     //   this.paginator.pageIndex + 1,
+  //     //   -1,
+  //     //   this.sort.active,
+  //     //   this.sort.direction,
+  //     //   jobApplicantParams
+  //     // ));
+  //     // documents = _documents?.model;
+  //     // const ids = documents.map(v => v.id);
+  //     // reportActuals = (await firstValueFrom(this._reportService.getReportActualsExcel(ids))).model;
   //   } else {
   //     // use selection
   //     documents = this.selection.selected;
   //     const ids = documents.map(v => v.id);
-  //     reportDocuments = (await firstValueFrom(this._reportService.getReportDocumentsExcel(ids))).model;
+  //     reportActuals = (await firstValueFrom(this._reportService.getReportActualsExcel(ids))).model;
   //   }
 
   //   // const Heading = [['ลำดับ']];
   //   const Heading = [[]];
   //   const exportTemplate = [];
 
-  //   for (let i = 0; i <= reportDocuments.length - 1; i++) {
-  //     if (i === 0) {
-  //       for (let key of Object.keys(reportDocuments[0])) {
-  //         Heading[0].push(key);
+  //   const fromMonth = this.fromMonth ? this.fromMonth - 1 : 0;
+  //   const toMonth = this.toMonth ? this.toMonth : 12;
+  //   const selectedMonthColumns = this.monthColumns.slice(fromMonth, toMonth);
+  //   const monthsRegExp = new RegExp(selectedMonthColumns.join('|'));
+  //   const generalCols = ['id', 'organizeCode', 'businessUnitCode', 'subBusinessUnitCode', 'plantCode', 'divisionCode', 'documentNo', 'documentYear', 'revisionNo', 'modifyNo', 'documentType', 'documentStatus', 'documentDate', 'issuedDate', 'userHolder', 'targetName', 'targetType', 'standard', 'measureType', 'targetDetailDescription', 'targetIndex', 'targetValue', 'targetUnit', 'currentTarget', 'startMonth', 'startYear', 'finishMonth', 'finishYear', 'isCritical', 'planDescription', 'planYear'];
+
+  //   for (let i = 0; i <= reportActuals.length - 1; i++) {
+  //     for (let key of Object.keys(reportActuals[i])) {
+  //       if (!key.match(monthsRegExp) && !generalCols.includes(key)) {
+  //         // filter key
+  //         delete reportActuals[i][key];
+  //         continue;
+  //       }
+
+  //       if (i === 0) {
+  //         Heading[0].push(firstUpperCase(key));
   //       }
   //     }
-  //     // exportTemplate.push({ index: i + 1, ...reportDocuments[i] });
-  //     exportTemplate.push({ ...reportDocuments[i] });
+
+  //     // exportTemplate.push({ index: i + 1, ...reportActuals[i] });
+  //     exportTemplate.push({ ...reportActuals[i] });
   //   }
 
   //   const ws = XLSX.utils.aoa_to_sheet(Heading);
@@ -329,40 +480,70 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
 
   //   const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
   //   const data: Blob = new Blob([excelBuffer], { type: EXCEL_TYPE });
-  //   const fileName = 'export_report_';
+  //   const fileName = 'target_actual_report_';
 
   //   FileSaver.saveAs(data, fileName + new Date().getTime() + '.xlsx');
   // }
   async export() {
     let documents: Document[] = [];
-    let reportDocuments: any[] = [];
-    const jobApplicantParams = this.getDocumentParams();
-    // fire api
-    const _documents = await firstValueFrom(this._reportService.getReportDocuments(
-      this.paginator.pageIndex + 1,
-      -1,
-      this.sort.active,
-      this.sort.direction,
-      jobApplicantParams
-    ));
-    documents = _documents?.model;
-    // const ids = documents.map(v => v.id);
-    // console.log(ids)
-    // reportDocuments = (await firstValueFrom(this._reportService.getReportDocumentsExcel(ids))).model;
+    let reportActuals: any[] = [];
+
+      const jobApplicantParams = this.getDocumentParams();
+
+      //// tuning api
+      const _documents = await firstValueFrom(this._reportService.getReportActuals(
+        this.paginator.pageIndex + 1,
+        this.paginator.pageSize,
+        this.sort.active,
+        this.sort.direction,
+        jobApplicantParams
+      ));
+      if (_documents.itemsCount === 0) return;
+      const getReportActualsPromises: Promise<any>[] = [];
+      const itemsPerApi = 500;
+      for (let i = 1; i <= Math.ceil(_documents.itemsCount / itemsPerApi); i++) {
+        getReportActualsPromises.push(
+          firstValueFrom(this._reportService.getReportActuals(
+            i,
+            itemsPerApi,
+            this.sort.active,
+            this.sort.direction,
+            jobApplicantParams
+          )))
+      }
+      const res = (await Promise.all(getReportActualsPromises)).map(v => v.model);
+      let flattenExcel = [];
+      for (var i = 0; i < res.length; i++) {
+        flattenExcel = flattenExcel.concat(res[i]);
+      }
+      reportActuals = flattenExcel;
+
 
     // const Heading = [['ลำดับ']];
     const Heading = [[]];
     const exportTemplate = [];
 
-    for (let i = 0; i <= documents.length - 1; i++) {
-      if (i === 0) {
-        for (let key of Object.keys(documents[0])) {
-          //if(key != 'id')
-            // console.log(this.transform(key))
-            Heading[0].push(this.transform(key));
+    const fromMonth = this.fromMonth ? this.fromMonth - 1 : 0;
+    const toMonth = this.toMonth ? this.toMonth : 12;
+    const selectedMonthColumns = this.monthColumns.slice(fromMonth, toMonth);
+    const monthsRegExp = new RegExp(selectedMonthColumns.join('|'));
+    const generalCols = ['id', 'organizeCode', 'businessUnitCode', 'subBusinessUnitCode', 'plantCode', 'divisionCode', 'documentNo', 'documentYear', 'revisionNo', 'modifyNo', 'documentType', 'documentStatus', 'documentDate', 'issuedDate', 'userHolder', 'targetName', 'targetType', 'standard', 'measureType', 'targetDetailDescription', 'targetIndex', 'targetValue', 'targetUnit', 'currentTarget', 'startMonth', 'startYear', 'finishMonth', 'finishYear', 'isCritical', 'planDescription', 'planYear'];
+
+    for (let i = 0; i <= reportActuals.length - 1; i++) {
+      for (let key of Object.keys(reportActuals[i])) {
+        if (!key.match(monthsRegExp) && !generalCols.includes(key)) {
+          // filter key
+          delete reportActuals[i][key];
+          continue;
+        }
+
+        if (i === 0) {
+          Heading[0].push(firstUpperCase(key));
         }
       }
-      exportTemplate.push({ ...documents[i] });
+
+      // exportTemplate.push({ index: i + 1, ...reportActuals[i] });
+      exportTemplate.push({ ...reportActuals[i] });
     }
 
     const ws = XLSX.utils.aoa_to_sheet(Heading);
@@ -372,8 +553,6 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
       SheetNames: ['Sheet1'],
     };
 
-    
-
     const excelBuffer: any = XLSX.write(workbook, {
       bookType: 'xlsx',
       type: 'array',
@@ -381,7 +560,7 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
 
     const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const data: Blob = new Blob([excelBuffer], { type: EXCEL_TYPE });
-    const fileName = 'btms_document_report_';
+    const fileName = 'btms_actual_report_';
 
     FileSaver.saveAs(data, fileName + new Date().getTime() + '.xlsx');
   }
@@ -415,12 +594,25 @@ export class DocumentReportComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public transform(input:string): string{
-    console.log(input);
-    if (!input) {
-        return '';
-    } else {
-        return input.replace(/\b\w/g, first => first.toLocaleUpperCase()) 
+  changeColumns() {
+    // reset
+    this.displayedHeaders1 = [...this.initialHeader];
+    this.displayedHeaders2 = [];
+    this.displayedColumns = [...this.initialHeader];
+
+    const fromMonth = this.fromMonth ? this.fromMonth - 1 : 0;
+    const toMonth = this.toMonth ? this.toMonth : 12;
+    this.appendColumns(fromMonth, toMonth);
+  }
+
+  appendColumns(from: number, to: number) {
+    const selectedMonthColumns = this.monthColumns.slice(from, to);
+    for (let month of selectedMonthColumns) {
+      //const appendColumn2 = ['UseReport', 'ActualValue', 'ActualResult', 'ActualStatus', 'ReferenceNo', 'ReferenceStatus', 'CauseTopic', 'SolutionType', 'SolutionTopic', 'SolutionDueDate', 'SolutionActual', 'SolutionActualDate']
+      const appendColumn2 = ['UseReport', 'ActualValue', 'ActualResult', 'ActualStatus', 'ReferenceNo']
+      this.displayedHeaders1.push(month);
+      this.displayedHeaders2 = this.displayedHeaders2.concat(appendColumn2.map(v => `${month}${v}`));
+      this.displayedColumns = this.displayedColumns.concat(appendColumn2.map(v => `${month}${v}`));
     }
   }
 }

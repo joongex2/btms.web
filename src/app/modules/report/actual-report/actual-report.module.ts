@@ -18,15 +18,15 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 import { TargetListModule } from 'app/modules/target-list/target-list.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { ExportReportComponent } from './export-report.component';
-import { exportReportRoutes } from './export-report.routing';
+import { ActualReportComponent } from './actual-report.component';
+import { actualReportRoutes } from './actual-report.routing';
 
 @NgModule({
     declarations: [
-        ExportReportComponent
+        ActualReportComponent
     ],
     imports: [
-        RouterModule.forChild(exportReportRoutes),
+        RouterModule.forChild(actualReportRoutes),
         MatCheckboxModule,
         MatButtonModule,
         MatIconModule,
@@ -47,4 +47,4 @@ import { exportReportRoutes } from './export-report.routing';
         SharedModule
     ]
 })
-export class ExportReportModule { }
+export class ActualReportModule { }

@@ -218,6 +218,7 @@ export class Dashboard3Component implements OnInit, OnChanges {
     //   bus: null,
     //   plants: null
     // });
+    console.log(this._activatedRoute.snapshot.data.bus)
     this.bus = this._activatedRoute.snapshot.data.bus;
     this.subBus = this._activatedRoute.snapshot.data.subBus;
     this.plants = this._activatedRoute.snapshot.data.plants;

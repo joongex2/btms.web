@@ -14,19 +14,26 @@ export class MasterService {
         type: string,
         code: string,
         name: string,
-        parentId: number
+        parentId: number,
+        displaySequence: number,
     ): Observable<any> {
         return this._httpClient.post<ResultMapper>(getBaseUrl('/v1/Masters'), {
             type,
             code,
             name,
-            parentId
+            parentId,
+            displaySequence
         }).pipe(map(data => data.model));
     }
 
     getMasters(masterType?: string): Observable<any> {
         const queryString = masterType ? `?masterType=${masterType}` : '';
         return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Masters${queryString}`)).pipe(map(data => data.model));
+    }
+
+    getActiveMasters(masterType?: string): Observable<any> {
+        const queryString = masterType ? `?masterType=${masterType}` : '';
+        return this._httpClient.get<ResultMapper>(getBaseUrl(`/v1/Masters${queryString}`)).pipe(map(data => data.model.filter((obj: { isActive: boolean; }) => obj.isActive == true)));
     }
 
     getMaster(id: number): Observable<any> {
@@ -39,6 +46,7 @@ export class MasterService {
         code: string,
         name: string,
         parentId: number,
+        displaySequence: number,
         isActive: boolean
     ): Observable<any> {
         return this._httpClient.put<ResultMapper>(getBaseUrl(`/v1/Masters/${id}`), {
@@ -46,6 +54,7 @@ export class MasterService {
             code,
             name,
             parentId,
+            displaySequence,
             isActive
         }).pipe(map(data => data.model));
     }
@@ -60,11 +69,11 @@ export class MasterService {
 
     // code
     getBus(): Observable<any> {
-        return this.getMasters('BUSINESS_UNIT').pipe(map((bus) => (bus.map(bu => ({ title: bu.name, value: bu.code, id: bu.id })))));
+        return this.getActiveMasters('BUSINESS_UNIT').pipe(map((bus) => (bus.map(bu => ({ title: bu.name, value: bu.code, id: bu.id })))));
     }
 
     getSubBus(buId?: number): Observable<any> {
-        return this.getMasters('SUB_BUSINESS_UNIT').pipe(map((subBus) => (subBus
+        return this.getActiveMasters('SUB_BUSINESS_UNIT').pipe(map((subBus) => (subBus
             .filter(subBu => buId ? subBu.parentId === buId : true)
             .map(subBu => ({ title: subBu.name, value: subBu.code, id: subBu.id, parentId: subBu.parentId }))
         )));
@@ -78,7 +87,7 @@ export class MasterService {
     }
 
     getDashboardPlants(subBuId?: number): Observable<any> {
-        return this.getMasters('PLANT').pipe(map((plants) => (plants
+        return this.getActiveMasters('PLANT').pipe(map((plants) => (plants
             .filter(plant => subBuId ? plant.parentId === subBuId : true)
             .map(plant => ({ title: `${plant.code} (${plant.name})`, value: plant.code, id: plant.id, parentId: plant.parentId }))
         )));
