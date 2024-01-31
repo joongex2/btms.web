@@ -77,6 +77,7 @@ export class TargetManagementComponent implements OnInit {
     private _matDialog: MatDialog
   ) {
     this.mode = _activatedRoute.snapshot.data['mode'];
+    console.log('mode=>',this.mode)
   }
 
   ngOnInit(): void {
@@ -86,6 +87,28 @@ export class TargetManagementComponent implements OnInit {
     this._urlService.previousUrl$.subscribe((previousUrl: string) => {
       this.previousUrl = previousUrl;
     });
+
+    // initial documentTypes
+    this._lookupService.getLookups('DOCUMENT_TYPE').subscribe({
+      next: (lookups: Lookup[]) => {
+        this.documentTypes = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+      },
+      error: (e) => console.error(e)
+    });
+
+    // initial documentYears
+    const currentYear = moment().year();
+    this.years.push(currentYear - 1);
+    this.years.push(currentYear);
+    this.years.push(currentYear + 1);
+    this.years.push(currentYear + 2);
+    this.years.sort(function (a, b) {
+        return b - a;
+    });
+    this.years = this.years.map((v) => ({
+        title: v.toString(),
+        value: v.toString(),
+    }));
 
     if (this.mode === 'add') {
       // default value
@@ -114,19 +137,7 @@ export class TargetManagementComponent implements OnInit {
 
       this.selectedDocumentType = undefined;
       this.selectedYear = moment().year().toString();
-      const currentYear = moment().year();
-      this.years.push(currentYear);
-      this.years.push(currentYear + 1);
-      this.years.push(currentYear + 2);
-      this.years.sort(function (a, b) { return b - a });
-      this.years = this.years.map((v) => ({ title: v.toString(), value: v.toString() }));
 
-      this._lookupService.getLookups('DOCUMENT_TYPE').subscribe({
-        next: (lookups: Lookup[]) => {
-          this.documentTypes = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
-        },
-        error: (e) => console.error(e)
-      });
       this.checkPrivillege();
     } else {
       // from my-target or confirmation
@@ -200,6 +211,8 @@ export class TargetManagementComponent implements OnInit {
 
   edit() {
     this.isEdit = true;
+    //this.mode = 'edit';
+    //this.selectedYear = this.document.documentYear.toString(); //console.log(this.selectedYear)
     this.checkPrivillege();
   }
 

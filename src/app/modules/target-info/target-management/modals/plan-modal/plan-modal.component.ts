@@ -55,7 +55,7 @@ export class PlanModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.isEdit = this.modalData.mode === ModalMode.EDIT;
+    this.isEdit = this.modalData.mode === ModalMode.EDIT; //console.log(this.isEdit)
     this.plan = this.modalData.data;
     this.subTarget = this.modalData.subTarget;
     const priority = this.isEdit ? this.plan.priority : this.modalData.index;
@@ -66,7 +66,7 @@ export class PlanModalComponent implements OnInit {
 
     // year select option
     this.years = this.isEdit ? [this.plan.planYear] : this.modalData.leftYears;
-    let planYear;
+    let planYear: number;
     if (this.isEdit) {
       planYear = this.plan.planYear;
     } else {

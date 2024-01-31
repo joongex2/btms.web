@@ -120,6 +120,16 @@
                             </ng-template>
                             
                             <div class="col-span-6 sm:col-span-2 font-medium">Year</div>
+                            <!-- <div class="col-span-6 sm:col-span-4 flex items-center">
+                                :
+                                <mat-form-field class="flex-auto ml-2">
+                                    <mat-select [(ngModel)]="selectedYear" name="year" required>
+                                        <mat-option *ngFor="let year of years" [value]="year.value">
+                                            {{year.title}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div> -->
                             <ng-container *ngIf="mode === 'edit';else yearSelect">
                                 <div class="col-span-6 sm:col-span-4">:<span class="ml-2">{{document ? document.documentYear : ''}}</span></div>
                             </ng-container>
