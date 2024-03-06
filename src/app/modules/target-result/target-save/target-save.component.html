@@ -156,8 +156,8 @@
                                             <mat-radio-group class="ml-2" aria-label="Select an option" [(ngModel)]="targetResult" #targetResultModel="ngModel" name="targetResult" [disabled]="readonly || (!this.isEdit && mode !== 'add')" required
                                                 [ngClass]="{'text-warn': f?.form?.get('targetResult')?.touched && f?.form?.get('targetResult')?.hasError('required')}"
                                             >
-                                                <mat-radio-button [color]="'primary'" value="A">Archive</mat-radio-button>
-                                                <mat-radio-button [color]="'primary'" value="U" class="ml-2">Unarchive</mat-radio-button>
+                                                <mat-radio-button [color]="'primary'" value="A">Achieve</mat-radio-button>
+                                                <mat-radio-button [color]="'primary'" value="U" class="ml-2">Unachieved</mat-radio-button>
                                                 <mat-radio-button [color]="'primary'" value="N" class="ml-2">N/A</mat-radio-button>
                                             </mat-radio-group>
                                         </div>

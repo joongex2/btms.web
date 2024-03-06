@@ -124,7 +124,7 @@ export class SubTargetModalComponent implements OnInit {
     this.subTargetForm.get('measureType').valueChanges.subscribe(value => {
       if (value === '2') {
         this.subTargetForm.get('targetCondition').setValue('1');
-        this.subTargetForm.get('targetValue').setValue('Archive');
+        this.subTargetForm.get('targetValue').setValue('Achieve');
         const newConditions = this.subTargetForm.get('conditions').value.filter(v => v.id !== 0);
         this.subTargetForm.setControl('conditions', this._formBuilder.array([]));
         for (let condition of newConditions) {

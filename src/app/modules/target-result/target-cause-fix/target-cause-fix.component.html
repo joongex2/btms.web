@@ -220,8 +220,8 @@
                             <div class="col-span-4 font-medium">ผลลัพธ์การติดตาม</div>
                             <div class="col-span-8">:
                                 <mat-radio-group class="ml-2" aria-label="Select an option" [(ngModel)]="result" name="result" [disabled]="readonly || (!this.isEdit && mode !== 'add') || targetReference?.targetReferenceStatus !== 'SOLVE_INPROCESS'">
-                                    <mat-radio-button [color]="'primary'" value="A">Archive</mat-radio-button>
-                                    <mat-radio-button [color]="'primary'" value="U" class="ml-2">Unarchive</mat-radio-button>
+                                    <mat-radio-button [color]="'primary'" value="A">Achieve</mat-radio-button>
+                                    <mat-radio-button [color]="'primary'" value="U" class="ml-2">Unachieved</mat-radio-button>
                                 </mat-radio-group>
                             </div>
                             <div class="col-span-4 font-medium">ค่าเป้าหมายที่ทำได้ (ถ้ามี)</div>

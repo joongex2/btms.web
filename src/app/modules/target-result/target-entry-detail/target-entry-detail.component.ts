@@ -182,7 +182,7 @@ export class TargetEntryDetailComponent implements OnInit {
       return;
     }
     if (!this.checkAllUnarchiveHaveReference()) {
-      this._snackBarService.warn('มีบางผลการดำเนินงาน Unarchive ที่ไม่มี เอกสารสาเหตุและการแก้ไข');
+      this._snackBarService.warn('มีบางผลการดำเนินงาน Unachieved ที่ไม่มี เอกสารสาเหตุและการแก้ไข');
       return;
     }
     for (let planTable of this.planEntryTables) {

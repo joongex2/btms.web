@@ -14,9 +14,9 @@ export class TargetActualResultPipe implements PipeTransform {
     transform(value: string): string {
         switch (value) {
             case 'A':
-                return 'Archive';
+                return 'Achieve';
             case 'U':
-                return 'Unarchive';
+                return 'Unachieved';
             case 'N':
                 return 'N/A';
             default:

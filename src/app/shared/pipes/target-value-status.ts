@@ -13,9 +13,9 @@ export class TargetValueStatusPipe implements PipeTransform {
      */
     transform(value: string): string {
         switch (value) {
-            case 'archive':
+            case 'achieve':
                 return 'A';
-            case 'unarchive':
+            case 'unachieved':
                 return 'U';
             case 'na':
                 return 'N';
