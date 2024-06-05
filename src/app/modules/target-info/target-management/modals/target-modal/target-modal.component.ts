@@ -34,7 +34,8 @@ export class TargetModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.targetTypes = this.modalData.targetTypes;
-    this.standards = this.modalData.standards;
+    // console.log('standards>' + this.modalData.standards)
+    this.standards = this.modalData.mode === ModalMode.EDIT ? this.modalData.standards : this.modalData.standards.filter(x=>x.active == true);
     this.relativeTargets = this.modalData.kpiMissions;
 
     this.isEdit = this.modalData.mode === ModalMode.EDIT;

@@ -3,4 +3,5 @@ export interface Lookup {
     lookupCode: string;
     lookupDescription: string;
     lookupSequence: number;
+    isActive: boolean;
 }

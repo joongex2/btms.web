@@ -77,7 +77,7 @@ export class TargetManagementComponent implements OnInit {
     private _matDialog: MatDialog
   ) {
     this.mode = _activatedRoute.snapshot.data['mode'];
-    console.log('mode=>',this.mode)
+    // console.log('mode=>',this.mode)
   }
 
   ngOnInit(): void {
@@ -91,7 +91,14 @@ export class TargetManagementComponent implements OnInit {
     // initial documentTypes
     this._lookupService.getLookups('DOCUMENT_TYPE').subscribe({
       next: (lookups: Lookup[]) => {
-        this.documentTypes = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+        
+        if(this.mode == 'add') {
+          // let activeDocumentTypes = lookups.filter(n => n.isActive == true);
+          // console.log('documentTypes=>',activeDocumentTypes)
+          this.documentTypes = lookups.filter(n => n.isActive == true).map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
+        }
+        else
+          this.documentTypes = lookups.map((v) => ({ title: v.lookupDescription, value: v.lookupCode }));
       },
       error: (e) => console.error(e)
     });
@@ -427,7 +434,9 @@ export class TargetManagementComponent implements OnInit {
       next: (lookups: Lookup[]) => {
         this.standards = lookups
           .filter((v) => v.lookupType === 'STANDARD')
-          .map((v) => ({ title: v.lookupDescription, value: v.lookupDescription }));
+          .map((v) => ({ title: v.lookupDescription, value: v.lookupDescription, active: v.isActive }));
+
+        // console.log(this.standards)
       },
       error: (e) => console.error(e)
     });
